@@ -1,0 +1,13 @@
+﻿{
+  "applications": {
+    "Miwen.Abp.HttpApi.Host": {
+      "type": "dotnet-project",
+      "launchUrl": "https://localhost:44335",
+      "path": "../../../src/Miwen.Abp.HttpApi.Host/Miwen.Abp.HttpApi.Host.csproj",
+      "kubernetesService": ".*-httpapihost$",
+      "execution": {
+        "order": 4
+      }
+    }
+  }
+}
