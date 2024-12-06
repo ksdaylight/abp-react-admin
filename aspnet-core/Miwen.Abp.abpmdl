@@ -1,0 +1,85 @@
+{
+  "template": "app",
+  "imports": {
+    "Volo.Abp.Account": {
+      "version": "8.3.0",
+      "isInstalled": true
+    },
+    "Volo.Abp.OpenIddict": {
+      "version": "8.3.0",
+      "isInstalled": true
+    },
+    "Volo.Abp.Identity": {
+      "version": "8.3.0",
+      "isInstalled": true
+    },
+    "Volo.Abp.TenantManagement": {
+      "version": "8.3.0",
+      "isInstalled": true
+    }
+  },
+  "folders": {
+    "items": {
+      "src": {},
+      "test": {}
+    }
+  },
+  "packages": {
+    "Miwen.Abp.Application": {
+      "path": "src/Miwen.Abp.Application/Miwen.Abp.Application.abppkg",
+      "folder": "src"
+    },
+    "Miwen.Abp.Application.Tests": {
+      "path": "test/Miwen.Abp.Application.Tests/Miwen.Abp.Application.Tests.abppkg",
+      "folder": "test"
+    },
+    "Miwen.Abp.Domain.Shared": {
+      "path": "src/Miwen.Abp.Domain.Shared/Miwen.Abp.Domain.Shared.abppkg",
+      "folder": "src"
+    },
+    "Miwen.Abp.Application.Contracts": {
+      "path": "src/Miwen.Abp.Application.Contracts/Miwen.Abp.Application.Contracts.abppkg",
+      "folder": "src"
+    },
+    "Miwen.Abp.HttpApi": {
+      "path": "src/Miwen.Abp.HttpApi/Miwen.Abp.HttpApi.abppkg",
+      "folder": "src"
+    },
+    "Miwen.Abp.HttpApi.Client": {
+      "path": "src/Miwen.Abp.HttpApi.Client/Miwen.Abp.HttpApi.Client.abppkg",
+      "folder": "src"
+    },
+    "Miwen.Abp.EntityFrameworkCore.Tests": {
+      "path": "test/Miwen.Abp.EntityFrameworkCore.Tests/Miwen.Abp.EntityFrameworkCore.Tests.abppkg",
+      "folder": "test"
+    },
+    "Miwen.Abp.EntityFrameworkCore": {
+      "path": "src/Miwen.Abp.EntityFrameworkCore/Miwen.Abp.EntityFrameworkCore.abppkg",
+      "folder": "src"
+    },
+    "Miwen.Abp.TestBase": {
+      "path": "test/Miwen.Abp.TestBase/Miwen.Abp.TestBase.abppkg",
+      "folder": "test"
+    },
+    "Miwen.Abp.Domain.Tests": {
+      "path": "test/Miwen.Abp.Domain.Tests/Miwen.Abp.Domain.Tests.abppkg",
+      "folder": "test"
+    },
+    "Miwen.Abp.HttpApi.Client.ConsoleTestApp": {
+      "path": "test/Miwen.Abp.HttpApi.Client.ConsoleTestApp/Miwen.Abp.HttpApi.Client.ConsoleTestApp.abppkg",
+      "folder": "test"
+    },
+    "Miwen.Abp.DbMigrator": {
+      "path": "src/Miwen.Abp.DbMigrator/Miwen.Abp.DbMigrator.abppkg",
+      "folder": "src"
+    },
+    "Miwen.Abp.HttpApi.Host": {
+      "path": "src/Miwen.Abp.HttpApi.Host/Miwen.Abp.HttpApi.Host.abppkg",
+      "folder": "src"
+    },
+    "Miwen.Abp.Domain": {
+      "path": "src/Miwen.Abp.Domain/Miwen.Abp.Domain.abppkg",
+      "folder": "src"
+    }
+  }
+}
