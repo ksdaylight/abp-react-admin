@@ -13,23 +13,23 @@
   <PropertyGroup Condition=" '$(RunConfiguration)' == 'Miwen.Abp.HttpApi.Host' " />
 
   <ItemGroup>
-    <PackageReference Include="AspNetCore.HealthChecks.UI"/>
-    <PackageReference Include="AspNetCore.HealthChecks.UI.Client"/>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory"/>
-    <PackageReference Include="AspNetCore.HealthChecks.UI.InMemory.Storage"/>
+    <PackageReference Include="AspNetCore.HealthChecks.UI" />
+    <PackageReference Include="AspNetCore.HealthChecks.UI.Client" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" />
+    <PackageReference Include="AspNetCore.HealthChecks.UI.InMemory.Storage" />
     <PackageReference Include="Serilog.AspNetCore" />
     <PackageReference Include="Serilog.Sinks.Async" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Volo.Abp.AspNetCore.MultiTenancy"  />
-    <PackageReference Include="Volo.Abp.Autofac"  />
-    <PackageReference Include="Volo.Abp.AspNetCore.Serilog"  />
-    <PackageReference Include="Volo.Abp.Swashbuckle"  />
+    <PackageReference Include="Volo.Abp.AspNetCore.MultiTenancy" />
+    <PackageReference Include="Volo.Abp.Autofac" />
+    <PackageReference Include="Volo.Abp.AspNetCore.Serilog" />
+    <PackageReference Include="Volo.Abp.Swashbuckle" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Volo.Abp.Account.Web.OpenIddict"  />
+    <PackageReference Include="Volo.Abp.Account.Web.OpenIddict" />
   </ItemGroup>
 
   <ItemGroup>

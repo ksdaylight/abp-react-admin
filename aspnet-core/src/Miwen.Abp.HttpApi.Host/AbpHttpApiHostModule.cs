@@ -38,6 +38,7 @@ using Volo.Abp.OpenIddict;
 using Volo.Abp.Swashbuckle;
 using Volo.Abp.Studio.Client.AspNetCore;
 using Volo.Abp.Security.Claims;
+using Miwen.Abp.Extensions;
 
 namespace Miwen.Abp;
 
@@ -178,9 +179,14 @@ public class AbpHttpApiHostModule : AbpModule
             null,
             options =>
             {
+                //options.SwaggerDoc("v1", new OpenApiInfo { Title = "Abp API", Version = "v1" });
+                //options.DocInclusionPredicate((docName, description) => true);
+                //options.CustomSchemaIds(type => type.FullName);
                 options.SwaggerDoc("v1", new OpenApiInfo { Title = "Abp API", Version = "v1" });
                 options.DocInclusionPredicate((docName, description) => true);
-                options.CustomSchemaIds(type => type.FullName);
+                options.CustomSchemaIds(type => type.FriendlyId().Replace("[", "Of").Replace("]", ""));
+                options.CustomOperationIds(options => $"{options.ActionDescriptor.RouteValues["controller"]}{options.ActionDescriptor.RouteValues["action"]}");
+                options.SchemaFilter<FinancingSwaggerSchemaFilter>();
             });
     }
 
