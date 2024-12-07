@@ -60,4 +60,4 @@ root.render(
 );
 
 // 🥵 start service worker mock in development mode
-worker.start({ onUnhandledRequest: "bypass" });
+// worker.start({ onUnhandledRequest: "bypass" });
