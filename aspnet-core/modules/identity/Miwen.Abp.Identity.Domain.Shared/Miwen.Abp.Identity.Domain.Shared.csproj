@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<Import Project="..\..\..\common.props" />
+	<Import Project="..\..\..\configureawait.props" />
+
+  <PropertyGroup>
+    <Nullable>enable</Nullable>
+		<TargetFrameworks>netstandard2.0;netstandard2.1;net8.0</TargetFrameworks>
+		<AssemblyName>Miwen.Abp.Identity.Domain.Shared</AssemblyName>
+		<PackageId>Miwen.Abp.Identity.Domain.Shared</PackageId>
+		<GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+		<GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+		<GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+		<RootNamespace />
+  </PropertyGroup>
+
+	<ItemGroup>
+		<None Remove="Miwen\Abp\Identity\Localization\en.json" />
+		<None Remove="Miwen\Abp\Identity\Localization\zh-Hans.json" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Include="Miwen\Abp\Identity\Localization\en.json" />
+		<EmbeddedResource Include="Miwen\Abp\Identity\Localization\zh-Hans.json" />
+	</ItemGroup>
+
+
+	<ItemGroup>
+		<PackageReference Include="Volo.Abp.Identity.Domain.Shared" />
+	</ItemGroup>
+
+</Project>

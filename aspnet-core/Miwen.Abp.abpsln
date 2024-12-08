@@ -8,6 +8,9 @@
   "modules": {
     "Miwen.Abp": {
       "path": "Miwen.Abp.abpmdl"
+    },
+    "Miwen.Abp.Identity": {
+      "path": "modules/Miwen.Abp.Identity.abpmdl"
     }
   },
   "runProfiles": {

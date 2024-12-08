@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<Import Project="..\..\..\..\configureawait.props" />
+	<Import Project="..\..\..\..\common.props" />
+
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<AssemblyName>Miwen.Abp.Identity.Session.AspNetCore</AssemblyName>
+		<PackageId>Miwen.Abp.Identity.Session.AspNetCore</PackageId>
+		<GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+		<GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+		<GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+		<RootNamespace />
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Volo.Abp.AspNetCore" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<!--<ProjectReference Include="..\..\..\framework\common\LINGYUN.Abp.IP2Region\LINGYUN.Abp.IP2Region.csproj" />-->
+		<ProjectReference Include="..\Miwen.Abp.Identity.Session\Miwen.Abp.Identity.Session.csproj" />
+	</ItemGroup>
+
+</Project>
