@@ -111,6 +111,8 @@ public class AbpHttpApiHostModule : AbpModule
         ConfigureSwagger(context, configuration);
         ConfigureVirtualFileSystem(context);
         ConfigureCors(context, configuration);
+
+        context.Services.AddSameSiteCookiePolicy();
     }
 
     private void ConfigureAuthentication(ServiceConfigurationContext context)
@@ -236,6 +238,8 @@ public class AbpHttpApiHostModule : AbpModule
         app.UseCors();
         app.UseAuthentication();
         app.UseAbpOpenIddictValidation();
+
+        app.UseCookiePolicy();
 
         if (MultiTenancyConsts.IsEnabled)
         {

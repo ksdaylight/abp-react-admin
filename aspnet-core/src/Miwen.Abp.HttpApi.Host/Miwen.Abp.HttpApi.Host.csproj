@@ -46,11 +46,4 @@
     <PackageReference Include="Volo.Abp.Studio.Client.AspNetCore" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Compile Remove="Logs\**" />
-    <Content Remove="Logs\**" />
-    <EmbeddedResource Remove="Logs\**" />
-    <None Remove="Logs\**" />
-  </ItemGroup>
-
 </Project>
