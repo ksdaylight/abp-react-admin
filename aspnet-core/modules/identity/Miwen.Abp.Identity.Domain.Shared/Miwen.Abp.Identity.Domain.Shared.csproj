@@ -15,11 +15,6 @@
   </PropertyGroup>
 
 	<ItemGroup>
-		<None Remove="Miwen\Abp\Identity\Localization\en.json" />
-		<None Remove="Miwen\Abp\Identity\Localization\zh-Hans.json" />
-	</ItemGroup>
-
-	<ItemGroup>
 		<EmbeddedResource Include="Miwen\Abp\Identity\Localization\en.json" />
 		<EmbeddedResource Include="Miwen\Abp\Identity\Localization\zh-Hans.json" />
 	</ItemGroup>

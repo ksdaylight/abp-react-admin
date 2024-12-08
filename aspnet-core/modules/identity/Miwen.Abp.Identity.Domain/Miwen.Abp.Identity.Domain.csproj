@@ -15,12 +15,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Volo.Abp.Ddd.Domain" />
+    <PackageReference Include="Volo.Abp.Identity.Domain" />
 	</ItemGroup>
 
 	<ItemGroup>
     <ProjectReference Include="..\Miwen.Abp.Identity.Domain.Shared\Miwen.Abp.Identity.Domain.Shared.csproj" />
     <ProjectReference Include="..\Miwen.Abp.Identity.Session\Miwen.Abp.Identity.Session.csproj" />
   </ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Miwen\Abp\Identity\Session\" />
+	</ItemGroup>
 
 </Project>
