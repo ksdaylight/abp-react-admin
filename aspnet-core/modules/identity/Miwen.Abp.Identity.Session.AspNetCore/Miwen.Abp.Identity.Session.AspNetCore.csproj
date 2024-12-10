@@ -14,11 +14,20 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <None Remove="README.md" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Include="README.md" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="Volo.Abp.AspNetCore" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<!--<ProjectReference Include="..\..\..\framework\common\LINGYUN.Abp.IP2Region\LINGYUN.Abp.IP2Region.csproj" />-->
+		<ProjectReference Include="..\..\..\framework\common\Miwen.Abp.IP2Region\Miwen.Abp.IP2Region.csproj" />
 		<ProjectReference Include="..\Miwen.Abp.Identity.Session\Miwen.Abp.Identity.Session.csproj" />
 	</ItemGroup>
 
