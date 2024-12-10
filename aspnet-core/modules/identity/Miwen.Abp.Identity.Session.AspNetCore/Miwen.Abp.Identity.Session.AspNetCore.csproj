@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-	<Import Project="..\..\..\..\configureawait.props" />
-	<Import Project="..\..\..\..\common.props" />
+	<Import Project="..\..\..\common.props" />
+	<Import Project="..\..\..\configureawait.props" />
 
 	<PropertyGroup>
 		<TargetFramework>net8.0</TargetFramework>
@@ -12,14 +12,6 @@
 		<GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
 		<RootNamespace />
 	</PropertyGroup>
-
-	<ItemGroup>
-	  <None Remove="README.md" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Compile Include="README.md" />
-	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Volo.Abp.AspNetCore" />

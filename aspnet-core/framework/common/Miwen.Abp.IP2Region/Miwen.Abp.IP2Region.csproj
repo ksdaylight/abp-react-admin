@@ -15,8 +15,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<None Remove="README.md" />
-		<Compile Include="README.md" />
+		<None Remove="Miwen\Abp\IP2Region\Resources\ip2region.xdb" />
 		<EmbeddedResource Include="Miwen\Abp\IP2Region\Resources\ip2region.xdb" />
 	</ItemGroup>
 

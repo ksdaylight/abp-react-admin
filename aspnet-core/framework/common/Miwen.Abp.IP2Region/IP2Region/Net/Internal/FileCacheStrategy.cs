@@ -10,19 +10,15 @@ using System.IO;
 
 namespace IP2Region.Net.Internal;
 
-internal class VectorIndexCacheStrategy : AbstractCacheStrategy
+internal class FileCacheStrategy : AbstractCacheStrategy
 {
-    private readonly ReadOnlyMemory<byte> _vectorIndex;
-
-    public VectorIndexCacheStrategy(Stream xdbStream) : base(xdbStream)
+    public FileCacheStrategy(Stream xdbStream) : base(xdbStream)
     {
-        var vectorLength = VectorIndexRows * VectorIndexCols * VectorIndexSize;
-        _vectorIndex = base.GetData(HeaderInfoLength, vectorLength);
     }
 
     internal override ReadOnlyMemory<byte> GetVectorIndex(uint ip)
     {
         var idx = GetVectorIndexStartPos(ip);
-        return _vectorIndex.Slice(idx, VectorIndexSize);
+        return GetData(HeaderInfoLength + idx, VectorIndexSize);
     }
 }
