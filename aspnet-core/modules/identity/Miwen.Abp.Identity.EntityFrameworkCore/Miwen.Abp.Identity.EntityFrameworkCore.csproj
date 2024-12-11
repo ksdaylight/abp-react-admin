@@ -16,7 +16,7 @@
 	</PropertyGroup>
 	
   <ItemGroup>
-    <PackageReference Include="Volo.Abp.EntityFrameworkCore"/>
+    <PackageReference Include="Volo.Abp.Identity.EntityFrameworkCore" />
     <ProjectReference Include="..\Miwen.Abp.Identity.Domain\Miwen.Abp.Identity.Domain.csproj" />
   </ItemGroup>
 

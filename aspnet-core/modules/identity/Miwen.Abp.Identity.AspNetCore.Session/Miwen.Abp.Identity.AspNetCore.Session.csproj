@@ -15,7 +15,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Volo.Abp.Identity.AspNetCore"/>
+		<PackageReference Include="Volo.Abp.Identity.AspNetCore" />
 	</ItemGroup>
 
 	<ItemGroup>

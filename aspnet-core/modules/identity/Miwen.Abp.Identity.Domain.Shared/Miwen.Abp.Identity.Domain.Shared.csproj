@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<Import Project="..\..\..\common.props" />
 	<Import Project="..\..\..\configureawait.props" />
@@ -14,6 +14,11 @@
 		<RootNamespace />
   </PropertyGroup>
 
+	<ItemGroup>
+		<None Remove="Miwen\Abp\Identity\Localization\en.json" />
+		<None Remove="Miwen\Abp\Identity\Localization\zh-Hans.json" />
+	</ItemGroup>
+	
 	<ItemGroup>
 		<EmbeddedResource Include="Miwen\Abp\Identity\Localization\en.json" />
 		<EmbeddedResource Include="Miwen\Abp\Identity\Localization\zh-Hans.json" />
