@@ -73,7 +73,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "framework", "framework", "{
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "common", "common", "{8777132E-D9D1-4070-8B7A-4BCF86DC91EB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Miwen.Abp.IP2Region", "framework\common\Miwen.Abp.IP2Region\Miwen.Abp.IP2Region.csproj", "{8C387C9D-8E9F-4F5D-AAD3-4043BF4F81C8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Miwen.Abp.IP2Region", "framework\common\Miwen.Abp.IP2Region\Miwen.Abp.IP2Region.csproj", "{8C387C9D-8E9F-4F5D-AAD3-4043BF4F81C8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "migrations", "migrations", "{0C31ADA7-E4C8-4881-92BE-59FC101D17D5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "single-project", "single-project", "{79631CB8-8A36-4EB9-BB84-5DB046DBA875}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Miwen.MicroService.Applications.Single.EntityFrameworkCore", "migrations\Miwen.MicroService.Applications.Single.EntityFrameworkCore\Miwen.MicroService.Applications.Single.EntityFrameworkCore.csproj", "{C7F65E34-9CBD-43BE-9F8F-317EAE10C1F7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Miwen.MicroService.Applications.Single.DbMigrator", "migrations\Miwen.MicroService.Applications.Single.DbMigrator\Miwen.MicroService.Applications.Single.DbMigrator.csproj", "{1D3100DA-E5E2-4FDA-8711-FB33DE82B366}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -181,6 +189,14 @@ Global
 		{8C387C9D-8E9F-4F5D-AAD3-4043BF4F81C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8C387C9D-8E9F-4F5D-AAD3-4043BF4F81C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8C387C9D-8E9F-4F5D-AAD3-4043BF4F81C8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C7F65E34-9CBD-43BE-9F8F-317EAE10C1F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C7F65E34-9CBD-43BE-9F8F-317EAE10C1F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C7F65E34-9CBD-43BE-9F8F-317EAE10C1F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C7F65E34-9CBD-43BE-9F8F-317EAE10C1F7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D3100DA-E5E2-4FDA-8711-FB33DE82B366}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D3100DA-E5E2-4FDA-8711-FB33DE82B366}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D3100DA-E5E2-4FDA-8711-FB33DE82B366}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D3100DA-E5E2-4FDA-8711-FB33DE82B366}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -213,6 +229,9 @@ Global
 		{85A1110C-5537-4669-9A21-2005E0D2E46F} = {0659D78D-AF20-4B8B-8D0F-745CD2E1414D}
 		{8777132E-D9D1-4070-8B7A-4BCF86DC91EB} = {70597A9E-C51D-4EE9-A2B4-6F675B165FE1}
 		{8C387C9D-8E9F-4F5D-AAD3-4043BF4F81C8} = {8777132E-D9D1-4070-8B7A-4BCF86DC91EB}
+		{79631CB8-8A36-4EB9-BB84-5DB046DBA875} = {0C31ADA7-E4C8-4881-92BE-59FC101D17D5}
+		{C7F65E34-9CBD-43BE-9F8F-317EAE10C1F7} = {79631CB8-8A36-4EB9-BB84-5DB046DBA875}
+		{1D3100DA-E5E2-4FDA-8711-FB33DE82B366} = {79631CB8-8A36-4EB9-BB84-5DB046DBA875}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {28315BFD-90E7-4E14-A2EA-F3D23AF4126F}
