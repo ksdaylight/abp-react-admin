@@ -83,6 +83,24 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Miwen.MicroService.Applicat
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Miwen.MicroService.Applications.Single.DbMigrator", "migrations\Miwen.MicroService.Applications.Single.DbMigrator\Miwen.MicroService.Applications.Single.DbMigrator.csproj", "{1D3100DA-E5E2-4FDA-8711-FB33DE82B366}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "openIddict", "openIddict", "{B3037C27-3F60-4641-B7A2-02AD2BDA94D8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Miwen.Abp.OpenIddict.AspNetCore", "modules\openIddict\Miwen.Abp.OpenIddict.AspNetCore\Miwen.Abp.OpenIddict.AspNetCore.csproj", "{3ECEC2D9-46C8-4F37-A2A6-A7071792A320}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Miwen.Abp.OpenIddict.AspNetCore.Session", "modules\openIddict\Miwen.Abp.OpenIddict.AspNetCore.Session\Miwen.Abp.OpenIddict.AspNetCore.Session.csproj", "{69ED0952-113D-4646-B82C-3EB0EA45B8A8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Miwen.Abp.OpenIddict.Application.Contracts", "modules\openIddict\Miwen.Abp.OpenIddict.Application.Contracts\Miwen.Abp.OpenIddict.Application.Contracts.csproj", "{FD22A355-7903-4AF2-9DBF-17F350C447B7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Miwen.Abp.OpenIddict.Application", "modules\openIddict\Miwen.Abp.OpenIddict.Application\Miwen.Abp.OpenIddict.Application.csproj", "{ED5069DA-F574-403B-9A98-0B4E4CC0BBD9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Miwen.Abp.OpenIddict.HttpApi", "modules\openIddict\Miwen.Abp.OpenIddict.HttpApi\Miwen.Abp.OpenIddict.HttpApi.csproj", "{21217615-3D0C-43B0-BD1B-3CD3A78D62DB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Miwen.Abp.OpenIddict.LinkUser", "modules\openIddict\Miwen.Abp.OpenIddict.LinkUser\Miwen.Abp.OpenIddict.LinkUser.csproj", "{2FD67F38-AF3A-44F2-A38A-958E8957057B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Miwen.Abp.OpenIddict.Sms", "modules\openIddict\Miwen.Abp.OpenIddict.Sms\Miwen.Abp.OpenIddict.Sms.csproj", "{95A49FD4-4957-4C35-B8B7-180E68F30B0E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Miwen.Abp.OpenIddict.Portal", "modules\openIddict\Miwen.Abp.OpenIddict.Portal\Miwen.Abp.OpenIddict.Portal.csproj", "{E4BC5A4A-1345-495B-8F14-7E1F3DBC563B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -197,6 +215,38 @@ Global
 		{1D3100DA-E5E2-4FDA-8711-FB33DE82B366}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1D3100DA-E5E2-4FDA-8711-FB33DE82B366}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1D3100DA-E5E2-4FDA-8711-FB33DE82B366}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3ECEC2D9-46C8-4F37-A2A6-A7071792A320}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3ECEC2D9-46C8-4F37-A2A6-A7071792A320}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3ECEC2D9-46C8-4F37-A2A6-A7071792A320}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3ECEC2D9-46C8-4F37-A2A6-A7071792A320}.Release|Any CPU.Build.0 = Release|Any CPU
+		{69ED0952-113D-4646-B82C-3EB0EA45B8A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{69ED0952-113D-4646-B82C-3EB0EA45B8A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{69ED0952-113D-4646-B82C-3EB0EA45B8A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{69ED0952-113D-4646-B82C-3EB0EA45B8A8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FD22A355-7903-4AF2-9DBF-17F350C447B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD22A355-7903-4AF2-9DBF-17F350C447B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD22A355-7903-4AF2-9DBF-17F350C447B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD22A355-7903-4AF2-9DBF-17F350C447B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED5069DA-F574-403B-9A98-0B4E4CC0BBD9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED5069DA-F574-403B-9A98-0B4E4CC0BBD9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED5069DA-F574-403B-9A98-0B4E4CC0BBD9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED5069DA-F574-403B-9A98-0B4E4CC0BBD9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{21217615-3D0C-43B0-BD1B-3CD3A78D62DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{21217615-3D0C-43B0-BD1B-3CD3A78D62DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{21217615-3D0C-43B0-BD1B-3CD3A78D62DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{21217615-3D0C-43B0-BD1B-3CD3A78D62DB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2FD67F38-AF3A-44F2-A38A-958E8957057B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2FD67F38-AF3A-44F2-A38A-958E8957057B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2FD67F38-AF3A-44F2-A38A-958E8957057B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2FD67F38-AF3A-44F2-A38A-958E8957057B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{95A49FD4-4957-4C35-B8B7-180E68F30B0E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{95A49FD4-4957-4C35-B8B7-180E68F30B0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{95A49FD4-4957-4C35-B8B7-180E68F30B0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{95A49FD4-4957-4C35-B8B7-180E68F30B0E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E4BC5A4A-1345-495B-8F14-7E1F3DBC563B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E4BC5A4A-1345-495B-8F14-7E1F3DBC563B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E4BC5A4A-1345-495B-8F14-7E1F3DBC563B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E4BC5A4A-1345-495B-8F14-7E1F3DBC563B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -232,6 +282,15 @@ Global
 		{79631CB8-8A36-4EB9-BB84-5DB046DBA875} = {0C31ADA7-E4C8-4881-92BE-59FC101D17D5}
 		{C7F65E34-9CBD-43BE-9F8F-317EAE10C1F7} = {79631CB8-8A36-4EB9-BB84-5DB046DBA875}
 		{1D3100DA-E5E2-4FDA-8711-FB33DE82B366} = {79631CB8-8A36-4EB9-BB84-5DB046DBA875}
+		{B3037C27-3F60-4641-B7A2-02AD2BDA94D8} = {54522DEC-6192-4AD9-B539-27D10EA3F367}
+		{3ECEC2D9-46C8-4F37-A2A6-A7071792A320} = {B3037C27-3F60-4641-B7A2-02AD2BDA94D8}
+		{69ED0952-113D-4646-B82C-3EB0EA45B8A8} = {B3037C27-3F60-4641-B7A2-02AD2BDA94D8}
+		{FD22A355-7903-4AF2-9DBF-17F350C447B7} = {B3037C27-3F60-4641-B7A2-02AD2BDA94D8}
+		{ED5069DA-F574-403B-9A98-0B4E4CC0BBD9} = {B3037C27-3F60-4641-B7A2-02AD2BDA94D8}
+		{21217615-3D0C-43B0-BD1B-3CD3A78D62DB} = {B3037C27-3F60-4641-B7A2-02AD2BDA94D8}
+		{2FD67F38-AF3A-44F2-A38A-958E8957057B} = {B3037C27-3F60-4641-B7A2-02AD2BDA94D8}
+		{95A49FD4-4957-4C35-B8B7-180E68F30B0E} = {B3037C27-3F60-4641-B7A2-02AD2BDA94D8}
+		{E4BC5A4A-1345-495B-8F14-7E1F3DBC563B} = {B3037C27-3F60-4641-B7A2-02AD2BDA94D8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {28315BFD-90E7-4E14-A2EA-F3D23AF4126F}
