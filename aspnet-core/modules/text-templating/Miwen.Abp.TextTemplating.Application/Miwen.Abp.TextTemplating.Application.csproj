@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<Import Project="..\..\..\common.props" />
+	<Import Project="..\..\..\configureawait.props" />
+
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<AssemblyName>Miwen.Abp.TextTemplating.Application</AssemblyName>
+		<PackageId>Miwen.Abp.TextTemplating.Application</PackageId>
+		<GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+		<GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+		<GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+		<RootNamespace />
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Volo.Abp.Ddd.Application" />
+		<PackageReference Include="Volo.Abp.AutoMapper" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Miwen.Abp.TextTemplating.Application.Contracts\Miwen.Abp.TextTemplating.Application.Contracts.csproj" />
+		<ProjectReference Include="..\Miwen.Abp.TextTemplating.Domain\Miwen.Abp.TextTemplating.Domain.csproj" />
+	</ItemGroup>
+
+</Project>

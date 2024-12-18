@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<Import Project="..\..\..\common.props" />
+	<Import Project="..\..\..\configureawait.props" />
+
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<AssemblyName>Miwen.Abp.AuditLogging.EntityFrameworkCore</AssemblyName>
+		<PackageId>Miwen.Abp.AuditLogging.EntityFrameworkCore</PackageId>
+		<GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+		<GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+		<GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+		<RootNamespace />
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Volo.Abp.AutoMapper" />
+		<PackageReference Include="Volo.Abp.Identity.EntityFrameworkCore" />
+		<PackageReference Include="Volo.Abp.AuditLogging.EntityFrameworkCore" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Miwen.Abp.AuditLogging\Miwen.Abp.AuditLogging.csproj" />
+	</ItemGroup>
+
+</Project>

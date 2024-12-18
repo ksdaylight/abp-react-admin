@@ -1,4 +1,4 @@
-﻿# LINGYUN.Abp.Identity.Session.AspNetCore
+﻿# Miwen.Abp.Identity.Session.AspNetCore
 
 身份服务用户会话扩展模块
 
@@ -10,7 +10,7 @@
 
 ### HttpContextDeviceInfoProvider 从请求参数中提取设备标识  
 
-> 出于模块职责分离原则, 请勿与 *LINGYUN.Abp.Identity.AspNetCore.Session* 模块混淆  
+> 出于模块职责分离原则, 请勿与 *Miwen.Abp.Identity.AspNetCore.Session* 模块混淆  
 
 
 ### HttpContextDeviceInfoProvider 用于处理会话IP的地址位置解析

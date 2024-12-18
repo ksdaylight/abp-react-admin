@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\..\common.props" />
+	<Import Project="..\..\..\configureawait.props" />
+
+	<PropertyGroup>
+		<TargetFrameworks>netstandard2.0;netstandard2.1;net8.0</TargetFrameworks>
+		<Nullable>enable</Nullable>
+		<AssemblyName>Miwen.Abp.Features.LimitValidation.Redis</AssemblyName>
+		<PackageId>Miwen.Abp.Features.LimitValidation.Redis</PackageId>
+		<GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+		<GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+		<GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+		<RootNamespace />
+		<Description>功能限制验证组件Redis实现</Description>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Extensions.Options" />
+		<PackageReference Include="StackExchange.Redis" />
+		<PackageReference Include="Volo.Abp.Core" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Include="Miwen\Abp\Features\LimitValidation\Redis\Lua\*.lua" />
+		<Content Remove="Miwen\Abp\Features\LimitValidation\Redis\Lua\*.lua" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Miwen.Abp.Features.LimitValidation\Miwen.Abp.Features.LimitValidation.csproj" />
+	</ItemGroup>
+
+</Project>
