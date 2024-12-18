@@ -1,0 +1,35 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<Import Project="..\..\..\common.props" />
+	<Import Project="..\..\..\configureawait.props" />
+
+	<PropertyGroup>
+		<TargetFrameworks>netstandard2.0;netstandard2.1;net8.0</TargetFrameworks>
+		<Nullable>enable</Nullable>
+		<AssemblyName>Miwen.Abp.Account.Templates</AssemblyName>
+		<PackageId>Miwen.Abp.Account.Templates</PackageId>
+		<GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+		<GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+		<GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+		<RootNamespace />
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Remove="Miwen\Abp\Account\Emailing\Templates\*.tpl" />
+		<None Remove="Miwen\Abp\Account\Templates\Localization\Resources\*.json" />
+	</ItemGroup>
+	
+	<ItemGroup>
+		<EmbeddedResource Include="Miwen\Abp\Account\Emailing\Templates\*.tpl" />
+		<EmbeddedResource Include="Miwen\Abp\Account\Templates\Localization\Resources\*.json" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Volo.Abp.Emailing" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Miwen.Abp.Account.Application.Contracts\Miwen.Abp.Account.Application.Contracts.csproj" />
+	</ItemGroup>
+
+</Project>

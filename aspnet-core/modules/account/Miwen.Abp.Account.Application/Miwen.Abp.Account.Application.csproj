@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<Import Project="..\..\..\common.props" />
+	<Import Project="..\..\..\configureawait.props" />
+
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<AssemblyName>Miwen.Abp.Account.Application</AssemblyName>
+		<PackageId>Miwen.Abp.Account.Application</PackageId>
+		<GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+		<GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+		<GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+		<RootNamespace />
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Volo.Abp.Account.Application" />
+		<PackageReference Include="Volo.Abp.Sms" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\identity\Miwen.Abp.Identity.Domain\Miwen.Abp.Identity.Domain.csproj" />
+		<ProjectReference Include="..\Miwen.Abp.Account.Application.Contracts\Miwen.Abp.Account.Application.Contracts.csproj" />
+		<ProjectReference Include="..\Miwen.Abp.Account.Templates\Miwen.Abp.Account.Templates.csproj" />
+	</ItemGroup>
+
+</Project>
