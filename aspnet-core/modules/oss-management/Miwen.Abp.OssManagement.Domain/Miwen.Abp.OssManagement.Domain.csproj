@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<Import Project="..\..\..\common.props" />
+	<Import Project="..\..\..\configureawait.props" />
+
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<AssemblyName>Miwen.Abp.OssManagement.Domain</AssemblyName>
+		<PackageId>Miwen.Abp.OssManagement.Domain</PackageId>
+		<GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+		<GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+		<GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+		<RootNamespace />
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Volo.Abp.BlobStoring" />
+		<PackageReference Include="Volo.Abp.Ddd.Domain" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\..\framework\common\Miwen.Abp.Features.LimitValidation\Miwen.Abp.Features.LimitValidation.csproj" />
+		<ProjectReference Include="..\Miwen.Abp.OssManagement.Domain.Shared\Miwen.Abp.OssManagement.Domain.Shared.csproj" />
+	</ItemGroup>
+
+</Project>

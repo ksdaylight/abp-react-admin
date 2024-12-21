@@ -1,0 +1,18 @@
+﻿using System.Threading.Tasks;
+using Volo.Abp.Application.Dtos;
+using Volo.Abp.Application.Services;
+
+namespace Miwen.Abp.TextTemplating;
+
+public interface ITextTemplateDefinitionAppService : IApplicationService
+{
+    Task<TextTemplateDefinitionDto> GetByNameAsync(string name);
+
+    Task<TextTemplateDefinitionDto> CreateAsync(TextTemplateDefinitionCreateDto input);
+
+    Task<TextTemplateDefinitionDto> UpdateAsync(string name, TextTemplateDefinitionUpdateDto input);
+
+    Task DeleteAsync(string name);
+
+    Task<ListResultDto<TextTemplateDefinitionDto>> GetListAsync(TextTemplateDefinitionGetListInput input);
+}

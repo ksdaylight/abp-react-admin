@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<Import Project="..\..\..\common.props" />
+	<Import Project="..\..\..\configureawait.props" />
+
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<AssemblyName>Miwen.Abp.TaskManagement.Application</AssemblyName>
+		<PackageId>Miwen.Abp.TaskManagement.Application</PackageId>
+		<GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+		<GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+		<GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+		<RootNamespace />
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Volo.Abp.Ddd.Application" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\..\..\framework\dynamic-queryable\Miwen.Abp.Dynamic.Queryable.Application\Miwen.Abp.Dynamic.Queryable.Application.csproj" />
+	  <ProjectReference Include="..\Miwen.Abp.TaskManagement.Application.Contracts\Miwen.Abp.TaskManagement.Application.Contracts.csproj" />
+	  <ProjectReference Include="..\Miwen.Abp.TaskManagement.Domain\Miwen.Abp.TaskManagement.Domain.csproj" />
+	</ItemGroup>
+
+</Project>

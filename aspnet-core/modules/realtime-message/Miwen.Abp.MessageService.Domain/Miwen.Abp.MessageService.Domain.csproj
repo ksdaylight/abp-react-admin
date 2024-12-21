@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<Import Project="..\..\..\common.props" />
+	<Import Project="..\..\..\configureawait.props" />
+
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<AssemblyName>Miwen.Abp.MessageService.Domain</AssemblyName>
+		<PackageId>Miwen.Abp.MessageService.Domain</PackageId>
+		<GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+		<GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+		<GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+		<RootNamespace />
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Volo.Abp.Caching" />
+		<PackageReference Include="Volo.Abp.Ddd.Domain" />
+		<PackageReference Include="Volo.Abp.AutoMapper" />
+		<PackageReference Include="Volo.Abp.BackgroundJobs" />
+		<PackageReference Include="Volo.Abp.Users.Abstractions" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Miwen.Abp.IM\Miwen.Abp.IM.csproj" />
+		<ProjectReference Include="..\..\realtime-notifications\Miwen.Abp.Notifications\Miwen.Abp.Notifications.csproj" />
+		<ProjectReference Include="..\Miwen.Abp.MessageService.Domain.Shared\Miwen.Abp.MessageService.Domain.Shared.csproj" />
+	</ItemGroup>
+
+</Project>

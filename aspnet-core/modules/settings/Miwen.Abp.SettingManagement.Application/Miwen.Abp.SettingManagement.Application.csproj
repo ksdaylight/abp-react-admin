@@ -1,0 +1,39 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<Import Project="..\..\..\common.props" />
+	<Import Project="..\..\..\configureawait.props" />
+
+	<PropertyGroup>
+		<Nullable>enable</Nullable>
+		<TargetFrameworks>netstandard2.0;netstandard2.1;net8.0</TargetFrameworks>
+		<AssemblyName>Miwen.Abp.SettingManagement.Application</AssemblyName>
+		<PackageId>Miwen.Abp.SettingManagement.Application</PackageId>
+		<GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+		<GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+		<GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+		<RootNamespace />
+	</PropertyGroup>
+
+
+	<ItemGroup>
+		<None Remove="Miwen\Abp\SettingManagement\Localization\Resources\*.json" />
+		<EmbeddedResource Include="Miwen\Abp\SettingManagement\Localization\Resources\*.json" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Volo.Abp.AspNetCore.Mvc.Contracts" />
+		<PackageReference Include="Volo.Abp.Ddd.Application" />
+		<PackageReference Include="Volo.Abp.Emailing" />
+		<PackageReference Include="Volo.Abp.SettingManagement.Domain" />
+		<PackageReference Include="Volo.Abp.SettingManagement.Application.Contracts" />
+	</ItemGroup>
+
+	<ItemGroup>
+	   <ProjectReference Include="..\..\account\Miwen.Abp.Account.Application.Contracts\Miwen.Abp.Account.Application.Contracts.csproj" />
+	  <ProjectReference Include="..\..\identity\Miwen.Abp.Identity.Domain.Shared\Miwen.Abp.Identity.Domain.Shared.csproj" />
+		<ProjectReference Include="..\..\..\framework\settings\Miwen.Abp.SettingManagement.Application.Contracts\Miwen.Abp.SettingManagement.Application.Contracts.csproj" />
+	</ItemGroup>
+
+
+
+</Project>

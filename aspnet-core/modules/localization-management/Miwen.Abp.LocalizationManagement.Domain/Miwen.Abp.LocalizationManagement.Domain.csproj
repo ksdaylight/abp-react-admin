@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<Import Project="..\..\..\common.props" />
+	<Import Project="..\..\..\configureawait.props" />
+
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<AssemblyName>Miwen.Abp.LocalizationManagement.Domain</AssemblyName>
+		<PackageId>Miwen.Abp.LocalizationManagement.Domain</PackageId>
+		<GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+		<GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+		<GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+		<RootNamespace />
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Volo.Abp.AutoMapper" />
+		<PackageReference Include="Volo.Abp.Ddd.Domain" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\..\..\framework\localization\Miwen.Abp.Localization.Persistence\Miwen.Abp.Localization.Persistence.csproj" />
+	  <ProjectReference Include="..\Miwen.Abp.LocalizationManagement.Domain.Shared\Miwen.Abp.LocalizationManagement.Domain.Shared.csproj" />
+	</ItemGroup>
+
+</Project>

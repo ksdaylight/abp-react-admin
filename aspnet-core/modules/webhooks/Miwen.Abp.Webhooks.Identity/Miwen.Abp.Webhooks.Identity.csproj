@@ -1,0 +1,35 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<Import Project="..\..\..\common.props" />
+	<Import Project="..\..\..\configureawait.props" />
+
+	<PropertyGroup>
+		<TargetFrameworks>netstandard2.0;netstandard2.1;net8.0</TargetFrameworks>
+		<AssemblyName>Miwen.Abp.Webhooks.Identity</AssemblyName>
+		<PackageId>Miwen.Abp.Webhooks.Identity</PackageId>
+		<GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+		<GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+		<GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+		<RootNamespace />
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Remove="Miwen\Abp\Webhooks\Identity\Localization\Resources\*.json" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Include="Miwen\Abp\Webhooks\Identity\Localization\Resources\*.json" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Volo.Abp.Ddd.Domain" />
+		<PackageReference Include="Volo.Abp.EventBus" />
+		<PackageReference Include="Volo.Abp.Users.Abstractions" />
+		<PackageReference Include="Volo.Abp.Identity.Domain.Shared" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Miwen.Abp.Webhooks\Miwen.Abp.Webhooks.csproj" />
+	</ItemGroup>
+
+</Project>

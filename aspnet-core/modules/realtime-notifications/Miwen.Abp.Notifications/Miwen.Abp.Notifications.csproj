@@ -1,0 +1,37 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<Import Project="..\..\..\common.props" />
+	<Import Project="..\..\..\configureawait.props" />
+
+	<PropertyGroup>
+		<TargetFrameworks>netstandard2.0;netstandard2.1;net8.0</TargetFrameworks>
+		<Nullable>enable</Nullable>
+		<AssemblyName>Miwen.Abp.Notifications</AssemblyName>
+		<PackageId>Miwen.Abp.Notifications</PackageId>
+		<GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+		<GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+		<GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+		<RootNamespace />
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Remove="Miwen\Abp\Notifications\Localization\Resources\*.json" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Include="Miwen\Abp\Notifications\Localization\Resources\*.json" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Newtonsoft.Json" />
+		<PackageReference Include="Volo.Abp.EventBus" />
+		<PackageReference Include="Volo.Abp.BackgroundJobs.Abstractions" />
+		<PackageReference Include="Volo.Abp.TextTemplating.Core" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\..\framework\common\Miwen.Abp.IdGenerator\Miwen.Abp.IdGenerator.csproj" />
+		<ProjectReference Include="..\Miwen.Abp.Notifications.Core\Miwen.Abp.Notifications.Core.csproj" />
+	</ItemGroup>
+
+</Project>

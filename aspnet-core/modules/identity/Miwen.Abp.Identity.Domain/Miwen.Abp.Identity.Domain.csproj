@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<Import Project="..\..\..\common.props" />
+	<Import Project="..\..\..\configureawait.props" />
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+		<AssemblyName>MiwenAbp.Identity.Domain</AssemblyName>
+		<PackageId>Miwen.Abp.Identity.Domain</PackageId>
+		<GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+		<GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+		<GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+		<RootNamespace />
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Volo.Abp.Identity.Domain" />
+	</ItemGroup>
+
+	<ItemGroup>
+    <ProjectReference Include="..\Miwen.Abp.Identity.Domain.Shared\Miwen.Abp.Identity.Domain.Shared.csproj" />
+    <ProjectReference Include="..\Miwen.Abp.Identity.Session\Miwen.Abp.Identity.Session.csproj" />
+  </ItemGroup>
+
+</Project>

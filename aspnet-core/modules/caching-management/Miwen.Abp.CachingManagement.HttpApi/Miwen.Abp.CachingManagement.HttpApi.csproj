@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<Import Project="..\..\..\common.props" />
+	<Import Project="..\..\..\configureawait.props" />
+
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<AssemblyName>Miwen.Abp.CachingManagement.HttpApi</AssemblyName>
+		<Nullable>enable</Nullable>
+		<PackageId>Miwen.Abp.CachingManagement.HttpApi</PackageId>
+		<GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+		<GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+		<GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+		<RootNamespace />
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Volo.Abp.AspNetCore.Mvc" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\Miwen.Abp.CachingManagement.Application.Contracts\Miwen.Abp.CachingManagement.Application.Contracts.csproj" />
+	</ItemGroup>
+
+</Project>

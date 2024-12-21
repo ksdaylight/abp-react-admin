@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<Import Project="..\..\..\common.props" />
+	<Import Project="..\..\..\configureawait.props" />
+
+	<PropertyGroup>
+		<TargetFrameworks>netstandard2.0;netstandard2.1;net8.0</TargetFrameworks>
+		<Nullable>enable</Nullable>
+		<AssemblyName>Miwen.Abp.AuditLogging.Elasticsearch</AssemblyName>
+		<PackageId>Miwen.Abp.AuditLogging.Elasticsearch</PackageId>
+		<GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+		<GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+		<GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+		<RootNamespace />
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Volo.Abp.Json" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\..\elasticsearch\Miwen.Abp.Elasticsearch\Miwen.Abp.Elasticsearch.csproj" />
+	  <ProjectReference Include="..\Miwen.Abp.AuditLogging\Miwen.Abp.AuditLogging.csproj" />
+	</ItemGroup>
+</Project>

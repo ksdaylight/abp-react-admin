@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<Import Project="..\..\..\common.props" />
+	<Import Project="..\..\..\configureawait.props" />
+
+	<PropertyGroup>
+			<Nullable>enable</Nullable>
+			<TargetFramework>net8.0</TargetFramework>
+			<AssemblyName>Miwen.Abp.Logging.Serilog.Elasticsearch</AssemblyName>
+			<PackageId>Miwen.Abp.Logging.Serilog.Elasticsearch</PackageId>
+			<GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+			<GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+			<GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+			<RootNamespace />
+		</PropertyGroup>
+
+		<ItemGroup>
+			<PackageReference Include="Serilog.Sinks.Elasticsearch" />
+			<PackageReference Include="Volo.Abp.AutoMapper" />
+			<PackageReference Include="Volo.Abp.Json" />
+		</ItemGroup>
+
+		<ItemGroup>
+			<ProjectReference Include="..\..\elasticsearch\Miwen.Abp.Elasticsearch\Miwen.Abp.Elasticsearch.csproj" />
+			<ProjectReference Include="..\Miwen.Abp.Logging\Miwen.Abp.Logging.csproj" />
+			<ProjectReference Include="..\Miwen.Abp.Serilog.Enrichers.Application\Miwen.Abp.Serilog.Enrichers.Application.csproj" />
+			<ProjectReference Include="..\Miwen.Abp.Serilog.Enrichers.UniqueId\Miwen.Abp.Serilog.Enrichers.UniqueId.csproj" />
+		</ItemGroup>
+
+</Project>

@@ -1,0 +1,35 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<Import Project="..\..\..\common.props" />
+	<Import Project="..\..\..\configureawait.props" />
+
+	<PropertyGroup>
+		<TargetFrameworks>netstandard2.0;netstandard2.1;net8.0</TargetFrameworks>
+		<Nullable>enable</Nullable>
+		<AssemblyName>Miwen.Abp.IM</AssemblyName>
+		<PackageId>Miwen.Abp.IM</PackageId>
+		<GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+		<GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+		<GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+		<RootNamespace />
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Remove="Miwen\Abp\IM\Localization\Resources\*.json" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Include="Miwen\Abp\IM\Localization\Resources\*.json" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Volo.Abp.Auditing" />
+		<PackageReference Include="Volo.Abp.EventBus" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\..\framework\common\Miwen.Abp.IdGenerator\Miwen.Abp.IdGenerator.csproj" />
+		<ProjectReference Include="..\..\..\framework\common\Miwen.Abp.RealTime\Miwen.Abp.RealTime.csproj" />
+	</ItemGroup>
+
+</Project>

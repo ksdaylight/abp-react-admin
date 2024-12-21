@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<Import Project="..\..\..\common.props" />
+	<Import Project="..\..\..\configureawait.props" />
+
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<AssemblyName>Miwen.Abp.WebhooksManagement.Application</AssemblyName>
+		<PackageId>Miwen.Abp.WebhooksManagement.Application</PackageId>
+		<GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+		<GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+		<GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+		<RootNamespace />
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Volo.Abp.Ddd.Application" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\Miwen.Abp.WebhooksManagement.Application.Contracts\Miwen.Abp.WebhooksManagement.Application.Contracts.csproj" />
+	  <ProjectReference Include="..\Miwen.Abp.WebhooksManagement.Domain\Miwen.Abp.WebhooksManagement.Domain.csproj" />
+	</ItemGroup>
+
+</Project>

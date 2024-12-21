@@ -1,0 +1,65 @@
+﻿using Elsa;
+using Elsa.Mapping;
+using Elsa.Services;
+using Miwen.Abp.Elsa.Localization;
+using Miwen.Abp.Elsa.Scripting.JavaScript;
+using Microsoft.Extensions.DependencyInjection;
+using Volo.Abp.AutoMapper;
+using Volo.Abp.Features;
+using Volo.Abp.Json;
+using Volo.Abp.Localization;
+using Volo.Abp.Modularity;
+using Volo.Abp.Threading;
+using ElsaOptionsBuilder = Elsa.Options.ElsaOptionsBuilder;
+
+namespace Miwen.Abp.Elsa;
+
+[DependsOn(
+    typeof(AbpAutoMapperModule),
+    typeof(AbpFeaturesModule),
+    typeof(AbpThreadingModule),
+    typeof(AbpJsonModule))]
+public class AbpElsaModule : AbpModule
+{
+    public override void ConfigureServices(ServiceConfigurationContext context)
+    {
+        var builder = context.Services.GetPreConfigureActions<ElsaOptionsBuilder>();
+
+        context.Services
+            .AddElsa(options =>
+            {
+                options.AddCustomTenantAccessor<AbpTenantAccessor>();
+                options.AddConsoleActivities();
+                options.AddJavaScriptActivities();
+                //options.UseJsonSerializer((provider) =>
+                //{
+                //    var jsonOptions = provider.GetRequiredService<IOptions<AbpNewtonsoftJsonSerializerOptions>>();
+                //    var jsonConverters = jsonOptions.Value.Converters
+                //        .Select(c => (JsonConverter)provider.GetRequiredService(c))
+                //        .ToList();
+                //    var jsonSettings = new JsonSerializerSettings();
+                //    jsonSettings.Converters.InsertRange(0, jsonConverters);
+
+                //    return JsonSerializer.Create(jsonSettings);
+                //});
+
+                builder.Configure(options);
+            })
+            .AddNotificationHandlers(typeof(ConfigureJavaScriptEngine))
+            .Replace<IIdGenerator, AbpElsaIdGenerator>(ServiceLifetime.Singleton);
+
+        Configure<AbpLocalizationOptions>(options =>
+        {
+            options.Resources.Add<ElsaResource>();
+        });
+
+        Configure<AbpAutoMapperOptions>(options =>
+        {
+            options.AddProfile<NodaTimeProfile>(validate: false);
+            options.AddProfile<CloningProfile>(validate: false);
+            options.AddProfile<ExceptionProfile>(validate: false);
+
+            options.AddProfile<AbpElsaAutoMapperProfile>(validate: false);
+        });
+    }
+}

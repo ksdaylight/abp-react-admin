@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<Import Project="..\..\..\common.props" />
+	<Import Project="..\..\..\configureawait.props" />
+
+	<PropertyGroup>
+		<TargetFrameworks>netstandard2.0;netstandard2.1;net8.0</TargetFrameworks>
+		<AssemblyName>Miwen.Abp.Webhooks.Saas</AssemblyName>
+		<PackageId>Miwen.Abp.Webhooks.Saas</PackageId>
+		<GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+		<GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+		<GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+		<RootNamespace />
+	</PropertyGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Include="Miwen\Abp\Webhooks\Saas\Localization\Resources\*.json" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Remove="Miwen\Abp\Webhooks\Saas\Localization\Resources\en.json" />
+	  <None Remove="Miwen\Abp\Webhooks\Saas\Localization\Resources\zh-Hans.json" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Volo.Abp.Ddd.Domain" />
+		<PackageReference Include="Volo.Abp.EventBus" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Miwen.Abp.Webhooks\Miwen.Abp.Webhooks.csproj" />
+		<ProjectReference Include="..\..\saas\Miwen.Abp.Saas.Domain.Shared\Miwen.Abp.Saas.Domain.Shared.csproj" />
+	</ItemGroup>
+
+</Project>

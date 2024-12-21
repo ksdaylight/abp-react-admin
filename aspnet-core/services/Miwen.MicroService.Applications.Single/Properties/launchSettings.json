@@ -1,0 +1,13 @@
+{
+  "profiles": {
+    "Miwen.MicroService.Applications.Single": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "http://0.0.0.0:30001"
+    }
+  }
+}

@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<Import Project="..\..\..\common.props" />
+	<Import Project="..\..\..\configureawait.props" />
+
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<AssemblyName>Miwen.Abp.LocalizationManagement.HttpApi</AssemblyName>
+		<PackageId>Miwen.Abp.LocalizationManagement.HttpApi</PackageId>
+		<GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+		<GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+		<GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+		<RootNamespace />
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\..\..\framework\localization\Miwen.Abp.AspNetCore.Mvc.Localization\Miwen.Abp.AspNetCore.Mvc.Localization.csproj" />
+	  <ProjectReference Include="..\Miwen.Abp.LocalizationManagement.Application.Contracts\Miwen.Abp.LocalizationManagement.Application.Contracts.csproj" />
+	</ItemGroup>
+
+</Project>

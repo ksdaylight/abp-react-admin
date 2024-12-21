@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<Import Project="..\..\..\common.props" />
+	<Import Project="..\..\..\configureawait.props" />
+
+	<PropertyGroup>
+		<TargetFrameworks>netstandard2.0;netstandard2.1;net8.0</TargetFrameworks>
+		<Nullable>enable</Nullable>
+		<AssemblyName>Miwen.Abp.Saas.Application.Contracts</AssemblyName>
+		<PackageId>Miwen.Abp.Saas.Application.Contracts</PackageId>
+		<GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+		<GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+		<GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+		<RootNamespace />
+	</PropertyGroup>
+	
+	<ItemGroup>
+		<PackageReference Include="Volo.Abp.Authorization.Abstractions" />
+		<PackageReference Include="Volo.Abp.Ddd.Application.Contracts" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Miwen.Abp.Saas.Domain.Shared\Miwen.Abp.Saas.Domain.Shared.csproj" />
+	</ItemGroup>
+
+</Project>

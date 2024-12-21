@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\..\common.props" />
+	<Import Project="..\..\..\configureawait.props" />
+
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<AssemblyName>Miwen.Abp.AspNetCore.Mvc.Idempotent.Wrapper</AssemblyName>
+		<PackageId>Miwen.Abp.AspNetCore.Mvc.Idempotent.Wrapper</PackageId>
+		<GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+		<GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+		<GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+		<RootNamespace />
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\..\common\Miwen.Abp.AspNetCore.Wrapper\Miwen.Abp.AspNetCore.Wrapper.csproj" />
+	  <ProjectReference Include="..\Miwen.Abp.AspNetCore.Mvc.Idempotent\Miwen.Abp.AspNetCore.Mvc.Idempotent.csproj" />
+	</ItemGroup>
+
+</Project>

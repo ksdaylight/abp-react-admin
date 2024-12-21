@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<Import Project="..\..\..\common.props" />
+	<Import Project="..\..\..\configureawait.props" />
+
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<AssemblyName>Miwen.Abp.TaskManagement.HttpApi</AssemblyName>
+		<PackageId>Miwen.Abp.TaskManagement.HttpApi</PackageId>
+		<GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+		<GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+		<GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+		<RootNamespace />
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Volo.Abp.AspNetCore.Mvc" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\..\..\framework\dynamic-queryable\Miwen.Abp.Dynamic.Queryable.HttpApi\Miwen.Abp.Dynamic.Queryable.HttpApi.csproj" />
+	  <ProjectReference Include="..\Miwen.Abp.TaskManagement.Application.Contracts\Miwen.Abp.TaskManagement.Application.Contracts.csproj" />
+	</ItemGroup>
+
+</Project>

@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<Import Project="..\..\..\common.props" />
+	<Import Project="..\..\..\configureawait.props" />
+
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<AssemblyName>Miwen.Abp.Elsa.Activities.BlobStoring</AssemblyName>
+		<PackageId>Miwen.Abp.Elsa.Activities.BlobStoring</PackageId>
+		<GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+		<GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+		<GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+		<RootNamespace />
+		<Nullable>Enable</Nullable>
+	</PropertyGroup>
+	
+	<ItemGroup>
+		<PackageReference Include="Elsa.Core" />
+		<PackageReference Include="Volo.Abp.BlobStoring" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\Miwen.Abp.Elsa\Miwen.Abp.Elsa.csproj" />
+	</ItemGroup>
+
+</Project>

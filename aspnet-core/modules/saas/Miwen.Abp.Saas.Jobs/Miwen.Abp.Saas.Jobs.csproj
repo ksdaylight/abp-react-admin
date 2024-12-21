@@ -1,0 +1,36 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<Import Project="..\..\..\common.props" />
+	<Import Project="..\..\..\configureawait.props" />
+
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<AssemblyName>Miwen.Abp.Saas.Jobs</AssemblyName>
+		<PackageId>Miwen.Abp.Saas.Jobs</PackageId>
+		<GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+		<GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+		<GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+		<RootNamespace />
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <None Remove="Miwen\Abp\Saas\Jobs\Localization\Resources\en.json" />
+	  <None Remove="Miwen\Abp\Saas\Jobs\Localization\Resources\zh-Hans.json" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Include="Miwen\Abp\Saas\Jobs\Localization\Resources\en.json" />
+	  <EmbeddedResource Include="Miwen\Abp\Saas\Jobs\Localization\Resources\zh-Hans.json" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Volo.Abp.Emailing" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\task-management\Miwen.Abp.BackgroundTasks.Abstractions\Miwen.Abp.BackgroundTasks.Abstractions.csproj" />
+		<ProjectReference Include="..\Miwen.Abp.Saas.Domain\Miwen.Abp.Saas.Domain.csproj" />
+	</ItemGroup>
+
+</Project>

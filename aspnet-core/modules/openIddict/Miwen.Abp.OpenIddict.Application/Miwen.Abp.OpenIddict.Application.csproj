@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<Import Project="..\..\..\common.props" />
+	<Import Project="..\..\..\configureawait.props" />
+
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<AssemblyName>Miwen.Abp.OpenIddict.Application</AssemblyName>
+		<PackageId>Miwen.Abp.OpenIddict.Application</PackageId>
+		<GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+		<GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+		<GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+		<RootNamespace />
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Volo.Abp.Ddd.Application" />
+		<PackageReference Include="Volo.Abp.OpenIddict.Domain" />
+	</ItemGroup>
+
+
+	<ItemGroup>
+		<ProjectReference Include="..\Miwen.Abp.OpenIddict.Application.Contracts\Miwen.Abp.OpenIddict.Application.Contracts.csproj" />
+	</ItemGroup>
+
+</Project>

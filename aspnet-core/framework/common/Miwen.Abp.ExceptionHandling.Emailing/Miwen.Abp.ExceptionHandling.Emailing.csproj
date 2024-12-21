@@ -1,0 +1,39 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<Import Project="..\..\..\common.props" />
+	<Import Project="..\..\..\configureawait.props" />
+
+	<PropertyGroup>
+		<TargetFrameworks>netstandard2.0;netstandard2.1;net8.0</TargetFrameworks>
+		<Nullable>enable</Nullable>
+		<AssemblyName>Miwen.Abp.ExceptionHandling.Emailing</AssemblyName>
+		<PackageId>Miwen.Abp.ExceptionHandling.Emailing</PackageId>
+		<GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+		<GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+		<GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+		<RootNamespace />
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Remove="Miwen\Abp\ExceptionHandling\Emailing\Localization\Resources\en.json" />
+		<None Remove="Miwen\Abp\ExceptionHandling\Emailing\Localization\Resources\zh-Hans.json" />
+		<None Remove="Miwen\Abp\ExceptionHandling\Emailing\Templates\SendEmail\en.tpl" />
+		<None Remove="Miwen\Abp\ExceptionHandling\Emailing\Templates\SendEmail\zh-Hans.tpl" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Include="Miwen\Abp\ExceptionHandling\Emailing\Localization\Resources\en.json" />
+		<EmbeddedResource Include="Miwen\Abp\ExceptionHandling\Emailing\Localization\Resources\zh-Hans.json" />
+		<EmbeddedResource Include="Miwen\Abp\ExceptionHandling\Emailing\Templates\SendEmail\en.tpl" />
+		<EmbeddedResource Include="Miwen\Abp\ExceptionHandling\Emailing\Templates\SendEmail\zh-Hans.tpl" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Volo.Abp.Emailing" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Miwen.Abp.ExceptionHandling\Miwen.Abp.ExceptionHandling.csproj" />
+	</ItemGroup>
+
+</Project>

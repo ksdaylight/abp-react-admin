@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<Import Project="..\..\..\common.props" />
+	<Import Project="..\..\..\configureawait.props" />
+
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<AssemblyName>Miwen.Abp.TaskManagement.Domain</AssemblyName>
+		<PackageId>Miwen.Abp.TaskManagement.Domain</PackageId>
+		<GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+		<GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+		<GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+		<RootNamespace />
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Volo.Abp.AutoMapper" />
+		<PackageReference Include="Volo.Abp.Ddd.Domain" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Miwen.Abp.BackgroundTasks.Activities\Miwen.Abp.BackgroundTasks.Activities.csproj" />
+		<ProjectReference Include="..\Miwen.Abp.BackgroundTasks.EventBus\Miwen.Abp.BackgroundTasks.EventBus.csproj" />
+		<ProjectReference Include="..\Miwen.Abp.BackgroundTasks\Miwen.Abp.BackgroundTasks.csproj" />
+		<ProjectReference Include="..\Miwen.Abp.TaskManagement.Domain.Shared\Miwen.Abp.TaskManagement.Domain.Shared.csproj" />
+	</ItemGroup>
+
+</Project>

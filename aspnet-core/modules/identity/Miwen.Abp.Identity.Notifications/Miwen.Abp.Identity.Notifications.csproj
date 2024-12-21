@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<Import Project="..\..\..\common.props" />
+	<Import Project="..\..\..\configureawait.props" />
+	
+	<PropertyGroup>
+		<Nullable>enable</Nullable>
+		<TargetFrameworks>netstandard2.0;netstandard2.1;net8.0</TargetFrameworks>
+		<AssemblyName>Miwen.Abp.Identity.Notifications</AssemblyName>
+		<PackageId>Miwen.Abp.Identity.Notifications</PackageId>
+		<GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+		<GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+		<GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+		<RootNamespace />
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Volo.Abp.Ddd.Domain.Shared" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<!--<ProjectReference Include="..\..\realtime-notifications\Miwen.Abp.Notifications\Miwen.Abp.Notifications.csproj" />-->
+		<ProjectReference Include="..\Miwen.Abp.Identity.Domain.Shared\Miwen.Abp.Identity.Domain.Shared.csproj" />
+	</ItemGroup>
+
+</Project>

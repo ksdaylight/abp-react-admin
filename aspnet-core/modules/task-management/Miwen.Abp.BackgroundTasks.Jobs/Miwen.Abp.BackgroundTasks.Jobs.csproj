@@ -1,0 +1,36 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<Import Project="..\..\..\common.props" />
+	<Import Project="..\..\..\configureawait.props" />
+
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<AssemblyName>Miwen.Abp.BackgroundTasks.Jobs</AssemblyName>
+		<PackageId>Miwen.Abp.BackgroundTasks.Jobs</PackageId>
+		<GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+		<GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+		<GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+		<RootNamespace />
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <None Remove="Miwen\Abp\BackgroundTasks\Jobs\Localization\Resources\*.json" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Include="Miwen\Abp\BackgroundTasks\Jobs\Localization\Resources\*.json" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Volo.Abp.Emailing" />
+		<PackageReference Include="Volo.Abp.Sms" />
+		<PackageReference Include="Volo.Abp.Http.Client" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\..\framework\dapr\Miwen.Abp.Dapr.Client\Miwen.Abp.Dapr.Client.csproj" />
+		<ProjectReference Include="..\Miwen.Abp.BackgroundTasks.Abstractions\Miwen.Abp.BackgroundTasks.Abstractions.csproj" />
+	</ItemGroup>
+
+</Project>

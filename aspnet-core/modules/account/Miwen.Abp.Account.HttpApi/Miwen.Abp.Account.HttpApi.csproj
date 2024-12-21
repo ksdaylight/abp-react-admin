@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<Import Project="..\..\..\common.props" />
+	<Import Project="..\..\..\configureawait.props" />
+
+
+	<PropertyGroup>
+		<Nullable>enable</Nullable>
+		<TargetFrameworks>net8.0</TargetFrameworks>
+		<AssemblyName>Miwen.Abp.Account.HttpApi</AssemblyName>
+		<PackageId>Miwen.Abp.Account.HttpApi</PackageId>
+		<GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+		<GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+		<GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+		<RootNamespace />
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Volo.Abp.Account.HttpApi" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Miwen.Abp.Account.Application.Contracts\Miwen.Abp.Account.Application.Contracts.csproj" />
+	</ItemGroup>
+
+
+</Project>
