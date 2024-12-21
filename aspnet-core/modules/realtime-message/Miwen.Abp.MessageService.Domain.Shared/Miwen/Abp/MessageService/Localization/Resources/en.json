@@ -1,0 +1,33 @@
+﻿{
+  "culture": "en",
+  "texts": {
+    "Miwen.Abp.Message:01400": "Sending the message failed: The message is incomplete!",
+    "Miwen.Abp.Message:01401": "You have not joined the group and cannot operate!",
+    "Miwen.Abp.Message:02301": "Group application has been sent, waiting for administrator's approval",
+    "Miwen.Abp.Message:02302": "You need to validate the questions to join the group chat",
+    "Miwen.Abp.Message:02400": "The administrator has turned on silence mode!",
+    "Miwen.Abp.Message:02403": "The administrator has banned you from speaking!",
+    "Miwen.Abp.Message:02401": "The administrator does not allow anonymous speaking!",
+    "Miwen.Abp.Message:02404": "Sending the message failed: the group does not exist or is disbanded!",
+    "Miwen.Abp.Message:03301": "Friend request has been sent, waiting for the other party's approval",
+    "Miwen.Abp.Message:03302": "You need to verify the problem to add friends",
+    "Miwen.Abp.Message:03400": "The user has rejected all messages!",
+    "Miwen.Abp.Message:03401": "The user rejects the message you sent!",
+    "Miwen.Abp.Message:03402": "Users do not receive anonymous comments!",
+    "Miwen.Abp.Message:03403": "Sending the message failed: the person needs to agree to add a friend!",
+    "Miwen.Abp.Message:03404": "Sending the message failed: the user does not exist or is deactivated!",
+    "Miwen.Abp.Message:03410": "Users refuse to add friends",
+    "Miwen.Abp.Message:03411": "The other party is already your friend or has sent an authentication request. The operation cannot be repeated!",
+    "Notifications:IM": "Instant Messaging",
+    "Notifications:FriendValidation": "Friend verification notification",
+    "Notifications:NewFriend": "New friend notification",
+    "Notifications:RequestAddNewFriend": "User {name} has requested that you be added as a friend",
+    "Notifications:RequestAddNewFriendDetail": "Description: {description}",
+    "Notifications:JoinGroup": "Join group notification",
+    "Notifications:ExitGroup": "Exit group notification",
+    "Notifications:DissolveGroup": "Dissolve group notification",
+    "AddNewFriendBySearchId": "Add by account search",
+    "WelcomeToApplicationFormUser": "User :{User} welcome to join us!",
+    "Messages:NewFriend": "I have added you as a friend, let's chat together!"
+  }
+}

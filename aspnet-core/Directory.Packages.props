@@ -196,6 +196,8 @@
 		<PackageVersion Include="Elsa.WorkflowSettings.Persistence.EntityFramework.Core" Version="$(ElsaPackageVersion)" />
 		<PackageVersion Include="Elsa.Webhooks.Persistence.EntityFramework.MySql" Version="$(ElsaPackageVersion)" />
 		<PackageVersion Include="Elsa.WorkflowSettings.Persistence.EntityFramework.MySql" Version="$(ElsaPackageVersion)" />
+		<PackageVersion Include="Elsa.Webhooks.Persistence.EntityFramework.PostgreSql" Version="$(ElsaPackageVersion)" />
+		<PackageVersion Include="Elsa.WorkflowSettings.Persistence.EntityFramework.PostgreSql" Version="$(ElsaPackageVersion)" />
 	</ItemGroup>
 	<!-- DotNetCore.CAP -->
 	<ItemGroup>

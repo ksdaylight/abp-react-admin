@@ -1,0 +1,36 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<Import Project="..\..\..\common.props" />
+	<Import Project="..\..\..\configureawait.props" />
+
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<AssemblyName>Miwen.Abp.BackgroundTasks.ExceptionHandling</AssemblyName>
+		<PackageId>Miwen.Abp.BackgroundTasks.ExceptionHandling</PackageId>
+		<GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+		<GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+		<GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+		<RootNamespace />
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Remove="Miwen\Abp\BackgroundTasks\ExceptionHandling\Localization\Resources\*.json" />
+		<None Remove="Miwen\Abp\BackgroundTasks\ExceptionHandling\Templates\*.tpl" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Include="Miwen\Abp\BackgroundTasks\ExceptionHandling\Localization\Resources\*.json" />
+		<EmbeddedResource Include="Miwen\Abp\BackgroundTasks\ExceptionHandling\Templates\*.tpl" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Volo.Abp.Timing" />
+		<PackageReference Include="Volo.Abp.Emailing" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Miwen.Abp.BackgroundTasks.Activities\Miwen.Abp.BackgroundTasks.Activities.csproj" />
+	</ItemGroup>
+
+</Project>

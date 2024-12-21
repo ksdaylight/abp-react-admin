@@ -1,0 +1,38 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<Import Project="..\..\..\common.props" />
+	<Import Project="..\..\..\configureawait.props" />
+
+	<PropertyGroup>
+		<TargetFrameworks>netstandard2.0;netstandard2.1;net8.0</TargetFrameworks>
+		<Nullable>enable</Nullable>
+		<AssemblyName>Miwen.Abp.BackgroundTasks.Notifications</AssemblyName>
+		<PackageId>Miwen.Abp.BackgroundTasks.Notifications</PackageId>
+		<GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+		<GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+		<GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+		<RootNamespace />
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <None Remove="Miwen\Abp\BackgroundTasks\Notifications\Localization\Resources\*.json" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Include="Miwen\Abp\BackgroundTasks\Notifications\Localization\Resources\*.json" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Remove="Miwen\Abp\BackgroundTasks\Notifications\Templates\JobExecutedNotification.tpl" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Include="Miwen\Abp\BackgroundTasks\Notifications\Templates\JobExecutedNotification.tpl" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\realtime-notifications\Miwen.Abp.Notifications\Miwen.Abp.Notifications.csproj" />
+		<ProjectReference Include="..\Miwen.Abp.BackgroundTasks.Activities\Miwen.Abp.BackgroundTasks.Activities.csproj" />
+	</ItemGroup>
+
+</Project>

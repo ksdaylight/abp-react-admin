@@ -1,0 +1,37 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<Import Project="..\..\..\common.props" />
+	<Import Project="..\..\..\configureawait.props" />
+
+	<PropertyGroup>
+		<TargetFrameworks>netstandard2.0;netstandard2.1;net8.0</TargetFrameworks>
+		<Nullable>enable</Nullable>
+		<AssemblyName>Miwen.Abp.Notifications.Common</AssemblyName>
+		<PackageId>Miwen.Abp.Notifications.Common</PackageId>
+		<GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+		<GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+		<GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+		<RootNamespace />
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <None Remove="Miwen\Abp\Notifications\Templates\ExceptionNotifier\*.tpl" />
+	  <None Remove="Miwen\Abp\Notifications\Templates\layout.tpl" />
+	  <None Remove="Miwen\Abp\Notifications\Templates\NewTenantRegisterd\*.tpl" />
+	  <None Remove="Miwen\Abp\Notifications\Templates\WelcomeToApplication\*.tpl" />
+	  <None Remove="Miwen\Abp\Notifications\Localization\Common\*.json" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Include="Miwen\Abp\Notifications\Templates\ExceptionNotifier\*.tpl" />
+	  <EmbeddedResource Include="Miwen\Abp\Notifications\Templates\layout.tpl" />
+	  <EmbeddedResource Include="Miwen\Abp\Notifications\Templates\NewTenantRegisterd\*.tpl" />
+	  <EmbeddedResource Include="Miwen\Abp\Notifications\Templates\WelcomeToApplication\*.tpl" />
+	  <EmbeddedResource Include="Miwen\Abp\Notifications\Localization\Common\*.json" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\Miwen.Abp.Notifications\Miwen.Abp.Notifications.csproj" />
+	</ItemGroup>
+
+</Project>

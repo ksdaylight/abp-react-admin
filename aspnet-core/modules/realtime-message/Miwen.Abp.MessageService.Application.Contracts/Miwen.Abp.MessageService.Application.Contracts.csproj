@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<Import Project="..\..\..\common.props" />
+	<Import Project="..\..\..\configureawait.props" />
+
+	<PropertyGroup>
+		<TargetFrameworks>netstandard2.0;netstandard2.1;net8.0</TargetFrameworks>
+		<Nullable>enable</Nullable>
+		<AssemblyName>Miwen.Abp.MessageService.Application.Contracts</AssemblyName>
+		<PackageId>Miwen.Abp.MessageService.Application.Contracts</PackageId>
+		<GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+		<GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+		<GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+		<RootNamespace />
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Volo.Abp.Ddd.Application.Contracts" />
+		<PackageReference Include="Volo.Abp.Authorization" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Remove="Miwen\Abp\MessageService\Localization\ApplicationContracts\*.json" />
+		<EmbeddedResource Include="Miwen\Abp\MessageService\Localization\ApplicationContracts\*.json" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Miwen.Abp.IM\Miwen.Abp.IM.csproj" />
+		<ProjectReference Include="..\Miwen.Abp.MessageService.Domain.Shared\Miwen.Abp.MessageService.Domain.Shared.csproj" />
+	</ItemGroup>
+
+</Project>

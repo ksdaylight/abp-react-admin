@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<Import Project="..\..\..\common.props" />
+	<Import Project="..\..\..\configureawait.props" />
+
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<AssemblyName>Miwen.Abp.Elsa.Activities</AssemblyName>
+		<PackageId>Miwen.Abp.Elsa.Activities</PackageId>
+		<GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+		<GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+		<GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+		<RootNamespace />
+		<Nullable>Enable</Nullable>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Volo.Abp.Core" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\Miwen.Abp.Elsa.Activities.BlobStoring\Miwen.Abp.Elsa.Activities.BlobStoring.csproj" />
+	  <ProjectReference Include="..\Miwen.Abp.Elsa.Activities.Emailing\Miwen.Abp.Elsa.Activities.Emailing.csproj" />
+	  <ProjectReference Include="..\Miwen.Abp.Elsa.Activities.IM\Miwen.Abp.Elsa.Activities.IM.csproj" />
+	  <ProjectReference Include="..\Miwen.Abp.Elsa.Activities.Notifications\Miwen.Abp.Elsa.Activities.Notifications.csproj" />
+	  <ProjectReference Include="..\Miwen.Abp.Elsa.Activities.Sms\Miwen.Abp.Elsa.Activities.Sms.csproj" />
+	  <ProjectReference Include="..\Miwen.Abp.Elsa.Activities.Webhooks\Miwen.Abp.Elsa.Activities.Webhooks.csproj" />
+	  <ProjectReference Include="..\Miwen.Abp.Elsa\Miwen.Abp.Elsa.csproj" />
+	</ItemGroup>
+
+</Project>
