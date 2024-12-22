@@ -1,9 +1,16 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Miwen.Abp.DataProtectionManagement.EntityFrameworkCore;
 using Miwen.Abp.Identity.EntityFrameworkCore;
+using Miwen.Abp.LocalizationManagement.EntityFrameworkCore;
+using Miwen.Abp.MessageService.EntityFrameworkCore;
+using Miwen.Abp.Notifications.EntityFrameworkCore;
+using Miwen.Abp.Saas.EntityFrameworkCore;
+using Miwen.Abp.TaskManagement.EntityFrameworkCore;
+using Miwen.Abp.TextTemplating.EntityFrameworkCore;
+using Miwen.Abp.WebhooksManagement.EntityFrameworkCore;
+using Miwen.Platform.EntityFrameworkCore;
 using System;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
-using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
-using Volo.Abp.BlobStoring.Database.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore.PostgreSql;
 using Volo.Abp.FeatureManagement.EntityFrameworkCore;
@@ -11,22 +18,25 @@ using Volo.Abp.Modularity;
 using Volo.Abp.OpenIddict.EntityFrameworkCore;
 using Volo.Abp.PermissionManagement.EntityFrameworkCore;
 using Volo.Abp.SettingManagement.EntityFrameworkCore;
-using Volo.Abp.TenantManagement.EntityFrameworkCore;
 
 namespace Miwen.MicroService.Applications.Single.EntityFrameworkCore;
 [DependsOn(
-    typeof(AbpIdentityEntityFrameworkCoreModule),
-
-    // Default
-    typeof(AbpPermissionManagementEntityFrameworkCoreModule),
-    typeof(AbpSettingManagementEntityFrameworkCoreModule),
     typeof(AbpEntityFrameworkCorePostgreSqlModule),
-    typeof(AbpBackgroundJobsEntityFrameworkCoreModule),
+    typeof(AbpSaasEntityFrameworkCoreModule),
     typeof(AbpAuditLoggingEntityFrameworkCoreModule),
+    typeof(AbpSettingManagementEntityFrameworkCoreModule),
+    typeof(AbpPermissionManagementEntityFrameworkCoreModule),
     typeof(AbpFeatureManagementEntityFrameworkCoreModule),
+    typeof(AbpNotificationsEntityFrameworkCoreModule),
+    typeof(AbpMessageServiceEntityFrameworkCoreModule),
+    typeof(PlatformEntityFrameworkCoreModule),
+    typeof(AbpLocalizationManagementEntityFrameworkCoreModule),
+    typeof(AbpIdentityEntityFrameworkCoreModule),
     typeof(AbpOpenIddictEntityFrameworkCoreModule),
-    typeof(AbpTenantManagementEntityFrameworkCoreModule),
-    typeof(BlobStoringDatabaseEntityFrameworkCoreModule)
+    typeof(AbpTextTemplatingEntityFrameworkCoreModule),
+    typeof(WebhooksManagementEntityFrameworkCoreModule),
+    typeof(TaskManagementEntityFrameworkCoreModule),
+    typeof(AbpDataProtectionManagementEntityFrameworkCoreModule)
     )]
 public class SingleMigrationsEntityFrameworkCoreModule : AbpModule
 {

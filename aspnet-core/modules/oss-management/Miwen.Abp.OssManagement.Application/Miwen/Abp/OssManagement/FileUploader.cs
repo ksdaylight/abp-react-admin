@@ -27,7 +27,7 @@ public class FileUploader : IFileUploader, ITransientDependency
         // 以上传的文件名创建一个临时目录
         var tempFilePath = Path.Combine(
             Path.GetTempPath(),
-            "Miwen-abp-application",
+            "miwen-abp-application",
             "oss-upload-tmp",
             string.Concat(input.Path ?? "", input.FileName).ToMd5());
         

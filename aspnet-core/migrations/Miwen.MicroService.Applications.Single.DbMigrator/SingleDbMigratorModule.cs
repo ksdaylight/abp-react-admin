@@ -1,4 +1,5 @@
-﻿using Miwen.MicroService.Applications.Single.EntityFrameworkCore;
+﻿using Miwen.Abp.UI.Navigation.VueVbenAdmin;
+using Miwen.MicroService.Applications.Single.EntityFrameworkCore;
 using Volo.Abp.Autofac;
 using Volo.Abp.Modularity;
 using Volo.Abp.Timing;
@@ -6,7 +7,7 @@ using Volo.Abp.Timing;
 namespace Miwen.MicroService.Applications.Single.DbMigrator;
 
 [DependsOn(
-    //typeof(AbpUINavigationVueVbenAdminModule),
+    typeof(AbpUINavigationVueVbenAdminModule),
     typeof(SingleMigrationsEntityFrameworkCoreModule),
     typeof(AbpAutofacModule)
     )]

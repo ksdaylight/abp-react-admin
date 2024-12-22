@@ -1,5 +1,4 @@
-﻿
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
@@ -12,7 +11,7 @@ using Volo.Abp.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore.Migrations;
 using Volo.Abp.EventBus.Distributed;
 using Volo.Abp.MultiTenancy;
-using Volo.Abp.TenantManagement;
+using Miwen.Abp.Saas.Tenants;
 using Volo.Abp.Uow;
 
 namespace Miwen.MicroService.Applications.Single.EntityFrameworkCore;
@@ -40,7 +39,7 @@ public class SingleDbMigrationService : EfCoreRuntimeDatabaseMigratorBase<Single
         await base.LockAndApplyDatabaseMigrationsAsync();
 
         var tenants = await TenantRepository.GetListAsync();
-        foreach (var tenant in tenants) //.Where(x => x.IsActive)
+        foreach (var tenant in tenants.Where(x => x.IsActive)) //.Where(x => x.IsActive)
         {
             Logger.LogInformation($"Trying to acquire the distributed lock for database migration: {DatabaseName} with tenant: {tenant.Name}.");
 
