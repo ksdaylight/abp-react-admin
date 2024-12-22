@@ -6,6 +6,7 @@
 		<TargetFramework>net8.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<RootNamespace>Miwen.MicroService.Applications.Single</RootNamespace>
+		<ImplicitUsings>enable</ImplicitUsings>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -52,24 +53,12 @@
 		<PackageReference Include="Volo.Abp.SettingManagement.EntityFrameworkCore" />
 		<PackageReference Include="Volo.Abp.PermissionManagement.EntityFrameworkCore" />
 		<PackageReference Include="Volo.Abp.OpenIddict.EntityFrameworkCore" />
-		<!--额外的-->
-		<PackageReference Include="Volo.Abp.BlobStoring.FileSystem" />
-		<PackageReference Include="Volo.Abp.AspNetCore.MultiTenancy" />
 	</ItemGroup>
 	<ItemGroup>
-		<!--
 		<ProjectReference Include="..\..\framework\auditing\Miwen.Abp.AuditLogging.EntityFrameworkCore\Miwen.Abp.AuditLogging.EntityFrameworkCore.csproj" />
 		<ProjectReference Include="..\..\framework\auditing\Miwen.Abp.AuditLogging\Miwen.Abp.AuditLogging.csproj" />
-		<ProjectReference Include="..\..\framework\authentication\Miwen.Abp.Authentication.QQ\Miwen.Abp.Authentication.QQ.csproj" />
-		<ProjectReference Include="..\..\framework\authentication\Miwen.Abp.Authentication.WeChat\Miwen.Abp.Authentication.WeChat.csproj" />
 		<ProjectReference Include="..\..\framework\authorization\Miwen.Abp.Authorization.OrganizationUnits\Miwen.Abp.Authorization.OrganizationUnits.csproj" />
-		<ProjectReference Include="..\..\framework\cloud-aliyun\Miwen.Abp.Aliyun.SettingManagement\Miwen.Abp.Aliyun.SettingManagement.csproj" />
-		<ProjectReference Include="..\..\framework\cloud-aliyun\Miwen.Abp.Aliyun\Miwen.Abp.Aliyun.csproj" />
-		<ProjectReference Include="..\..\framework\cloud-tencent\Miwen.Abp.Tencent.QQ\Miwen.Abp.Tencent.QQ.csproj" />
-		<ProjectReference Include="..\..\framework\cloud-tencent\Miwen.Abp.Tencent.SettingManagement\Miwen.Abp.Tencent.SettingManagement.csproj" />
-		<ProjectReference Include="..\..\framework\cloud-tencent\Miwen.Abp.Tencent\Miwen.Abp.Tencent.csproj" />
 		<ProjectReference Include="..\..\framework\common\Miwen.Abp.AspNetCore.HttpOverrides\Miwen.Abp.AspNetCore.HttpOverrides.csproj" />
-		<ProjectReference Include="..\..\framework\common\Miwen.Abp.Data.DbMigrator\Miwen.Abp.Data.DbMigrator.csproj" />
 		<ProjectReference Include="..\..\framework\common\Miwen.Abp.ExceptionHandling.Emailing\Miwen.Abp.ExceptionHandling.Emailing.csproj" />
 		<ProjectReference Include="..\..\framework\common\Miwen.Abp.ExceptionHandling\Miwen.Abp.ExceptionHandling.csproj" />
 		<ProjectReference Include="..\..\framework\common\Miwen.Abp.Features.LimitValidation.Redis.Client\Miwen.Abp.Features.LimitValidation.Redis.Client.csproj" />
@@ -92,26 +81,14 @@
 		<ProjectReference Include="..\..\framework\logging\Miwen.Abp.Logging\Miwen.Abp.Logging.csproj" />
 		<ProjectReference Include="..\..\framework\logging\Miwen.Abp.Serilog.Enrichers.Application\Miwen.Abp.Serilog.Enrichers.Application.csproj" />
 		<ProjectReference Include="..\..\framework\logging\Miwen.Abp.Serilog.Enrichers.UniqueId\Miwen.Abp.Serilog.Enrichers.UniqueId.csproj" />
-		<ProjectReference Include="..\..\framework\common\Miwen.Abp.Sms.Aliyun\Miwen.Abp.Sms.Aliyun.csproj" />
 		<ProjectReference Include="..\..\framework\mvc\Miwen.Abp.AspNetCore.Mvc.Idempotent.Wrapper\Miwen.Abp.AspNetCore.Mvc.Idempotent.Wrapper.csproj" />
 		<ProjectReference Include="..\..\framework\mvc\Miwen.Abp.AspNetCore.Mvc.Wrapper\Miwen.Abp.AspNetCore.Mvc.Wrapper.csproj" />
 		<ProjectReference Include="..\..\framework\navigation\Miwen.Abp.UI.Navigation\Miwen.Abp.UI.Navigation.csproj" />
 		<ProjectReference Include="..\..\framework\open-api\Miwen.Abp.OpenApi.Authorization\Miwen.Abp.OpenApi.Authorization.csproj" />
-		<ProjectReference Include="..\..\framework\open-api\Miwen.Abp.OpenApi\Miwen.Abp.OpenApi.csproj" />-->
+		<ProjectReference Include="..\..\framework\open-api\Miwen.Abp.OpenApi\Miwen.Abp.OpenApi.csproj" />
 		<ProjectReference Include="..\..\framework\settings\Miwen.Abp.SettingManagement.Application.Contracts\Miwen.Abp.SettingManagement.Application.Contracts.csproj" />
-		<!--<ProjectReference Include="..\..\framework\tenants\Miwen.Abp.MultiTenancy.Editions\Miwen.Abp.MultiTenancy.Editions.csproj" />
-		<ProjectReference Include="..\..\framework\wechat\Miwen.Abp.Identity.WeChat\Miwen.Abp.Identity.WeChat.csproj" />
-		<ProjectReference Include="..\..\framework\wechat\Miwen.Abp.WeChat.MiniProgram\Miwen.Abp.WeChat.MiniProgram.csproj" />
-		<ProjectReference Include="..\..\framework\wechat\Miwen.Abp.WeChat.Official.Handlers\Miwen.Abp.WeChat.Official.Handlers.csproj" />
-		<ProjectReference Include="..\..\framework\wechat\Miwen.Abp.WeChat.Official\Miwen.Abp.WeChat.Official.csproj" />
-		<ProjectReference Include="..\..\framework\wechat\Miwen.Abp.WeChat.Official.Application\Miwen.Abp.WeChat.Official.Application.csproj" />
-		<ProjectReference Include="..\..\framework\wechat\Miwen.Abp.WeChat.Official.HttpApi\Miwen.Abp.WeChat.Official.HttpApi.csproj" />
-		<ProjectReference Include="..\..\framework\wechat\Miwen.Abp.WeChat.SettingManagement\Miwen.Abp.WeChat.SettingManagement.csproj" />
-		<ProjectReference Include="..\..\framework\wechat\Miwen.Abp.WeChat.Work.Application\Miwen.Abp.WeChat.Work.Application.csproj" />
-		<ProjectReference Include="..\..\framework\wechat\Miwen.Abp.WeChat.Work.Handlers\Miwen.Abp.WeChat.Work.Handlers.csproj" />
-		<ProjectReference Include="..\..\framework\wechat\Miwen.Abp.WeChat.Work.HttpApi\Miwen.Abp.WeChat.Work.HttpApi.csproj" />
-		<ProjectReference Include="..\..\framework\wechat\Miwen.Abp.WeChat.Work\Miwen.Abp.WeChat.Work.csproj" />
-		<ProjectReference Include="..\..\framework\wechat\Miwen.Abp.WeChat\Miwen.Abp.WeChat.csproj" />-->
+		<ProjectReference Include="..\..\framework\tenants\Miwen.Abp.MultiTenancy.Editions\Miwen.Abp.MultiTenancy.Editions.csproj" />
+
 	</ItemGroup>
 
 	<ItemGroup>
@@ -120,7 +97,7 @@
 		<ProjectReference Include="..\..\modules\account\Miwen.Abp.Account.Application\Miwen.Abp.Account.Application.csproj" />
 		<ProjectReference Include="..\..\modules\account\Miwen.Abp.Account.HttpApi\Miwen.Abp.Account.HttpApi.csproj" />
 		<ProjectReference Include="..\..\modules\account\Miwen.Abp.Account.Templates\Miwen.Abp.Account.Templates.csproj" />
-<!--<ProjectReference Include="..\..\modules\auditing\Miwen.Abp.Auditing.Application.Contracts\Miwen.Abp.Auditing.Application.Contracts.csproj" />
+    <ProjectReference Include="..\..\modules\auditing\Miwen.Abp.Auditing.Application.Contracts\Miwen.Abp.Auditing.Application.Contracts.csproj" />
 		<ProjectReference Include="..\..\modules\auditing\Miwen.Abp.Auditing.Application\Miwen.Abp.Auditing.Application.csproj" />
 		<ProjectReference Include="..\..\modules\auditing\Miwen.Abp.Auditing.HttpApi\Miwen.Abp.Auditing.HttpApi.csproj" />
 		<ProjectReference Include="..\..\modules\caching-management\Miwen.Abp.CachingManagement.Application.Contracts\Miwen.Abp.CachingManagement.Application.Contracts.csproj" />
@@ -131,9 +108,6 @@
 		<ProjectReference Include="..\..\modules\data-protection\Miwen.Abp.DataProtectionManagement.Application\Miwen.Abp.DataProtectionManagement.Application.csproj" />
 		<ProjectReference Include="..\..\modules\data-protection\Miwen.Abp.DataProtectionManagement.EntityFrameworkCore\Miwen.Abp.DataProtectionManagement.EntityFrameworkCore.csproj" />
 		<ProjectReference Include="..\..\modules\data-protection\Miwen.Abp.DataProtectionManagement.HttpApi\Miwen.Abp.DataProtectionManagement.HttpApi.csproj" />
-		<ProjectReference Include="..\..\modules\demo\Miwen.Abp.Demo.Application\Miwen.Abp.Demo.Application.csproj" />
-		<ProjectReference Include="..\..\modules\demo\Miwen.Abp.Demo.EntityFrameworkCore\Miwen.Abp.Demo.EntityFrameworkCore.csproj" />
-		<ProjectReference Include="..\..\modules\demo\Miwen.Abp.Demo.HttpApi\Miwen.Abp.Demo.HttpApi.csproj" />
 		<ProjectReference Include="..\..\modules\elsa\Miwen.Abp.Elsa.Activities.BlobStoring\Miwen.Abp.Elsa.Activities.BlobStoring.csproj" />
 		<ProjectReference Include="..\..\modules\elsa\Miwen.Abp.Elsa.Activities.Emailing\Miwen.Abp.Elsa.Activities.Emailing.csproj" />
 		<ProjectReference Include="..\..\modules\elsa\Miwen.Abp.Elsa.Activities.IM\Miwen.Abp.Elsa.Activities.IM.csproj" />
@@ -141,13 +115,12 @@
 		<ProjectReference Include="..\..\modules\elsa\Miwen.Abp.Elsa.Activities.Sms\Miwen.Abp.Elsa.Activities.Sms.csproj" />
 		<ProjectReference Include="..\..\modules\elsa\Miwen.Abp.Elsa.Activities.Webhooks\Miwen.Abp.Elsa.Activities.Webhooks.csproj" />
 		<ProjectReference Include="..\..\modules\elsa\Miwen.Abp.Elsa.Activities\Miwen.Abp.Elsa.Activities.csproj" />
-		<ProjectReference Include="..\..\modules\elsa\Miwen.Abp.Elsa.EntityFrameworkCore.MySql\Miwen.Abp.Elsa.EntityFrameworkCore.MySql.csproj" />
+		<ProjectReference Include="..\..\modules\elsa\Miwen.Abp.Elsa.EntityFrameworkCore.PostgreSql\Miwen.Abp.Elsa.EntityFrameworkCore.PostgreSql.csproj" />
 		<ProjectReference Include="..\..\modules\elsa\Miwen.Abp.Elsa.EntityFrameworkCore\Miwen.Abp.Elsa.EntityFrameworkCore.csproj" />
 		<ProjectReference Include="..\..\modules\elsa\Miwen.Abp.Elsa.Server\Miwen.Abp.Elsa.Server.csproj" />
 		<ProjectReference Include="..\..\modules\elsa\Miwen.Abp.Elsa\Miwen.Abp.Elsa.csproj" />
 		<ProjectReference Include="..\..\modules\feature-management\Miwen.Abp.FeatureManagement.Application\Miwen.Abp.FeatureManagement.Application.csproj" />
 		<ProjectReference Include="..\..\modules\feature-management\Miwen.Abp.FeatureManagement.HttpApi\Miwen.Abp.FeatureManagement.HttpApi.csproj" />
-		<ProjectReference Include="..\..\modules\identityServer\Miwen.Abp.IdentityServer.Session\Miwen.Abp.IdentityServer.Session.csproj" />-->
 		<ProjectReference Include="..\..\modules\identity\Miwen.Abp.Identity.Application.Contracts\Miwen.Abp.Identity.Application.Contracts.csproj" />
 		<ProjectReference Include="..\..\modules\identity\Miwen.Abp.Identity.Application\Miwen.Abp.Identity.Application.csproj" />
 		<ProjectReference Include="..\..\modules\identity\Miwen.Abp.Identity.AspNetCore.Session\Miwen.Abp.Identity.AspNetCore.Session.csproj" />
@@ -156,27 +129,19 @@
 		<ProjectReference Include="..\..\modules\identity\Miwen.Abp.Identity.EntityFrameworkCore\Miwen.Abp.Identity.EntityFrameworkCore.csproj" />
 		<ProjectReference Include="..\..\modules\identity\Miwen.Abp.Identity.HttpApi\Miwen.Abp.Identity.HttpApi.csproj" />
 		<ProjectReference Include="..\..\modules\identity\Miwen.Abp.Identity.Notifications\Miwen.Abp.Identity.Notifications.csproj" />
-		<!--<ProjectReference Include="..\..\modules\identity\Miwen.Abp.Identity.OrganizaztionUnits\Miwen.Abp.Identity.OrganizaztionUnits.csproj" />-->
+		<ProjectReference Include="..\..\modules\identity\Miwen.Abp.Identity.OrganizaztionUnits\Miwen.Abp.Identity.OrganizaztionUnits.csproj" />
 		
-		<!--<ProjectReference Include="..\..\modules\identityServer\Miwen.Abp.IdentityServer.Application.Contracts\Miwen.Abp.IdentityServer.Application.Contracts.csproj" />
-		<ProjectReference Include="..\..\modules\identityServer\Miwen.Abp.IdentityServer.Application\Miwen.Abp.IdentityServer.Application.csproj" />
-		<ProjectReference Include="..\..\modules\identityServer\Miwen.Abp.IdentityServer.Domain\Miwen.Abp.IdentityServer.Domain.csproj" />
-		<ProjectReference Include="..\..\modules\identityServer\Miwen.Abp.IdentityServer.EntityFrameworkCore\Miwen.Abp.IdentityServer.EntityFrameworkCore.csproj" />
-		<ProjectReference Include="..\..\modules\identityServer\Miwen.Abp.IdentityServer.HttpApi\Miwen.Abp.IdentityServer.HttpApi.csproj" />
-		<ProjectReference Include="..\..\modules\identityServer\Miwen.Abp.IdentityServer.LinkUser\Miwen.Abp.IdentityServer.LinkUser.csproj" />
-		<ProjectReference Include="..\..\modules\identityServer\Miwen.Abp.IdentityServer.Portal\Miwen.Abp.IdentityServer.Portal.csproj" />
-		<ProjectReference Include="..\..\modules\identityServer\Miwen.Abp.IdentityServer.SmsValidator\Miwen.Abp.IdentityServer.SmsValidator.csproj" />
-		<ProjectReference Include="..\..\modules\identityServer\Miwen.Abp.IdentityServer.WeChat.Work\Miwen.Abp.IdentityServer.WeChat.Work.csproj" />-->
+
 		<ProjectReference Include="..\..\modules\identity\Miwen.Abp.Identity.Session.AspNetCore\Miwen.Abp.Identity.Session.AspNetCore.csproj" />
-		<!--<ProjectReference Include="..\..\modules\localization-management\Miwen.Abp.LocalizationManagement.Application.Contracts\Miwen.Abp.LocalizationManagement.Application.Contracts.csproj" />
+		<ProjectReference Include="..\..\modules\localization-management\Miwen.Abp.LocalizationManagement.Application.Contracts\Miwen.Abp.LocalizationManagement.Application.Contracts.csproj" />
 		<ProjectReference Include="..\..\modules\localization-management\Miwen.Abp.LocalizationManagement.Application\Miwen.Abp.LocalizationManagement.Application.csproj" />
 		<ProjectReference Include="..\..\modules\localization-management\Miwen.Abp.LocalizationManagement.Domain.Shared\Miwen.Abp.LocalizationManagement.Domain.Shared.csproj" />
 		<ProjectReference Include="..\..\modules\localization-management\Miwen.Abp.LocalizationManagement.Domain\Miwen.Abp.LocalizationManagement.Domain.csproj" />
 		<ProjectReference Include="..\..\modules\localization-management\Miwen.Abp.LocalizationManagement.EntityFrameworkCore\Miwen.Abp.LocalizationManagement.EntityFrameworkCore.csproj" />
-		<ProjectReference Include="..\..\modules\localization-management\Miwen.Abp.LocalizationManagement.HttpApi\Miwen.Abp.LocalizationManagement.HttpApi.csproj" />-->
+		<ProjectReference Include="..\..\modules\localization-management\Miwen.Abp.LocalizationManagement.HttpApi\Miwen.Abp.LocalizationManagement.HttpApi.csproj" />
 		<ProjectReference Include="..\..\modules\openIddict\Miwen.Abp.OpenIddict.AspNetCore.Session\Miwen.Abp.OpenIddict.AspNetCore.Session.csproj" />
 		<ProjectReference Include="..\..\modules\openIddict\Miwen.Abp.OpenIddict.AspNetCore\Miwen.Abp.OpenIddict.AspNetCore.csproj" />
-		<!--<ProjectReference Include="..\..\modules\realtime-message\Miwen.Abp.IM.SignalR\Miwen.Abp.IM.SignalR.csproj" />
+		<ProjectReference Include="..\..\modules\realtime-message\Miwen.Abp.IM.SignalR\Miwen.Abp.IM.SignalR.csproj" />
 		<ProjectReference Include="..\..\modules\realtime-message\Miwen.Abp.IM\Miwen.Abp.IM.csproj" />
 		<ProjectReference Include="..\..\modules\realtime-message\Miwen.Abp.MessageService.Application.Contracts\Miwen.Abp.MessageService.Application.Contracts.csproj" />
 		<ProjectReference Include="..\..\modules\realtime-message\Miwen.Abp.MessageService.Application\Miwen.Abp.MessageService.Application.csproj" />
@@ -195,17 +160,13 @@
 		<ProjectReference Include="..\..\modules\realtime-notifications\Miwen.Abp.Notifications.Domain\Miwen.Abp.Notifications.Domain.csproj" />
 		<ProjectReference Include="..\..\modules\realtime-notifications\Miwen.Abp.Notifications.EntityFrameworkCore\Miwen.Abp.Notifications.EntityFrameworkCore.csproj" />
 		<ProjectReference Include="..\..\modules\realtime-notifications\Miwen.Abp.Notifications.HttpApi\Miwen.Abp.Notifications.HttpApi.csproj" />
-		<ProjectReference Include="..\..\modules\realtime-notifications\Miwen.Abp.Notifications.WeChat.MiniProgram\Miwen.Abp.Notifications.WeChat.MiniProgram.csproj" />
-		<ProjectReference Include="..\..\modules\realtime-notifications\Miwen.Abp.Notifications.WeChat.Work\Miwen.Abp.Notifications.WeChat.Work.csproj" />-->
 		<ProjectReference Include="..\..\modules\openIddict\Miwen.Abp.OpenIddict.Application.Contracts\Miwen.Abp.OpenIddict.Application.Contracts.csproj" />
 		<ProjectReference Include="..\..\modules\openIddict\Miwen.Abp.OpenIddict.Application\Miwen.Abp.OpenIddict.Application.csproj" />
 		<ProjectReference Include="..\..\modules\openIddict\Miwen.Abp.OpenIddict.HttpApi\Miwen.Abp.OpenIddict.HttpApi.csproj" />
 		<ProjectReference Include="..\..\modules\openIddict\Miwen.Abp.OpenIddict.LinkUser\Miwen.Abp.OpenIddict.LinkUser.csproj" />
 		<ProjectReference Include="..\..\modules\openIddict\Miwen.Abp.OpenIddict.Sms\Miwen.Abp.OpenIddict.Sms.csproj" />
 		<ProjectReference Include="..\..\modules\openIddict\Miwen.Abp.OpenIddict.Portal\Miwen.Abp.OpenIddict.Portal.csproj" />
-		<!--<ProjectReference Include="..\..\modules\openIddict\Miwen.Abp.OpenIddict.WeChat\Miwen.Abp.OpenIddict.WeChat.csproj" />
-		<ProjectReference Include="..\..\modules\openIddict\Miwen.Abp.OpenIddict.WeChat.Work\Miwen.Abp.OpenIddict.WeChat.Work.csproj" />-->
-		<!--<ProjectReference Include="..\..\modules\oss-management\Miwen.Abp.OssManagement.Application.Contracts\Miwen.Abp.OssManagement.Application.Contracts.csproj" />
+		<ProjectReference Include="..\..\modules\oss-management\Miwen.Abp.OssManagement.Application.Contracts\Miwen.Abp.OssManagement.Application.Contracts.csproj" />
 		<ProjectReference Include="..\..\modules\oss-management\Miwen.Abp.OssManagement.Application\Miwen.Abp.OssManagement.Application.csproj" />
 		<ProjectReference Include="..\..\modules\oss-management\Miwen.Abp.OssManagement.Domain.Shared\Miwen.Abp.OssManagement.Domain.Shared.csproj" />
 		<ProjectReference Include="..\..\modules\oss-management\Miwen.Abp.OssManagement.Domain\Miwen.Abp.OssManagement.Domain.csproj" />
@@ -231,10 +192,10 @@
 		<ProjectReference Include="..\..\modules\saas\Miwen.Abp.Saas.Domain\Miwen.Abp.Saas.Domain.csproj" />
 		<ProjectReference Include="..\..\modules\saas\Miwen.Abp.Saas.Application\Miwen.Abp.Saas.Application.csproj" />
 		<ProjectReference Include="..\..\modules\saas\Miwen.Abp.Saas.EntityFrameworkCore\Miwen.Abp.Saas.EntityFrameworkCore.csproj" />
-		<ProjectReference Include="..\..\modules\saas\Miwen.Abp.Saas.HttpApi\Miwen.Abp.Saas.HttpApi.csproj" />-->
+		<ProjectReference Include="..\..\modules\saas\Miwen.Abp.Saas.HttpApi\Miwen.Abp.Saas.HttpApi.csproj" />
 		<ProjectReference Include="..\..\modules\settings\Miwen.Abp.SettingManagement.Application\Miwen.Abp.SettingManagement.Application.csproj" />
 		<ProjectReference Include="..\..\modules\settings\Miwen.Abp.SettingManagement.HttpApi\Miwen.Abp.SettingManagement.HttpApi.csproj" />
-		<!--<ProjectReference Include="..\..\modules\task-management\Miwen.Abp.BackgroundTasks.Abstractions\Miwen.Abp.BackgroundTasks.Abstractions.csproj" />
+		<ProjectReference Include="..\..\modules\task-management\Miwen.Abp.BackgroundTasks.Abstractions\Miwen.Abp.BackgroundTasks.Abstractions.csproj" />
 		<ProjectReference Include="..\..\modules\task-management\Miwen.Abp.BackgroundTasks.Activities\Miwen.Abp.BackgroundTasks.Activities.csproj" />
 		<ProjectReference Include="..\..\modules\task-management\Miwen.Abp.BackgroundTasks.DistributedLocking\Miwen.Abp.BackgroundTasks.DistributedLocking.csproj" />
 		<ProjectReference Include="..\..\modules\task-management\Miwen.Abp.BackgroundTasks.EventBus\Miwen.Abp.BackgroundTasks.EventBus.csproj" />
@@ -265,7 +226,7 @@
 		<ProjectReference Include="..\..\modules\webhooks\Miwen.Abp.WebhooksManagement.Domain\Miwen.Abp.WebhooksManagement.Domain.csproj" />
 		<ProjectReference Include="..\..\modules\webhooks\Miwen.Abp.WebhooksManagement.EntityFrameworkCore\Miwen.Abp.WebhooksManagement.EntityFrameworkCore.csproj" />
 		<ProjectReference Include="..\..\modules\webhooks\Miwen.Abp.WebhooksManagement.HttpApi\Miwen.Abp.WebhooksManagement.HttpApi.csproj" />
-		<ProjectReference Include="..\..\modules\webhooks\Miwen.Abp.Webhooks\Miwen.Abp.Webhooks.csproj" />-->
+		<ProjectReference Include="..\..\modules\webhooks\Miwen.Abp.Webhooks\Miwen.Abp.Webhooks.csproj" />
 	</ItemGroup>
 
 </Project>
