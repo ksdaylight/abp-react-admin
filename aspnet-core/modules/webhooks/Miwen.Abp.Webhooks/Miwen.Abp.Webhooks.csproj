@@ -5,6 +5,7 @@
 
 	<PropertyGroup>
 		<TargetFrameworks>netstandard2.0;netstandard2.1;net8.0</TargetFrameworks>
+		<Nullable>enable</Nullable>
 		<AssemblyName>Miwen.Abp.Webhooks</AssemblyName>
 		<PackageId>Miwen.Abp.Webhooks</PackageId>
 		<GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>

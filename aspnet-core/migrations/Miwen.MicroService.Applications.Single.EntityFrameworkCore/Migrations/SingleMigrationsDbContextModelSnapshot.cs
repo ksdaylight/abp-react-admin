@@ -52,7 +52,6 @@ namespace Miwen.MicroService.Applications.Single.EntityFrameworkCore.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<string>("ValueRange")
-                        .IsRequired()
                         .HasMaxLength(512)
                         .HasColumnType("character varying(512)")
                         .HasColumnName("ValueRange");
@@ -133,7 +132,6 @@ namespace Miwen.MicroService.Applications.Single.EntityFrameworkCore.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<string>("AllowProperties")
-                        .IsRequired()
                         .HasMaxLength(512)
                         .HasColumnType("character varying(512)")
                         .HasColumnName("AllowProperties");
@@ -154,7 +152,6 @@ namespace Miwen.MicroService.Applications.Single.EntityFrameworkCore.Migrations
                         .HasColumnName("CreatorId");
 
                     b.Property<string>("EntityTypeFullName")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<Guid>("EntityTypeId")
@@ -166,7 +163,6 @@ namespace Miwen.MicroService.Applications.Single.EntityFrameworkCore.Migrations
                         .HasColumnName("ExtraProperties");
 
                     b.Property<string>("FilterGroup")
-                        .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("FilterGroup");
 
@@ -211,7 +207,6 @@ namespace Miwen.MicroService.Applications.Single.EntityFrameworkCore.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<string>("AllowProperties")
-                        .IsRequired()
                         .HasMaxLength(512)
                         .HasColumnType("character varying(512)")
                         .HasColumnName("AllowProperties");
@@ -232,7 +227,6 @@ namespace Miwen.MicroService.Applications.Single.EntityFrameworkCore.Migrations
                         .HasColumnName("CreatorId");
 
                     b.Property<string>("EntityTypeFullName")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<Guid>("EntityTypeId")
@@ -244,7 +238,6 @@ namespace Miwen.MicroService.Applications.Single.EntityFrameworkCore.Migrations
                         .HasColumnName("ExtraProperties");
 
                     b.Property<string>("FilterGroup")
-                        .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("FilterGroup");
 
@@ -354,19 +347,16 @@ namespace Miwen.MicroService.Applications.Single.EntityFrameworkCore.Migrations
                         .HasColumnName("CreatorId");
 
                     b.Property<string>("DefaultCultureName")
-                        .IsRequired()
                         .HasMaxLength(64)
                         .HasColumnType("character varying(64)")
                         .HasColumnName("DefaultCultureName");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasMaxLength(64)
                         .HasColumnType("character varying(64)")
                         .HasColumnName("Description");
 
                     b.Property<string>("DisplayName")
-                        .IsRequired()
                         .HasMaxLength(64)
                         .HasColumnType("character varying(64)")
                         .HasColumnName("DisplayName");
@@ -418,11 +408,9 @@ namespace Miwen.MicroService.Applications.Single.EntityFrameworkCore.Migrations
                         .HasColumnName("Key");
 
                     b.Property<string>("ResourceName")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Value")
-                        .IsRequired()
                         .HasMaxLength(2048)
                         .HasColumnType("character varying(2048)")
                         .HasColumnName("Value");
@@ -446,7 +434,6 @@ namespace Miwen.MicroService.Applications.Single.EntityFrameworkCore.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("AvatarUrl")
-                        .IsRequired()
                         .HasMaxLength(512)
                         .HasColumnType("character varying(512)");
 
@@ -469,7 +456,6 @@ namespace Miwen.MicroService.Applications.Single.EntityFrameworkCore.Migrations
                         .HasColumnName("CreatorId");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
 
@@ -490,7 +476,6 @@ namespace Miwen.MicroService.Applications.Single.EntityFrameworkCore.Migrations
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("NickName")
-                        .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("character varying(256)");
 
@@ -498,7 +483,6 @@ namespace Miwen.MicroService.Applications.Single.EntityFrameworkCore.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("Sign")
-                        .IsRequired()
                         .HasMaxLength(30)
                         .HasColumnType("character varying(30)");
 
@@ -551,7 +535,6 @@ namespace Miwen.MicroService.Applications.Single.EntityFrameworkCore.Migrations
                         .HasColumnName("CreatorId");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
 
@@ -570,7 +553,6 @@ namespace Miwen.MicroService.Applications.Single.EntityFrameworkCore.Migrations
                         .HasColumnType("boolean");
 
                     b.Property<string>("RemarkName")
-                        .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("character varying(256)");
 
@@ -704,7 +686,6 @@ namespace Miwen.MicroService.Applications.Single.EntityFrameworkCore.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<string>("Address")
-                        .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("character varying(256)");
 
@@ -718,7 +699,6 @@ namespace Miwen.MicroService.Applications.Single.EntityFrameworkCore.Migrations
                         .HasColumnType("boolean");
 
                     b.Property<string>("AvatarUrl")
-                        .IsRequired()
                         .HasMaxLength(128)
                         .HasColumnType("character varying(128)");
 
@@ -731,7 +711,6 @@ namespace Miwen.MicroService.Applications.Single.EntityFrameworkCore.Migrations
                         .HasColumnName("CreatorId");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasMaxLength(128)
                         .HasColumnType("character varying(128)");
 
@@ -755,12 +734,10 @@ namespace Miwen.MicroService.Applications.Single.EntityFrameworkCore.Migrations
                         .HasColumnType("character varying(20)");
 
                     b.Property<string>("Notice")
-                        .IsRequired()
                         .HasMaxLength(64)
                         .HasColumnType("character varying(64)");
 
                     b.Property<string>("Tag")
-                        .IsRequired()
                         .HasMaxLength(512)
                         .HasColumnType("character varying(512)");
 
@@ -945,7 +922,6 @@ namespace Miwen.MicroService.Applications.Single.EntityFrameworkCore.Migrations
                         .HasColumnName("LastModifierId");
 
                     b.Property<string>("NickName")
-                        .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("character varying(256)");
 
@@ -1031,17 +1007,14 @@ namespace Miwen.MicroService.Applications.Single.EntityFrameworkCore.Migrations
                         .HasColumnType("boolean");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("character varying(255)");
 
                     b.Property<string>("DisplayName")
-                        .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("character varying(255)");
 
                     b.Property<string>("ExtraProperties")
-                        .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("ExtraProperties");
 
@@ -1070,17 +1043,14 @@ namespace Miwen.MicroService.Applications.Single.EntityFrameworkCore.Migrations
                         .HasDefaultValue(0);
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("character varying(255)");
 
                     b.Property<string>("DisplayName")
-                        .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("character varying(255)");
 
                     b.Property<string>("ExtraProperties")
-                        .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("ExtraProperties");
 
@@ -1101,12 +1071,10 @@ namespace Miwen.MicroService.Applications.Single.EntityFrameworkCore.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("Providers")
-                        .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("character varying(200)");
 
                     b.Property<string>("Template")
-                        .IsRequired()
                         .HasMaxLength(128)
                         .HasColumnType("character varying(128)");
 
@@ -1316,7 +1284,6 @@ namespace Miwen.MicroService.Applications.Single.EntityFrameworkCore.Migrations
                         .HasColumnType("character varying(64)");
 
                     b.Property<string>("NormalizedName")
-                        .IsRequired()
                         .HasMaxLength(64)
                         .HasColumnType("character varying(64)");
 
@@ -1400,7 +1367,6 @@ namespace Miwen.MicroService.Applications.Single.EntityFrameworkCore.Migrations
                         .HasColumnName("Name");
 
                     b.Property<string>("Paramters")
-                        .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("Paramters");
 
@@ -1421,7 +1387,6 @@ namespace Miwen.MicroService.Applications.Single.EntityFrameworkCore.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("Args")
-                        .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("Args");
 
@@ -1444,13 +1409,11 @@ namespace Miwen.MicroService.Applications.Single.EntityFrameworkCore.Migrations
                         .HasColumnName("CreatorId");
 
                     b.Property<string>("Cron")
-                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)")
                         .HasColumnName("Cron");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("character varying(255)")
                         .HasColumnName("Description");
@@ -1511,7 +1474,6 @@ namespace Miwen.MicroService.Applications.Single.EntityFrameworkCore.Migrations
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("NodeName")
-                        .IsRequired()
                         .HasMaxLength(128)
                         .HasColumnType("character varying(128)")
                         .HasColumnName("NodeName");
@@ -1520,7 +1482,6 @@ namespace Miwen.MicroService.Applications.Single.EntityFrameworkCore.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("Result")
-                        .IsRequired()
                         .HasMaxLength(1000)
                         .HasColumnType("character varying(1000)")
                         .HasColumnName("Result");
@@ -1563,37 +1524,31 @@ namespace Miwen.MicroService.Applications.Single.EntityFrameworkCore.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<string>("Exception")
-                        .IsRequired()
                         .HasMaxLength(2000)
                         .HasColumnType("character varying(2000)")
                         .HasColumnName("Exception");
 
                     b.Property<string>("JobGroup")
-                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)")
                         .HasColumnName("JobGroup");
 
                     b.Property<string>("JobId")
-                        .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("character varying(255)")
                         .HasColumnName("JobId");
 
                     b.Property<string>("JobName")
-                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)")
                         .HasColumnName("JobName");
 
                     b.Property<string>("JobType")
-                        .IsRequired()
                         .HasMaxLength(1000)
                         .HasColumnType("character varying(1000)")
                         .HasColumnName("JobType");
 
                     b.Property<string>("Message")
-                        .IsRequired()
                         .HasMaxLength(1000)
                         .HasColumnType("character varying(1000)")
                         .HasColumnName("Message");
@@ -1619,7 +1574,6 @@ namespace Miwen.MicroService.Applications.Single.EntityFrameworkCore.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<string>("Content")
-                        .IsRequired()
                         .HasMaxLength(1048576)
                         .HasColumnType("character varying(1048576)")
                         .HasColumnName("Content");
@@ -1633,7 +1587,6 @@ namespace Miwen.MicroService.Applications.Single.EntityFrameworkCore.Migrations
                         .HasColumnName("CreatorId");
 
                     b.Property<string>("Culture")
-                        .IsRequired()
                         .HasMaxLength(30)
                         .HasColumnType("character varying(30)")
                         .HasColumnName("Culture");
@@ -1680,7 +1633,6 @@ namespace Miwen.MicroService.Applications.Single.EntityFrameworkCore.Migrations
                         .HasColumnName("ConcurrencyStamp");
 
                     b.Property<string>("DefaultCultureName")
-                        .IsRequired()
                         .HasMaxLength(30)
                         .HasColumnType("character varying(30)")
                         .HasColumnName("DefaultCultureName");
@@ -1706,13 +1658,11 @@ namespace Miwen.MicroService.Applications.Single.EntityFrameworkCore.Migrations
                         .HasColumnType("boolean");
 
                     b.Property<string>("Layout")
-                        .IsRequired()
                         .HasMaxLength(60)
                         .HasColumnType("character varying(60)")
                         .HasColumnName("Layout");
 
                     b.Property<string>("LocalizationResourceName")
-                        .IsRequired()
                         .HasMaxLength(64)
                         .HasColumnType("character varying(64)")
                         .HasColumnName("LocalizationResourceName");
@@ -1724,7 +1674,6 @@ namespace Miwen.MicroService.Applications.Single.EntityFrameworkCore.Migrations
                         .HasColumnName("Name");
 
                     b.Property<string>("RenderEngine")
-                        .IsRequired()
                         .HasMaxLength(30)
                         .HasColumnType("character varying(30)")
                         .HasColumnName("RenderEngine");
@@ -1994,7 +1943,6 @@ namespace Miwen.MicroService.Applications.Single.EntityFrameworkCore.Migrations
                         .HasColumnName("DeletionTime");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasMaxLength(1024)
                         .HasColumnType("character varying(1024)")
                         .HasColumnName("Description");
@@ -2077,7 +2025,6 @@ namespace Miwen.MicroService.Applications.Single.EntityFrameworkCore.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<string>("DefaultValue")
-                        .IsRequired()
                         .HasMaxLength(128)
                         .HasColumnType("character varying(128)")
                         .HasColumnName("DefaultValue");
@@ -2091,7 +2038,6 @@ namespace Miwen.MicroService.Applications.Single.EntityFrameworkCore.Migrations
                         .HasColumnName("DeletionTime");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasMaxLength(1024)
                         .HasColumnType("character varying(1024)")
                         .HasColumnName("Description");
@@ -2342,7 +2288,6 @@ namespace Miwen.MicroService.Applications.Single.EntityFrameworkCore.Migrations
                         .HasColumnName("DeletionTime");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("DisplayName")
@@ -2383,13 +2328,11 @@ namespace Miwen.MicroService.Applications.Single.EntityFrameworkCore.Migrations
                         .HasColumnName("Name");
 
                     b.Property<string>("Path")
-                        .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("character varying(255)")
                         .HasColumnName("Path");
 
                     b.Property<string>("Redirect")
-                        .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("character varying(255)")
                         .HasColumnName("Redirect");
@@ -2445,7 +2388,6 @@ namespace Miwen.MicroService.Applications.Single.EntityFrameworkCore.Migrations
                         .HasColumnName("DeletionTime");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("DisplayName")
@@ -2495,13 +2437,11 @@ namespace Miwen.MicroService.Applications.Single.EntityFrameworkCore.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<string>("Path")
-                        .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("character varying(255)")
                         .HasColumnName("Path");
 
                     b.Property<string>("Redirect")
-                        .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("character varying(255)")
                         .HasColumnName("Redirect");
@@ -2567,13 +2507,11 @@ namespace Miwen.MicroService.Applications.Single.EntityFrameworkCore.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<string>("AliasName")
-                        .IsRequired()
                         .HasMaxLength(128)
                         .HasColumnType("character varying(128)")
                         .HasColumnName("AliasName");
 
                     b.Property<string>("Color")
-                        .IsRequired()
                         .HasMaxLength(30)
                         .HasColumnType("character varying(30)")
                         .HasColumnName("Color");
@@ -2599,7 +2537,6 @@ namespace Miwen.MicroService.Applications.Single.EntityFrameworkCore.Migrations
                         .HasColumnName("Framework");
 
                     b.Property<string>("Icon")
-                        .IsRequired()
                         .HasMaxLength(512)
                         .HasColumnType("character varying(512)")
                         .HasColumnName("Icon");
@@ -2690,7 +2627,6 @@ namespace Miwen.MicroService.Applications.Single.EntityFrameworkCore.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<string>("Authors")
-                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)")
                         .HasColumnName("Authors");
@@ -2719,7 +2655,6 @@ namespace Miwen.MicroService.Applications.Single.EntityFrameworkCore.Migrations
                         .HasColumnName("DeletionTime");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("character varying(255)")
                         .HasColumnName("Description");
@@ -2783,13 +2718,11 @@ namespace Miwen.MicroService.Applications.Single.EntityFrameworkCore.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Authors")
-                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)")
                         .HasColumnName("Authors");
 
                     b.Property<string>("ContentType")
-                        .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("character varying(256)")
                         .HasColumnName("ContentType");
@@ -2809,12 +2742,10 @@ namespace Miwen.MicroService.Applications.Single.EntityFrameworkCore.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("ExtraProperties")
-                        .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("ExtraProperties");
 
                     b.Property<string>("License")
-                        .IsRequired()
                         .HasMaxLength(1024)
                         .HasColumnType("character varying(1024)")
                         .HasColumnName("License");
@@ -2829,7 +2760,6 @@ namespace Miwen.MicroService.Applications.Single.EntityFrameworkCore.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<string>("SHA256")
-                        .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("character varying(256)")
                         .HasColumnName("SHA256");
@@ -2838,7 +2768,6 @@ namespace Miwen.MicroService.Applications.Single.EntityFrameworkCore.Migrations
                         .HasColumnType("bigint");
 
                     b.Property<string>("Summary")
-                        .IsRequired()
                         .HasMaxLength(1024)
                         .HasColumnType("character varying(1024)")
                         .HasColumnName("Summary");
@@ -2847,7 +2776,6 @@ namespace Miwen.MicroService.Applications.Single.EntityFrameworkCore.Migrations
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Url")
-                        .IsRequired()
                         .HasMaxLength(512)
                         .HasColumnType("character varying(512)")
                         .HasColumnName("Url");
@@ -2866,7 +2794,6 @@ namespace Miwen.MicroService.Applications.Single.EntityFrameworkCore.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<string>("Address")
-                        .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("character varying(255)")
                         .HasColumnName("Address");
@@ -2895,7 +2822,6 @@ namespace Miwen.MicroService.Applications.Single.EntityFrameworkCore.Migrations
                         .HasColumnName("DeletionTime");
 
                     b.Property<string>("EnglishName")
-                        .IsRequired()
                         .HasMaxLength(512)
                         .HasColumnType("character varying(512)")
                         .HasColumnName("EnglishName");
@@ -2923,13 +2849,11 @@ namespace Miwen.MicroService.Applications.Single.EntityFrameworkCore.Migrations
                         .HasColumnName("LastModifierId");
 
                     b.Property<string>("LegalMan")
-                        .IsRequired()
                         .HasMaxLength(60)
                         .HasColumnType("character varying(60)")
                         .HasColumnName("LegalMan");
 
                     b.Property<string>("Logo")
-                        .IsRequired()
                         .HasMaxLength(512)
                         .HasColumnType("character varying(512)")
                         .HasColumnName("Logo");
@@ -2941,13 +2865,11 @@ namespace Miwen.MicroService.Applications.Single.EntityFrameworkCore.Migrations
                         .HasColumnName("Name");
 
                     b.Property<string>("OrganizationCode")
-                        .IsRequired()
                         .HasMaxLength(16)
                         .HasColumnType("character varying(16)")
                         .HasColumnName("OrganizationCode");
 
                     b.Property<string>("RegistrationCode")
-                        .IsRequired()
                         .HasMaxLength(30)
                         .HasColumnType("character varying(30)")
                         .HasColumnName("RegistrationCode");
@@ -2956,7 +2878,6 @@ namespace Miwen.MicroService.Applications.Single.EntityFrameworkCore.Migrations
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("TaxCode")
-                        .IsRequired()
                         .HasMaxLength(40)
                         .HasColumnType("character varying(40)")
                         .HasColumnName("TaxCode");

@@ -17,7 +17,7 @@ public class WebhookGroupDefinitionRecord : BasicAggregateRoot<Guid>, IHasExtraP
 
     public string DisplayName { get; set; }
 
-    public ExtraPropertyDictionary ExtraProperties { get; protected set; }
+    public ExtraPropertyDictionary? ExtraProperties { get; protected set; }
 
     public WebhookGroupDefinitionRecord()
     {

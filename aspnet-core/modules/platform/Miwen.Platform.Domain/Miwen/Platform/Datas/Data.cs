@@ -23,7 +23,7 @@ public class Data : FullAuditedAggregateRoot<Guid>, IMultiTenant
 
     public virtual string DisplayName { get; set; }
 
-    public virtual string Description { get; set; }
+    public virtual string? Description { get; set; }
 
     public virtual Guid? ParentId { get; set; }
 

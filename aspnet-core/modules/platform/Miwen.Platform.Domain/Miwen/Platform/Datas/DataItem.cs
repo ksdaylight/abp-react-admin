@@ -14,9 +14,9 @@ public class DataItem : FullAuditedAggregateRoot<Guid>, IMultiTenant
 
     public virtual string DisplayName { get; set; }
 
-    public virtual string DefaultValue { get; set; }
+    public virtual string? DefaultValue { get; set; }
 
-    public virtual string Description { get; set; }
+    public virtual string? Description { get; set; }
 
     public virtual bool AllowBeNull { get;  set; }
 

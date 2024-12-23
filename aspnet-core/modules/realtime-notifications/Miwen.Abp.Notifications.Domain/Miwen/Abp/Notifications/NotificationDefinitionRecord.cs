@@ -23,18 +23,18 @@ public class NotificationDefinitionRecord : BasicAggregateRoot<Guid>, IHasExtraP
     /// <remarks>
     /// 如果为空,回退到Name
     /// </remarks>
-    public virtual string DisplayName { get; set; }
+    public virtual string? DisplayName { get; set; }
     /// <summary>
     /// 描述
     /// </summary>
     /// <remarks>
     /// 如果为空,回退到Name
     /// </remarks>
-    public virtual string Description { get; set; }
+    public virtual string? Description { get; set; }
     /// <summary>
     /// 通知模板
     /// </summary>
-    public virtual string Template { get; set; }
+    public virtual string? Template { get; set; }
     /// <summary>
     /// 存活类型
     /// </summary>
@@ -53,12 +53,12 @@ public class NotificationDefinitionRecord : BasicAggregateRoot<Guid>, IHasExtraP
     /// <remarks>
     /// 多个之间用;分隔
     /// </remarks>
-    public virtual string Providers { get; protected set; }
+    public virtual string? Providers { get; protected set; }
     /// <summary>
     /// 允许客户端订阅
     /// </summary>
     public virtual bool AllowSubscriptionToClients { get; set; }
-    public ExtraPropertyDictionary ExtraProperties { get; protected set; }
+    public ExtraPropertyDictionary? ExtraProperties { get; protected set; }
 
     public NotificationDefinitionRecord()
     {

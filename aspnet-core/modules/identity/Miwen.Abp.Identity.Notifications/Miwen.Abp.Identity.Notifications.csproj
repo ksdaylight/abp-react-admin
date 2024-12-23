@@ -5,6 +5,7 @@
 	<PropertyGroup>
 		<Nullable>enable</Nullable>
 		<TargetFrameworks>netstandard2.0;netstandard2.1;net8.0</TargetFrameworks>
+		<Nullable>enable</Nullable>
 		<AssemblyName>Miwen.Abp.Identity.Notifications</AssemblyName>
 		<PackageId>Miwen.Abp.Identity.Notifications</PackageId>
 		<GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>

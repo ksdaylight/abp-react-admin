@@ -5,6 +5,7 @@
 
 	<PropertyGroup>
 		<TargetFramework>net8.0</TargetFramework>
+		<Nullable>enable</Nullable>
 		<AssemblyName>Miwen.Abp.CachingManagement.HttpApi</AssemblyName>
 		<Nullable>enable</Nullable>
 		<PackageId>Miwen.Abp.CachingManagement.HttpApi</PackageId>

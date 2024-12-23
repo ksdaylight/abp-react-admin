@@ -12,7 +12,7 @@ public class Language : AuditedEntity<Guid>, ILanguageInfo
     public virtual string CultureName { get; protected set; }
     public virtual string UiCultureName { get; protected set; }
     public virtual string DisplayName { get; protected set; }
-    public virtual string TwoLetterISOLanguageName { get; set; }
+    public virtual string? TwoLetterISOLanguageName { get; set; }
     protected Language() { }
     public Language(
         Guid id,

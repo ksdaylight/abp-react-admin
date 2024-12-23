@@ -17,6 +17,7 @@
 		<PackageReference Include="Elsa.Activities.Temporal.Quartz" />
 		<!--<PackageReference Include="Elsa.Designer.Components.Web" />-->
 		<PackageReference Include="Elsa.Webhooks.Api" />
+		<PackageReference Include="Volo.Abp.MailKit" />
 		<PackageReference Include="Microsoft.AspNetCore.DataProtection.StackExchangeRedis" />
 		<PackageReference Include="OpenIddict.Validation.DataProtection" />
 		<PackageReference Include="OpenIddict.Server.DataProtection" />

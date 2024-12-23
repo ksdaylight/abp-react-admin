@@ -7,6 +7,7 @@
 	<PropertyGroup>
 		<Nullable>enable</Nullable>
 		<TargetFrameworks>net8.0</TargetFrameworks>
+		<Nullable>enable</Nullable>
 		<AssemblyName>Miwen.Abp.Account.HttpApi</AssemblyName>
 		<PackageId>Miwen.Abp.Account.HttpApi</PackageId>
 		<GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>

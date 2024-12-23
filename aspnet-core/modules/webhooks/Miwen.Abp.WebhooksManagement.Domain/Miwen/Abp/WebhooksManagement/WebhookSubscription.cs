@@ -11,12 +11,12 @@ public class WebhookSubscription : CreationAuditedEntity<Guid>, IHasConcurrencyS
 {
     public virtual Guid? TenantId { get; protected set; }
     public virtual string WebhookUri { get; protected set; }
-    public virtual string Secret { get; protected set; }
+    public virtual string? Secret { get; protected set; }
     public virtual bool IsActive { get; set; }
-    public virtual string Webhooks { get; protected set; }
-    public virtual string Headers { get; protected set; }
-    public virtual string Description { get; set; }
-    public virtual string ConcurrencyStamp { get; set; }
+    public virtual string? Webhooks { get; protected set; }
+    public virtual string? Headers { get; protected set; }
+    public virtual string? Description { get; set; }
+    public virtual string? ConcurrencyStamp { get; set; }
     public virtual int? TimeoutDuration { get; set; }
 
     protected WebhookSubscription()

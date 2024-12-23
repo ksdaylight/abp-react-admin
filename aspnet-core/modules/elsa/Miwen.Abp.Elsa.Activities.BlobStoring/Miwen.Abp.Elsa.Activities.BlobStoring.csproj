@@ -12,7 +12,6 @@
 		<GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
 		<GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
 		<RootNamespace />
-		<Nullable>Enable</Nullable>
 	</PropertyGroup>
 	
 	<ItemGroup>

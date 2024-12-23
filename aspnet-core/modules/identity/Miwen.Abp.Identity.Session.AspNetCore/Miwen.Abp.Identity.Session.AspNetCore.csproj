@@ -5,6 +5,7 @@
 
 	<PropertyGroup>
 		<TargetFramework>net8.0</TargetFramework>
+		<Nullable>enable</Nullable>
 		<AssemblyName>Miwen.Abp.Identity.Session.AspNetCore</AssemblyName>
 		<PackageId>Miwen.Abp.Identity.Session.AspNetCore</PackageId>
 		<GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>

@@ -1,4 +1,12 @@
 BEGIN;
+
+CREATE TABLE IF NOT EXISTS "__EFMigrationsHistory" (
+    "MigrationId" varchar(150) NOT NULL,
+    "ProductVersion" varchar(32) NOT NULL,
+    CONSTRAINT "PK___EFMigrationsHistory" PRIMARY KEY ("MigrationId")
+);
+
+
 -- 创建Bookmarks表
 CREATE TABLE "Bookmarks" (
     "Id" varchar(255) NOT NULL,

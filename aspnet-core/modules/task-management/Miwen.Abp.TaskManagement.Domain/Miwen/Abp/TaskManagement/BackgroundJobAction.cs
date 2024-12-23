@@ -25,7 +25,7 @@ public class BackgroundJobAction : AuditedAggregateRoot<Guid>, IMultiTenant
     /// <summary>
     /// 参数
     /// </summary>
-    public virtual ExtraPropertyDictionary Paramters { get; set; }
+    public virtual ExtraPropertyDictionary? Paramters { get; set; }
 
     protected BackgroundJobAction() { }
 

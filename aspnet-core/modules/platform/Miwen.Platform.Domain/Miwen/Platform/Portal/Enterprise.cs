@@ -20,31 +20,31 @@ public class Enterprise : FullAuditedAggregateRoot<Guid>
     /// <summary>
     /// 英文名称
     /// </summary>
-    public virtual string EnglishName { get; set; }
+    public virtual string? EnglishName { get; set; }
     /// <summary>
     /// Logo
     /// </summary>
-    public virtual string Logo { get; set; }
+    public virtual string? Logo { get; set; }
     /// <summary>
     /// 地址
     /// </summary>
-    public virtual string Address { get; set; }
+    public virtual string? Address { get; set; }
     /// <summary>
     /// 法人代表
     /// </summary>
-    public virtual string LegalMan { get; set; }
+    public virtual string? LegalMan { get; set; }
     /// <summary>
     /// 税务登记号
     /// </summary>
-    public virtual string TaxCode { get; set; }
+    public virtual string? TaxCode { get; set; }
     /// <summary>
     /// 组织机构代码
     /// </summary>
-    public virtual string OrganizationCode { get; protected set; }
+    public virtual string? OrganizationCode { get; protected set; }
     /// <summary>
     /// 注册代码
     /// </summary>
-    public virtual string RegistrationCode { get; protected set; }
+    public virtual string? RegistrationCode { get; protected set; }
     /// <summary>
     /// 注册日期
     /// </summary>

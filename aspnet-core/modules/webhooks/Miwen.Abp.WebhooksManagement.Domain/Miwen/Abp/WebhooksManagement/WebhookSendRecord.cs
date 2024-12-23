@@ -17,13 +17,13 @@ public class WebhookSendRecord : Entity<Guid>, IHasCreationTime, IHasModificatio
 
     public virtual Guid WebhookSubscriptionId { get; protected set; }
 
-    public virtual string Response { get; protected set; }
+    public virtual string? Response { get; protected set; }
 
     public virtual HttpStatusCode? ResponseStatusCode { get; set; }
 
-    public virtual string RequestHeaders { get; protected set; }
+    public virtual string? RequestHeaders { get; protected set; }
 
-    public virtual string ResponseHeaders { get; protected set; }
+    public virtual string? ResponseHeaders { get; protected set; }
 
     public virtual bool SendExactSameData { get; set; }
 

@@ -9,8 +9,8 @@ public class Text : Entity<int>
 {
     public virtual string CultureName { get; protected set; }
     public virtual string Key { get; protected set; }
-    public virtual string Value { get; protected set; }
-    public virtual string ResourceName { get; protected set; }
+    public virtual string? Value { get; protected set; }
+    public virtual string? ResourceName { get; protected set; }
     protected Text() { }
     public Text(
         [NotNull] string resourceName,

@@ -5,6 +5,7 @@
 
 	<PropertyGroup>
 		<TargetFramework>net8.0</TargetFramework>
+		<Nullable>enable</Nullable>
 		<AssemblyName>Miwen.Abp.WebhooksManagement.Domain</AssemblyName>
 		<PackageId>Miwen.Abp.WebhooksManagement.Domain</PackageId>
 		<GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>

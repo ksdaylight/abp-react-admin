@@ -14,9 +14,9 @@ public class UserFavoriteMenu : AuditedEntity<Guid>, IMultiTenant
 
     public virtual Guid UserId { get; protected set; }
 
-    public virtual string AliasName { get; set; }
+    public virtual string? AliasName { get; set; }
 
-    public virtual string Color { get; set; }
+    public virtual string? Color { get; set; }
 
     public virtual string Framework { get; set; }
 
@@ -26,7 +26,7 @@ public class UserFavoriteMenu : AuditedEntity<Guid>, IMultiTenant
 
     public virtual string Path { get; set; }
 
-    public virtual string Icon { get; set; }
+    public virtual string? Icon { get; set; }
 
     protected UserFavoriteMenu() { }
     public UserFavoriteMenu(

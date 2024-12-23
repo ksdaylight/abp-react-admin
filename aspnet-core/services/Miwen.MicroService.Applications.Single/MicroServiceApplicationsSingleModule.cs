@@ -111,6 +111,8 @@ using Volo.Abp.SettingManagement;
 using Volo.Abp.SettingManagement.EntityFrameworkCore;
 using Volo.Abp.Threading;
 using Volo.Abp.Timing;
+using Volo.Abp.MailKit;
+
 
 namespace Miwen.MicroService.Applications.Single;
 
@@ -274,6 +276,7 @@ namespace Miwen.MicroService.Applications.Single;
     typeof(AbpAspNetCoreMvcIdempotentWrapperModule),
     typeof(AbpAspNetCoreHttpOverridesModule),
     typeof(AbpAspNetCoreMvcUiBasicThemeModule),
+    typeof(AbpMailKitModule),
     typeof(AbpEventBusModule),
     typeof(AbpAutofacModule)
     )]
