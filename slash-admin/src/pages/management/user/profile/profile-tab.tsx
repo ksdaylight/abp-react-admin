@@ -1,14 +1,5 @@
 import { faker } from "@faker-js/faker";
-import {
-	Avatar,
-	Col,
-	Progress,
-	Row,
-	Space,
-	Table,
-	Timeline,
-	Typography,
-} from "antd";
+import { Avatar, Col, Progress, Row, Space, Table, Tag, Timeline, Typography } from "antd";
 import type { ColumnsType } from "antd/es/table";
 
 import { fakeAvatars } from "@/_mock/utils";
@@ -16,8 +7,7 @@ import Card from "@/components/card";
 import { IconButton, Iconify, SvgIcon } from "@/components/icon";
 import Scrollbar from "@/components/scrollbar";
 import { useUserInfo } from "@/store/userStore";
-import ProTag from "@/theme/antd/components/tag";
-import { useThemeToken } from "@/theme/hooks";
+import { themeVars } from "@/theme/theme.css";
 
 interface DataType {
 	key: string;
@@ -31,7 +21,6 @@ interface DataType {
 
 export default function ProfileTab() {
 	const { username } = useUserInfo();
-	const theme = useThemeToken();
 	const AboutItems = [
 		{
 			icon: <Iconify icon="fa-solid:user" size={18} />,
@@ -107,32 +96,32 @@ export default function ProfileTab() {
 			avatar: <Iconify icon="devicon:react" size={36} />,
 			name: "React Developers",
 			members: `${faker.number.int(100)} Members`,
-			tag: <ProTag color="warning">Developer</ProTag>,
+			tag: <Tag color="warning">Developer</Tag>,
 		},
 		{
 			avatar: <Iconify icon="devicon:figma" size={36} />,
 			name: "UI Designer",
 			members: `${faker.number.int(100)} Members`,
-			tag: <ProTag color="cyan">Designer</ProTag>,
+			tag: <Tag color="cyan">Designer</Tag>,
 		},
 		{
 			avatar: <Iconify icon="logos:jest" size={36} />,
 			name: "Test Team",
 			members: `${faker.number.int(100)} Members`,
-			tag: <ProTag color="success">Test</ProTag>,
+			tag: <Tag color="success">Test</Tag>,
 		},
 		{
 			avatar: <Iconify icon="logos:nestjs" size={36} />,
 			name: "Nest.js Developers",
 			members: `${faker.number.int(100)} Members`,
-			tag: <ProTag color="warning">Developer</ProTag>,
+			tag: <Tag color="warning">Developer</Tag>,
 		},
 
 		{
 			avatar: <Iconify icon="logos:twitter" size={36} />,
 			name: "Digital Marketing",
 			members: `${faker.number.int(100)} Members`,
-			tag: <ProTag>Marketing</ProTag>,
+			tag: <Tag>Marketing</Tag>,
 		},
 	];
 
@@ -158,7 +147,7 @@ export default function ProfileTab() {
 			dataIndex: "name",
 			render: (_, record) => (
 				<div className="flex items-center">
-					<img src={record.avatar} alt="" className="h-9 w-9 rounded-full" />
+					<img src={record.avatar} alt="" className="h-8 w-8 rounded-full" />
 					<div className="ml-2 flex flex-col">
 						<span className="font-semibold">{record.name}</span>
 						<span className="text-xs opacity-50">{record.date}</span>
@@ -186,11 +175,7 @@ export default function ProfileTab() {
 			title: "STATUS",
 			dataIndex: "status",
 			render: (val) => (
-				<Progress
-					percent={val}
-					strokeColor={theme.colorPrimary}
-					trailColor="transparent"
-				/>
+				<Progress percent={val} strokeColor={themeVars.colors.palette.primary.default} trailColor="transparent" />
 			),
 		},
 		{
@@ -235,13 +220,11 @@ export default function ProfileTab() {
 							className="!mt-4 w-full"
 							items={[
 								{
-									color: theme.colorError,
+									color: themeVars.colors.palette.error.default,
 									children: (
 										<div className="flex flex-col">
 											<div className="flex items-center justify-between">
-												<Typography.Text strong>
-													8 Invoices have been paid
-												</Typography.Text>
+												<Typography.Text strong>8 Invoices have been paid</Typography.Text>
 												<div className="opacity-50">Wednesday</div>
 											</div>
 											<Typography.Text type="secondary" className="text-xs">
@@ -250,47 +233,35 @@ export default function ProfileTab() {
 
 											<div className="mt-2 flex items-center gap-2">
 												<SvgIcon icon="ic_file_pdf" size={30} />
-												<span className="font-medium opacity-60">
-													invoice.pdf
-												</span>
+												<span className="font-medium opacity-60">invoice.pdf</span>
 											</div>
 										</div>
 									),
 								},
 								{
-									color: theme.colorPrimaryActive,
+									color: themeVars.colors.palette.primary.default,
 									children: (
 										<div className="flex flex-col">
 											<div className="flex items-center justify-between">
-												<Typography.Text strong>
-													Create a new project for client 😎
-												</Typography.Text>
+												<Typography.Text strong>Create a new project for client 😎</Typography.Text>
 												<div className="opacity-50">April, 18</div>
 											</div>
 											<Typography.Text type="secondary" className="text-xs">
 												Invoices have been paid to the company.
 											</Typography.Text>
 											<div className="mt-2 flex items-center gap-2">
-												<img
-													alt=""
-													src={faker.image.avatarGitHub()}
-													className="h-8 w-8 rounded-full"
-												/>
-												<span className="font-medium opacity-60">
-													{faker.person.fullName()} (client)
-												</span>
+												<img alt="" src={faker.image.avatarGitHub()} className="h-8 w-8 rounded-full" />
+												<span className="font-medium opacity-60">{faker.person.fullName()} (client)</span>
 											</div>
 										</div>
 									),
 								},
 								{
-									color: theme.colorInfo,
+									color: themeVars.colors.palette.info.default,
 									children: (
 										<div className="flex flex-col">
 											<div className="flex items-center justify-between">
-												<Typography.Text strong>
-													Order #37745 from September
-												</Typography.Text>
+												<Typography.Text strong>Order #37745 from September</Typography.Text>
 												<div className="opacity-50">January, 10</div>
 											</div>
 											<Typography.Text type="secondary" className="text-xs">
@@ -300,7 +271,7 @@ export default function ProfileTab() {
 									),
 								},
 								{
-									color: theme.colorWarning,
+									color: themeVars.colors.palette.warning.default,
 									children: (
 										<div className="flex flex-col">
 											<div className="flex items-center justify-between">
@@ -327,31 +298,21 @@ export default function ProfileTab() {
 						<div className="mt-2 flex w-full flex-col gap-4">
 							{ConnectionsItems.map((item) => (
 								<div className="flex" key={item.name}>
-									<img
-										alt=""
-										src={item.avatar}
-										className="h-10 w-10 flex-none rounded-full"
-									/>
+									<img alt="" src={item.avatar} className="h-10 w-10 flex-none rounded-full" />
 									<div className="ml-4 flex flex-1 flex-col">
 										<span className="font-semibold">{item.name}</span>
-										<span className="mt-1 text-xs opacity-50">
-											{item.connections}
-										</span>
+										<span className="mt-1 text-xs opacity-50">{item.connections}</span>
 									</div>
 									<div
-										className="flex h-9 w-9 flex-none items-center justify-center rounded"
+										className="flex h-8 w-8 flex-none items-center justify-center rounded"
 										style={{
-											backgroundColor: item.connected
-												? theme.colorPrimaryText
-												: "transparent",
-											border: item.connected
-												? ""
-												: `1px solid ${theme.colorPrimaryText}`,
+											backgroundColor: item.connected ? themeVars.colors.palette.primary.default : "transparent",
+											border: item.connected ? "" : `1px solid ${themeVars.colors.palette.primary.default}`,
 										}}
 									>
 										<Iconify
 											icon="tdesign:user"
-											color={item.connected ? "#fff" : theme.colorPrimaryText}
+											color={item.connected ? "#fff" : themeVars.colors.palette.primary.default}
 											size={20}
 										/>
 									</div>
@@ -361,7 +322,7 @@ export default function ProfileTab() {
 
 						<div
 							className="mt-4 w-full text-center text-lg"
-							style={{ color: theme.colorPrimaryText }}
+							style={{ color: themeVars.colors.palette.primary.default }}
 						>
 							View all connections
 						</div>
@@ -381,18 +342,16 @@ export default function ProfileTab() {
 									{item.avatar}
 									<div className="ml-4 flex flex-1 flex-col">
 										<span className="font-semibold">{item.name}</span>
-										<span className="mt-1 text-xs opacity-50">
-											{item.members}
-										</span>
+										<span className="mt-1 text-xs opacity-50">{item.members}</span>
 									</div>
-									{item.tag}
+									<div className="h-6">{item.tag}</div>
 								</div>
 							))}
 						</div>
 
 						<div
 							className="mt-4 w-full text-center text-lg"
-							style={{ color: theme.colorPrimaryText }}
+							style={{ color: themeVars.colors.palette.primary.default }}
 						>
 							View all members
 						</div>
@@ -405,11 +364,7 @@ export default function ProfileTab() {
 						<Typography.Title level={5}>Projects</Typography.Title>
 						<div className="!mt-4 w-full">
 							<Scrollbar>
-								<Table
-									rowSelection={{ type: "checkbox" }}
-									columns={ProjectColumns}
-									dataSource={fakeProjectItems()}
-								/>
+								<Table rowSelection={{ type: "checkbox" }} columns={ProjectColumns} dataSource={fakeProjectItems()} />
 							</Scrollbar>
 						</div>
 					</Card>

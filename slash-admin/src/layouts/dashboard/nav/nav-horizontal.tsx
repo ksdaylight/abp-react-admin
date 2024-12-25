@@ -1,22 +1,16 @@
 import { Menu, type MenuProps } from "antd";
 import { useMemo } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 
-import {
-	useFlattenedRoutes,
-	usePathname,
-	usePermissionRoutes,
-	useRouteToMenuFn,
-} from "@/router/hooks";
+import { useFlattenedRoutes, usePathname, usePermissionRoutes, useRouteToMenuFn } from "@/router/hooks";
 import { menuFilter } from "@/router/utils";
-import { useThemeToken } from "@/theme/hooks";
 
+import { themeVars } from "@/theme/theme.css";
 import { NAV_HORIZONTAL_HEIGHT } from "../config";
 
 export default function NavHorizontal() {
 	const navigate = useNavigate();
 	const pathname = usePathname();
-	const { colorBgElevated } = useThemeToken();
 
 	const routeToMenuFn = useRouteToMenuFn();
 	const permissionRoutes = usePermissionRoutes();
@@ -49,8 +43,8 @@ export default function NavHorizontal() {
 				defaultOpenKeys={[]}
 				selectedKeys={selectedKeys}
 				onClick={onClick}
-				className="!z-10 !border-none"
-				style={{ background: colorBgElevated }}
+				className="!border-none"
+				style={{ background: themeVars.colors.background.default }}
 			/>
 		</div>
 	);

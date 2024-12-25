@@ -1,46 +1,51 @@
+import { themeVars } from "@/theme/theme.css";
+import { removePx } from "@/utils/theme";
 import type { ApexOptions } from "apexcharts";
 import { mergeDeepRight } from "ramda";
 
-import { useThemeToken } from "@/theme/hooks";
+import { useSettings } from "@/store/settingStore";
+import { paletteColors, presetsColors } from "@/theme/tokens/color";
 
 export default function useChart(options: ApexOptions) {
-	const theme = useThemeToken();
+	const { themeColorPresets } = useSettings();
 
 	const LABEL_TOTAL = {
 		show: true,
 		label: "Total",
-		color: theme.colorTextSecondary,
-		fontSize: theme.fontSizeHeading2,
-		lineHeight: theme.lineHeightHeading2,
+		color: themeVars.colors.text.secondary,
+		fontSize: themeVars.typography.fontSize.sm,
+		lineHeight: themeVars.typography.lineHeight.tight,
 	};
 
 	const LABEL_VALUE = {
 		offsetY: 8,
-		color: theme.colorText,
-		fontSize: theme.fontSizeHeading3,
-		lineHeight: theme.lineHeightHeading3,
+		color: themeVars.colors.text.primary,
+		fontSize: themeVars.typography.fontSize.sm,
+		lineHeight: themeVars.typography.lineHeight.tight,
 	};
 
-	const baseOptions = {
+	const baseOptions: ApexOptions = {
 		// Colors
 		colors: [
-			theme.colorPrimary,
-			theme.colorWarning,
-			theme.colorInfo,
-			theme.colorError,
-			theme.colorSuccess,
-			theme.colorWarningActive,
-			theme.colorSuccessActive,
-			theme.colorInfoActive,
-			theme.colorInfoText,
+			presetsColors[themeColorPresets].default,
+
+			paletteColors.info.default,
+			paletteColors.warning.default,
+			paletteColors.error.default,
+			paletteColors.success.default,
+
+			paletteColors.warning.light,
+			paletteColors.info.light,
+			paletteColors.error.light,
+			paletteColors.success.light,
 		],
 
 		// Chart
 		chart: {
 			toolbar: { show: false },
 			zoom: { enabled: false },
-			foreColor: theme.colorTextDisabled,
-			fontFamily: theme.fontFamily,
+			foreColor: themeVars.colors.text.disabled,
+			fontFamily: themeVars.typography.fontFamily.primary,
 		},
 
 		// States
@@ -86,7 +91,7 @@ export default function useChart(options: ApexOptions) {
 		// Grid
 		grid: {
 			strokeDashArray: 3,
-			borderColor: theme.colorSplit,
+			borderColor: themeVars.colors.background.neutral,
 			xaxis: {
 				lines: {
 					show: false,
@@ -107,7 +112,7 @@ export default function useChart(options: ApexOptions) {
 
 		// Tooltip
 		tooltip: {
-			theme: false,
+			theme: undefined,
 			x: {
 				show: true,
 			},
@@ -116,18 +121,18 @@ export default function useChart(options: ApexOptions) {
 		// Legend
 		legend: {
 			show: true,
-			fontSize: 13,
+			fontSize: themeVars.typography.fontSize.sm,
 			position: "top",
 			horizontalAlign: "right",
 			markers: {
-				radius: 12,
+				strokeWidth: 0,
 			},
 			fontWeight: 500,
 			itemMargin: {
 				horizontal: 8,
 			},
 			labels: {
-				colors: theme.colorText,
+				colors: themeVars.colors.text.primary,
 			},
 		},
 
@@ -167,18 +172,18 @@ export default function useChart(options: ApexOptions) {
 			radar: {
 				polygons: {
 					fill: { colors: ["transparent"] },
-					strokeColors: theme.colorSplit,
-					connectorColors: theme.colorSplit,
+					strokeColors: themeVars.colors.background.neutral,
+					connectorColors: themeVars.colors.background.neutral,
 				},
 			},
 
 			// polarArea
 			polarArea: {
 				rings: {
-					strokeColor: theme.colorSplit,
+					strokeColor: themeVars.colors.background.neutral,
 				},
 				spokes: {
-					connectorColors: theme.colorSplit,
+					connectorColors: themeVars.colors.background.neutral,
 				},
 			},
 		},
@@ -187,14 +192,14 @@ export default function useChart(options: ApexOptions) {
 		responsive: [
 			{
 				// sm
-				breakpoint: theme.screenSM,
+				breakpoint: removePx(themeVars.screens.sm),
 				options: {
 					plotOptions: { bar: { columnWidth: "40%" } },
 				},
 			},
 			{
 				// md
-				breakpoint: theme.screenMD,
+				breakpoint: removePx(themeVars.screens.md),
 				options: {
 					plotOptions: { bar: { columnWidth: "32%" } },
 				},

@@ -1,14 +1,7 @@
-import { Empty, type GlobalToken, Input, type InputRef, Modal } from "antd";
+import { Empty, Input, type InputRef, Modal, Tag } from "antd";
 import match from "autosuggest-highlight/match";
 import parse from "autosuggest-highlight/parse";
-import Color from "color";
-import {
-	type CSSProperties,
-	useEffect,
-	useMemo,
-	useRef,
-	useState,
-} from "react";
+import { type CSSProperties, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useBoolean, useEvent, useKeyPressEvent } from "react-use";
 import styled from "styled-components";
@@ -16,8 +9,8 @@ import styled from "styled-components";
 import { IconButton, SvgIcon } from "@/components/icon";
 import Scrollbar from "@/components/scrollbar";
 import { useFlattenedRoutes, useRouter } from "@/router/hooks";
-import ProTag from "@/theme/antd/components/tag";
-import { useThemeToken } from "@/theme/hooks";
+import { themeVars } from "@/theme/theme.css";
+import { rgbAlpha } from "@/utils/theme";
 
 export default function SearchBar() {
 	const { t } = useTranslation();
@@ -26,13 +19,12 @@ export default function SearchBar() {
 	const listRef = useRef<HTMLDivElement>(null);
 
 	const [search, toggle] = useBoolean(false);
-	const themeToken = useThemeToken();
 
 	const flattenedRoutes = useFlattenedRoutes();
 
 	const activeStyle: CSSProperties = {
-		border: `1px dashed ${themeToken.colorPrimary}`,
-		backgroundColor: `${Color(themeToken.colorPrimary).alpha(0.2).toString()}`,
+		border: `1px dashed ${themeVars.colors.palette.primary.default}`,
+		backgroundColor: rgbAlpha(themeVars.colors.palette.primary.default, 0.1),
 	};
 
 	const [searchQuery, setSearchQuery] = useState("");
@@ -133,13 +125,10 @@ export default function SearchBar() {
 	return (
 		<>
 			<div className="flex items-center justify-center">
-				<IconButton
-					className="h-8 rounded-xl bg-hover py-2 text-xs font-bold"
-					onClick={handleOpen}
-				>
+				<IconButton className="h-8 rounded-xl bg-hover py-2 text-xs font-bold" onClick={handleOpen}>
 					<div className="flex items-center justify-center gap-2">
 						<SvgIcon icon="ic-search" size="20" />
-						<span className="flex h-6 items-center justify-center rounded-md bg-[#fff] px-1.5 font-bold text-gray-800">
+						<span className="flex h-6 items-center justify-center rounded-md bg-common-white px-1.5 font-bold text-gray-800">
 							{" "}
 							⌘K{" "}
 						</span>
@@ -171,10 +160,7 @@ export default function SearchBar() {
 						autoFocus
 						prefix={<SvgIcon icon="ic-search" size="20" />}
 						suffix={
-							<IconButton
-								className="h-6 rounded-md bg-hover text-xs"
-								onClick={handleCancel}
-							>
+							<IconButton className="h-6 rounded-md bg-hover text-xs" onClick={handleCancel}>
 								Esc
 							</IconButton>
 						}
@@ -183,16 +169,16 @@ export default function SearchBar() {
 				footer={
 					<div className="flex flex-wrap">
 						<div className="flex">
-							<ProTag color="cyan">↑</ProTag>
-							<ProTag color="cyan">↓</ProTag>
+							<Tag color="cyan">↑</Tag>
+							<Tag color="cyan">↓</Tag>
 							<span>to navigate</span>
 						</div>
 						<div className="flex">
-							<ProTag color="cyan">↵</ProTag>
+							<Tag color="cyan">↵</Tag>
 							<span>to select</span>
 						</div>
 						<div className="flex">
-							<ProTag color="cyan">ESC</ProTag>
+							<Tag color="cyan">ESC</Tag>
 							<span>to close</span>
 						</div>
 					</div>
@@ -204,15 +190,11 @@ export default function SearchBar() {
 					<Scrollbar>
 						<div ref={listRef} className="py-2">
 							{searchResult.map(({ key, label }, index) => {
-								const partsTitle = parse(
-									t(label),
-									match(t(label), searchQuery),
-								);
+								const partsTitle = parse(t(label), match(t(label), searchQuery));
 								const partsKey = parse(key, match(key, searchQuery));
 								return (
 									<StyledListItemButton
 										key={key}
-										$themetoken={themeToken}
 										style={index === selectedItemIndex ? activeStyle : {}}
 										onClick={() => handleSelect(key)}
 										onMouseMove={() => handleHover(index)}
@@ -225,8 +207,8 @@ export default function SearchBar() {
 															key={item.text}
 															style={{
 																color: item.highlight
-																	? themeToken.colorPrimary
-																	: themeToken.colorText,
+																	? themeVars.colors.palette.primary.default
+																	: themeVars.colors.text.primary,
 															}}
 														>
 															{item.text}
@@ -239,8 +221,8 @@ export default function SearchBar() {
 															key={item.text}
 															style={{
 																color: item.highlight
-																	? themeToken.colorPrimary
-																	: themeToken.colorTextDescription,
+																	? themeVars.colors.palette.primary.default
+																	: themeVars.colors.text.secondary,
 															}}
 														>
 															{item.text}
@@ -260,13 +242,12 @@ export default function SearchBar() {
 	);
 }
 
-const StyledListItemButton = styled.div<{ $themetoken: GlobalToken }>`
+const StyledListItemButton = styled.div`
   display: flex;
   flex-direction: column;
   cursor: pointer;
   width: 100%;
   padding: 8px 16px;
   border-radius: 8px;
-  border-bottom: ${(props) => `1px dashed ${props.$themetoken.colorBorder}`};
-  color: ${(props) => `${props.$themetoken.colorTextSecondary}`};
+  color: ${themeVars.colors.text.secondary};
 `;
