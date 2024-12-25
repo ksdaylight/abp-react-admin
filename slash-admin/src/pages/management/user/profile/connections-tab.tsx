@@ -1,9 +1,7 @@
-import { faker } from "@faker-js/faker";
-import { Button, Col, Row } from "antd";
-
 import Card from "@/components/card";
 import { Iconify } from "@/components/icon";
-import ProTag from "@/theme/antd/components/tag";
+import { faker } from "@faker-js/faker";
+import { Button, Col, Row, Tag } from "antd";
 
 export default function ConnectionsTab() {
 	const items = [
@@ -75,16 +73,14 @@ export default function ConnectionsTab() {
 					<Card className="w-full flex-col items-center">
 						<img alt="" src={item.avatar} className="h-20 w-20 rounded-full" />
 
-						<span className="mt-4 text-xl font-semibold opacity-60">
-							{item.name}
-						</span>
+						<span className="mt-4 text-xl font-semibold opacity-60">{item.name}</span>
 						<span className="opacity-50">{item.title}</span>
 
 						<div className="mt-4 flex gap-4">
 							{item.tags.map((tag) => (
-								<ProTag color={faker.color.rgb()} key={tag}>
+								<Tag color={faker.color.rgb()} key={tag}>
 									{tag}
-								</ProTag>
+								</Tag>
 							))}
 						</div>
 
@@ -98,9 +94,7 @@ export default function ConnectionsTab() {
 								<span className="opacity-60">Tasks</span>
 							</div>
 							<div className="[ flex flex-col  items-center">
-								<span className="text-xl font-semibold">
-									{item.connections}
-								</span>
+								<span className="text-xl font-semibold">{item.connections}</span>
 								<span className="opacity-60">Tasks</span>
 							</div>
 						</div>

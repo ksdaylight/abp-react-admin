@@ -1,0 +1,10 @@
+{
+  "version": "1.0.0",
+  "name": "my-app",
+  "private": true,
+  "dependencies": {
+    "@abp/aspnetcore.mvc.ui": "^9.0.2",
+    "@abp/aspnetcore.mvc.ui.theme.basic": "8.3.0",
+    "gulp": "^5.0.0"
+  }
+}
