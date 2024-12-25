@@ -28,15 +28,15 @@ public class ChatGroup : AuditedEntity<long>, IMultiTenant
     /// <summary>
     /// 群组标记
     /// </summary>
-    public virtual string Tag { get; protected set; }
+    public virtual string? Tag { get; protected set; }
     /// <summary>
     /// 群组地址
     /// </summary>
-    public virtual string Address { get; set; }
+    public virtual string? Address { get; set; }
     /// <summary>
     /// 群组公告
     /// </summary>
-    public virtual string Notice { get; set; }
+    public virtual string? Notice { get; set; }
     /// <summary>
     /// 最大用户数量
     /// </summary>
@@ -52,11 +52,11 @@ public class ChatGroup : AuditedEntity<long>, IMultiTenant
     /// <summary>
     /// 群组说明
     /// </summary>
-    public virtual string Description { get; set; }
+    public virtual string? Description { get; set; }
     /// <summary>
     /// 群组头像地址
     /// </summary>
-    public virtual string AvatarUrl { get; set; }
+    public virtual string? AvatarUrl { get; set; }
     protected ChatGroup()
     {
     }

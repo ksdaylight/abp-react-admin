@@ -120,7 +120,7 @@ public class ClientDataSeederContributor:IDataSeedContributor, ITransientDepende
                     OpenIddictConstants.Permissions.Prefixes.GrantType + "Impersonation"
                 },
                 scopes: commonScopes,
-                redirectUri: new Uri(reactClientRootUrl + "/signin-oidc").ToString(),
+                redirectUri: new Uri(reactClientRootUrl + "signin-oidc").ToString(),
                 postLogoutRedirectUri: new Uri(reactClientRootUrl + "signout-callback-oidc").ToString(),
                 clientUri: new Uri(reactClientRootUrl).ToString(),
                 permissions: new List<string> { "AbpIdentity.UserLookup" }

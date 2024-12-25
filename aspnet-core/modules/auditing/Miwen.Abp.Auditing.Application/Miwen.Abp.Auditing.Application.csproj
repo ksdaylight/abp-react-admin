@@ -6,6 +6,7 @@
 	<PropertyGroup>
 		<Nullable>enable</Nullable>
 		<TargetFramework>net8.0</TargetFramework>
+		<Nullable>enable</Nullable>
 		<AssemblyName>Miwen.Abp.Auditing.Application</AssemblyName>
 		<PackageId>Miwen.Abp.Auditing.Application</PackageId>
 		<GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>

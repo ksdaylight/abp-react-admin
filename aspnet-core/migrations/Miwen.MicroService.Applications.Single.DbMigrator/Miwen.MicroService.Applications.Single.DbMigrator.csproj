@@ -45,6 +45,7 @@
 	
 	
 	<ItemGroup>
+		<ProjectReference Include="..\..\modules\platform\Miwen.Abp.UI.Navigation.VueVbenAdmin\Miwen.Abp.UI.Navigation.VueVbenAdmin.csproj" />
 		<ProjectReference Include="..\Miwen.MicroService.Applications.Single.EntityFrameworkCore\Miwen.MicroService.Applications.Single.EntityFrameworkCore.csproj" />
 	</ItemGroup>
 

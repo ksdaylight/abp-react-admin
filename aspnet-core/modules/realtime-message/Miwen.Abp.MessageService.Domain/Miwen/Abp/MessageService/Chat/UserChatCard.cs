@@ -31,19 +31,19 @@ public class UserChatCard : AuditedAggregateRoot<long>, IMultiTenant
     /// <summary>
     /// 签名
     /// </summary>
-    public virtual string Sign { get; set; }
+    public virtual string? Sign { get; set; }
     /// <summary>
     /// 昵称
     /// </summary>
-    public virtual string NickName { get; set; }
+    public virtual string? NickName { get; set; }
     /// <summary>
     /// 说明
     /// </summary>
-    public virtual string Description { get; set; }
+    public virtual string? Description { get; set; }
     /// <summary>
     /// 头像地址
     /// </summary>
-    public virtual string AvatarUrl { get; protected set; }
+    public virtual string? AvatarUrl { get; protected set; }
     /// <summary>
     /// 生日
     /// </summary>

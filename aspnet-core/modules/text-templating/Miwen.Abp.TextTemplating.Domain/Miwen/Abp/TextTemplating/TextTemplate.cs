@@ -8,8 +8,8 @@ public class TextTemplate : AuditedEntity<Guid>
 {
     public virtual string Name { get; private set; }
     public virtual string DisplayName { get; private set; }
-    public virtual string Content { get; private set; }
-    public virtual string Culture { get; private set; }
+    public virtual string? Content { get; private set; }
+    public virtual string? Culture { get; private set; }
     protected TextTemplate() { }
     public TextTemplate(
         Guid id,

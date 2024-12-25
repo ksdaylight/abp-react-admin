@@ -18,7 +18,7 @@ builder.Services.AddCors(options =>
                     .ToArray()
             )
             .WithAbpExposedHeaders()
-            //.WithAbpWrapExposedHeaders()
+            .WithAbpWrapExposedHeaders()
             .SetIsOriginAllowedToAllowWildcardSubdomains()
             .AllowAnyHeader()
             .AllowAnyMethod()
@@ -62,7 +62,7 @@ if (app.Environment.IsDevelopment())
 }
 // app.UseAbpExceptionHandling();
 app.UseCookiePolicy();
-//app.UseMapRequestLocalization();
+app.UseMapRequestLocalization();
 app.UseCorrelationId();
 app.UseStaticFiles();
 app.UseRouting();

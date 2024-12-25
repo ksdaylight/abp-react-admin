@@ -16,7 +16,7 @@ public abstract class Route : FullAuditedAggregateRoot<Guid>, IMultiTenant
     /// <summary>
     /// 路径
     /// </summary>
-    public virtual string Path { get; set; }
+    public virtual string? Path { get; set; }
     /// <summary>
     /// 名称
     /// </summary>
@@ -28,11 +28,11 @@ public abstract class Route : FullAuditedAggregateRoot<Guid>, IMultiTenant
     /// <summary>
     /// 说明
     /// </summary>
-    public virtual string Description { get; set; }
+    public virtual string? Description { get; set; }
     /// <summary>
     /// 重定向路径
     /// </summary>
-    public virtual string Redirect { get; set; }
+    public virtual string? Redirect { get; set; }
 
     protected Route() { }
 

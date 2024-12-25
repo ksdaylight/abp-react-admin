@@ -21,7 +21,7 @@ public class EntityPropertyInfo : Entity<Guid>
     /// <summary>
     /// 数据值范围集合（主要针对枚举类型）
     /// </summary>
-    public virtual string ValueRange { get; protected set; }
+    public virtual string? ValueRange { get; protected set; }
     /// <summary>
     /// 所属类型
     /// </summary>

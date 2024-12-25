@@ -8,13 +8,13 @@ namespace Miwen.Abp.TaskManagement;
 public class BackgroundJobLog : Entity<long>, IMultiTenant
 {
     public virtual Guid? TenantId { get; protected set; }
-    public virtual string JobId { get; set; }
-    public virtual string JobName { get; protected set; }
-    public virtual string JobGroup { get; protected set; }
-    public virtual string JobType { get; protected set; }
-    public virtual string Message { get; protected set; }
+    public virtual string? JobId { get; set; }
+    public virtual string? JobName { get; protected set; }
+    public virtual string? JobGroup { get; protected set; }
+    public virtual string? JobType { get; protected set; }
+    public virtual string? Message { get; protected set; }
     public virtual DateTime RunTime { get; protected set; }
-    public virtual string Exception { get; protected set; }
+    public virtual string? Exception { get; protected set; }
     protected BackgroundJobLog() { }
     public BackgroundJobLog(
         string type,

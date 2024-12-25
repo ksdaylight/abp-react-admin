@@ -6,6 +6,7 @@
 	<PropertyGroup>
 		<Nullable>enable</Nullable>
 		<TargetFrameworks>netstandard2.0;netstandard2.1;net8.0</TargetFrameworks>
+		<Nullable>enable</Nullable>
 		<AssemblyName>Miwen.Abp.SettingManagement.Application</AssemblyName>
 		<PackageId>Miwen.Abp.SettingManagement.Application</PackageId>
 		<GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>

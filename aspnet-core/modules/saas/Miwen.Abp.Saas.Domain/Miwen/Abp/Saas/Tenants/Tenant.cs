@@ -17,7 +17,7 @@ public class Tenant : FullAuditedAggregateRoot<Guid>, IHasEntityVersion
 
     public virtual string Name { get; protected set; }
 
-    public virtual string NormalizedName { get; protected set; }
+    public virtual string? NormalizedName { get; protected set; }
 
     public virtual bool IsActive { get; set; }
 

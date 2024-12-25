@@ -254,4 +254,4 @@ paket-files/
 *.sln.iml
 
 # ApiGateway
-src/LINGYUN.MicroService.Internal.ApiGateway.ConsoleApp/Logs/logs.txt
+src/Miwen.MicroService.Internal.ApiGateway.ConsoleApp/Logs/logs.txt

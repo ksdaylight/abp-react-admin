@@ -9,9 +9,9 @@ public class Resource : AuditedEntity<Guid>
 {
     public virtual bool Enable { get; set; }
     public virtual string Name { get; set; }
-    public virtual string DisplayName { get; set; }
-    public virtual string Description { get; set; }
-    public virtual string DefaultCultureName { get; set; }
+    public virtual string? DisplayName { get; set; }
+    public virtual string? Description { get; set; }
+    public virtual string? DefaultCultureName { get; set; }
     protected Resource() { }
     public Resource(
         Guid id,

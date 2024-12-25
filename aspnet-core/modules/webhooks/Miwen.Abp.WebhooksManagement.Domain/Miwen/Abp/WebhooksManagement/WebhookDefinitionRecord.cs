@@ -15,13 +15,13 @@ public class WebhookDefinitionRecord : BasicAggregateRoot<Guid>, IHasExtraProper
 
     public string DisplayName { get; set; }
 
-    public string Description { get; set; }
+    public string? Description { get; set; }
 
     public bool IsEnabled { get; set; }
 
-    public string RequiredFeatures { get; set; }
+    public string? RequiredFeatures { get; set; }
 
-    public ExtraPropertyDictionary ExtraProperties { get; protected set; }
+    public ExtraPropertyDictionary? ExtraProperties { get; protected set; }
 
     public WebhookDefinitionRecord()
     {

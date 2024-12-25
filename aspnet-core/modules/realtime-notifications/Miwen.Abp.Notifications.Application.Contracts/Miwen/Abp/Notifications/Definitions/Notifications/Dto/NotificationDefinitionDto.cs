@@ -15,13 +15,13 @@ public class NotificationDefinitionDto : ExtensibleObject
 
     public string Description { get; set; }
 
-    public bool AllowSubscriptionToClients { get; set; }
+    public bool? AllowSubscriptionToClients { get; set; }
 
     public NotificationLifetime NotificationLifetime { get; set; }
 
     public NotificationType NotificationType { get; set; }
 
-    public NotificationContentType ContentType { get; set; }
+    public NotificationContentType? ContentType { get; set; }
 
     public List<string> Providers { get; set; } = new List<string>();
 

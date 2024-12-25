@@ -16,7 +16,7 @@ public class DataProtectionManagementApplicationMappingProfile :Profile
             .ForMember(dto => dto.AllowProperties, map => map.MapFrom(src => MapToArray(src.AllowProperties)));
     }
 
-    private string[] MapToArray(string val)
+    private string[] MapToArray(string? val)
     {
         if (val.IsNullOrWhiteSpace())
         {

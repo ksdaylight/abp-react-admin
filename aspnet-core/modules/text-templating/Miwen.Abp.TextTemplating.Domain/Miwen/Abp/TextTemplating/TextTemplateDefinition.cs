@@ -9,11 +9,11 @@ public class TextTemplateDefinition : AggregateRoot<Guid>, IHasExtraProperties
     public virtual string Name { get; protected set; }
     public virtual string DisplayName { get; set; }
     public virtual bool IsLayout { get; set; }
-    public virtual string Layout { get; set; }
+    public virtual string? Layout { get; set; }
     public virtual bool IsInlineLocalized { get; set; }
-    public virtual string DefaultCultureName { get; set; }
-    public virtual string LocalizationResourceName { get; set; }
-    public virtual string RenderEngine { get; set; }
+    public virtual string? DefaultCultureName { get; set; }
+    public virtual string? LocalizationResourceName { get; set; }
+    public virtual string? RenderEngine { get; set; }
     public virtual bool IsStatic { get; set; }
     protected TextTemplateDefinition()
     {

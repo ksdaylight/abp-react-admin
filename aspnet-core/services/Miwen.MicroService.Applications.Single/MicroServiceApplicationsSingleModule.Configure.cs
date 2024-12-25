@@ -1,35 +1,26 @@
 ﻿using Elsa;
 using Elsa.Options;
-//using Miwen.Abp.Aliyun.Localization;
-//using Miwen.Abp.BackgroundTasks;
-//using Miwen.Abp.DataProtectionManagement;
-//using Miwen.Abp.Demo.Books;
-//using Miwen.Abp.Demo.Localization;
-//using Miwen.Abp.ExceptionHandling;
-//using Miwen.Abp.ExceptionHandling.Emailing;
-//using Miwen.Abp.Exporter.MiniExcel;
-//using Miwen.Abp.Idempotent;
+using Miwen.Abp.BackgroundTasks;
+using Miwen.Abp.DataProtectionManagement;
+using Miwen.Abp.ExceptionHandling;
+using Miwen.Abp.ExceptionHandling.Emailing;
+using Miwen.Abp.Exporter.MiniExcel;
+using Miwen.Abp.Idempotent;
 using Miwen.Abp.Identity.Session;
-//using Miwen.Abp.IdentityServer.IdentityResources;
-//using Miwen.Abp.Localization.CultureMap;
-//using Miwen.Abp.Notifications;
+using Miwen.Abp.Localization.CultureMap;
+using Miwen.Abp.Notifications;
 using Miwen.Abp.OpenIddict.AspNetCore.Session;
 using Miwen.Abp.OpenIddict.LinkUser;
 using Miwen.Abp.OpenIddict.Permissions;
 using Miwen.Abp.OpenIddict.Portal;
 using Miwen.Abp.OpenIddict.Sms;
-//using Miwen.Abp.OpenIddict.WeChat;
-//using Miwen.Abp.Saas;
-//using Miwen.Abp.Serilog.Enrichers.Application;
-//using Miwen.Abp.Serilog.Enrichers.UniqueId;
-//using Miwen.Abp.Tencent.Localization;
-//using Miwen.Abp.TextTemplating;
-//using Miwen.Abp.WebhooksManagement;
-//using Miwen.Abp.WeChat.Common.Messages.Handlers;
-//using Miwen.Abp.WeChat.Localization;
-//using Miwen.Abp.WeChat.Work;
-//using Miwen.Abp.Wrapper;
-//using Miwen.Platform.Localization;
+using Miwen.Abp.Saas;
+using Miwen.Abp.Serilog.Enrichers.Application;
+using Miwen.Abp.Serilog.Enrichers.UniqueId;
+using Miwen.Abp.TextTemplating;
+using Miwen.Abp.WebhooksManagement;
+using Miwen.Abp.Wrapper;
+using Miwen.Platform.Localization;
 using Miwen.MicroService.Applications.Single.Authentication;
 using Medallion.Threading;
 using Medallion.Threading.Redis;
@@ -42,7 +33,7 @@ using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Caching.StackExchangeRedis;
 using Microsoft.IdentityModel.Logging;
 using Microsoft.OpenApi.Models;
-//using MiniExcelLibs.Attributes;
+using MiniExcelLibs.Attributes;
 using OpenIddict.Server;
 using OpenIddict.Server.AspNetCore;
 using Quartz;
@@ -59,7 +50,7 @@ using Volo.Abp.Auditing;
 using Volo.Abp.Authorization.Permissions;
 using Volo.Abp.BlobStoring;
 using Volo.Abp.BlobStoring.FileSystem;
-//using Volo.Abp.BlobStoring.Minio;
+using Volo.Abp.BlobStoring.Minio;
 using Volo.Abp.Caching;
 using Volo.Abp.EntityFrameworkCore;
 using Volo.Abp.FeatureManagement;
@@ -76,7 +67,7 @@ using Volo.Abp.MultiTenancy;
 using Volo.Abp.OpenIddict;
 using Volo.Abp.OpenIddict.Localization;
 using Volo.Abp.PermissionManagement;
-//using Volo.Abp.Quartz;
+using Volo.Abp.Quartz;
 using Volo.Abp.Security.Claims;
 using Volo.Abp.SettingManagement;
 using Volo.Abp.SettingManagement.Localization;
@@ -97,26 +88,26 @@ public partial class MicroServiceApplicationsSingleModule
     {
         OneTimeRunner.Run(() =>
         {
-            //GlobalFeatureManager.Instance.Modules.Editions().EnableAll();
+            GlobalFeatureManager.Instance.Modules.Editions().EnableAll();
         });
     }
 
     private void PreConfigureApp(IConfiguration configuration)
     {
-        //AbpSerilogEnrichersConsts.ApplicationName = ApplicationName;
+        AbpSerilogEnrichersConsts.ApplicationName = ApplicationName;
 
-        //PreConfigure<AbpSerilogEnrichersUniqueIdOptions>(options =>
-        //{
-        //    // 以开放端口区别，应在0-31之间
-        //    options.SnowflakeIdOptions.WorkerId = 1;
-        //    options.SnowflakeIdOptions.WorkerIdBits = 5;
-        //    options.SnowflakeIdOptions.DatacenterId = 1;
-        //});
+        PreConfigure<AbpSerilogEnrichersUniqueIdOptions>(options =>
+        {
+            // 以开放端口区别，应在0-31之间
+            options.SnowflakeIdOptions.WorkerId = 1;
+            options.SnowflakeIdOptions.WorkerIdBits = 5;
+            options.SnowflakeIdOptions.DatacenterId = 1;
+        });
 
-        //if (configuration.GetValue<bool>("App:ShowPii"))
-        //{
-        //    IdentityModelEventSource.ShowPII = true;
-        //}
+        if (configuration.GetValue<bool>("App:ShowPii"))
+        {
+            IdentityModelEventSource.ShowPII = true;
+        }
     }
 
     private void PreConfigureAuthServer(IConfiguration configuration)
@@ -125,7 +116,7 @@ public partial class MicroServiceApplicationsSingleModule
         {
             builder.AddValidation(options =>
             {
-                //options.AddAudiences("lingyun-abp-application");
+                //options.AddAudiences("miwen-abp-application");
 
                 options.UseLocalServer();
 
@@ -233,30 +224,30 @@ public partial class MicroServiceApplicationsSingleModule
 
     private void PreConfigureQuartz(IConfiguration configuration)
     {
-        //PreConfigure<AbpQuartzOptions>(options =>
-        //{
-        //    // 如果使用持久化存储, 则配置quartz持久层
-        //    if (configuration.GetSection("Quartz:UsePersistentStore").Get<bool>())
-        //    {
-        //        var settings = configuration.GetSection("Quartz:Properties").Get<Dictionary<string, string>>();
-        //        if (settings != null)
-        //        {
-        //            foreach (var setting in settings)
-        //            {
-        //                options.Properties[setting.Key] = setting.Value;
-        //            }
-        //        }
+        PreConfigure<AbpQuartzOptions>(options =>
+        {
+            // 如果使用持久化存储, 则配置quartz持久层
+            if (configuration.GetSection("Quartz:UsePersistentStore").Get<bool>())
+            {
+                var settings = configuration.GetSection("Quartz:Properties").Get<Dictionary<string, string>>();
+                if (settings != null)
+                {
+                    foreach (var setting in settings)
+                    {
+                        options.Properties[setting.Key] = setting.Value;
+                    }
+                }
 
-        //        options.Configurator += (config) =>
-        //        {
-        //            config.UsePersistentStore(store =>
-        //            {
-        //                store.UseProperties = false;
-        //                store.UseNewtonsoftJsonSerializer();
-        //            });
-        //        };
-        //    }
-        //});
+                options.Configurator += (config) =>
+                {
+                    config.UsePersistentStore(store =>
+                    {
+                        store.UseProperties = false;
+                        store.UseNewtonsoftJsonSerializer();
+                    });
+                };
+            }
+        });
     }
 
     private void PreConfigureElsa(IServiceCollection services, IConfiguration configuration)
@@ -407,23 +398,23 @@ public partial class MicroServiceApplicationsSingleModule
 
     private void ConfigureBackgroundTasks()
     {
-        //Configure<AbpBackgroundTasksOptions>(options =>
-        //{
-        //    options.NodeName = ApplicationName;
-        //    options.JobCleanEnabled = true;
-        //    options.JobFetchEnabled = true;
-        //    options.JobCheckEnabled = true;
-        //});
+        Configure<AbpBackgroundTasksOptions>(options =>
+        {
+            options.NodeName = ApplicationName;
+            options.JobCleanEnabled = true;
+            options.JobFetchEnabled = true;
+            options.JobCheckEnabled = true;
+        });
     }
 
     private void ConfigureTextTemplating(IConfiguration configuration)
     {
         if (configuration.GetValue<bool>("TextTemplating:IsDynamicStoreEnabled"))
         {
-            //Configure<AbpTextTemplatingCachingOptions>(options =>
-            //{
-            //    options.IsDynamicTemplateDefinitionStoreEnabled = true;
-            //});
+            Configure<AbpTextTemplatingCachingOptions>(options =>
+            {
+                options.IsDynamicTemplateDefinitionStoreEnabled = true;
+            });
         }
     }
 
@@ -436,11 +427,11 @@ public partial class MicroServiceApplicationsSingleModule
                 options.IsDynamicFeatureStoreEnabled = true;
             });
         }
-        //Configure<FeatureManagementOptions>(options =>
-        //{
-        //    options.ProviderPolicies[EditionFeatureValueProvider.ProviderName] = AbpSaasPermissions.Editions.ManageFeatures;
-        //    options.ProviderPolicies[TenantFeatureValueProvider.ProviderName] = AbpSaasPermissions.Tenants.ManageFeatures;
-        //});
+        Configure<FeatureManagementOptions>(options =>
+        {
+            options.ProviderPolicies[EditionFeatureValueProvider.ProviderName] = AbpSaasPermissions.Editions.ManageFeatures;
+            options.ProviderPolicies[TenantFeatureValueProvider.ProviderName] = AbpSaasPermissions.Tenants.ManageFeatures;
+        });
     }
 
     private void ConfigureSettingManagement(IConfiguration configuration)
@@ -458,10 +449,10 @@ public partial class MicroServiceApplicationsSingleModule
     {
         if (configuration.GetValue<bool>("WebhooksManagement:IsDynamicStoreEnabled"))
         {
-            //Configure<WebhooksManagementOptions>(options =>
-            //{
-            //    options.IsDynamicWebhookStoreEnabled = true;
-            //});
+            Configure<WebhooksManagementOptions>(options =>
+            {
+                options.IsDynamicWebhookStoreEnabled = true;
+            });
         }
     }
     /// <summary>
@@ -469,36 +460,36 @@ public partial class MicroServiceApplicationsSingleModule
     /// </summary>
     private void ConfigureExporter()
     {
-        //Configure<AbpExporterMiniExcelOptions>(options =>
-        //{
-        //    options.MapExportSetting(typeof(BookDto), config =>
-        //    {
-        //        config.DynamicColumns = new[]
-        //        {
-        //            // 忽略某些字段
-        //            new DynamicExcelColumn(nameof(BookDto.AuthorId)){ Ignore = true },
-        //            new DynamicExcelColumn(nameof(BookDto.LastModificationTime)){ Ignore = true },
-        //            new DynamicExcelColumn(nameof(BookDto.LastModifierId)){ Ignore = true },
-        //            new DynamicExcelColumn(nameof(BookDto.CreationTime)){ Ignore = true },
-        //            new DynamicExcelColumn(nameof(BookDto.CreatorId)){ Ignore = true },
-        //            new DynamicExcelColumn(nameof(BookDto.Id)){ Ignore = true },
-        //        };
-        //    });
-        //});
+        Configure<AbpExporterMiniExcelOptions>(options =>
+        {
+            //options.MapExportSetting(typeof(BookDto), config =>
+            //{
+            //    config.DynamicColumns = new[]
+            //    {
+            //        // 忽略某些字段
+            //        new DynamicExcelColumn(nameof(BookDto.AuthorId)){ Ignore = true },
+            //        new DynamicExcelColumn(nameof(BookDto.LastModificationTime)){ Ignore = true },
+            //        new DynamicExcelColumn(nameof(BookDto.LastModifierId)){ Ignore = true },
+            //        new DynamicExcelColumn(nameof(BookDto.CreationTime)){ Ignore = true },
+            //        new DynamicExcelColumn(nameof(BookDto.CreatorId)){ Ignore = true },
+            //        new DynamicExcelColumn(nameof(BookDto.Id)){ Ignore = true },
+            //    };
+            //});
+        });
     }
     /// <summary>
     /// 配置数据权限
     /// </summary>
     private void ConfigureEntityDataProtected()
     {
-        //Configure<DataProtectionManagementOptions>(options =>
-        //{
-        //    options.AddEntities(typeof(DemoResource),
-        //        new[]
-        //        {
-        //            typeof(Book),
-        //        });
-        //});
+        Configure<DataProtectionManagementOptions>(options =>
+        {
+            //options.AddEntities(typeof(DemoResource),
+            //    new[]
+            //    {
+            //        typeof(Book),
+            //    });
+        });
     }
 
     private void ConfigurePermissionManagement(IConfiguration configuration)
@@ -531,10 +522,10 @@ public partial class MicroServiceApplicationsSingleModule
     {
         if (configuration.GetValue<bool>("NotificationsManagement:IsDynamicStoreEnabled"))
         {
-            //Configure<AbpNotificationsManagementOptions>(options =>
-            //{
-            //    options.IsDynamicNotificationsStoreEnabled = true;
-            //});
+            Configure<AbpNotificationsManagementOptions>(options =>
+            {
+                options.IsDynamicNotificationsStoreEnabled = true;
+            });
         }
     }
 
@@ -558,17 +549,18 @@ public partial class MicroServiceApplicationsSingleModule
 
     private void ConfigureIdempotent()
     {
-        //Configure<AbpIdempotentOptions>(options =>
-        //{
-        //    options.IsEnabled = true;
-        //    options.DefaultTimeout = 0;
-        //});
+        Configure<AbpIdempotentOptions>(options =>
+        {
+            options.IsEnabled = true;
+            options.DefaultTimeout = 0;
+        });
     }
 
     private void ConfigureDbContext()
     {
         Configure<AbpDbContextOptions>(options =>
         {
+            AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);//解决PostgreSql设置为utc时间后无法写入local时区的问题
             options.UseNpgsql();
         });
     }
@@ -583,25 +575,25 @@ public partial class MicroServiceApplicationsSingleModule
 
     private void ConfigureExceptionHandling()
     {
-        //// 自定义需要处理的异常
-        //Configure<AbpExceptionHandlingOptions>(options =>
-        //{
-        //    //  加入需要处理的异常类型
-        //    options.Handlers.Add<Volo.Abp.Data.AbpDbConcurrencyException>();
-        //    options.Handlers.Add<AbpInitializationException>();
-        //    options.Handlers.Add<OutOfMemoryException>();
-        //    options.Handlers.Add<System.Data.Common.DbException>();
-        //    options.Handlers.Add<Microsoft.EntityFrameworkCore.DbUpdateException>();
-        //    options.Handlers.Add<System.Data.DBConcurrencyException>();
-        //});
-        //// 自定义需要发送邮件通知的异常类型
-        //Configure<AbpEmailExceptionHandlingOptions>(options =>
-        //{
-        //    // 是否发送堆栈信息
-        //    options.SendStackTrace = true;
-        //    // 未指定异常接收者的默认接收邮件
-        //    // 指定自己的邮件地址
-        //});
+        // 自定义需要处理的异常
+        Configure<AbpExceptionHandlingOptions>(options =>
+        {
+            //  加入需要处理的异常类型
+            options.Handlers.Add<Volo.Abp.Data.AbpDbConcurrencyException>();
+            options.Handlers.Add<AbpInitializationException>();
+            options.Handlers.Add<OutOfMemoryException>();
+            options.Handlers.Add<System.Data.Common.DbException>();
+            options.Handlers.Add<Microsoft.EntityFrameworkCore.DbUpdateException>();
+            options.Handlers.Add<System.Data.DBConcurrencyException>();
+        });
+        // 自定义需要发送邮件通知的异常类型
+        Configure<AbpEmailExceptionHandlingOptions>(options =>
+        {
+            // 是否发送堆栈信息
+            options.SendStackTrace = true;
+            // 未指定异常接收者的默认接收邮件
+            // 指定自己的邮件地址
+        });
 
         Configure<VoloAbpExceptionHandlingOptions>(options =>
         {
@@ -772,34 +764,34 @@ public partial class MicroServiceApplicationsSingleModule
                 //typeof(AliyunResource),
                 //typeof(TencentCloudResource),
                 //typeof(WeChatResource),
-                //typeof(PlatformResource),
+                typeof(PlatformResource),
                 typeof(AbpOpenIddictResource),
                 typeof(AbpIdentityServerResource));
 
-            //options.UseAllPersistence();
+            options.UseAllPersistence();
         });
 
-        //Configure<AbpLocalizationCultureMapOptions>(options =>
-        //{
-        //    var zhHansCultureMapInfo = new CultureMapInfo
-        //    {
-        //        TargetCulture = "zh-Hans",
-        //        SourceCultures = new string[] { "zh", "zh_CN", "zh-CN" }
-        //    };
+        Configure<AbpLocalizationCultureMapOptions>(options =>
+        {
+            var zhHansCultureMapInfo = new CultureMapInfo
+            {
+                TargetCulture = "zh-Hans",
+                SourceCultures = new string[] { "zh", "zh_CN", "zh-CN" }
+            };
 
-        //    options.CulturesMaps.Add(zhHansCultureMapInfo);
-        //    options.UiCulturesMaps.Add(zhHansCultureMapInfo);
-        //});
+            options.CulturesMaps.Add(zhHansCultureMapInfo);
+            options.UiCulturesMaps.Add(zhHansCultureMapInfo);
+        });
     }
 
     private void ConfigureWrapper()
     {
-        //Configure<AbpWrapperOptions>(options =>
-        //{
-        //    options.IsEnabled = true;
-        //    // options.IsWrapUnauthorizedEnabled = true;
-        //    options.IgnoreNamespaces.Add("Elsa");
-        //});
+        Configure<AbpWrapperOptions>(options =>
+        {
+            options.IsEnabled = true;
+            // options.IsWrapUnauthorizedEnabled = true;
+            options.IgnoreNamespaces.Add("Elsa");
+        });
     }
 
     private void PreConfigureWrapper()
@@ -813,14 +805,14 @@ public partial class MicroServiceApplicationsSingleModule
         //        });
         //});
 
-        //PreConfigure<AbpHttpClientBuilderOptions>(options =>
-        //{
-        //    options.ProxyClientActions.Add(
-        //        (_, _, client) =>
-        //        {
-        //            client.DefaultRequestHeaders.TryAddWithoutValidation(AbpHttpWrapConsts.AbpDontWrapResult, "true");
-        //        });
-        //});
+        PreConfigure<AbpHttpClientBuilderOptions>(options =>
+        {
+            options.ProxyClientActions.Add(
+                (_, _, client) =>
+                {
+                    client.DefaultRequestHeaders.TryAddWithoutValidation(AbpHttpWrapConsts.AbpDontWrapResult, "true");
+                });
+        });
     }
 
     private void ConfigureAuditing()
@@ -902,7 +894,7 @@ public partial class MicroServiceApplicationsSingleModule
                             .ToArray()
                     )
                     .WithAbpExposedHeaders()
-                    //.WithAbpWrapExposedHeaders()
+                    .WithAbpWrapExposedHeaders()
                     .SetIsOriginAllowedToAllowWildcardSubdomains()
                     .AllowAnyHeader()
                     .AllowAnyMethod()
