@@ -1,5 +1,7 @@
 export interface Result<T = any> {
-	status: number;
+	code: string;
+	 /** 错误详情 */
+  details?: string;
 	message: string;
-	data?: T;
+	result: T;
 }

@@ -9,7 +9,7 @@
 		"build": "tsc && vite build",
 		"preview": "vite preview",
 		"preinstall": "lefthook install",
-		"gen-api": "NODE_TLS_REJECT_UNAUTHORIZED=0 openapi-ts"
+		"gen-api": "openapi-ts"
 	},
 	"dependencies": {
 		"@ant-design/cssinjs": "^1.17.2",
