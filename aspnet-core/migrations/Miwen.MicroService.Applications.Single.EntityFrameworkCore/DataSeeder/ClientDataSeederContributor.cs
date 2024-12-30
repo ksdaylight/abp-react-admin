@@ -57,7 +57,7 @@ public class ClientDataSeederContributor:IDataSeedContributor, ITransientDepende
         using (_currentTenant.Change(context.TenantId))
         {
 
-            await CreateScopeAsync("miwen-abp-application-scope");
+            await CreateScopeAsync("miwen-abp-application");
             await CreateApplicationAsync("miwen-abp-application");
         }
     }
@@ -91,7 +91,7 @@ public class ClientDataSeederContributor:IDataSeedContributor, ITransientDepende
             OpenIddictConstants.Permissions.Scopes.Phone,
             OpenIddictConstants.Permissions.Scopes.Profile,
             OpenIddictConstants.Permissions.Scopes.Roles,
-            OpenIddictConstants.Permissions.Prefixes.Scope + scope
+            scope
         };
 
         var configurationSection = _configuration.GetSection("OpenIddict:Applications");
