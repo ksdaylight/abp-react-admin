@@ -8,6 +8,8 @@ import type { SignInReq } from "@/api/services/userService";
 import { useSignIn } from "@/store/userStore";
 
 import { LoginStateEnum, useLoginStateContext } from "./providers/LoginStateProvider";
+// import { useQuery } from "@tanstack/react-query";
+// import { abpApiDefinitionGet } from "@/api/gen";
 
 function LoginForm() {
 	const { t } = useTranslation();
@@ -16,12 +18,22 @@ function LoginForm() {
 	const { loginState, setLoginState } = useLoginStateContext();
 	const signIn = useSignIn();
 
+	// const { data } = useQuery({
+	// 	queryKey: ["test"],
+	// 	queryFn: () => abpApiDefinitionGet({
+	// 		query:{
+	// 			IncludeTypes:false
+	// 		}
+	// 	}),
+	// });
+	// console.log(data)
 	if (loginState !== LoginStateEnum.LOGIN) return null;
 
 	const handleFinish = async ({ username, password }: SignInReq) => {
 		setLoading(true);
 		try {
 			await signIn({ username, password });
+
 		} finally {
 			setLoading(false);
 		}

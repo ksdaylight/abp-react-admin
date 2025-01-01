@@ -1,29 +1,22 @@
-import {
-	type AxiosRequestConfig,
-	type AxiosError,
-	type AxiosResponse,
-} from "axios";
+import axios, { type AxiosRequestConfig, type AxiosError, type AxiosResponse } from "axios";
 
 import { t } from "@/locales/i18n";
-import userStore from "@/store/userStore";
+import userStore, { useUserToken } from "@/store/userStore";
 
 import { toast } from "sonner";
-import type { Result } from "#/api";
-import { ResultEnum } from "#/enum";
-import { client } from "./gen/sdk.gen";
-
-// 配置 axios 实例
-client.setConfig({
-  baseURL: import.meta.env.VITE_APP_BASE_API,
+// 创建 axios 实例
+const axiosInstance = axios.create({
+	baseURL: import.meta.env.VITE_APP_BASE_API,
 	timeout: 50000,
 	headers: { "Content-Type": "application/json;charset=utf-8" },
 });
 
 // 请求拦截
-client.instance.interceptors.request.use(
+axiosInstance.interceptors.request.use(
 	(config) => {
 		// 在请求被发送之前做些什么
-		config.headers.Authorization = "Bearer Token";
+		const { accessToken } = useUserToken();
+		config.headers.Authorization = `${accessToken}`;
 		return config;
 	},
 	(error) => {
@@ -32,23 +25,32 @@ client.instance.interceptors.request.use(
 	},
 );
 
-// 响应拦截 (slash 自定义了统一响应类型 Result)
-client.instance.interceptors.response.use(
-	(res: AxiosResponse<Result>) => {
-		if (!res.data) throw new Error(t("sys.api.apiRequestFailed"));
+// 响应拦截
+axiosInstance.interceptors.response.use(
+	(res: AxiosResponse<any>) => {
 
-		const { code, result, message } = res.data;
-		// 业务请求成功
-		const hasSuccess =
-			result && Reflect.has(res.data, "status") && code === ResultEnum.SUCCESS;
-		if (hasSuccess) {
-			return result;
-		}
+		const { data, status, headers } = res;
+
+		if (headers._abpwrapresult === 'true') {
+
+        const { code, result, message, details } = data;
+        const hasSuccess = data && Reflect.has(data, 'code') && code === '0';
+        if (hasSuccess) {
+          return result;
+        }
+        const content = details || message;
+
+        throw new Error(content); 
+      }
+
+ 			if (status >= 200 && status < 400) {
+        return data;
+      }
 
 		// 业务请求错误
-		throw new Error(message || t("sys.api.apiRequestFailed"));
+		throw new Error(t("sys.api.apiRequestFailed"));
 	},
-	(error: AxiosError<Result>) => {
+	(error: AxiosError<any>) => {
 		const { response, message } = error || {};
 
 		const errMsg =
@@ -84,9 +86,9 @@ class APIClient {
 
 	request<T = any>(config: AxiosRequestConfig): Promise<T> {
 		return new Promise((resolve, reject) => {
-			client.instance
-				.request<any, AxiosResponse<Result>>(config)
-				.then((res: AxiosResponse<Result>) => {
+			axiosInstance
+				.request<any, AxiosResponse<any>>(config)
+				.then((res: AxiosResponse<any>) => {
 					resolve(res as unknown as Promise<T>);
 				})
 				.catch((e: Error | AxiosError) => {
