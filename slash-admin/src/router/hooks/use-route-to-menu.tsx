@@ -43,9 +43,7 @@ export function useRouteToMenuFn() {
 							<div
 								className={cn(
 									"inline-flex items-center overflow-hidden",
-									themeLayout === ThemeLayout.Horizontal
-										? "justify-start"
-										: "justify-between",
+									themeLayout === ThemeLayout.Horizontal ? "justify-start" : "justify-between",
 								)}
 							>
 								<div className="">{t(meta.label)}</div>

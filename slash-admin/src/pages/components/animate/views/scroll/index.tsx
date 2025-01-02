@@ -12,9 +12,7 @@ export default function ScrollView() {
 			selectedVariant: "slideInUp",
 		};
 	}, []);
-	const [selectedVariant, setSelectedVariant] = useState(
-		defaultValue.selectedVariant,
-	);
+	const [selectedVariant, setSelectedVariant] = useState(defaultValue.selectedVariant);
 
 	const onRefresh = () => {
 		setSelectedVariant(defaultValue.selectedVariant);
@@ -57,13 +55,7 @@ const variantKey = [
 	},
 	{
 		type: "bounce",
-		values: [
-			"bounceIn",
-			"bounceInUp",
-			"bounceInDown",
-			"bounceInLeft",
-			"bounceInRight",
-		],
+		values: ["bounceIn", "bounceInUp", "bounceInDown", "bounceInLeft", "bounceInRight"],
 	},
 	{
 		type: "flip",

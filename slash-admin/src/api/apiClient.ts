@@ -1,16 +1,9 @@
-import axios, {
-	type AxiosRequestConfig,
-	type AxiosError,
-	type AxiosResponse,
-} from "axios";
+import axios, { type AxiosRequestConfig, type AxiosError, type AxiosResponse } from "axios";
 
 import { t } from "@/locales/i18n";
-import userStore from "@/store/userStore";
+import userStore, { useUserToken } from "@/store/userStore";
 
 import { toast } from "sonner";
-import type { Result } from "#/api";
-import { ResultEnum } from "#/enum";
-
 // 创建 axios 实例
 const axiosInstance = axios.create({
 	baseURL: import.meta.env.VITE_APP_BASE_API,
@@ -22,7 +15,8 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use(
 	(config) => {
 		// 在请求被发送之前做些什么
-		config.headers.Authorization = "Bearer Token";
+		const { accessToken } = useUserToken();
+		config.headers.Authorization = `${accessToken}`;
 		return config;
 	},
 	(error) => {
@@ -33,25 +27,31 @@ axiosInstance.interceptors.request.use(
 
 // 响应拦截
 axiosInstance.interceptors.response.use(
-	(res: AxiosResponse<Result>) => {
-		if (!res.data) throw new Error(t("sys.api.apiRequestFailed"));
+	(res: AxiosResponse<any>) => {
+		const { data, status, headers } = res;
 
-		const { status, data, message } = res.data;
-		// 业务请求成功
-		const hasSuccess =
-			data && Reflect.has(res.data, "status") && status === ResultEnum.SUCCESS;
-		if (hasSuccess) {
+		if (headers._abpwrapresult === "true") {
+			const { code, result, message, details } = data;
+			const hasSuccess = data && Reflect.has(data, "code") && code === "0";
+			if (hasSuccess) {
+				return result;
+			}
+			const content = details || message;
+
+			throw new Error(content);
+		}
+
+		if (status >= 200 && status < 400) {
 			return data;
 		}
 
 		// 业务请求错误
-		throw new Error(message || t("sys.api.apiRequestFailed"));
+		throw new Error(t("sys.api.apiRequestFailed"));
 	},
-	(error: AxiosError<Result>) => {
+	(error: AxiosError<any>) => {
 		const { response, message } = error || {};
 
-		const errMsg =
-			response?.data?.message || message || t("sys.api.errorMessage");
+		const errMsg = response?.data?.message || message || t("sys.api.errorMessage");
 		toast.error(errMsg, {
 			position: "top-center",
 		});
@@ -84,8 +84,8 @@ class APIClient {
 	request<T = any>(config: AxiosRequestConfig): Promise<T> {
 		return new Promise((resolve, reject) => {
 			axiosInstance
-				.request<any, AxiosResponse<Result>>(config)
-				.then((res: AxiosResponse<Result>) => {
+				.request<any, AxiosResponse<any>>(config)
+				.then((res: AxiosResponse<any>) => {
 					resolve(res as unknown as Promise<T>);
 				})
 				.catch((e: Error | AxiosError) => {

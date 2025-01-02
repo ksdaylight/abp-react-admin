@@ -12,9 +12,7 @@ export default function BackgroundView() {
 			selectedVariant: "kenburnsTop",
 		};
 	}, []);
-	const [selectedVariant, setSelectedVariant] = useState(
-		defaultValue.selectedVariant,
-	);
+	const [selectedVariant, setSelectedVariant] = useState(defaultValue.selectedVariant);
 
 	const onRefresh = () => {
 		setSelectedVariant(defaultValue.selectedVariant);

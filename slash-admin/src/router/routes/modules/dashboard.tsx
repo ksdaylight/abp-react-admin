@@ -19,9 +19,7 @@ const dashboard: AppRouteObject = {
 	),
 	meta: {
 		label: "sys.menu.dashboard",
-		icon: (
-			<SvgIcon icon="ic-analysis" className="ant-menu-item-icon" size="24" />
-		),
+		icon: <SvgIcon icon="ic-analysis" className="ant-menu-item-icon" size="24" />,
 		key: "/dashboard",
 	},
 	children: [

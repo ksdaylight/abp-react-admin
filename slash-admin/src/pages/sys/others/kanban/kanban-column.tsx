@@ -6,12 +6,7 @@ import { useEvent } from "react-use";
 
 import { Iconify } from "@/components/icon";
 import KanbanTask from "@/pages/sys/others/kanban/kanban-task";
-import {
-	type Column,
-	DragType,
-	type Task,
-	TaskPriority,
-} from "@/pages/sys/others/kanban/types";
+import { type Column, DragType, type Task, TaskPriority } from "@/pages/sys/others/kanban/types";
 import { useSettings } from "@/store/settingStore";
 
 import { ThemeMode } from "#/enum";
@@ -41,10 +36,7 @@ export default function KanbanColumn({
 		height: "100%",
 		padding: "16px",
 		borderRadius: "16px",
-		backgroundColor:
-			themeMode === ThemeMode.Light
-				? "rgb(244, 246, 248)"
-				: "rgba(145, 158, 171, 0.12)",
+		backgroundColor: themeMode === ThemeMode.Light ? "rgb(244, 246, 248)" : "rgba(145, 158, 171, 0.12)",
 	};
 
 	const items: MenuProps["items"] = [
@@ -106,10 +98,7 @@ export default function KanbanColumn({
 	const [addingTask, setAddingTask] = useState(false);
 	const addTaskInputRef = useRef<InputRef>(null);
 	const handleClickOutside = (event: MouseEvent) => {
-		if (
-			addTaskInputRef.current &&
-			!addTaskInputRef.current.input?.contains(event.target as Node)
-		) {
+		if (addTaskInputRef.current && !addTaskInputRef.current.input?.contains(event.target as Node)) {
 			const addTaskInputVal = addTaskInputRef.current.input?.value;
 			if (addTaskInputVal) {
 				createTask(column.id, {
@@ -122,10 +111,7 @@ export default function KanbanColumn({
 			setAddingTask(false);
 		}
 
-		if (
-			renameTaskInputRef.current &&
-			!renameTaskInputRef.current.input?.contains(event.target as Node)
-		) {
+		if (renameTaskInputRef.current && !renameTaskInputRef.current.input?.contains(event.target as Node)) {
 			const renameInputVal = renameTaskInputRef.current.input?.value;
 			if (renameInputVal) {
 				renameColumn({
@@ -154,11 +140,7 @@ export default function KanbanColumn({
 							{...provided.dragHandleProps}
 							className="mb-4 flex select-none items-center justify-between text-base font-semibold"
 						>
-							{renamingTask ? (
-								<Input ref={renameTaskInputRef} size="large" autoFocus />
-							) : (
-								column.title
-							)}
+							{renamingTask ? <Input ref={renameTaskInputRef} size="large" autoFocus /> : column.title}
 							<Dropdown
 								open={dropdownOpen}
 								onOpenChange={(flag) => setDropdownOpen(flag)}
@@ -174,11 +156,7 @@ export default function KanbanColumn({
 
 						<Droppable droppableId={column.id} type={DragType.TASK}>
 							{(provided) => (
-								<main
-									ref={provided.innerRef}
-									{...provided.droppableProps}
-									className="min-h-[10px]"
-								>
+								<main ref={provided.innerRef} {...provided.droppableProps} className="min-h-[10px]">
 									{tasks.map((task, index) => (
 										<KanbanTask task={task} key={task.id} index={index} />
 									))}
@@ -189,12 +167,7 @@ export default function KanbanColumn({
 
 						<footer className="w-[248px]">
 							{addingTask ? (
-								<Input
-									ref={addTaskInputRef}
-									size="large"
-									placeholder="Task Name"
-									autoFocus
-								/>
+								<Input ref={addTaskInputRef} size="large" placeholder="Task Name" autoFocus />
 							) : (
 								<Button
 									onClick={(e) => {

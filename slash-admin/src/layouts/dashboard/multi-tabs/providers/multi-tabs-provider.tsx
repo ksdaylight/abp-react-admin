@@ -70,11 +70,7 @@ export function MultiTabsProvider({ children }: { children: React.ReactNode }) {
 		[tabs, activeTabRoutePath, operations],
 	);
 
-	return (
-		<MultiTabsContext.Provider value={contextValue}>
-			{children}
-		</MultiTabsContext.Provider>
-	);
+	return <MultiTabsContext.Provider value={contextValue}>{children}</MultiTabsContext.Provider>;
 }
 
 export function useMultiTabsContext() {

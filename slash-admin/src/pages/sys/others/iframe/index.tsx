@@ -15,12 +15,7 @@ export default function Iframe({ src = "" }: Props) {
 		<div className="h-full w-full relative">
 			{isLoading && <CircleLoading />}
 
-			<iframe
-				src={src}
-				title="iframe-page"
-				className="h-full w-full"
-				onLoad={handleLoad}
-			/>
+			<iframe src={src} title="iframe-page" className="h-full w-full" onLoad={handleLoad} />
 		</div>
 	);
 }

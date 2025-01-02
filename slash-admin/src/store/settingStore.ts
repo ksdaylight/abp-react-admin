@@ -51,5 +51,4 @@ const useSettingStore = create<SettingStore>()(
 );
 
 export const useSettings = () => useSettingStore((state) => state.settings);
-export const useSettingActions = () =>
-	useSettingStore((state) => state.actions);
+export const useSettingActions = () => useSettingStore((state) => state.actions);

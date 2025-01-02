@@ -8,6 +8,7 @@ import ReactDOM from "react-dom/client";
 // helmet
 import { HelmetProvider } from "react-helmet-async";
 //
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import "virtual:svg-icons-register";
 // mock api
 import worker from "./_mock";
@@ -48,7 +49,7 @@ const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement)
 root.render(
 	<HelmetProvider>
 		<QueryClientProvider client={queryClient}>
-			{/* <ReactQueryDevtools initialIsOpen={false} /> */}
+			<ReactQueryDevtools initialIsOpen={false} />
 			<Suspense>
 				<Analytics />
 
@@ -59,4 +60,4 @@ root.render(
 );
 
 // 🥵 start service worker mock in development mode
-worker.start({ onUnhandledRequest: "bypass" });
+// worker.start({ onUnhandledRequest: "bypass" });

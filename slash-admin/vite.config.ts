@@ -33,12 +33,12 @@ export default defineConfig(({ mode }) => {
 				}),
 		],
 		server: {
-			open: true,
+			open: false,
 			host: true,
-			port: 3001,
+			port: 3100,
 			proxy: {
 				"/api": {
-					target: "https://192.168.31.246:44335",
+					target: "http://192.168.31.246:30001",
 					changeOrigin: true,
 					secure: false,
 					// rewrite: (path) => path.replace(/^\/api/, ""),

@@ -22,11 +22,7 @@ function UserAccount() {
 			key: "2",
 			label: (
 				<div className="flex items-center">
-					<Iconify
-						icon="solar:bell-bing-bold-duotone"
-						size={24}
-						className="mr-2"
-					/>
+					<Iconify icon="solar:bell-bing-bold-duotone" size={24} className="mr-2" />
 					<span>Notifications</span>
 				</div>
 			),
@@ -36,11 +32,7 @@ function UserAccount() {
 			key: "3",
 			label: (
 				<div className="flex items-center">
-					<Iconify
-						icon="solar:key-minimalistic-square-3-bold-duotone"
-						size={24}
-						className="mr-2"
-					/>
+					<Iconify icon="solar:key-minimalistic-square-3-bold-duotone" size={24} className="mr-2" />
 					<span>Security</span>
 				</div>
 			),
