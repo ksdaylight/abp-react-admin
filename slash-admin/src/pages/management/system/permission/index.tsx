@@ -28,18 +28,17 @@ export default function PermissionPage() {
 	const permissions = useUserPermission();
 	const { t } = useTranslation();
 
-	const [permissionModalProps, setPermissionModalProps] =
-		useState<PermissionModalProps>({
-			formValue: { ...defaultPermissionValue },
-			title: "New",
-			show: false,
-			onOk: () => {
-				setPermissionModalProps((prev) => ({ ...prev, show: false }));
-			},
-			onCancel: () => {
-				setPermissionModalProps((prev) => ({ ...prev, show: false }));
-			},
-		});
+	const [permissionModalProps, setPermissionModalProps] = useState<PermissionModalProps>({
+		formValue: { ...defaultPermissionValue },
+		title: "New",
+		show: false,
+		onOk: () => {
+			setPermissionModalProps((prev) => ({ ...prev, show: false }));
+		},
+		onCancel: () => {
+			setPermissionModalProps((prev) => ({ ...prev, show: false }));
+		},
+	});
 	const columns: ColumnsType<Permission> = [
 		{
 			title: "Name",
@@ -51,9 +50,7 @@ export default function PermissionPage() {
 			title: "Type",
 			dataIndex: "type",
 			width: 60,
-			render: (_, record) => (
-				<Tag color="processing">{PermissionType[record.type]}</Tag>
-			),
+			render: (_, record) => <Tag color="processing">{PermissionType[record.type]}</Tag>,
 		},
 		{
 			title: "Icon",
@@ -62,9 +59,7 @@ export default function PermissionPage() {
 			render: (icon: string) => {
 				if (isNil(icon)) return "";
 				if (icon.startsWith("ic")) {
-					return (
-						<SvgIcon icon={icon} size={18} className="ant-menu-item-icon" />
-					);
+					return <SvgIcon icon={icon} size={18} className="ant-menu-item-icon" />;
 				}
 				return <Iconify icon={icon} size={18} className="ant-menu-item-icon" />;
 			},
@@ -100,18 +95,9 @@ export default function PermissionPage() {
 					<IconButton onClick={() => onEdit(record)}>
 						<Iconify icon="solar:pen-bold-duotone" size={18} />
 					</IconButton>
-					<Popconfirm
-						title="Delete the Permission"
-						okText="Yes"
-						cancelText="No"
-						placement="left"
-					>
+					<Popconfirm title="Delete the Permission" okText="Yes" cancelText="No" placement="left">
 						<IconButton>
-							<Iconify
-								icon="mingcute:delete-2-fill"
-								size={18}
-								className="text-error"
-							/>
+							<Iconify icon="mingcute:delete-2-fill" size={18} className="text-error" />
 						</IconButton>
 					</Popconfirm>
 				</div>

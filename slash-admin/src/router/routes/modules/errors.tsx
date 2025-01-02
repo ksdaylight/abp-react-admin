@@ -21,13 +21,7 @@ const errors: AppRouteObject[] = [
 		),
 		meta: {
 			label: "sys.menu.error.index",
-			icon: (
-				<Iconify
-					icon="bxs:error-alt"
-					className="ant-menu-item-icon"
-					size="24"
-				/>
-			),
+			icon: <Iconify icon="bxs:error-alt" className="ant-menu-item-icon" size="24" />,
 			key: "/error",
 		},
 		children: [

@@ -8,7 +8,7 @@ import ReactDOM from "react-dom/client";
 // helmet
 import { HelmetProvider } from "react-helmet-async";
 //
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import "virtual:svg-icons-register";
 // mock api
 import worker from "./_mock";

@@ -11,9 +11,7 @@ const AnimatePage = lazy(() => import("@/pages/components/animate"));
 const ScrollPage = lazy(() => import("@/pages/components/scroll"));
 const MarkdownPage = lazy(() => import("@/pages/components/markdown"));
 const EditorPage = lazy(() => import("@/pages/components/editor"));
-const MultiLanguagePage = lazy(
-	() => import("@/pages/components/multi-language"),
-);
+const MultiLanguagePage = lazy(() => import("@/pages/components/multi-language"));
 const IconPage = lazy(() => import("@/pages/components/icon"));
 const UploadPage = lazy(() => import("@/pages/components/upload"));
 const ChartPage = lazy(() => import("@/pages/components/chart"));
@@ -28,13 +26,7 @@ const components: AppRouteObject = {
 	),
 	meta: {
 		label: "sys.menu.components",
-		icon: (
-			<Iconify
-				icon="solar:widget-5-bold-duotone"
-				className="ant-menu-item-icon"
-				size="24"
-			/>
-		),
+		icon: <Iconify icon="solar:widget-5-bold-duotone" className="ant-menu-item-icon" size="24" />,
 		key: "/components",
 	},
 	children: [

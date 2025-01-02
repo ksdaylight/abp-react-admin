@@ -7,8 +7,23 @@ import { MotionLazy } from "./components/animate/motion-lazy";
 import Toast from "./components/toast";
 import { AntdAdapter } from "./theme/adapter/antd.adapter";
 import { ThemeProvider } from "./theme/theme-provider";
+import { useEffect } from "react";
+
+import { useSetLocale } from "./store/localeI18nStore";
+import { useTranslation } from "react-i18next";
+import { getStringItem } from "./utils/storage";
+import { LocalEnum, StorageEnum } from "#/enum";
 
 function App() {
+	const { i18n } = useTranslation();
+	const setLocale = useSetLocale();
+	const defaultLng = getStringItem(StorageEnum.I18N) || LocalEnum.en_US;
+	useEffect(() => {
+		async function initializeI18n() {
+			await setLocale(defaultLng as LocalEnum, i18n);
+		}
+		initializeI18n(); //触发abp语言包加载
+	}, []);
 	return (
 		<ThemeProvider adapters={[AntdAdapter]}>
 			<MotionLazy>

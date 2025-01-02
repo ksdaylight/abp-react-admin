@@ -56,10 +56,7 @@ export function useCurrentRouteMeta() {
 /**
  * replace `user/:id`  to `/user/1234512345`
  */
-export const replaceDynamicParams = (
-	menuKey: string,
-	params: Params<string>,
-) => {
+export const replaceDynamicParams = (menuKey: string, params: Params<string>) => {
 	let replacedPathName = menuKey;
 
 	// 解析路由路径中的参数名称

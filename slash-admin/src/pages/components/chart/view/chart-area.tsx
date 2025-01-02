@@ -26,7 +26,5 @@ export default function ChartArea() {
 		},
 	});
 
-	return (
-		<Chart type="area" series={series} options={chartOptions} height={320} />
-	);
+	return <Chart type="area" series={series} options={chartOptions} height={320} />;
 }

@@ -64,18 +64,9 @@ export default function RolePage() {
 					<IconButton onClick={() => onEdit(record)}>
 						<Iconify icon="solar:pen-bold-duotone" size={18} />
 					</IconButton>
-					<Popconfirm
-						title="Delete the Role"
-						okText="Yes"
-						cancelText="No"
-						placement="left"
-					>
+					<Popconfirm title="Delete the Role" okText="Yes" cancelText="No" placement="left">
 						<IconButton>
-							<Iconify
-								icon="mingcute:delete-2-fill"
-								size={18}
-								className="text-error"
-							/>
+							<Iconify icon="mingcute:delete-2-fill" size={18} className="text-error" />
 						</IconButton>
 					</Popconfirm>
 				</div>

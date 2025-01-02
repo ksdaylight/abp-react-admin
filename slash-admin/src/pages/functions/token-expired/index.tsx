@@ -14,9 +14,7 @@ export default function TokenExpired() {
 		<Card>
 			<Row gutter={[16, 16]}>
 				<Col span={24} md={12}>
-					<Typography.Text>
-						Clicking a button to simulate a token expiration scenario.
-					</Typography.Text>
+					<Typography.Text>Clicking a button to simulate a token expiration scenario.</Typography.Text>
 				</Col>
 				<Col span={24} md={12}>
 					<Button type="primary" onClick={mockTokenExpired}>

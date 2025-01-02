@@ -28,24 +28,22 @@ axiosInstance.interceptors.request.use(
 // 响应拦截
 axiosInstance.interceptors.response.use(
 	(res: AxiosResponse<any>) => {
-
 		const { data, status, headers } = res;
 
-		if (headers._abpwrapresult === 'true') {
+		if (headers._abpwrapresult === "true") {
+			const { code, result, message, details } = data;
+			const hasSuccess = data && Reflect.has(data, "code") && code === "0";
+			if (hasSuccess) {
+				return result;
+			}
+			const content = details || message;
 
-        const { code, result, message, details } = data;
-        const hasSuccess = data && Reflect.has(data, 'code') && code === '0';
-        if (hasSuccess) {
-          return result;
-        }
-        const content = details || message;
+			throw new Error(content);
+		}
 
-        throw new Error(content); 
-      }
-
- 			if (status >= 200 && status < 400) {
-        return data;
-      }
+		if (status >= 200 && status < 400) {
+			return data;
+		}
 
 		// 业务请求错误
 		throw new Error(t("sys.api.apiRequestFailed"));
@@ -53,8 +51,7 @@ axiosInstance.interceptors.response.use(
 	(error: AxiosError<any>) => {
 		const { response, message } = error || {};
 
-		const errMsg =
-			response?.data?.message || message || t("sys.api.errorMessage");
+		const errMsg = response?.data?.message || message || t("sys.api.errorMessage");
 		toast.error(errMsg, {
 			position: "top-center",
 		});

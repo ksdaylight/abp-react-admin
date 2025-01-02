@@ -24,13 +24,7 @@ export default function AnalysisNews() {
 			renderItem={(item) => (
 				<List.Item>
 					<List.Item.Meta
-						avatar={
-							<Avatar
-								shape="square"
-								size={48}
-								src={faker.image.urlLoremFlickr()}
-							/>
-						}
+						avatar={<Avatar shape="square" size={48} src={faker.image.urlLoremFlickr()} />}
 						title={item.title}
 						description={faker.lorem.sentence()}
 					/>

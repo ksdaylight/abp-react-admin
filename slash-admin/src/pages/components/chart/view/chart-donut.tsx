@@ -23,7 +23,5 @@ export default function ChartDonut() {
 		},
 	});
 
-	return (
-		<Chart type="donut" series={series} options={chartOptions} height={320} />
-	);
+	return <Chart type="donut" series={series} options={chartOptions} height={320} />;
 }

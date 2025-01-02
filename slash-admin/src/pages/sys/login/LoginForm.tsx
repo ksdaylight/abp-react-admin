@@ -33,7 +33,6 @@ function LoginForm() {
 		setLoading(true);
 		try {
 			await signIn({ username, password });
-
 		} finally {
 			setLoading(false);
 		}

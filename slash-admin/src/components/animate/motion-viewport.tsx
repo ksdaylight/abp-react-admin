@@ -12,11 +12,7 @@ interface Props extends MotionProps {
  *
  *    + once: 仅触发一次
  */
-export default function MotionViewport({
-	children,
-	className,
-	...other
-}: Props) {
+export default function MotionViewport({ children, className, ...other }: Props) {
 	return (
 		<m.div
 			initial="initial"

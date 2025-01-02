@@ -21,9 +21,7 @@ const menulevel: AppRouteObject = {
 	),
 	meta: {
 		label: "sys.menu.menulevel.index",
-		icon: (
-			<SvgIcon icon="ic-menulevel" className="ant-menu-item-icon" size="24" />
-		),
+		icon: <SvgIcon icon="ic-menulevel" className="ant-menu-item-icon" size="24" />,
 		key: "/menu_level",
 	},
 	children: [

@@ -1,4 +1,3 @@
-import useLocale from "@/locales/useLocale";
 import { StyleProvider } from "@ant-design/cssinjs";
 import type { ThemeConfig } from "antd";
 import { App, ConfigProvider, theme } from "antd";
@@ -12,9 +11,10 @@ import { removePx } from "@/utils/theme";
 import { lightShadowTokens } from "../tokens/shadow";
 import { darkShadowTokens } from "../tokens/shadow";
 import { typographyTokens } from "../tokens/typography";
+import { useLanguage } from "@/store/localeI18nStore";
 
 export const AntdAdapter: UILibraryAdapter = ({ mode, children }) => {
-	const { language } = useLocale();
+	const language = useLanguage();
 	const { themeColorPresets } = useSettings();
 	const algorithm = mode === ThemeMode.Light ? theme.defaultAlgorithm : theme.darkAlgorithm;
 

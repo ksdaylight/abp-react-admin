@@ -33,7 +33,7 @@ export default defineConfig(({ mode }) => {
 				}),
 		],
 		server: {
-			open: true,
+			open: false,
 			host: true,
 			port: 3100,
 			proxy: {

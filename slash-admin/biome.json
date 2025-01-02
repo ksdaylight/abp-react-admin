@@ -8,7 +8,7 @@
 	},
 	"files": {
 		"ignoreUnknown": false,
-		"ignore": ["public", ".vscode"]
+		"ignore": ["public", ".vscode", "src/api/gen"]
 	},
 	"formatter": {
 		"enabled": true,
@@ -27,6 +27,9 @@
 			},
 			"a11y": {
 				"useKeyWithClickEvents": "off"
+			},
+			"complexity": {
+				"noForEach": "off"
 			}
 		}
 	},

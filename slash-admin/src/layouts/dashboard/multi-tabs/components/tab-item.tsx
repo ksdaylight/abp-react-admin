@@ -7,25 +7,9 @@ import type { TabItemProps } from "../types";
 import { useMultiTabsContext } from "../providers/multi-tabs-provider";
 import { useTabLabelRender } from "../hooks/use-tab-label-render";
 
-export function TabItem({
-	tab,
-	isActive,
-	isHovering,
-	style,
-	onClose,
-	onMouseEnter,
-	onMouseLeave,
-}: TabItemProps) {
+export function TabItem({ tab, isActive, isHovering, style, onClose, onMouseEnter, onMouseLeave }: TabItemProps) {
 	const { t } = useTranslation();
-	const {
-		tabs,
-		refreshTab,
-		closeTab,
-		closeOthersTab,
-		closeLeft,
-		closeRight,
-		closeAll,
-	} = useMultiTabsContext();
+	const { tabs, refreshTab, closeTab, closeOthersTab, closeLeft, closeRight, closeAll } = useMultiTabsContext();
 	const renderTabLabel = useTabLabelRender();
 
 	const menuItems: MenuProps["items"] = [
@@ -46,21 +30,13 @@ export function TabItem({
 		{
 			label: t(`sys.tab.${MultiTabOperation.CLOSELEFT}`),
 			key: MultiTabOperation.CLOSELEFT,
-			icon: (
-				<Iconify
-					icon="material-symbols:tab-close-right-outline"
-					size={18}
-					className="rotate-180"
-				/>
-			),
+			icon: <Iconify icon="material-symbols:tab-close-right-outline" size={18} className="rotate-180" />,
 			disabled: tabs.findIndex((t) => t.key === tab.key) === 0,
 		},
 		{
 			label: t(`sys.tab.${MultiTabOperation.CLOSERIGHT}`),
 			key: MultiTabOperation.CLOSERIGHT,
-			icon: (
-				<Iconify icon="material-symbols:tab-close-right-outline" size={18} />
-			),
+			icon: <Iconify icon="material-symbols:tab-close-right-outline" size={18} />,
 			disabled: tabs.findIndex((t) => t.key === tab.key) === tabs.length - 1,
 		},
 		{

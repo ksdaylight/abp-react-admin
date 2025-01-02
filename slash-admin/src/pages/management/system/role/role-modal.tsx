@@ -15,13 +15,7 @@ export type RoleModalProps = {
 	onCancel: VoidFunction;
 };
 const PERMISSIONS: Permission[] = PERMISSION_LIST;
-export function RoleModal({
-	title,
-	show,
-	formValue,
-	onOk,
-	onCancel,
-}: RoleModalProps) {
+export function RoleModal({ title, show, formValue, onOk, onCancel }: RoleModalProps) {
 	const [form] = Form.useForm();
 
 	const flattenedPermissions = flattenTrees(formValue.permission);
@@ -32,13 +26,7 @@ export function RoleModal({
 
 	return (
 		<Modal title={title} open={show} onOk={onOk} onCancel={onCancel}>
-			<Form
-				initialValues={formValue}
-				form={form}
-				labelCol={{ span: 4 }}
-				wrapperCol={{ span: 18 }}
-				layout="horizontal"
-			>
+			<Form initialValues={formValue} form={form} labelCol={{ span: 4 }} wrapperCol={{ span: 18 }} layout="horizontal">
 				<Form.Item<Role> label="Name" name="name" required>
 					<Input />
 				</Form.Item>
