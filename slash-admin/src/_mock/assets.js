@@ -557,20 +557,30 @@ export const DEFAULT_USER = {
 	avatar: faker.image.avatarGitHub(),
 	createdAt: faker.date.anytime(),
 	updatedAt: faker.date.recent(),
-	password: "demo1234",
+	password: "1q2w3E*",
 	role: ADMIN_ROLE,
 	permissions: ADMIN_ROLE.permission,
+	desc: "",
+	homePath: "/",
+	token: "/",
+	realName: "",
+	userId: "",
 };
 export const TEST_USER = {
 	id: "efaa20ea-4dc5-47ee-a200-8a899be29494",
 	username: "test",
-	password: "demo1234",
+	password: "1q2w3E*",
 	email: faker.internet.email(),
 	avatar: faker.image.avatarGitHub(),
 	createdAt: faker.date.anytime(),
 	updatedAt: faker.date.recent(),
 	role: TEST_ROLE,
 	permissions: TEST_ROLE.permission,
+	desc: "",
+	homePath: "/",
+	token: "/",
+	realName: "",
+	userId: "",
 };
 export const USER_LIST = [DEFAULT_USER, TEST_USER];
 

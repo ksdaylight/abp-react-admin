@@ -36,14 +36,37 @@ export default defineConfig(({ mode }) => {
 			open: false,
 			host: true,
 			port: 3100,
-			proxy: {
-				"/api": {
-					target: "http://192.168.31.246:30001",
-					changeOrigin: true,
-					secure: false,
-					// rewrite: (path) => path.replace(/^\/api/, ""),
-				},
-			},
+			// proxy: {
+			// 	"/api": {
+			// 		target: "http://192.168.31.246:30001",
+			// 		changeOrigin: true,
+			// 		secure: false,
+			// 		// rewrite: (path) => path.replace(/^\/api/, ""),
+			// 	},
+			// },
+			 proxy: {
+          '/.well-known': {
+            changeOrigin: true,
+            // rewrite: (path) => path.replace(/^\/api/, ''),
+            // mock代理目标地址
+            target: 'http://192.168.31.246:30001',
+            ws: true,
+          },
+          '/api': {
+            changeOrigin: true,
+            // rewrite: (path) => path.replace(/^\/api/, ''),
+            // mock代理目标地址
+            target: 'http://192.168.31.246:30001',
+            ws: true,
+          },
+          '/connect': {
+            changeOrigin: true,
+            // rewrite: (path) => path.replace(/^\/api/, ''),
+            // mock代理目标地址
+            target: 'http://192.168.31.246:30001',
+            ws: true,
+          },
+        },
 		},
 		optimizeDeps: {
 			include: ["react", "react-dom", "react-router", "antd"],

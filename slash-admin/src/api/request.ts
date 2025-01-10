@@ -2,6 +2,7 @@ import { authenticateResponseInterceptor, errorMessageResponseInterceptor, Reque
 import useLocaleStore from "@/store/localeI18nStore";
 import useUserStore from "@/store/userStore";
 import userStore from "@/store/userStore";
+import { mapLocaleToAbpLanguageFormat } from "@/utils";
 import { toast } from "sonner";
 
 const requestClient = new RequestClient({
@@ -14,7 +15,7 @@ const requestClient = new RequestClient({
 async function doReAuthenticate() {
 	console.warn("Access token or refresh token is invalid or expired. ");
 	//直接登出
-	userStore.getState().actions.clearUserInfoAndToken(); //验证
+	userStore.getState().actions.clearUserInfoAndToken(); //TODO 对比+验证
 }
 
 /**
@@ -25,7 +26,7 @@ async function doRefreshToken() {
 }
 
 function formatToken(token: null | string) {
-	return token ? `Bearer ${token}` : null; //TODO 可能需要调短过期时间来验证下
+	return token ? `Bearer ${token}` : null; //TODO 可能需要调短过期时间来验证下, 有个tokenType的获取值
 }
 
 // 请求头处理
@@ -36,7 +37,7 @@ requestClient.addRequestInterceptor({
 			config.headers.Authorization = `${userToken.accessToken}`;
 		}
 		const { locale } = useLocaleStore.getState();
-		config.headers["Accept-Language"] = locale;
+		config.headers["Accept-Language"] = mapLocaleToAbpLanguageFormat(locale);
 		config.headers["X-Request-From"] = "slash-admin";
 		return config;
 	},
