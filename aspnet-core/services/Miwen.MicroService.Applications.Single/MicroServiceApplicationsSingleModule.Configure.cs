@@ -674,13 +674,56 @@ public partial class MicroServiceApplicationsSingleModule
 
     private void ConfigureSwagger(IServiceCollection services)
     {
+        
         // Swagger
         services.AddSwaggerGen(
             options =>
             {
-                options.SwaggerDoc("v1", new OpenApiInfo { Title = "App API", Version = "v1" });
+                //options.SwaggerDoc("v1", new OpenApiInfo { Title = "App API", Version = "v1" });
+                //options.DocInclusionPredicate((docName, description) => true);
+                //options.CustomSchemaIds(type => type.FullName);
+
+                options.SwaggerDoc("v1", new OpenApiInfo { Title = "Abp API", Version = "v1" });
                 options.DocInclusionPredicate((docName, description) => true);
-                options.CustomSchemaIds(type => type.FullName);
+
+
+                options.CustomSchemaIds(type =>
+                {
+                    // 使用 IHttpContextAccessor 来访问 HttpContext
+                    var httpContextAccessor = services.BuildServiceProvider().GetRequiredService<IHttpContextAccessor>();
+                    var httpContext = httpContextAccessor.HttpContext;
+
+                    if (httpContext == null)
+                    {
+                        throw new InvalidOperationException("HttpContext is not available.");
+                    }
+
+                    // 在 Items 中存储 HashSet
+                    if (!httpContext.Items.ContainsKey("Swagger_UsedSchemaIds"))
+                    {
+                        httpContext.Items["Swagger_UsedSchemaIds"] = new HashSet<string>();
+                    }
+
+                    var usedSchemaIds = (HashSet<string>)httpContext.Items["Swagger_UsedSchemaIds"];
+
+                    // 生成唯一的 Schema ID
+                    var friendlyId = type.FriendlyId().Replace("[", "Of").Replace("]", "");
+                    var uniqueId = friendlyId;
+                    var counter = 1;
+
+                    while (usedSchemaIds.Contains(uniqueId))
+                    {
+                        uniqueId = $"{friendlyId}_{counter++}"; // 添加后缀
+                    }
+
+                    usedSchemaIds.Add(uniqueId);
+                    return uniqueId;
+                });
+
+
+                options.CustomOperationIds(options => $"{options.ActionDescriptor.RouteValues["controller"]}{options.ActionDescriptor.RouteValues["action"]}");
+                options.SchemaFilter<FinancingSwaggerSchemaFilter>();
+
                 options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
                     Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
@@ -702,6 +745,8 @@ public partial class MicroServiceApplicationsSingleModule
                 });
                 options.OperationFilter<TenantHeaderParamter>();
             });
+        // 确保 IHttpContextAccessor 可用
+        services.AddHttpContextAccessor();
     }
 
     private void ConfigureIdentity(IConfiguration configuration)
