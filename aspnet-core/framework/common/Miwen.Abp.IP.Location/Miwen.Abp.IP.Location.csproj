@@ -1,13 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
+
   <Import Project="..\..\..\common.props" />
 	<Import Project="..\..\..\configureawait.props" />
-
+	
 	<PropertyGroup>
 		<TargetFrameworks>netstandard2.0;netstandard2.1;net8.0</TargetFrameworks>
 		<Nullable>enable</Nullable>
-		<AssemblyName>Miwen.Abp.IP2Region</AssemblyName>
-		<PackageId>Miwen.Abp.IP2Region</PackageId>
+		<AssemblyName>Miwen.Abp.IP.Location</AssemblyName>
+		<PackageId>Miwen.Abp.IP.Location</PackageId>
 		<GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
 		<GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
 		<GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
@@ -16,16 +17,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<None Remove="Miwen\Abp\IP2Region\Resources\ip2region.xdb" />
-		<EmbeddedResource Include="Miwen\Abp\IP2Region\Resources\ip2region.xdb" />
+		<PackageReference Include="Volo.Abp.Core" />
 	</ItemGroup>
 
-	<ItemGroup>
-		<PackageReference Include="Volo.Abp.VirtualFileSystem" />
-		<PackageReference Include="IP2Region.Net" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <ProjectReference Include="..\Miwen.Abp.IP.Location\Miwen.Abp.IP.Location.csproj" />
-	</ItemGroup>
 </Project>

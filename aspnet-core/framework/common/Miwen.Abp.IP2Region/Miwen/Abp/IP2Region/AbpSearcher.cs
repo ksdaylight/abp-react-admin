@@ -8,7 +8,6 @@ using System.Runtime.InteropServices;
 using System.Text;
 
 namespace Miwen.Abp.IP2Region;
-
 public class AbpSearcher : ISearcher
 {
     const int SegmentIndexSize = 14;
