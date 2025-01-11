@@ -9,7 +9,7 @@ import { StorageEnum } from "#/enum";
 import { getUserInfoApi, loginApi } from "@/api/account";
 import { PasswordTokenRequestModel } from "#/account";
 import { getConfigApi } from "@/api/abp-core";
-import useAbpStore, { useAbpActions } from "./abpCoreStore";
+import useAbpStore from "./abpCoreStore";
 
 const { VITE_APP_HOMEPAGE: HOMEPAGE } = import.meta.env;
 
@@ -69,7 +69,7 @@ const useUserStore = create<UserStore>()(
 						// 更新到 zustand store 中
 						set({ userInfo });
 
-						useAbpStore.getState().actions.setApplication(abpConfig); 
+						useAbpStore.getState().actions.setApplication(abpConfig);
 
 						set({ accessCodes: Object.keys(abpConfig.auth.grantedPolicies) });
 					} catch (err) {

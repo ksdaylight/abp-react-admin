@@ -44,29 +44,29 @@ export default defineConfig(({ mode }) => {
 			// 		// rewrite: (path) => path.replace(/^\/api/, ""),
 			// 	},
 			// },
-			 proxy: {
-          '/.well-known': {
-            changeOrigin: true,
-            // rewrite: (path) => path.replace(/^\/api/, ''),
-            // mock代理目标地址
-            target: 'http://192.168.31.246:30001',
-            ws: true,
-          },
-          '/api': {
-            changeOrigin: true,
-            // rewrite: (path) => path.replace(/^\/api/, ''),
-            // mock代理目标地址
-            target: 'http://192.168.31.246:30001',
-            ws: true,
-          },
-          '/connect': {
-            changeOrigin: true,
-            // rewrite: (path) => path.replace(/^\/api/, ''),
-            // mock代理目标地址
-            target: 'http://192.168.31.246:30001',
-            ws: true,
-          },
-        },
+			proxy: {
+				"/.well-known": {
+					changeOrigin: true,
+					// rewrite: (path) => path.replace(/^\/api/, ''),
+					// mock代理目标地址
+					target: "http://192.168.31.246:30001",
+					ws: true,
+				},
+				"/api": {
+					changeOrigin: true,
+					// rewrite: (path) => path.replace(/^\/api/, ''),
+					// mock代理目标地址
+					target: "http://192.168.31.246:30001",
+					ws: true,
+				},
+				"/connect": {
+					changeOrigin: true,
+					// rewrite: (path) => path.replace(/^\/api/, ''),
+					// mock代理目标地址
+					target: "http://192.168.31.246:30001",
+					ws: true,
+				},
+			},
 		},
 		optimizeDeps: {
 			include: ["react", "react-dom", "react-router", "antd"],

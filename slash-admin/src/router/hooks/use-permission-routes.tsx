@@ -146,7 +146,7 @@ function transformPermissionsToRoutes(permissions: Permission[], flattenedPermis
 // Exports
 export function usePermissionRoutes() {
 	return useMemo(() => {
-	  return getRoutesFromModules();
+		return getRoutesFromModules();
 	}, []);
 
 	// const permissions = useUserPermission();

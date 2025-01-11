@@ -13,6 +13,7 @@ const OrganizationPage = lazy(() => import("@/pages/management/system/organizati
 const PermissioPage = lazy(() => import("@/pages/management/system/permission"));
 
 const Blog = lazy(() => import("@/pages/management/blog"));
+const SecurityLogs = lazy(() => import("@/pages/management/identity/security-logs"));
 
 const management: AppRouteObject = {
 	order: 2,
@@ -84,6 +85,11 @@ const management: AppRouteObject = {
 			path: "blog",
 			element: <Blog />,
 			meta: { label: "sys.menu.blog", key: "/management/blog" },
+		},
+		{
+			path: "audit-logs",
+			element: <SecurityLogs />,
+			meta: { label: "abp.manage.identity.securityLogs", key: "/management/audit-logs" },
 		},
 	],
 };

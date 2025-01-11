@@ -14,6 +14,7 @@
 	"dependencies": {
 		"@ant-design/cssinjs": "^1.17.2",
 		"@ant-design/icons": "^5.2.6",
+		"@ant-design/pro-table": "^3.18.3",
 		"@fullcalendar/common": "^5.11.5",
 		"@fullcalendar/core": "^6.1.9",
 		"@fullcalendar/daygrid": "^6.1.9",
