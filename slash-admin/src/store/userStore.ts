@@ -16,7 +16,7 @@ const { VITE_APP_HOMEPAGE: HOMEPAGE } = import.meta.env;
 type UserStore = {
 	userInfo: Partial<UserInfo>;
 	userToken: UserToken;
-	accessCodes: string[]; //权限码
+	accessCodes: string[]; //权限码 TODO 之后和动态生成菜单放一块去
 	// 使用 actions 命名空间来存放所有的 action
 	actions: {
 		setUserInfo: (userInfo: UserInfo) => void;
@@ -86,6 +86,7 @@ const useUserStore = create<UserStore>()(
 			partialize: (state) => ({
 				[StorageEnum.UserInfo]: state.userInfo,
 				[StorageEnum.UserToken]: state.userToken,
+				[StorageEnum.AccessCodes]: state.accessCodes,
 			}),
 		},
 	),
@@ -94,6 +95,7 @@ const useUserStore = create<UserStore>()(
 export const useUserInfo = () => useUserStore((state) => state.userInfo);
 export const useUserToken = () => useUserStore((state) => state.userToken);
 export const useUserPermission = () => useUserStore((state) => state.userInfo.permissions);
+export const useUserAccessCodes = () => useUserStore((state) => state.accessCodes);
 export const useUserActions = () => useUserStore((state) => state.actions);
 
 export const useSignIn = () => {

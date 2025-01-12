@@ -6,6 +6,9 @@ import { useTranslation } from "react-i18next";
 import { formatToDateTime } from "@/utils/abp";
 import { SecurityLogDto } from "#/identity";
 import { useSecurityLogsApi } from "@/api/identity/useSecurityLogsApi";
+import { antdOrderToAbpOrder } from "@/utils/abp/sort-order";
+import { SecurityLogPermissions } from "@/constants/identity/permissions";
+import { withAccessChecker } from "@/utils/abp/with-access-checker";
 
 interface Props {}
 function SecurityLogs({}: Props) {
@@ -13,10 +16,9 @@ function SecurityLogs({}: Props) {
 	const actionRef = useRef<ActionType>();
 	const { cancel, deleteApi, getPagedListApi } = useSecurityLogsApi();
 
-
 	const handleDelete = async (id: string) => {
 		await deleteApi(id);
-		message.success("Record deleted successfully");
+		message.success($t("AbpUi.SuccessfullyDeleted"));
 		actionRef.current?.reload();
 	};
 
@@ -58,7 +60,7 @@ function SecurityLogs({}: Props) {
 			hideInSearch: true,
 			render: (_, record) => (
 				<>
-				{/* 展示地址 */}
+					{/* 展示地址 */}
 					{record.extraProperties?.Location && <Tag color="blue">{record.extraProperties.Location}</Tag>}
 					<span>{record.clientIpAddress}</span>
 				</>
@@ -69,7 +71,7 @@ function SecurityLogs({}: Props) {
 			dataIndex: "applicationName",
 			sorter: true,
 			width: 200,
-			ellipsis: true
+			ellipsis: true,
 		},
 		{
 			title: $t("AbpAuditLogging.TenantName"),
@@ -96,7 +98,7 @@ function SecurityLogs({}: Props) {
 			width: 200,
 			sorter: true,
 			hideInSearch: true,
-			ellipsis: true
+			ellipsis: true,
 		},
 		{
 			title: $t("AbpUi.Actions"),
@@ -106,20 +108,29 @@ function SecurityLogs({}: Props) {
 			width: 150,
 			render: (_, record) => (
 				<div style={{ display: "flex", gap: "8px" }}>
-					<Button type="link" icon={<EditOutlined />} onClick={() => console.log("Edit", record)}>
-						Edit
-					</Button>
-					<Popconfirm
-						title={$t('AbpUi.ItemWillBeDeletedMessage')}
-						onConfirm={() => handleDelete(record.id)}
-						onCancel={()=>{cancel('User closed cancel delete modal.');}}
-						okText="Yes"
-						cancelText="No"
-					>
-						<Button type="link" danger icon={<DeleteOutlined />}>
-							Delete
-						</Button>
-					</Popconfirm>
+					{withAccessChecker(
+						<Button type="link" icon={<EditOutlined />} onClick={() => console.log("Edit", record)}>
+							Edit
+						</Button>,
+						[SecurityLogPermissions.Default],
+					)}
+					{withAccessChecker(
+						<Popconfirm
+							title={$t("AbpUi.AreYouSure")}
+							description={$t("AbpUi.ItemWillBeDeletedMessage")}
+							onConfirm={() => handleDelete(record.id)}
+							onCancel={() => {
+								cancel("User closed cancel delete modal.");
+							}}
+							okText="Yes"
+							cancelText="No"
+						>
+							<Button type="link" danger icon={<DeleteOutlined />}>
+								Delete
+							</Button>
+						</Popconfirm>,
+						[SecurityLogPermissions.Delete],
+					)}
 				</div>
 			),
 		},
@@ -129,7 +140,7 @@ function SecurityLogs({}: Props) {
 		<Space direction="vertical" size="large" className="w-full">
 			<Card>
 				<ProTable<SecurityLogDto>
-					headerTitle={$t('AbpAuditLogging.SecurityLog')}
+					headerTitle={$t("AbpAuditLogging.SecurityLog")}
 					actionRef={actionRef}
 					rowKey="id"
 					search={{
@@ -138,18 +149,18 @@ function SecurityLogs({}: Props) {
 					}}
 					columns={columns}
 					request={async (params, sorter) => {
-						const { creationTime,current, pageSize, ...rest } = params;
+						const { creationTime, current, pageSize, ...rest } = params;
 						const [startTime, endTime] = creationTime || [];
 						const response = await getPagedListApi({
 							maxResultCount: pageSize,
 							skipCount: ((current || 1) - 1) * (pageSize || 0),
 							sorting: sorter
 								? Object.keys(sorter)
-										.map((key) => `${key} ${sorter[key] === "ascend" ? "asc" : "desc"}`)
+										.map((key) => `${key} ${antdOrderToAbpOrder(sorter[key])}`)
 										.join(", ")
 								: undefined,
 							startTime: startTime || undefined, // 转换为 startTime 参数
-      				endTime: endTime || undefined, // 转换为 endTime 参数
+							endTime: endTime || undefined, // 转换为 endTime 参数
 							...rest,
 						});
 						return {
@@ -166,6 +177,5 @@ function SecurityLogs({}: Props) {
 		</Space>
 	);
 }
-
 
 export default SecurityLogs;

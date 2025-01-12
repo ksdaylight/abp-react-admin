@@ -1,50 +1,39 @@
-import type { AxiosRequestConfig } from 'axios';
-import requestClient from './request';
+import type { AxiosRequestConfig } from "axios";
+import requestClient from "./request";
 
-type HttpMethod =
-  | 'CONNECT'
-  | 'DELETE'
-  | 'GET'
-  | 'HEAD'
-  | 'OPTIONS'
-  | 'PATCH'
-  | 'POST'
-  | 'PURGE'
-  | 'PUT'
-  | 'TRACE';
+type HttpMethod = "CONNECT" | "DELETE" | "GET" | "HEAD" | "OPTIONS" | "PATCH" | "POST" | "PURGE" | "PUT" | "TRACE";
 
 interface RequestConfig extends AxiosRequestConfig {
-  method: HttpMethod;
+	method: HttpMethod;
 }
 
 export class RequestManager {
-  private controllers = new Set<AbortController>();
+	private controllers = new Set<AbortController>();
 
-  
-  constructor() {
-    this.request = this.request.bind(this); // 硬绑定
-    this.cancel = this.cancel.bind(this);
-  }
+	constructor() {
+		this.request = this.request.bind(this); // 硬绑定
+		this.cancel = this.cancel.bind(this);
+	}
 
-  request<T>(url: string, config: RequestConfig): Promise<T> {
-    const controller = new AbortController();
-    this.controllers.add(controller);
+	request<T>(url: string, config: RequestConfig): Promise<T> {
+		const controller = new AbortController();
+		this.controllers.add(controller);
 
-    return requestClient
-      .request<T>(url, {
-        ...config,
-        signal: controller.signal,
-      })
-      .finally(() => {
-        this.controllers.delete(controller);
-      });
-  }
+		return requestClient
+			.request<T>(url, {
+				...config,
+				signal: controller.signal,
+			})
+			.finally(() => {
+				this.controllers.delete(controller);
+			});
+	}
 
-  // 取消所有请求
-  cancel(message?: string) {
-    this.controllers.forEach((controller) => controller.abort(message));
-    this.controllers.clear();
-  }
+	// 取消所有请求
+	cancel(message?: string) {
+		this.controllers.forEach((controller) => controller.abort(message));
+		this.controllers.clear();
+	}
 }
 
 /*
