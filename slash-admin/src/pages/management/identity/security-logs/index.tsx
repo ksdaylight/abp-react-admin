@@ -1,5 +1,5 @@
-import { useRef } from "react";
-import { Space, Button, Tag, Popconfirm, message, Card } from "antd";
+import { useRef, useState } from "react";
+import { Space, Button, Tag, Popconfirm, Card } from "antd";
 import ProTable, { ProColumns, ActionType } from "@ant-design/pro-table";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
@@ -9,16 +9,31 @@ import { useSecurityLogsApi } from "@/api/identity/useSecurityLogsApi";
 import { antdOrderToAbpOrder } from "@/utils/abp/sort-order";
 import { SecurityLogPermissions } from "@/constants/identity/permissions";
 import { withAccessChecker } from "@/utils/abp/with-access-checker";
+import { toast } from "sonner";
+import SecurityLogDrawer from "./security-log-drawer";
 
 interface Props {}
 function SecurityLogs({}: Props) {
 	const { t: $t } = useTranslation();
 	const actionRef = useRef<ActionType>();
 	const { cancel, deleteApi, getPagedListApi } = useSecurityLogsApi();
+	//drawer
+	const [drawerVisible, setDrawerVisible] = useState(false);
+	const [selectedLogId, setSelectedLogId] = useState<string | undefined>();
+
+	const openDrawer = (id: string) => {
+		setSelectedLogId(id);
+		setDrawerVisible(true);
+	};
+
+	const closeDrawer = () => {
+		setDrawerVisible(false);
+		setSelectedLogId(undefined);
+	};
 
 	const handleDelete = async (id: string) => {
 		await deleteApi(id);
-		message.success($t("AbpUi.SuccessfullyDeleted"));
+		toast.success($t("AbpUi.SuccessfullyDeleted"));
 		actionRef.current?.reload();
 	};
 
@@ -109,8 +124,8 @@ function SecurityLogs({}: Props) {
 			render: (_, record) => (
 				<div style={{ display: "flex", gap: "8px" }}>
 					{withAccessChecker(
-						<Button type="link" icon={<EditOutlined />} onClick={() => console.log("Edit", record)}>
-							Edit
+						<Button type="link" icon={<EditOutlined />} onClick={() => openDrawer(record.id)}>
+							{$t("AbpUi.Edit")}
 						</Button>,
 						[SecurityLogPermissions.Default],
 					)}
@@ -126,7 +141,7 @@ function SecurityLogs({}: Props) {
 							cancelText="No"
 						>
 							<Button type="link" danger icon={<DeleteOutlined />}>
-								Delete
+								{$t("AbpUi.Delete")}
 							</Button>
 						</Popconfirm>,
 						[SecurityLogPermissions.Delete],
@@ -137,44 +152,47 @@ function SecurityLogs({}: Props) {
 	];
 
 	return (
-		<Space direction="vertical" size="large" className="w-full">
-			<Card>
-				<ProTable<SecurityLogDto>
-					headerTitle={$t("AbpAuditLogging.SecurityLog")}
-					actionRef={actionRef}
-					rowKey="id"
-					search={{
-						labelWidth: "auto",
-						defaultCollapsed: true,
-					}}
-					columns={columns}
-					request={async (params, sorter) => {
-						const { creationTime, current, pageSize, ...rest } = params;
-						const [startTime, endTime] = creationTime || [];
-						const response = await getPagedListApi({
-							maxResultCount: pageSize,
-							skipCount: ((current || 1) - 1) * (pageSize || 0),
-							sorting: sorter
-								? Object.keys(sorter)
-										.map((key) => `${key} ${antdOrderToAbpOrder(sorter[key])}`)
-										.join(", ")
-								: undefined,
-							startTime: startTime || undefined, // 转换为 startTime 参数
-							endTime: endTime || undefined, // 转换为 endTime 参数
-							...rest,
-						});
-						return {
-							data: response.items,
-							total: response.totalCount,
-						};
-					}}
-					pagination={{
-						showSizeChanger: true,
-					}}
-					scroll={{ x: "max-content" }}
-				/>
-			</Card>
-		</Space>
+		<>
+			<Space direction="vertical" size="large" className="w-full">
+				<Card>
+					<ProTable<SecurityLogDto>
+						headerTitle={$t("AbpAuditLogging.SecurityLog")}
+						actionRef={actionRef}
+						rowKey="id"
+						search={{
+							labelWidth: "auto",
+							defaultCollapsed: true,
+						}}
+						columns={columns}
+						request={async (params, sorter) => {
+							const { creationTime, current, pageSize, ...rest } = params;
+							const [startTime, endTime] = creationTime || [];
+							const response = await getPagedListApi({
+								maxResultCount: pageSize,
+								skipCount: ((current || 1) - 1) * (pageSize || 0),
+								sorting: sorter
+									? Object.keys(sorter)
+											.map((key) => `${key} ${antdOrderToAbpOrder(sorter[key])}`)
+											.join(", ")
+									: undefined,
+								startTime: startTime || undefined, // 转换为 startTime 参数
+								endTime: endTime || undefined, // 转换为 endTime 参数
+								...rest,
+							});
+							return {
+								data: response.items,
+								total: response.totalCount,
+							};
+						}}
+						pagination={{
+							showSizeChanger: true,
+						}}
+						scroll={{ x: "max-content" }}
+					/>
+				</Card>
+			</Space>
+			<SecurityLogDrawer visible={drawerVisible} onClose={closeDrawer} securityLogId={selectedLogId} />
+		</>
 	);
 }
 
