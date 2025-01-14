@@ -1,0 +1,107 @@
+import React, { useEffect, useState } from "react";
+import { Button, Checkbox, Form, Input, Modal, Select, Space } from "antd";
+import { toast } from "sonner";
+import { useTranslation } from "react-i18next";
+import { useClaimTypesApi } from "@/api/identity/use-claim-types-api";
+import { ValueType, IdentityClaimTypeDto } from "#/identity";
+
+interface Props {
+	visible: boolean;
+	onClose: () => void;
+	onSuccess: () => void;
+	claimType?: IdentityClaimTypeDto;
+}
+const ClaimTypeModal: React.FC<Props> = ({ visible, onClose, onSuccess, claimType }) => {
+	const { t: $t } = useTranslation();
+	const [form] = Form.useForm<IdentityClaimTypeDto>();
+	const { cancel, createApi, updateApi } = useClaimTypesApi();
+
+	const [loading, setLoading] = useState(false);
+	const handleSave = async () => {
+		try {
+			setLoading(true);
+			const values = await form.validateFields();
+			if (claimType?.id) {
+				await updateApi(claimType.id, values);
+			} else {
+				await createApi(values);
+			}
+			toast.success($t("AbpUi.Success"));
+			onSuccess();
+			onClose();
+		} catch (error) {
+			toast.error($t("AbpUi.Error"));
+		} finally {
+			setLoading(false);
+		}
+	};
+
+	useEffect(() => {
+		if (visible && claimType) {
+			form.setFieldsValue(claimType);
+		} else {
+			form.resetFields();
+		}
+	}, [visible, claimType, form]);
+
+	return (
+		<Modal
+			title={
+				claimType?.id
+					? `${$t("AbpIdentity.DisplayName:ClaimType")} - ${claimType.name}`
+					: $t("AbpIdentity.IdentityClaim:New")
+			}
+			footer={null}
+			open={visible}
+			onCancel={onClose}
+			onClose={() => {
+				cancel("ClaimType Modal has closed!");
+			}}
+			destroyOnClose
+			centered
+			loading={loading}
+		>
+			<Form form={form} layout="vertical" initialValues={{ required: false }}>
+				<Form.Item
+					label={$t("AbpIdentity.IdentityClaim:Name")}
+					name="name"
+					rules={[{ required: true, message: $t("AbpUi.Required") }]}
+				>
+					<Input />
+				</Form.Item>
+				<Form.Item label={$t("AbpIdentity.IdentityClaim:Required")} name="required" valuePropName="checked">
+					<Checkbox>{$t("AbpIdentity.IdentityClaim:Required")}</Checkbox>
+				</Form.Item>
+				<Form.Item label={$t("AbpIdentity.IdentityClaim:Regex")} name="regex">
+					<Input />
+				</Form.Item>
+				<Form.Item label={$t("AbpIdentity.IdentityClaim:RegexDescription")} name="regexDescription">
+					<Input />
+				</Form.Item>
+				<Form.Item label={$t("AbpIdentity.IdentityClaim:ValueType")} name="valueType">
+					<Select
+						options={[
+							{ label: "String", value: ValueType.String },
+							{ label: "Int", value: ValueType.Int },
+							{ label: "Boolean", value: ValueType.Boolean },
+							{ label: "DateTime", value: ValueType.DateTime },
+						]}
+					/>
+				</Form.Item>
+				<Form.Item label={$t("AbpIdentity.IdentityClaim:Description")} name="description">
+					<Input.TextArea />
+				</Form.Item>
+				<Form.Item>
+					<Space style={{ display: "flex", justifyContent: "flex-end" }}>
+						<Button onClick={onClose}>{$t("AbpUi.Cancel")}</Button>
+						<Button type="primary" onClick={handleSave}>
+							{$t("AbpUi.Save")}
+						</Button>
+					</Space>
+				</Form.Item>
+			</Form>
+		</Modal>
+	);
+};
+
+export default ClaimTypeModal;

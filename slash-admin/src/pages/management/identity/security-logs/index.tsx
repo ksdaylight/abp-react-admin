@@ -5,15 +5,14 @@ import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
 import { formatToDateTime } from "@/utils/abp";
 import { SecurityLogDto } from "#/identity";
-import { useSecurityLogsApi } from "@/api/identity/useSecurityLogsApi";
+import { useSecurityLogsApi } from "@/api/identity/use-security-logs-api";
 import { antdOrderToAbpOrder } from "@/utils/abp/sort-order";
 import { SecurityLogPermissions } from "@/constants/identity/permissions";
-import { withAccessChecker } from "@/utils/abp/with-access-checker";
+import { hasAccessByCodes, withAccessChecker } from "@/utils/abp/access-checker";
 import { toast } from "sonner";
 import SecurityLogDrawer from "./security-log-drawer";
 
-interface Props {}
-function SecurityLogs({}: Props) {
+const SecurityLogs = () => {
 	const { t: $t } = useTranslation();
 	const actionRef = useRef<ActionType>();
 	const { cancel, deleteApi, getPagedListApi } = useSecurityLogsApi();
@@ -115,40 +114,43 @@ function SecurityLogs({}: Props) {
 			hideInSearch: true,
 			ellipsis: true,
 		},
-		{
-			title: $t("AbpUi.Actions"),
-			key: "actions",
-			fixed: "right",
-			hideInSearch: true,
-			width: 150,
-			render: (_, record) => (
-				<div style={{ display: "flex", gap: "8px" }}>
-					{withAccessChecker(
-						<Button type="link" icon={<EditOutlined />} onClick={() => openDrawer(record.id)}>
-							{$t("AbpUi.Edit")}
-						</Button>,
-						[SecurityLogPermissions.Default],
-					)}
-					{withAccessChecker(
-						<Popconfirm
-							title={$t("AbpUi.AreYouSure")}
-							description={$t("AbpUi.ItemWillBeDeletedMessage")}
-							onConfirm={() => handleDelete(record.id)}
-							onCancel={() => {
-								cancel("User closed cancel delete modal.");
-							}}
-							okText="Yes"
-							cancelText="No"
-						>
-							<Button type="link" danger icon={<DeleteOutlined />}>
-								{$t("AbpUi.Delete")}
-							</Button>
-						</Popconfirm>,
-						[SecurityLogPermissions.Delete],
-					)}
-				</div>
-			),
-		},
+		hasAccessByCodes([SecurityLogPermissions.Default, SecurityLogPermissions.Delete])
+			? {
+					title: $t("AbpUi.Actions"),
+					key: "actions",
+					align: "center",
+					fixed: "right",
+					hideInSearch: true,
+					width: 150,
+					render: (_, record) => (
+						<div style={{ display: "flex", gap: "8px" }}>
+							{withAccessChecker(
+								<Button type="link" icon={<EditOutlined />} onClick={() => openDrawer(record.id)}>
+									{$t("AbpUi.Edit")}
+								</Button>,
+								[SecurityLogPermissions.Default],
+							)}
+							{withAccessChecker(
+								<Popconfirm
+									title={$t("AbpUi.AreYouSure")}
+									description={$t("AbpUi.ItemWillBeDeletedMessage")}
+									onConfirm={() => handleDelete(record.id)}
+									onCancel={() => {
+										cancel("User closed cancel delete modal.");
+									}}
+									okText={$t("AbpUi.Yes")}
+									cancelText={$t("AbpUi.No")}
+								>
+									<Button type="link" danger icon={<DeleteOutlined />}>
+										{$t("AbpUi.Delete")}
+									</Button>
+								</Popconfirm>,
+								[SecurityLogPermissions.Delete],
+							)}
+						</div>
+					),
+				}
+			: {},
 	];
 
 	return (
@@ -194,6 +196,6 @@ function SecurityLogs({}: Props) {
 			<SecurityLogDrawer visible={drawerVisible} onClose={closeDrawer} securityLogId={selectedLogId} />
 		</>
 	);
-}
+};
 
 export default SecurityLogs;

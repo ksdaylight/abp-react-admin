@@ -7,7 +7,7 @@ export enum ValueType {
 	String = 0,
 }
 
-interface IdentityClaimTypeDto extends ExtensibleEntityDto<string> {
+interface IdentityClaimTypeDto extends ExtensibleEntityDto<string> {	
 	description?: string;
 	isStatic: boolean;
 	name: string;

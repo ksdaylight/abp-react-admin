@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Drawer, Descriptions } from "antd";
 import { formatToDateTime } from "@/utils/abp";
-import { useSecurityLogsApi } from "@/api/identity/useSecurityLogsApi";
+import { useSecurityLogsApi } from "@/api/identity/use-security-logs-api";
 import { useTranslation } from "react-i18next";
 import { SecurityLogDto } from "#/identity";
 import { toast } from "sonner";
@@ -52,16 +52,10 @@ const SecurityLogDrawer: React.FC<Props> = ({ visible, onClose, securityLogId })
 			}}
 			afterOpenChange={handleOpenChange}
 			width={800}
-      loading={loading}
+			loading={loading}
 			destroyOnClose
 		>
-			<Descriptions
-				bordered
-				size="small"
-				column={2}
-				labelStyle={{ width: "110px" }}
-				colon={false}
-			>
+			<Descriptions bordered size="small" column={2} labelStyle={{ width: "110px" }} colon={false}>
 				<Descriptions.Item label={$t("AbpAuditLogging.ApplicationName")}>
 					{formModel?.applicationName}
 				</Descriptions.Item>
@@ -83,7 +77,7 @@ const SecurityLogDrawer: React.FC<Props> = ({ visible, onClose, securityLogId })
 				</Descriptions.Item>
 
 				<Descriptions.Item label={$t("AbpAuditLogging.Additional")} span={2}>
-					{formModel?.extraProperties ? JSON.stringify(formModel.extraProperties, null, 2) : ''}
+					{formModel?.extraProperties ? JSON.stringify(formModel.extraProperties, null, 2) : ""}
 				</Descriptions.Item>
 			</Descriptions>
 		</Drawer>

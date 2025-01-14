@@ -1,7 +1,7 @@
 import { Suspense, lazy } from "react";
 import { Navigate, Outlet } from "react-router";
 
-import { SvgIcon } from "@/components/icon";
+import { Iconify, SvgIcon } from "@/components/icon";
 import { CircleLoading } from "@/components/loading";
 
 import type { AppRouteObject } from "#/router";
@@ -14,6 +14,7 @@ const PermissioPage = lazy(() => import("@/pages/management/system/permission"))
 
 const Blog = lazy(() => import("@/pages/management/blog"));
 const SecurityLogs = lazy(() => import("@/pages/management/identity/security-logs"));
+const ClaimTypes = lazy(() => import("@/pages/management/identity/claim-types"));
 
 const management: AppRouteObject = {
 	order: 2,
@@ -87,9 +88,36 @@ const management: AppRouteObject = {
 			meta: { label: "sys.menu.blog", key: "/management/blog" },
 		},
 		{
-			path: "audit-logs",
-			element: <SecurityLogs />,
-			meta: { label: "abp.manage.identity.securityLogs", key: "/management/audit-logs" },
+			path: "identity",
+			meta: {
+				label: "abp.manage.identity.title",
+				key: "/management/identity",
+				icon: <Iconify icon="teenyicons:id-outline" />,
+			},
+			children: [
+				{
+					index: true,
+					element: <Navigate to="audit-logs" replace />, //TODO 修改默认子级
+				},
+				{
+					path: "claim-types",
+					element: <ClaimTypes />,
+					meta: {
+						label: "abp.manage.identity.claimTypes",
+						key: "/management/identity/claim-types",
+						icon: <Iconify icon="la:id-card-solid" />,
+					},
+				},
+				{
+					path: "audit-logs",
+					element: <SecurityLogs />,
+					meta: {
+						label: "abp.manage.identity.securityLogs",
+						key: "/management/identity/audit-logs",
+						icon: <Iconify icon="carbon:security" />,
+					},
+				},
+			],
 		},
 	],
 };
