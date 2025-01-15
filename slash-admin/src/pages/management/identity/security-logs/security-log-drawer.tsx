@@ -1,9 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import { Drawer, Descriptions } from "antd";
 import { formatToDateTime } from "@/utils/abp";
 import { useTranslation } from "react-i18next";
-import { SecurityLogDto } from "#/identity";
-import { toast } from "sonner";
+import { useQuery } from "@tanstack/react-query";
 import { getApi } from "@/api/identity/security-logs";
 
 interface Props {
@@ -14,41 +13,20 @@ interface Props {
 
 const SecurityLogDrawer: React.FC<Props> = ({ visible, onClose, securityLogId }) => {
 	const { t: $t } = useTranslation();
-	const [formModel, setFormModel] = useState<SecurityLogDto | null>(null);
-	const [loading, setLoading] = useState(false);
 
-	// Fetch Security Log details
-	const fetchSecurityLog = async (id: string) => {
-		setLoading(true);
-		try {
-			const data = await getApi(id);
-			setFormModel(data);
-		} catch (error) {
-			toast.error($t("AbpUi.FailedToLoadData"), {
-				position: "top-center",
-			});
-		} finally {
-			setLoading(false);
-		}
-	};
-
-	// Handle Drawer open/close
-	const handleOpenChange = async (isOpen: boolean) => {
-		if (isOpen && securityLogId) {
-			await fetchSecurityLog(securityLogId);
-		} else {
-			setFormModel(null);
-		}
-	};
+	const { data: formModel, isLoading } = useQuery({
+		queryKey: ["securityLog", securityLogId],
+		queryFn: () => getApi(securityLogId!),
+		enabled: visible && !!securityLogId,
+	});
 
 	return (
 		<Drawer
 			title={$t("AbpAuditLogging.SecurityLog")}
 			open={visible}
 			onClose={onClose}
-			afterOpenChange={handleOpenChange}
 			width={800}
-			loading={loading}
+			loading={isLoading}
 			destroyOnClose
 		>
 			<Descriptions bordered size="small" column={2} labelStyle={{ width: "110px" }} colon={false}>

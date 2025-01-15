@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Button, Checkbox, Form, Input, Modal, Select, Space } from "antd";
 import { toast } from "sonner";
 import { useTranslation } from "react-i18next";
 import { ValueType, IdentityClaimTypeDto } from "#/identity";
 import { createApi, updateApi } from "@/api/identity/claim-types";
+import { useMutation } from "@tanstack/react-query";
 
 interface Props {
 	visible: boolean;
@@ -11,27 +12,45 @@ interface Props {
 	onSuccess: () => void;
 	claimType?: IdentityClaimTypeDto;
 }
+
 const ClaimTypeModal: React.FC<Props> = ({ visible, onClose, onSuccess, claimType }) => {
 	const { t: $t } = useTranslation();
 	const [form] = Form.useForm<IdentityClaimTypeDto>();
 
-	const [loading, setLoading] = useState(false);
-	const handleSave = async () => {
-		try {
-			setLoading(true);
-			const values = await form.validateFields();
-			if (claimType?.id) {
-				await updateApi(claimType.id, values);
-			} else {
-				await createApi(values);//TODO react query integration
-			}
+	const { mutateAsync: createClaimType, isPending: isCreating } = useMutation({
+		mutationFn: createApi,
+		onSuccess: () => {
 			toast.success($t("AbpUi.Success"));
 			onSuccess();
 			onClose();
-		} catch (error) {
+		},
+		onError: () => {
 			toast.error($t("AbpUi.Error"));
-		} finally {
-			setLoading(false);
+		},
+	});
+
+	const { mutateAsync: updateClaimType, isPending: isUpdating } = useMutation({
+		mutationFn: ({ id, data }: { id: string; data: IdentityClaimTypeDto }) => updateApi(id, data),
+		onSuccess: () => {
+			toast.success($t("AbpUi.Success"));
+			onSuccess();
+			onClose();
+		},
+		onError: () => {
+			toast.error($t("AbpUi.Error"));
+		},
+	});
+
+	const handleSave = async () => {
+		try {
+			const values = await form.validateFields();
+			if (claimType?.id) {
+				await updateClaimType({ id: claimType.id, data: values });
+			} else {
+				await createClaimType(values);
+			}
+		} catch (error) {
+			// Form validation error, no need to handle
 		}
 	};
 
@@ -55,7 +74,7 @@ const ClaimTypeModal: React.FC<Props> = ({ visible, onClose, onSuccess, claimTyp
 			onCancel={onClose}
 			destroyOnClose
 			centered
-			loading={loading}
+			confirmLoading={isCreating || isUpdating}
 		>
 			<Form form={form} layout="vertical" initialValues={{ required: false }}>
 				<Form.Item

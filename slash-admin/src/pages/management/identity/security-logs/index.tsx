@@ -1,5 +1,6 @@
 import { useRef, useState } from "react";
 import { Space, Button, Tag, Popconfirm, Card } from "antd";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import ProTable, { ProColumns, ActionType } from "@ant-design/pro-table";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
@@ -15,7 +16,7 @@ import { deleteApi, getPagedListApi } from "@/api/identity/security-logs";
 const SecurityLogs = () => {
 	const { t: $t } = useTranslation();
 	const actionRef = useRef<ActionType>();
-	// const { cancel, deleteApi, getPagedListApi } = useSecurityLogsApi();
+	const queryClient = useQueryClient();
 	//drawer
 	const [drawerVisible, setDrawerVisible] = useState(false);
 	const [selectedLogId, setSelectedLogId] = useState<string | undefined>();
@@ -30,11 +31,15 @@ const SecurityLogs = () => {
 		setSelectedLogId(undefined);
 	};
 
-	const handleDelete = async (id: string) => {
-		await deleteApi(id);
-		toast.success($t("AbpUi.SuccessfullyDeleted"));
-		actionRef.current?.reload();
-	};
+	const { mutateAsync: deleteSecurityLog } = useMutation({
+		mutationFn: deleteApi,
+		onSuccess: () => {
+			toast.success($t("AbpUi.SuccessfullyDeleted"));
+			queryClient.invalidateQueries({ queryKey: ["securityLogs"] });
+		},
+	});
+
+	const handleDelete = (id: string) => deleteSecurityLog(id);
 
 	const columns: ProColumns<SecurityLogDto>[] = [
 		{
@@ -166,21 +171,27 @@ const SecurityLogs = () => {
 						request={async (params, sorter) => {
 							const { creationTime, current, pageSize, ...rest } = params;
 							const [startTime, endTime] = creationTime || [];
-							const response = await getPagedListApi({
-								maxResultCount: pageSize,
-								skipCount: ((current || 1) - 1) * (pageSize || 0),
-								sorting: sorter
-									? Object.keys(sorter)
-											.map((key) => `${key} ${antdOrderToAbpOrder(sorter[key])}`)
-											.join(", ")
-									: undefined,
-								startTime: startTime || undefined, // 转换为 startTime 参数
-								endTime: endTime || undefined, // 转换为 endTime 参数
-								...rest,
+
+							const query = await queryClient.fetchQuery({
+								queryKey: ["securityLogs", params, sorter],
+								queryFn: () =>
+									getPagedListApi({
+										maxResultCount: pageSize,
+										skipCount: ((current || 1) - 1) * (pageSize || 0),
+										sorting: sorter
+											? Object.keys(sorter)
+													.map((key) => `${key} ${antdOrderToAbpOrder(sorter[key])}`)
+													.join(", ")
+											: undefined,
+										startTime: startTime || undefined, // 转换为 startTime 参数
+										endTime: endTime || undefined, // 转换为 endTime 参数
+										...rest,
+									}),
 							});
+
 							return {
-								data: response.items,
-								total: response.totalCount,
+								data: query.items,
+								total: query.totalCount,
 							};
 						}}
 						pagination={{

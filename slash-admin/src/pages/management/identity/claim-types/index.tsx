@@ -10,10 +10,12 @@ import { withAccessChecker, hasAccessByCodes } from "@/utils/abp/access-checker"
 import ProTable, { ActionType, ProColumns } from "@ant-design/pro-table";
 import { antdOrderToAbpOrder } from "@/utils/abp/sort-order";
 import { deleteApi, getPagedListApi } from "@/api/identity/claim-types";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const ClaimTypeTable: React.FC = () => {
 	const { t: $t } = useTranslation();
 	const actionRef = useRef<ActionType>();
+	const queryClient = useQueryClient();
 	// Filter state
 	const [filter, setFilter] = useState<string | undefined>();
 	// Modal State
@@ -29,11 +31,16 @@ const ClaimTypeTable: React.FC = () => {
 		setSelectedClaim(null);
 	};
 
-	const handleDelete = async (id: string) => {
-		await deleteApi(id);
-		toast.success($t("AbpUi.SuccessfullyDeleted"));
-		actionRef.current?.reload();
-	};
+	const { mutateAsync: deleteClaimType } = useMutation({
+		mutationFn: deleteApi,
+		onSuccess: () => {
+			toast.success($t("AbpUi.SuccessfullyDeleted"));
+			queryClient.invalidateQueries({ queryKey: ["claimTypes"] });
+		},
+	});
+
+	const handleDelete = (id: string) => deleteClaimType(id);
+
 	const columns: ProColumns<IdentityClaimTypeDto>[] = [
 		{
 			title: $t("AbpIdentity.IdentityClaim:Name"),
@@ -125,20 +132,26 @@ const ClaimTypeTable: React.FC = () => {
 						columns={columns}
 						request={async (params, sorter) => {
 							const { current, pageSize, ...filters } = params;
-							const response = await getPagedListApi({
-								maxResultCount: pageSize,
-								skipCount: ((current || 1) - 1) * (pageSize || 0),
-								filter,
-								sorting: sorter
-									? Object.keys(sorter)
-											.map((key) => `${key} ${antdOrderToAbpOrder(sorter[key])}`)
-											.join(", ")
-									: undefined,
-								...filters,
+
+							const query = await queryClient.fetchQuery({
+								queryKey: ["claimTypes", params, sorter, filter],
+								queryFn: () =>
+									getPagedListApi({
+										maxResultCount: pageSize,
+										skipCount: ((current || 1) - 1) * (pageSize || 0),
+										filter,
+										sorting: sorter
+											? Object.keys(sorter)
+													.map((key) => `${key} ${antdOrderToAbpOrder(sorter[key])}`)
+													.join(", ")
+											: undefined,
+										...filters,
+									}),
 							});
+
 							return {
-								data: response.items,
-								total: response.totalCount,
+								data: query.items,
+								total: query.totalCount,
 							};
 						}}
 						pagination={{
@@ -173,7 +186,7 @@ const ClaimTypeTable: React.FC = () => {
 					onClose={closeModal}
 					onSuccess={() => {
 						closeModal();
-						actionRef.current?.reload();
+						queryClient.invalidateQueries({ queryKey: ["claimTypes"] });
 					}}
 				/>
 			)}
