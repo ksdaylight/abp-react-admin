@@ -1,5 +1,5 @@
 // react-query
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryCache, QueryClient, QueryClientProvider } from "@tanstack/react-query";
 // vercel analytics
 import { Analytics } from "@vercel/analytics/react";
 // react
@@ -17,6 +17,8 @@ import "./locales/i18n";
 // css
 import "./global.css";
 import "./theme/theme.css";
+
+import { toast } from "sonner";
 
 // root component
 import App from "./App";
@@ -42,6 +44,10 @@ const queryClient = new QueryClient({
 			refetchOnMount: false,
 		},
 	},
+	//https://tkdodo.eu/blog/breaking-react-querys-api-on-purpose
+	queryCache: new QueryCache({
+		onError: (error) => toast.error(`Something went wrong: ${error.message}`),
+	}),
 });
 
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);

@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Button, Checkbox, Form, Input, Modal, Select, Space } from "antd";
 import { toast } from "sonner";
 import { useTranslation } from "react-i18next";
-import { useClaimTypesApi } from "@/api/identity/use-claim-types-api";
 import { ValueType, IdentityClaimTypeDto } from "#/identity";
+import { createApi, updateApi } from "@/api/identity/claim-types";
 
 interface Props {
 	visible: boolean;
@@ -14,7 +14,6 @@ interface Props {
 const ClaimTypeModal: React.FC<Props> = ({ visible, onClose, onSuccess, claimType }) => {
 	const { t: $t } = useTranslation();
 	const [form] = Form.useForm<IdentityClaimTypeDto>();
-	const { cancel, createApi, updateApi } = useClaimTypesApi();
 
 	const [loading, setLoading] = useState(false);
 	const handleSave = async () => {
@@ -24,7 +23,7 @@ const ClaimTypeModal: React.FC<Props> = ({ visible, onClose, onSuccess, claimTyp
 			if (claimType?.id) {
 				await updateApi(claimType.id, values);
 			} else {
-				await createApi(values);
+				await createApi(values);//TODO react query integration
 			}
 			toast.success($t("AbpUi.Success"));
 			onSuccess();
@@ -54,9 +53,6 @@ const ClaimTypeModal: React.FC<Props> = ({ visible, onClose, onSuccess, claimTyp
 			footer={null}
 			open={visible}
 			onCancel={onClose}
-			onClose={() => {
-				cancel("ClaimType Modal has closed!");
-			}}
 			destroyOnClose
 			centered
 			loading={loading}

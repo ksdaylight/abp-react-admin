@@ -5,17 +5,17 @@ import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
 import { formatToDateTime } from "@/utils/abp";
 import { SecurityLogDto } from "#/identity";
-import { useSecurityLogsApi } from "@/api/identity/use-security-logs-api";
 import { antdOrderToAbpOrder } from "@/utils/abp/sort-order";
 import { SecurityLogPermissions } from "@/constants/identity/permissions";
 import { hasAccessByCodes, withAccessChecker } from "@/utils/abp/access-checker";
 import { toast } from "sonner";
 import SecurityLogDrawer from "./security-log-drawer";
+import { deleteApi, getPagedListApi } from "@/api/identity/security-logs";
 
 const SecurityLogs = () => {
 	const { t: $t } = useTranslation();
 	const actionRef = useRef<ActionType>();
-	const { cancel, deleteApi, getPagedListApi } = useSecurityLogsApi();
+	// const { cancel, deleteApi, getPagedListApi } = useSecurityLogsApi();
 	//drawer
 	const [drawerVisible, setDrawerVisible] = useState(false);
 	const [selectedLogId, setSelectedLogId] = useState<string | undefined>();
@@ -135,9 +135,6 @@ const SecurityLogs = () => {
 									title={$t("AbpUi.AreYouSure")}
 									description={$t("AbpUi.ItemWillBeDeletedMessage")}
 									onConfirm={() => handleDelete(record.id)}
-									onCancel={() => {
-										cancel("User closed cancel delete modal.");
-									}}
 									okText={$t("AbpUi.Yes")}
 									cancelText={$t("AbpUi.No")}
 								>

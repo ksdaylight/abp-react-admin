@@ -3,18 +3,17 @@ import { Button, Popconfirm, Space, Card, Input } from "antd";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
 import ClaimTypeModal from "./claim-type-modal";
-import { useClaimTypesApi } from "@/api/identity/use-claim-types-api";
 import { IdentityClaimTypeDto, ValueType } from "#/identity";
 import { toast } from "sonner";
 import { IdentityClaimTypePermissions } from "@/constants/identity/permissions";
 import { withAccessChecker, hasAccessByCodes } from "@/utils/abp/access-checker";
 import ProTable, { ActionType, ProColumns } from "@ant-design/pro-table";
 import { antdOrderToAbpOrder } from "@/utils/abp/sort-order";
+import { deleteApi, getPagedListApi } from "@/api/identity/claim-types";
 
 const ClaimTypeTable: React.FC = () => {
 	const { t: $t } = useTranslation();
 	const actionRef = useRef<ActionType>();
-	const { cancel, getPagedListApi, deleteApi } = useClaimTypesApi();
 	// Filter state
 	const [filter, setFilter] = useState<string | undefined>();
 	// Modal State
@@ -100,9 +99,6 @@ const ClaimTypeTable: React.FC = () => {
 									key="delete"
 									title={$t("AbpUi.AreYouSure")}
 									onConfirm={() => handleDelete(record.id)}
-									onCancel={() => {
-										cancel("User closed cancel delete modal.");
-									}}
 									okText={$t("AbpUi.Yes")}
 									cancelText={$t("AbpUi.No")}
 								>

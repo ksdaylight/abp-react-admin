@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Modal, Form, Input, Select } from "antd";
 import { useTranslation } from "react-i18next";
-import { useClaimTypesApi } from "@/api/identity/use-claim-types-api";
 import { IdentityClaimCreateDto, IdentityClaimDto, IdentityClaimUpdateDto } from "#/identity/claims";
 import { IdentityClaimTypeDto } from "#/identity";
+import { getAssignableClaimsApi } from "@/api/identity/claim-types";
 
 interface ClaimEditModalProps {
 	visible: boolean;
@@ -17,7 +17,6 @@ interface ClaimEditModalProps {
 const ClaimModal: React.FC<ClaimEditModalProps> = ({ visible, claim, onClose, onChange, createApi, updateApi }) => {
 	const { t: $t } = useTranslation();
 	const [form] = Form.useForm();
-	const { cancel, getAssignableClaimsApi } = useClaimTypesApi();
 	const [loading, setLoading] = useState(false);
 	const [assignableClaims, setAssignableClaims] = useState<IdentityClaimTypeDto[]>([]);
 
@@ -55,23 +54,20 @@ const ClaimModal: React.FC<ClaimEditModalProps> = ({ visible, claim, onClose, on
 						claimType: values.claimType,
 						claimValue: values.claimValue,
 					});
-			await api;// TODO react query integration
+			await api; // TODO react query integration
 			onChange(values as IdentityClaimDto); // 更新列表数据，供父组件使用
 			onClose();
 		} finally {
 			setLoading(false);
 		}
 	};
-  
+
 	return (
 		<Modal
 			open={visible}
 			title={$t("AbpIdentity.ManageClaim")}
 			onCancel={onClose}
 			onOk={handleOk}
-			onClose={() => {
-				cancel("Claim modal has closed!");
-			}}
 			confirmLoading={loading}
 		>
 			<Form form={form} layout="vertical">

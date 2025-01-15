@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { Drawer, Descriptions } from "antd";
 import { formatToDateTime } from "@/utils/abp";
-import { useSecurityLogsApi } from "@/api/identity/use-security-logs-api";
 import { useTranslation } from "react-i18next";
 import { SecurityLogDto } from "#/identity";
 import { toast } from "sonner";
+import { getApi } from "@/api/identity/security-logs";
 
 interface Props {
 	visible: boolean;
@@ -16,7 +16,6 @@ const SecurityLogDrawer: React.FC<Props> = ({ visible, onClose, securityLogId })
 	const { t: $t } = useTranslation();
 	const [formModel, setFormModel] = useState<SecurityLogDto | null>(null);
 	const [loading, setLoading] = useState(false);
-	const { getApi, cancel } = useSecurityLogsApi();
 
 	// Fetch Security Log details
 	const fetchSecurityLog = async (id: string) => {
@@ -46,10 +45,7 @@ const SecurityLogDrawer: React.FC<Props> = ({ visible, onClose, securityLogId })
 		<Drawer
 			title={$t("AbpAuditLogging.SecurityLog")}
 			open={visible}
-			onClose={() => {
-				cancel("Security log drawer has closed!");
-				onClose();
-			}}
+			onClose={onClose}
 			afterOpenChange={handleOpenChange}
 			width={800}
 			loading={loading}
