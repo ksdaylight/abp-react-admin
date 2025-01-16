@@ -44,6 +44,7 @@
 		"highlight.js": "^11.9.0",
 		"i18next": "^23.5.1",
 		"i18next-browser-languagedetector": "^7.1.0",
+		"json-edit-react": "^1.19.2",
 		"nprogress": "^0.2.0",
 		"numeral": "^2.0.6",
 		"ramda": "^0.29.1",

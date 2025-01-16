@@ -13,8 +13,10 @@ const OrganizationPage = lazy(() => import("@/pages/management/system/organizati
 const PermissioPage = lazy(() => import("@/pages/management/system/permission"));
 
 const Blog = lazy(() => import("@/pages/management/blog"));
-const SecurityLogs = lazy(() => import("@/pages/management/identity/security-logs"));
-const ClaimTypes = lazy(() => import("@/pages/management/identity/claim-types"));
+const SecurityLogs = lazy(() => import("@/pages/management/identity/security-logs/security-logs-table"));
+const ClaimTypes = lazy(() => import("@/pages/management/identity/claim-types/claim-types-table"));
+
+const AuditingAuditLogs = lazy(() => import("@/pages/management/audit-logs/audit-log-table"));
 
 const management: AppRouteObject = {
 	order: 2,
@@ -97,7 +99,7 @@ const management: AppRouteObject = {
 			children: [
 				{
 					index: true,
-					element: <Navigate to="audit-logs" replace />, //TODO 修改默认子级
+					element: <Navigate to="security-logs" replace />, //TODO 修改默认子级
 				},
 				{
 					path: "claim-types",
@@ -109,15 +111,24 @@ const management: AppRouteObject = {
 					},
 				},
 				{
-					path: "audit-logs",
+					path: "security-logs",
 					element: <SecurityLogs />,
 					meta: {
 						label: "abp.manage.identity.securityLogs",
-						key: "/management/identity/audit-logs",
+						key: "/management/identity/security-logs",
 						icon: <Iconify icon="carbon:security" />,
 					},
 				},
 			],
+		},
+		{
+			path: "audit-logs",
+			element: <AuditingAuditLogs />,
+			meta: {
+				label: "abp.manage.identity.auditLogs",
+				key: "/management/audit-logs",
+				icon: <Iconify icon="fluent-mdl2:compliance-audit" />,
+			},			
 		},
 	],
 };
