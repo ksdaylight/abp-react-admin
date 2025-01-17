@@ -1,7 +1,8 @@
-import React, { useEffect } from "react";
+import type React from "react";
+import { useEffect } from "react";
 import { Modal, Form, Input, Checkbox } from "antd";
 import { useTranslation } from "react-i18next";
-import { IdentityRoleDto } from "#/identity";
+import type { IdentityRoleDto } from "#/identity";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { createApi, getApi, updateApi } from "@/api/identity/role";
 import { toast } from "sonner";

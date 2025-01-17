@@ -7,7 +7,7 @@ import { toast } from "sonner";
 import type { UserInfo, UserToken } from "#/entity";
 import { StorageEnum } from "#/enum";
 import { getUserInfoApi, loginApi } from "@/api/account";
-import { PasswordTokenRequestModel } from "#/account";
+import type { PasswordTokenRequestModel } from "#/account";
 import { getConfigApi } from "@/api/abp-core";
 import useAbpStore from "./abpCoreStore";
 

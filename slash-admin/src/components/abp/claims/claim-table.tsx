@@ -1,11 +1,12 @@
-import React, { useState, useRef } from "react";
+import type React from "react";
+import { useState, useRef } from "react";
 import { Button, Popconfirm, Space } from "antd";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
-import { ProTable, ActionType, ProColumns } from "@ant-design/pro-table";
+import { ProTable, type ActionType, type ProColumns } from "@ant-design/pro-table";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { IdentityClaimDto } from "#/identity/claims";
-import { ClaimModalProps } from "./types";
+import type { IdentityClaimDto } from "#/identity/claims";
+import type { ClaimModalProps } from "./types";
 import { toast } from "sonner";
 import { withAccessChecker } from "@/utils/abp/access-checker";
 import ClaimModal from "./claim-modal";

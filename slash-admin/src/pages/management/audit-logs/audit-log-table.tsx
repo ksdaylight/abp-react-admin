@@ -1,18 +1,21 @@
-import React, { useRef, useState } from "react";
-import { Button, Tag, Modal, message, Space, Card, Checkbox, FormInstance, Tooltip } from "antd";
+import type React from "react";
+import { useRef, useState } from "react";
+import { Button, Tag, Space, Card, Checkbox, type FormInstance, Tooltip } from "antd";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
-import ProTable, { ProColumns, ActionType } from "@ant-design/pro-table";
+import ProTable, { type ProColumns, type ActionType } from "@ant-design/pro-table";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { formatToDateTime } from "@/utils/abp";
-import { AuditLogDto } from "#/auditing/audit-logs";
+import type { AuditLogDto } from "#/auditing/audit-logs";
 import { deleteApi, getPagedListApi } from "@/api/auditing/audit-logs";
-import { httpMethodOptions, httpStatusCodeOptions } from "./mapping"; //TODO
+import { httpMethodOptions, httpStatusCodeOptions } from "./mapping";
 import AuditLogDrawer from "./audit-log-drawer";
 import { hasAccessByCodes, withAccessChecker } from "@/utils/abp/access-checker";
 import { AuditLogPermissions } from "@/constants/auditing/permissions";
 import { useAuditLogs } from "@/hooks/abp/auditing/use-audit-logs";
 import { antdOrderToAbpOrder } from "@/utils/abp/sort-order";
+import { toast } from "sonner";
+import DeleteModal from "@/components/abp/common/delete-modal";
 
 const AuditLogTable: React.FC = () => {
 	const { t: $t } = useTranslation();
@@ -21,6 +24,7 @@ const AuditLogTable: React.FC = () => {
 	const queryClient = useQueryClient();
 	const [drawerVisible, setDrawerVisible] = useState(false);
 	const [selectedLog, setSelectedLog] = useState<AuditLogDto | null>(null);
+	const [deleteModalVisible, setDeleteModalVisible] = useState(false);
 	const { getHttpMethodColor, getHttpStatusCodeColor } = useAuditLogs();
 
 	const openDrawer = (log: AuditLogDto) => {
@@ -36,20 +40,22 @@ const AuditLogTable: React.FC = () => {
 	const { mutateAsync: deleteAuditLog } = useMutation({
 		mutationFn: deleteApi,
 		onSuccess: () => {
-			message.success($t("AbpUi.SuccessfullyDeleted"));
+			toast.success($t("AbpUi.SuccessfullyDeleted"));
 			queryClient.invalidateQueries({ queryKey: ["auditLogs"] });
 		},
 	});
 
 	const handleDelete = (log: AuditLogDto) => {
-		Modal.confirm({
-			title: $t("AbpUi.AreYouSure"),
-			content: $t("AbpUi.ItemWillBeDeletedMessage"),
-			onOk: async () => {
-				await deleteAuditLog(log.id);
-				actionRef.current?.reload();
-			},
-		});
+		setSelectedLog(log);
+		setDeleteModalVisible(true);
+	};
+
+	const confirmDelete = async () => {
+		if (selectedLog) {
+			await deleteAuditLog(selectedLog.id);
+			actionRef.current?.reload();
+			setDeleteModalVisible(false);
+		}
 	};
 
 	const columns: ProColumns<AuditLogDto>[] = [
@@ -194,7 +200,7 @@ const AuditLogTable: React.FC = () => {
 						{...rest}
 						onChange={(e) => {
 							const value = e.target.checked; // 获取 Checkbox 的选中状态
-							onFilter("hasException", value, false); 
+							onFilter("hasException", value, false);
 						}}
 					/>
 				);
@@ -228,7 +234,7 @@ const AuditLogTable: React.FC = () => {
 			: {},
 	];
 
-	const onFilter = (field: string, value: any, shouldSubmit: boolean = true) => {
+	const onFilter = (field: string, value: any, shouldSubmit = true) => {
 		// 使用 formRef 更新查询条件
 		if (formRef.current) {
 			formRef.current.setFieldsValue({
@@ -240,14 +246,6 @@ const AuditLogTable: React.FC = () => {
 			formRef.current?.submit();
 		}
 	};
-
-	// const onFilter = (field: string, value: any) => {
-	// 	// actionRef.current?.get({ [field]: value });
-	// //  const { current, pageSize, ...filters } = actionRef.current?.getTableDataSource() || {};
-
-	//   const reset = actionRef?.current?.setp;
-	//   if(reset) reset()
-	// };
 
 	return (
 		<>
@@ -296,6 +294,11 @@ const AuditLogTable: React.FC = () => {
 				</Card>
 			</Space>
 			{selectedLog && <AuditLogDrawer visible={drawerVisible} onClose={closeDrawer} auditLog={selectedLog} />}
+			<DeleteModal
+				visible={deleteModalVisible}
+				onConfirm={confirmDelete}
+				onCancel={() => setDeleteModalVisible(false)}
+			/>
 		</>
 	);
 };

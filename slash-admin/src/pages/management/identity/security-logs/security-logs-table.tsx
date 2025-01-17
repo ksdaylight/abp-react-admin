@@ -1,17 +1,18 @@
 import { useRef, useState } from "react";
-import { Space, Button, Tag, Popconfirm, Card } from "antd";
+import { Space, Button, Tag, Card } from "antd";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import ProTable, { ProColumns, ActionType } from "@ant-design/pro-table";
+import ProTable, { type ProColumns, type ActionType } from "@ant-design/pro-table";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
 import { formatToDateTime } from "@/utils/abp";
-import { SecurityLogDto } from "#/identity";
+import type { SecurityLogDto } from "#/identity";
 import { antdOrderToAbpOrder } from "@/utils/abp/sort-order";
 import { SecurityLogPermissions } from "@/constants/identity/permissions";
 import { hasAccessByCodes, withAccessChecker } from "@/utils/abp/access-checker";
 import { toast } from "sonner";
 import SecurityLogDrawer from "./security-log-drawer";
 import { deleteApi, getPagedListApi } from "@/api/identity/security-logs";
+import DeleteModal from "@/components/abp/common/delete-modal";
 
 const SecurityLogs = () => {
 	const { t: $t } = useTranslation();
@@ -20,6 +21,8 @@ const SecurityLogs = () => {
 	//drawer
 	const [drawerVisible, setDrawerVisible] = useState(false);
 	const [selectedLogId, setSelectedLogId] = useState<string | undefined>();
+	//Modal
+	const [deleteModalVisible, setDeleteModalVisible] = useState(false);
 
 	const openDrawer = (id: string) => {
 		setSelectedLogId(id);
@@ -39,7 +42,18 @@ const SecurityLogs = () => {
 		},
 	});
 
-	const handleDelete = (id: string) => deleteSecurityLog(id);
+	const handleDelete = (log: SecurityLogDto) => {
+		setSelectedLogId(log.id);
+		setDeleteModalVisible(true);
+	};
+
+	const confirmDelete = async () => {
+		if (selectedLogId) {
+			await deleteSecurityLog(selectedLogId);
+			actionRef.current?.reload();
+			setDeleteModalVisible(false);
+		}
+	};
 
 	const columns: ProColumns<SecurityLogDto>[] = [
 		{
@@ -136,17 +150,9 @@ const SecurityLogs = () => {
 								[SecurityLogPermissions.Default],
 							)}
 							{withAccessChecker(
-								<Popconfirm
-									title={$t("AbpUi.AreYouSure")}
-									description={$t("AbpUi.ItemWillBeDeletedMessage")}
-									onConfirm={() => handleDelete(record.id)}
-									okText={$t("AbpUi.Yes")}
-									cancelText={$t("AbpUi.No")}
-								>
-									<Button type="link" danger icon={<DeleteOutlined />}>
-										{$t("AbpUi.Delete")}
-									</Button>
-								</Popconfirm>,
+								<Button type="link" danger icon={<DeleteOutlined />} onClick={() => handleDelete(record)}>
+									{$t("AbpUi.Delete")}
+								</Button>,
 								[SecurityLogPermissions.Delete],
 							)}
 						</div>
@@ -201,6 +207,11 @@ const SecurityLogs = () => {
 					/>
 				</Card>
 			</Space>
+			<DeleteModal
+				visible={deleteModalVisible}
+				onConfirm={confirmDelete}
+				onCancel={() => setDeleteModalVisible(false)}
+			/>
 			<SecurityLogDrawer visible={drawerVisible} onClose={closeDrawer} securityLogId={selectedLogId} />
 		</>
 	);

@@ -1,6 +1,6 @@
-import { SortOrder } from "#/abp-core";
+import type { SortOrder } from "#/abp-core";
 
-import { SortOrder as AntdSortOrder } from "antd/es/table/interface";
+import type { SortOrder as AntdSortOrder } from "antd/es/table/interface";
 
 // type SortOrder = '' | 'asc' | 'desc' | null;
 // AntdSortOrder : 'descend' | 'ascend' | null;

@@ -1,5 +1,5 @@
 import userStore from "@/store/userStore";
-import React from "react";
+import type React from "react";
 
 export const withAccessChecker = (element: React.ReactElement, requiredCodes: string[]) => {
 	const accessCodes = userStore.getState().accessCodes;

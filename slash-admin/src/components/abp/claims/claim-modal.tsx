@@ -1,7 +1,8 @@
-import React, { useEffect } from "react";
+import type React from "react";
+import { useEffect } from "react";
 import { Modal, Form, Input, Select } from "antd";
 import { useTranslation } from "react-i18next";
-import { IdentityClaimCreateDto, IdentityClaimDto, IdentityClaimUpdateDto } from "#/identity/claims";
+import type { IdentityClaimCreateDto, IdentityClaimDto, IdentityClaimUpdateDto } from "#/identity/claims";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { getAssignableClaimsApi } from "@/api/identity/claim-types";
 import { toast } from "sonner";

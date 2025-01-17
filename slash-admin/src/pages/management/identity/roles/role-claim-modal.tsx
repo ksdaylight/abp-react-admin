@@ -1,8 +1,8 @@
-import React from "react";
+import type React from "react";
 import { Modal } from "antd";
 import { useTranslation } from "react-i18next";
-import { IdentityRoleDto } from "#/identity";
-import { IdentityClaimCreateDto, IdentityClaimDeleteDto, IdentityClaimUpdateDto } from "#/identity/claims";
+import type { IdentityRoleDto } from "#/identity";
+import type { IdentityClaimCreateDto, IdentityClaimDeleteDto, IdentityClaimUpdateDto } from "#/identity/claims";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { createClaimApi, deleteClaimApi, getClaimsApi, updateClaimApi } from "@/api/identity/role";
 import { IdentityRolePermissions } from "@/constants/identity/permissions";

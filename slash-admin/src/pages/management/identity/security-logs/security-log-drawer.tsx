@@ -1,4 +1,4 @@
-import React from "react";
+import type React from "react";
 import { Drawer, Descriptions } from "antd";
 import { formatToDateTime } from "@/utils/abp";
 import { useTranslation } from "react-i18next";

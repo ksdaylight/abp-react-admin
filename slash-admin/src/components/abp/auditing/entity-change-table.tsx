@@ -1,10 +1,11 @@
 import { formatToDateTime } from "@/utils/abp";
 import { useTranslation } from "react-i18next";
 import type { EntityChangeDto, PropertyChange, ChangeType } from "#/auditing/entity-changes";
-import { Tag, Table } from "antd";
+import { Tag, Table, Card } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import { useState, useMemo } from "react";
 import { useAuditLogs } from "@/hooks/abp/auditing/use-audit-logs";
+import Scrollbar from "@/components/scrollbar";
 
 interface EntityChangeTableProps {
 	data: EntityChangeDto[];
@@ -21,39 +22,42 @@ export const EntityChangeTable: React.FC<EntityChangeTableProps> = ({ data, show
 		showUserName && {
 			title: t("AbpAuditLogging.UserName"),
 			dataIndex: "userName",
-			width: 100,
+			align: "center",
+			width: 100, // 设置列宽
 		},
 		{
 			title: t("AbpAuditLogging.ChangeType"),
 			dataIndex: "changeType",
-			width: 100,
-			align: "center",
 			sorter: true,
+			align: "center",
+			width: 120, // 设置列宽
 			render: (type: ChangeType) => <Tag color={getChangeTypeColor(type)}>{getChangeTypeValue(type)}</Tag>,
 		},
 		{
 			title: t("AbpAuditLogging.StartTime"),
 			dataIndex: "changeTime",
-			width: 200,
 			sorter: true,
+			width: 200, // 设置列宽
 			render: (value: Date) => value && formatToDateTime(value),
 		},
 		{
 			title: t("AbpAuditLogging.EntityTypeFullName"),
 			dataIndex: "entityTypeFullName",
+			ellipsis: true,
 			sorter: true,
+			width: 400, // 设置列宽
 		},
 		{
 			title: t("AbpAuditLogging.EntityId"),
 			dataIndex: "entityId",
-			width: 280,
 			sorter: true,
+			width: 312, // 设置列宽
 		},
 		{
 			title: t("AbpAuditLogging.TenantId"),
 			dataIndex: "entityTenantId",
-			width: 280,
 			sorter: true,
+			width: 312, // 设置列宽
 		},
 	].filter(Boolean) as ColumnsType<EntityChangeDto>;
 
@@ -61,28 +65,28 @@ export const EntityChangeTable: React.FC<EntityChangeTableProps> = ({ data, show
 		{
 			title: t("AbpAuditLogging.PropertyName"),
 			dataIndex: "propertyName",
-			width: 120,
 			sorter: true,
+			width: 150, // 设置列宽
 		},
 		{
 			title: t("AbpAuditLogging.NewValue"),
 			dataIndex: "newValue",
-			width: 200,
 			sorter: true,
-			className: "font-medium text-green-600",
+			className: "font-medium text-success",
+			width: 250, // 设置列宽
 		},
 		{
 			title: t("AbpAuditLogging.OriginalValue"),
 			dataIndex: "originalValue",
-			width: 200,
 			sorter: true,
-			className: "font-medium text-red-600",
+			className: "font-medium text-error",
+			width: 250, // 设置列宽
 		},
 		{
 			title: t("AbpAuditLogging.PropertyTypeFullName"),
 			dataIndex: "propertyTypeFullName",
-			width: 220,
 			sorter: true,
+			width: 250, // 设置列宽
 		},
 	];
 
@@ -92,32 +96,45 @@ export const EntityChangeTable: React.FC<EntityChangeTableProps> = ({ data, show
 	}, [data, current, pageSize]);
 
 	return (
-		<Table
-			columns={columns}
-			dataSource={paginatedData}
-			rowKey="id"
-			pagination={{
-				current,
-				pageSize,
-				total: data.length,
-				onChange: (page, size) => {
-					setCurrent(page);
-					setPageSize(size);
-				},
-				showSizeChanger: true,
-				pageSizeOptions: ["10", "25", "50", "100"],
-			}}
-			expandable={{
-				expandedRowRender: (record) => (
-					<Table
-						columns={propertyColumns}
-						dataSource={record.propertyChanges}
-						pagination={false}
-						rowKey="propertyName"
-						bordered
-					/>
-				),
-			}}
-		/>
+		<Card>
+			<Scrollbar>
+				<div className="flex flex-col space-y-4">
+					<div className="w-auto">
+						<Table
+							columns={columns}
+							dataSource={paginatedData}
+							rowKey="id"
+							tableLayout="fixed" //https://github.com/ant-design/ant-design/issues/39437#issuecomment-1344152456
+							pagination={{
+								current,
+								pageSize,
+								total: data.length,
+								onChange: (page, size) => {
+									setCurrent(page);
+									setPageSize(size);
+								},
+								showSizeChanger: true,
+								pageSizeOptions: ["10", "25", "50", "100"],
+							}}
+							expandable={{
+								expandedRowRender: (record) => (
+									<div>
+										<Table
+											tableLayout="fixed"
+											columns={propertyColumns}
+											dataSource={record.propertyChanges}
+											pagination={false}
+											rowKey="propertyName"
+											bordered
+											className="w-2/3"
+										/>
+									</div>
+								),
+							}}
+						/>
+					</div>
+				</div>
+			</Scrollbar>
+		</Card>
 	);
 };

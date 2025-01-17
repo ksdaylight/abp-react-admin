@@ -1,8 +1,9 @@
-import React, { useEffect } from "react";
+import type React from "react";
+import { useEffect } from "react";
 import { Button, Checkbox, Form, Input, Modal, Select, Space } from "antd";
 import { toast } from "sonner";
 import { useTranslation } from "react-i18next";
-import { ValueType, IdentityClaimTypeDto } from "#/identity";
+import { ValueType, type IdentityClaimTypeDto } from "#/identity";
 import { createApi, updateApi } from "@/api/identity/claim-types";
 import { useMutation } from "@tanstack/react-query";
 

@@ -1,12 +1,15 @@
-import React, { useEffect, useState } from "react";
+import type React from "react";
+import { useEffect, useState } from "react";
 import { Descriptions, Drawer, Tabs, Tag } from "antd";
 import { useTranslation } from "react-i18next";
-import { AuditLogDto, Action } from "#/auditing/audit-logs";
+import type { AuditLogDto, Action } from "#/auditing/audit-logs";
 import { Table } from "antd";
 import { useAuditLogs } from "@/hooks/abp/auditing/use-audit-logs";
 import { getApi } from "@/api/auditing/audit-logs";
 import { EntityChangeTable } from "@/components/abp/auditing/entity-change-table";
 import { formatToDateTime } from "@/utils/abp";
+import JsonEdit from "@/components/abp/common/json-edit";
+import { tryParseJson } from "@/utils/try-parse-json";
 
 interface Props {
 	visible: boolean;
@@ -31,14 +34,14 @@ const AuditLogDrawer: React.FC<Props> = ({ visible, onClose, auditLog }) => {
 			title: $t("AbpAuditLogging.MethodName"),
 			dataIndex: "methodName",
 			key: "methodName",
-			width: 150,
+			ellipsis: true,
 			sorter: true,
 		},
 		{
 			title: $t("AbpAuditLogging.ExecutionTime"),
 			dataIndex: "executionTime",
 			key: "executionTime",
-			width: 200,
+			ellipsis: true,
 			sorter: true,
 			render: (value: string) => (value ? formatToDateTime(value) : value),
 		},
@@ -46,6 +49,7 @@ const AuditLogDrawer: React.FC<Props> = ({ visible, onClose, auditLog }) => {
 			title: $t("AbpAuditLogging.ExecutionDuration"),
 			dataIndex: "executionDuration",
 			key: "executionDuration",
+			ellipsis: true,
 			width: 150,
 			sorter: true,
 		},
@@ -65,10 +69,10 @@ const AuditLogDrawer: React.FC<Props> = ({ visible, onClose, auditLog }) => {
 	const expandedRowRender = (record: Action) => (
 		<Descriptions column={1} bordered size="small">
 			<Descriptions.Item label={$t("AbpAuditLogging.Parameters")}>
-				<pre>{JSON.stringify(record.parameters, null, 2)}</pre>
+				{<JsonEdit data={tryParseJson(record.parameters || "")} />}
 			</Descriptions.Item>
 			<Descriptions.Item label={$t("AbpAuditLogging.Additional")}>
-				<pre>{JSON.stringify(record.extraProperties, null, 2)}</pre>
+				{<JsonEdit data={tryParseJson(record.extraProperties || "")} />}
 			</Descriptions.Item>
 		</Descriptions>
 	);
@@ -78,7 +82,6 @@ const AuditLogDrawer: React.FC<Props> = ({ visible, onClose, auditLog }) => {
 			<Tabs activeKey={activeTab} onChange={setActiveTab}>
 				<Tabs.TabPane key="basic" tab={$t("AbpAuditLogging.Operation")}>
 					<Descriptions column={2} bordered size="small">
-						{/* ...existing code... */}
 						<Descriptions.Item label={$t("AbpAuditLogging.ApplicationName")}>
 							{auditLogModel.applicationName}
 						</Descriptions.Item>
@@ -113,10 +116,10 @@ const AuditLogDrawer: React.FC<Props> = ({ visible, onClose, auditLog }) => {
 							{auditLogModel.comments}
 						</Descriptions.Item>
 						<Descriptions.Item label={$t("AbpAuditLogging.Exception")} span={2}>
-							{auditLogModel.exceptions}
+							{<JsonEdit data={tryParseJson(auditLogModel.exceptions || "")} />}
 						</Descriptions.Item>
 						<Descriptions.Item label={$t("AbpAuditLogging.Additional")} span={2}>
-							{auditLogModel.extraProperties}
+							{auditLogModel?.extraProperties ? JSON.stringify(auditLogModel.extraProperties, null, 2) : ""}
 						</Descriptions.Item>
 					</Descriptions>
 				</Tabs.TabPane>
