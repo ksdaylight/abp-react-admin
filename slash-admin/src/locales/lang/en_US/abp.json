@@ -10,7 +10,10 @@
 				"claimTypes": "Claim Types",
 				"securityLogs": "Security Logs",
 				"organizationUnits": "Organization Units",
-				"auditLogs": "Audit Logs"
+				"auditLogs": "Audit Logs",
+				"filterHttpStatusCode": "Click to filter by HTTP Status Code",
+				"filterHttpMethod": "Click to filter by HTTP Method",
+				"filterRequestUrl": "Click to filter by url"
 			},
 			"permissions": {
 				"title": "Permissions",

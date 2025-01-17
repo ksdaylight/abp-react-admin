@@ -10,7 +10,10 @@
 				"claimTypes": "身份标识",
 				"securityLogs": "安全日志",
 				"organizationUnits": "组织机构",
-				"auditLogs": "审计日志"
+				"auditLogs": "审计日志",
+				"filterHttpStatusCode": "按 HTTP状态代码 进行过滤",
+				"filterHttpMethod": "按 HTTP方法 进行过滤",
+				"filterRequestUrl": "按 url 进行过滤"
 			},
 			"permissions": {
 				"title": "权限管理",

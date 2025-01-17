@@ -128,7 +128,7 @@ const management: AppRouteObject = {
 				label: "abp.manage.identity.auditLogs",
 				key: "/management/audit-logs",
 				icon: <Iconify icon="fluent-mdl2:compliance-audit" />,
-			},			
+			},
 		},
 	],
 };
