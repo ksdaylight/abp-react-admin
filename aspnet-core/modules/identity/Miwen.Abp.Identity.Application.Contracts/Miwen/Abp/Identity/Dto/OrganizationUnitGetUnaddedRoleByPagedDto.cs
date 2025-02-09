@@ -5,5 +5,5 @@ namespace Miwen.Abp.Identity;
 public class OrganizationUnitGetUnaddedRoleByPagedDto : PagedAndSortedResultRequestDto
 {
 
-    public string Filter { get; set; }
+    public string? Filter { get; set; }
 }
