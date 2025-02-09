@@ -57,6 +57,7 @@
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\..\framework\auditing\Miwen.Abp.AuditLogging.EntityFrameworkCore\Miwen.Abp.AuditLogging.EntityFrameworkCore.csproj" />
+		<ProjectReference Include="..\..\framework\auditing\Miwen.Abp.AuditLogging.IP.Location\Miwen.Abp.AuditLogging.IP.Location.csproj" />
 		<ProjectReference Include="..\..\framework\auditing\Miwen.Abp.AuditLogging\Miwen.Abp.AuditLogging.csproj" />
 		<ProjectReference Include="..\..\framework\authorization\Miwen.Abp.Authorization.OrganizationUnits\Miwen.Abp.Authorization.OrganizationUnits.csproj" />
 		<ProjectReference Include="..\..\framework\common\Miwen.Abp.AspNetCore.HttpOverrides\Miwen.Abp.AspNetCore.HttpOverrides.csproj" />

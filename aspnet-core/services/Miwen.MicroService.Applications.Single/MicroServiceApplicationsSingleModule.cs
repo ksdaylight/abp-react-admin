@@ -112,6 +112,8 @@ using Volo.Abp.SettingManagement.EntityFrameworkCore;
 using Volo.Abp.Threading;
 using Volo.Abp.Timing;
 using Volo.Abp.MailKit;
+using Miwen.Abp.AuditLogging.IP.Location;
+using Miwen.Abp.IP2Region;
 
 
 namespace Miwen.MicroService.Applications.Single;
@@ -122,6 +124,7 @@ namespace Miwen.MicroService.Applications.Single;
     typeof(AbpAccountWebOpenIddictModule),
     typeof(AbpAuditingApplicationModule),
     typeof(AbpAuditingHttpApiModule),
+    typeof(AbpAuditLoggingIPLocationModule),
     typeof(AbpAuditLoggingEntityFrameworkCoreModule),
     typeof(AbpCachingManagementStackExchangeRedisModule),
     typeof(AbpCachingManagementApplicationModule),
@@ -255,7 +258,7 @@ namespace Miwen.MicroService.Applications.Single;
     typeof(AbpMultiTenancyEditionsModule),
 
 
-
+    typeof(AbpIP2RegionModule),
     typeof(AbpIdGeneratorModule),
     typeof(AbpUINavigationModule),
     typeof(AbpAccountTemplatesModule),

@@ -72,7 +72,7 @@ public class OrganizationUnitAppService : IdentityAppServiceBase, IOrganizationU
 
     public async virtual Task<ListResultDto<OrganizationUnitDto>> FindChildrenAsync(OrganizationUnitGetChildrenDto input)
     {
-        var origanizationUnitChildren = await OrganizationUnitManager.FindChildrenAsync(input.Id, input.Recursive);
+        var origanizationUnitChildren = await OrganizationUnitManager.FindChildrenAsync(input.Id, input.Recursive ?? false);
 
         return new ListResultDto<OrganizationUnitDto>(
             ObjectMapper.Map<List<OrganizationUnit>, List<OrganizationUnitDto>>(origanizationUnitChildren));
