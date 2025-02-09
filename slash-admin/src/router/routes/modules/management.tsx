@@ -1,7 +1,7 @@
 import { Suspense, lazy } from "react";
 import { Navigate, Outlet } from "react-router";
 
-import { SvgIcon } from "@/components/icon";
+import { Iconify, SvgIcon } from "@/components/icon";
 import { CircleLoading } from "@/components/loading";
 
 import type { AppRouteObject } from "#/router";
@@ -13,6 +13,10 @@ const OrganizationPage = lazy(() => import("@/pages/management/system/organizati
 const PermissioPage = lazy(() => import("@/pages/management/system/permission"));
 
 const Blog = lazy(() => import("@/pages/management/blog"));
+const SecurityLogs = lazy(() => import("@/pages/management/identity/security-logs/security-logs-table"));
+const ClaimTypes = lazy(() => import("@/pages/management/identity/claim-types/claim-types-table"));
+
+const AuditingAuditLogs = lazy(() => import("@/pages/management/audit-logs/audit-log-table"));
 
 const management: AppRouteObject = {
 	order: 2,
@@ -84,6 +88,47 @@ const management: AppRouteObject = {
 			path: "blog",
 			element: <Blog />,
 			meta: { label: "sys.menu.blog", key: "/management/blog" },
+		},
+		{
+			path: "identity",
+			meta: {
+				label: "abp.manage.identity.title",
+				key: "/management/identity",
+				icon: <Iconify icon="teenyicons:id-outline" />,
+			},
+			children: [
+				{
+					index: true,
+					element: <Navigate to="security-logs" replace />, //TODO 修改默认子级
+				},
+				{
+					path: "claim-types",
+					element: <ClaimTypes />,
+					meta: {
+						label: "abp.manage.identity.claimTypes",
+						key: "/management/identity/claim-types",
+						icon: <Iconify icon="la:id-card-solid" />,
+					},
+				},
+				{
+					path: "security-logs",
+					element: <SecurityLogs />,
+					meta: {
+						label: "abp.manage.identity.securityLogs",
+						key: "/management/identity/security-logs",
+						icon: <Iconify icon="carbon:security" />,
+					},
+				},
+			],
+		},
+		{
+			path: "audit-logs",
+			element: <AuditingAuditLogs />,
+			meta: {
+				label: "abp.manage.identity.auditLogs",
+				key: "/management/audit-logs",
+				icon: <Iconify icon="fluent-mdl2:compliance-audit" />,
+			},
 		},
 	],
 };

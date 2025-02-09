@@ -1,4 +1,4 @@
-import { LocalEnum } from "#/enum";
+import type { LocalEnum } from "#/enum";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 

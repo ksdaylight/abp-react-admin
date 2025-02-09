@@ -11,6 +11,7 @@ import type { Permission } from "#/entity";
 import { BasicStatus, PermissionType } from "#/enum";
 import type { AppRouteObject } from "#/router";
 import { Tag } from "antd";
+import { getRoutesFromModules } from "../utils";
 
 const ENTRY_PATH = "/src/pages";
 const PAGES = import.meta.glob("/src/pages/**/*.tsx");
@@ -144,15 +145,15 @@ function transformPermissionsToRoutes(permissions: Permission[], flattenedPermis
 
 // Exports
 export function usePermissionRoutes() {
-	// return useMemo(() => {
-	//   return getRoutesFromModules();
-	// }, []);
-
-	const permissions = useUserPermission();
 	return useMemo(() => {
-		if (!permissions) return [];
+		return getRoutesFromModules();
+	}, []);
 
-		const flattenedPermissions = flattenTrees(permissions);
-		return transformPermissionsToRoutes(permissions, flattenedPermissions);
-	}, [permissions]);
+	// const permissions = useUserPermission();
+	// return useMemo(() => {
+	// 	if (!permissions) return [];
+
+	// 	const flattenedPermissions = flattenTrees(permissions);
+	// 	return transformPermissionsToRoutes(permissions, flattenedPermissions);
+	// }, [permissions]);
 }
