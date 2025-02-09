@@ -51,7 +51,7 @@ export function updateApi(id: string, input: IdentityClaimTypeUpdateDto): Promis
 export function getPagedListApi(
 	input?: GetIdentityClaimTypePagedListInput,
 ): Promise<PagedResultDto<IdentityClaimTypeDto>> {
-	return requestClient.get<PagedResultDto<IdentityClaimTypeDto>>(`/api/identity/claim-types`, {
+	return requestClient.get<PagedResultDto<IdentityClaimTypeDto>>("/api/identity/claim-types", {
 		params: input,
 	});
 }
@@ -60,5 +60,5 @@ export function getPagedListApi(
  * 获取可用的声明类型列表
  */
 export function getAssignableClaimsApi(): Promise<ListResultDto<IdentityClaimTypeDto>> {
-	return requestClient.get<ListResultDto<IdentityClaimTypeDto>>(`/api/identity/claim-types/actived-list`);
+	return requestClient.get<ListResultDto<IdentityClaimTypeDto>>("/api/identity/claim-types/actived-list");
 }

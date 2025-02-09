@@ -84,7 +84,20 @@ const AuditLogTable: React.FC = () => {
 						<Tooltip title={$t("abp.manage.identity.filterHttpMethod")}>{record.httpMethod}</Tooltip>
 					</Tag>
 					<Tooltip title={$t("abp.manage.identity.filterRequestUrl")}>
-						<a onClick={() => onFilter("url", record.url)}>{record.url}</a>
+						<button
+							type="button"
+							onClick={() => onFilter("url", record.url)}
+							style={{
+								background: "none",
+								border: "none",
+								padding: 0,
+								color: "blue",
+								textDecoration: "underline",
+								cursor: "pointer",
+							}}
+						>
+							{record.url}
+						</button>
 					</Tooltip>
 				</>
 			),

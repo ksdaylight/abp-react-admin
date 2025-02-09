@@ -39,7 +39,10 @@ const ClaimTypeTable: React.FC = () => {
 		},
 	});
 
-	const handleDelete = (id: string) => deleteClaimType(id);
+	const handleDelete = async (id: string) => {
+		await deleteClaimType(id);
+		actionRef.current?.reload();
+	};
 
 	const columns: ProColumns<IdentityClaimTypeDto>[] = [
 		{
@@ -186,6 +189,7 @@ const ClaimTypeTable: React.FC = () => {
 					onClose={closeModal}
 					onSuccess={() => {
 						closeModal();
+						actionRef.current?.reload();
 						queryClient.invalidateQueries({ queryKey: ["claimTypes"] });
 					}}
 				/>

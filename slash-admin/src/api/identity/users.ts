@@ -56,7 +56,7 @@ export function updateApi(id: string, input: IdentityUserUpdateDto): Promise<Ide
  * @returns 用户实体数据传输对象分页列表
  */
 export function getPagedListApi(input?: GetUserPagedListInput): Promise<PagedResultDto<IdentityUserDto>> {
-	return requestClient.get<PagedResultDto<IdentityUserDto>>(`/api/identity/users`, {
+	return requestClient.get<PagedResultDto<IdentityUserDto>>("/api/identity/users", {
 		params: input,
 	});
 }
@@ -108,7 +108,7 @@ export function changePasswordApi(id: string, input: ChangeUserPasswordInput): P
  * 获取可用的角色列表
  */
 export function getAssignableRolesApi(): Promise<ListResultDto<IdentityRoleDto>> {
-	return requestClient.get<ListResultDto<IdentityRoleDto>>(`/api/identity/users/assignable-roles`);
+	return requestClient.get<ListResultDto<IdentityRoleDto>>("/api/identity/users/assignable-roles");
 }
 
 /**

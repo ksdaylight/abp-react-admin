@@ -16,7 +16,12 @@ const SecurityLogDrawer: React.FC<Props> = ({ visible, onClose, securityLogId })
 
 	const { data: formModel, isLoading } = useQuery({
 		queryKey: ["securityLog", securityLogId],
-		queryFn: () => getApi(securityLogId!),
+		queryFn: () => {
+			if (!securityLogId) {
+				return Promise.reject(new Error("securityLogId is undefined"));
+			}
+			return getApi(securityLogId);
+		},
 		enabled: visible && !!securityLogId,
 	});
 

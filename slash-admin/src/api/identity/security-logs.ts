@@ -25,7 +25,7 @@ export function getApi(id: string): Promise<SecurityLogDto> {
  * @returns 安全日志实体数据传输对象分页列表
  */
 export function getPagedListApi(input?: GetSecurityLogPagedRequest): Promise<PagedResultDto<SecurityLogDto>> {
-	return requestClient.get<PagedResultDto<SecurityLogDto>>(`/api/auditing/security-log`, {
+	return requestClient.get<PagedResultDto<SecurityLogDto>>("/api/auditing/security-log", {
 		params: input,
 	});
 }

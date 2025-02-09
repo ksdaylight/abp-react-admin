@@ -52,7 +52,7 @@ export function updateApi(id: string, input: IdentityRoleUpdateDto): Promise<Ide
  * @returns 角色实体数据传输对象分页列表
  */
 export function getPagedListApi(input?: GetRolePagedListInput): Promise<PagedResultDto<IdentityRoleDto>> {
-	return requestClient.get<PagedResultDto<IdentityRoleDto>>(`/api/identity/roles`, {
+	return requestClient.get<PagedResultDto<IdentityRoleDto>>("/api/identity/roles", {
 		params: input,
 	});
 }

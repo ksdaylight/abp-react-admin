@@ -23,7 +23,7 @@ function App() {
 			await setLocale(defaultLng as LocalEnum, i18n);
 		}
 		initializeI18n(); //触发abp语言包加载
-	}, []);
+	}, [defaultLng, i18n, setLocale]);
 	return (
 		<ThemeProvider adapters={[AntdAdapter]}>
 			<MotionLazy>

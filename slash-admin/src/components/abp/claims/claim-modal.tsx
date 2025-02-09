@@ -41,9 +41,9 @@ const ClaimModal: React.FC<ClaimEditModalProps> = ({ visible, claim, onClose, on
 		mutationFn: updateApi,
 		onSuccess: (_, variables) => {
 			onChange({
-				claimType: claim!.claimType,
+				claimType: claim?.claimType,
 				claimValue: variables.newClaimValue,
-				id: claim!.id,
+				id: claim?.id,
 			} as IdentityClaimDto);
 			onClose();
 			toast.success($t("AbpUi.SuccessfullyUpdated"));
@@ -60,7 +60,7 @@ const ClaimModal: React.FC<ClaimEditModalProps> = ({ visible, claim, onClose, on
 				});
 			}
 		}
-	}, [visible, claim]);
+	}, [visible, claim, form.setFieldsValue, form.resetFields]);
 
 	const handleOk = async () => {
 		try {

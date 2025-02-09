@@ -27,7 +27,12 @@ const RoleModal: React.FC<Props> = ({ visible, onClose, onChange, role }) => {
 	// Query for getting role details
 	const { data: roleData, isLoading: isLoadingRole } = useQuery({
 		queryKey: ["role", role?.id],
-		queryFn: () => getApi(role!.id),
+		queryFn: () => {
+			if (!role?.id) {
+				return Promise.reject(new Error("role id is undefined"));
+			}
+			return getApi(role.id);
+		},
 		enabled: visible && !!role?.id,
 	});
 
@@ -56,7 +61,7 @@ const RoleModal: React.FC<Props> = ({ visible, onClose, onChange, role }) => {
 		} else {
 			form.resetFields();
 		}
-	}, [visible, roleData, role]);
+	}, [visible, roleData, role, form.setFieldsValue, form.resetFields]);
 
 	const handleOk = async () => {
 		try {

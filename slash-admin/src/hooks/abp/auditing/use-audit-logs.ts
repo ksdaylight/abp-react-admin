@@ -33,10 +33,7 @@ export function useAuditLogs() {
 		[changeTypeColorMap],
 	);
 
-	const getHttpMethodColor = useMemo(
-		() => (method?: string) => (method ? methodColorMap[method] : ""),
-		[methodColorMap],
-	);
+	const getHttpMethodColor = useMemo(() => (method?: string) => (method ? methodColorMap[method] : ""), []);
 
 	const getHttpStatusCodeColor = useMemo(
 		() => (statusCode?: number) => {
