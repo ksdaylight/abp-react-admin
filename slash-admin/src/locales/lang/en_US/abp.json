@@ -32,6 +32,7 @@
 			"authorizations": "Authorizations",
 			"scopes": "Scopes",
 			"tokens": "Tokens"
-		}
+		},
+		"sequence": "N/S"
 	}
 }

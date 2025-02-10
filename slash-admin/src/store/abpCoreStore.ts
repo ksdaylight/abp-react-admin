@@ -66,7 +66,7 @@ const useAbpStore = create<AbpStore>()(
 
 // Store 的钩子函数
 export const useApplication = () => useAbpStore((state) => state.application);
-export const useLocalization = () => useAbpStore((state) => state.localization);
+// export const useLocalization = () => useAbpStore((state) => state.localization);
 export const useAbpActions = () => useAbpStore((state) => state.actions);
 
 export default useAbpStore;
