@@ -132,7 +132,7 @@ const LocalizableInput: React.FC<Props> = ({ allowClear, disabled, value, onChan
 				}));
 			}
 		}
-	}, [value, deserialize, handleResourceChange, state.displayName, state.resourceName]);
+	}, [value]);
 
 	return (
 		<div className="w-full">

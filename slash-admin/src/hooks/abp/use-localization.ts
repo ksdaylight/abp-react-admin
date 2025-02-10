@@ -35,7 +35,6 @@ export function useLocalizer(resourceNames?: string | string[], callback?: () =>
 		return merged;
 	}, [resourceNames, localizations]);
 
-	// biome-ignore lint/correctness/useExhaustiveDependencies:
 	useEffect(() => {
 		if (callback) {
 			callback();

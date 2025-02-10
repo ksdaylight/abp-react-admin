@@ -58,7 +58,6 @@ export default function PermissionModal({ title, show, formValue, onOk, onCancel
 		);
 	};
 
-	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
 	useEffect(() => {
 		form.setFieldsValue({ ...formValue });
 		if (formValue.parentId) {
