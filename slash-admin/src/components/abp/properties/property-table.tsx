@@ -54,7 +54,7 @@ const PropertyTable: React.FC<PropertyProps> = ({
 				key: "action",
 				title: $t("component.extra_property_dictionary.actions.title"),
 				width: 150,
-				render: (_, record:PropertyInfo) =>
+				render: (_, record: PropertyInfo) =>
 					allowDelete && (
 						<Popconfirm
 							title={$t("component.extra_property_dictionary.itemWillBeDeleted", { key: record.key })}

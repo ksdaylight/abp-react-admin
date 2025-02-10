@@ -1,5 +1,4 @@
-import type React from "react";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Modal, Form, Input, Checkbox, Select, Tabs, TreeSelect } from "antd";
 import { createApi, getListApi as getPermissionsApi, updateApi } from "@/api/permissions/definitions";
 import { getListApi as getGroupsApi } from "@/api/permissions/groups";
@@ -14,7 +13,6 @@ import { localizationSerializer } from "@/utils/abp/localization-serializer";
 import type { PropertyInfo } from "@/components/abp/properties/types";
 import LocalizableInput from "@/components/abp/localizable-input/localizable-input";
 import PropertyTable from "@/components/abp/properties/property-table";
-import { omit } from "ramda";
 
 const { TabPane } = Tabs;
 const { Option } = Select;
@@ -24,6 +22,7 @@ interface PermissionDefinitionModalProps {
 	onClose: () => void;
 	onChange: () => void;
 	permission?: PermissionDefinitionDto;
+	groupName?: string;
 }
 
 interface PermissionTreeVo {
@@ -35,50 +34,58 @@ interface PermissionTreeVo {
 
 type TabKeys = "basic" | "props";
 
-//TODO 还缺一个旧的vue的stateCheckers管理
+const defaultModel: PermissionDefinitionDto = {} as PermissionDefinitionDto;
 
 const PermissionDefinitionModal: React.FC<PermissionDefinitionModalProps> = ({
 	visible,
 	onClose,
 	onChange,
 	permission,
+	groupName,
 }) => {
 	const { t: $t } = useTranslation();
 	const [form] = Form.useForm();
 	const { multiTenancySideOptions, providerOptions } = useTypesMap($t);
 	const [availableGroups, setAvailableGroups] = useState<PermissionGroupDefinitionDto[]>([]);
 	const [availablePermissions, setAvailablePermissions] = useState<PermissionTreeVo[]>([]);
-	const [isEditModel, setIsEditModel] = useState(false);
 	const [activeTab, setActiveTab] = useState<TabKeys>("basic");
+	const [formModel, setFormModel] = useState<PermissionDefinitionDto>({ ...defaultModel });
+	const [loading, setLoading] = useState(false);
 	const { Lr } = useLocalizer();
 	const { deserialize } = localizationSerializer();
-	const [extraProperties, setExtraProperties] = useState<Record<string, any>>({});
 
 	useEffect(() => {
 		if (visible) {
-			setIsEditModel(!!permission);
 			setActiveTab("basic");
 			form.resetFields();
+
 			if (permission) {
-				form.setFieldsValue(permission);
+				const initialModel = {
+					...permission,
+					extraProperties: permission.extraProperties || {},
+				};
+				setFormModel(initialModel);
+				form.setFieldsValue(initialModel);
 				fetchGroups(permission.groupName);
 				fetchPermissions(permission.groupName);
 			} else {
-				fetchGroups();
+				setFormModel({ ...defaultModel });
+				fetchGroups(groupName);
 			}
-			setExtraProperties(permission?.extraProperties || {});
 		}
-	}, [visible, permission]);
+	}, [visible, permission, form.resetFields, form.setFieldsValue, groupName]);
 
 	const fetchGroups = async (groupName?: string) => {
 		const { items } = await getGroupsApi({ filter: groupName });
-		const groups = items.map((group) => {
-			const localizableGroup = deserialize(group.displayName);
-			return {
-				...group,
-				displayName: Lr(localizableGroup.resourceName, localizableGroup.name),
-			}; //TODO 是否要去掉 isStatic 的？ 需要把group的完成后
-		});
+		const groups = items
+			.filter((group) => !group.isStatic)
+			.map((group) => {
+				const localizableGroup = deserialize(group.displayName);
+				return {
+					...group,
+					displayName: Lr(localizableGroup.resourceName, localizableGroup.name),
+				};
+			});
 		setAvailableGroups(groups);
 		if (groupName) {
 			form.setFieldsValue({ groupName });
@@ -96,51 +103,69 @@ const PermissionDefinitionModal: React.FC<PermissionDefinitionModalProps> = ({
 				displayName: Lr(localizablePermission.resourceName, localizablePermission.name),
 			};
 		});
-		setAvailablePermissions(listToTree(permissions, { id: "name", pid: "parentName" }));
+		setAvailablePermissions(listToTree<PermissionTreeVo>(permissions, { id: "name", pid: "parentName" }));
 	};
 
 	const handleOk = async () => {
 		try {
+			setLoading(true);
 			const values = await form.validateFields();
-			const api = isEditModel ? updateApi(values.name, values) : createApi(values);
+			const submitData = {
+				...values,
+				extraProperties: formModel.extraProperties,
+			};
+
+			const api = permission ? updateApi(values.name, submitData) : createApi(submitData);
 			await api;
 			toast.success($t("AbpUi.SavedSuccessfully"));
 			onChange();
 			onClose();
 		} catch (error) {
 			console.error(error);
+		} finally {
+			setLoading(false);
 		}
 	};
 
 	const handleGroupChange = (groupName?: string) => {
-		form.setFieldsValue({ groupName });
+		setFormModel((prev) => ({ ...prev, groupName: groupName || "" }));
 		fetchPermissions(groupName);
 	};
 
 	const handlePropChange = (prop: PropertyInfo) => {
-		const newExtraProperties = { ...extraProperties, [prop.key]: prop.value };
-		setExtraProperties(newExtraProperties); //PropertyTable 更新用
-		form.setFieldsValue({ extraProperties: newExtraProperties }); //handleOk  更新用 TODO
+		setFormModel((prev) => ({
+			...prev,
+			extraProperties: {
+				...prev.extraProperties,
+				[prop.key]: prop.value,
+			},
+		}));
 	};
 
 	const handlePropDelete = (prop: PropertyInfo) => {
-		const newExtraProperties = omit([prop.key], extraProperties);
-		setExtraProperties(newExtraProperties); //PropertyTable 更新用
-		form.setFieldsValue({ newExtraProperties });//handleOk  更新用 TODO
+		setFormModel((prev) => {
+			const newProps = { ...prev.extraProperties };
+			delete newProps[prop.key];
+			return {
+				...prev,
+				extraProperties: newProps,
+			};
+		});
 	};
 
 	return (
 		<Modal
 			open={visible}
 			title={
-				isEditModel
-					? `${$t("AbpPermissionManagement.PermissionDefinitions")} - ${form.getFieldValue("name")}`
+				permission
+					? `${$t("AbpPermissionManagement.PermissionDefinitions")} - ${formModel.name}`
 					: $t("AbpPermissionManagement.PermissionDefinitions:AddNew")
 			}
 			onCancel={onClose}
 			onOk={handleOk}
+			confirmLoading={loading}
+			okButtonProps={{ disabled: formModel.isStatic }}
 			width="50%"
-			// draggable
 		>
 			<Form form={form} labelCol={{ span: 6 }} wrapperCol={{ span: 18 }}>
 				<Tabs activeKey={activeTab} onChange={(key) => setActiveTab(key as TabKeys)}>
@@ -150,16 +175,14 @@ const PermissionDefinitionModal: React.FC<PermissionDefinitionModalProps> = ({
 							name="isEnabled"
 							valuePropName="checked"
 						>
-							<Checkbox disabled={form.getFieldValue("isStatic")}>
-								{$t("AbpPermissionManagement.DisplayName:IsEnabled")}
-							</Checkbox>
+							<Checkbox disabled={formModel.isStatic}>{$t("AbpPermissionManagement.DisplayName:IsEnabled")}</Checkbox>
 						</Form.Item>
 						<Form.Item
 							label={$t("AbpPermissionManagement.DisplayName:GroupName")}
 							name="groupName"
 							rules={[{ required: true }]}
 						>
-							<Select allowClear disabled={form.getFieldValue("isStatic")} onChange={handleGroupChange}>
+							<Select allowClear disabled={formModel.isStatic} onChange={handleGroupChange}>
 								{availableGroups.map((group) => (
 									<Option key={group.name} value={group.name}>
 										{group.displayName}
@@ -171,24 +194,24 @@ const PermissionDefinitionModal: React.FC<PermissionDefinitionModalProps> = ({
 							<Form.Item label={$t("AbpPermissionManagement.DisplayName:ParentName")} name="parentName">
 								<TreeSelect
 									allowClear
-									disabled={form.getFieldValue("isStatic")}
+									disabled={formModel.isStatic}
 									treeData={availablePermissions}
 									fieldNames={{ label: "displayName", value: "name", children: "children" }}
 								/>
 							</Form.Item>
 						)}
 						<Form.Item label={$t("AbpPermissionManagement.DisplayName:Name")} name="name" rules={[{ required: true }]}>
-							<Input disabled={form.getFieldValue("isStatic")} autoComplete="off" />
+							<Input disabled={formModel.isStatic} autoComplete="off" />
 						</Form.Item>
 						<Form.Item
 							label={$t("AbpPermissionManagement.DisplayName:DisplayName")}
 							name="displayName"
 							rules={[{ required: true }]}
 						>
-							<LocalizableInput disabled={form.getFieldValue("isStatic")} />
+							<LocalizableInput disabled={formModel.isStatic} />
 						</Form.Item>
 						<Form.Item label={$t("AbpPermissionManagement.DisplayName:MultiTenancySide")} name="multiTenancySide">
-							<Select disabled={form.getFieldValue("isStatic")}>
+							<Select disabled={formModel.isStatic}>
 								{multiTenancySideOptions.map((option) => (
 									<Option key={option.value} value={option.value}>
 										{option.label}
@@ -197,7 +220,7 @@ const PermissionDefinitionModal: React.FC<PermissionDefinitionModalProps> = ({
 							</Select>
 						</Form.Item>
 						<Form.Item label={$t("AbpPermissionManagement.DisplayName:Providers")} name="providers">
-							<Select mode="multiple" allowClear disabled={form.getFieldValue("isStatic")}>
+							<Select mode="multiple" allowClear disabled={formModel.isStatic}>
 								{providerOptions.map((option) => (
 									<Option key={option.value} value={option.value}>
 										{option.label}
@@ -208,8 +231,8 @@ const PermissionDefinitionModal: React.FC<PermissionDefinitionModalProps> = ({
 					</TabPane>
 					<TabPane tab={$t("AbpPermissionManagement.Properties")} key="props">
 						<PropertyTable
-							data={extraProperties}
-							disabled={form.getFieldValue("isStatic")}
+							data={formModel.extraProperties}
+							disabled={formModel.isStatic}
 							onChange={handlePropChange}
 							onDelete={handlePropDelete}
 						/>

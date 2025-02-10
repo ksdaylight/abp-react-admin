@@ -37,7 +37,7 @@ const SecurityLogs = () => {
 	const { mutateAsync: deleteSecurityLog } = useMutation({
 		mutationFn: deleteApi,
 		onSuccess: () => {
-			toast.success($t("AbpUi.SuccessfullyDeleted"));
+			toast.success($t("AbpUi.DeletedSuccessfully"));
 			queryClient.invalidateQueries({ queryKey: ["securityLogs"] });
 		},
 	});

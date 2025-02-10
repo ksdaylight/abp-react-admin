@@ -6,11 +6,14 @@ import { useLocalizer } from "../use-localization";
 export function useAuditLogs() {
 	const { L } = useLocalizer(["AbpAuditLogging", "AbpUi"]); //TODO  验证脱离i18n的这个是否可用
 
-	const changeTypeColorMap = {
-		[ChangeType.Created]: { color: "#87d068", value: L("Created") },
-		[ChangeType.Deleted]: { color: "red", value: L("Deleted") },
-		[ChangeType.Updated]: { color: "#108ee9", value: L("Updated") },
-	};
+	const changeTypeColorMap = useMemo(
+		() => ({
+			[ChangeType.Created]: { color: "#87d068", value: L("Created") },
+			[ChangeType.Deleted]: { color: "red", value: L("Deleted") },
+			[ChangeType.Updated]: { color: "#108ee9", value: L("Updated") },
+		}),
+		[L],
+	);
 	// const { t } = useTranslation();
 	// const changeTypeColorMap = useMemo(
 	// 	() => ({

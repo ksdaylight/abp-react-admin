@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { Form, Input, Select } from "antd";
 import type { DefaultOptionType } from "antd/es/select";
 import { useTranslation } from "react-i18next";
@@ -65,55 +65,60 @@ const LocalizableInput: React.FC<Props> = ({ allowClear, disabled, value, onChan
 		];
 	}, [abpStore.localization, $t]);
 
-	const handleResourceChange = (value?: string, triggerChanged = false) => {
-		const resources = abpStore.localization?.resources;
-		const newDisplayNames: DefaultOptionType[] = [];
+	const triggerDisplayNameChange = useCallback(
+		(displayName?: string) => {
+			if (!displayName) return;
 
-		if (value && resources?.[value]) {
-			Object.keys(resources[value].texts).forEach((key) => {
-				const labelText = resources[value]?.texts[key];
-				newDisplayNames.push({
-					label: labelText ?? key,
-					value: key,
-				});
-			});
-		}
+			let updateValue = "";
+			if (isFixed) {
+				updateValue = `F:${displayName}`;
+			} else if (!isNullOrWhiteSpace(state.resourceName)) {
+				const info: LocalizableStringInfo = {
+					name: displayName,
+					resourceName: state.resourceName ?? "",
+				};
+				updateValue = serialize(info);
+			}
 
-		setState((prev) => ({
-			...prev,
-			displayNames: newDisplayNames,
-			displayName: undefined,
-			resourceName: value,
-		}));
-
-		if (triggerChanged) {
-			triggerDisplayNameChange(undefined);
-		}
-	};
-
-	const triggerDisplayNameChange = (displayName?: string) => {
-		if (!displayName) return;
-
-		let updateValue = "";
-		if (isFixed) {
-			updateValue = `F:${displayName}`;
-		} else if (!isNullOrWhiteSpace(state.resourceName)) {
-			const info: LocalizableStringInfo = {
-				name: displayName,
-				resourceName: state.resourceName ?? "",
-			};
-			updateValue = serialize(info);
-		}
-
-		onChange?.(updateValue);
-		form.setFieldValue("localizableInput", updateValue);
-	};
+			onChange?.(updateValue);
+			form.setFieldValue("localizableInput", updateValue);
+		},
+		[isFixed, state.resourceName, serialize, onChange, form],
+	);
 
 	const handleDisplayNameChange = (value?: string) => {
 		setState((prev) => ({ ...prev, displayName: value }));
 		triggerDisplayNameChange(value);
 	};
 
+	const localizationResources = abpStore.localization?.resources;
+	const handleResourceChange = useCallback(
+		(value?: string, triggerChanged = false) => {
+			const newDisplayNames: DefaultOptionType[] = [];
+
+			if (value && localizationResources?.[value]) {
+				Object.keys(localizationResources[value].texts).forEach((key) => {
+					const labelText = localizationResources[value]?.texts[key];
+					newDisplayNames.push({
+						label: labelText ?? key,
+						value: key,
+					});
+				});
+			}
+
+			setState((prev) => ({
+				...prev,
+				displayNames: newDisplayNames,
+				displayName: undefined,
+				resourceName: value,
+			}));
+
+			if (triggerChanged) {
+				triggerDisplayNameChange(undefined);
+			}
+		},
+		[localizationResources, triggerDisplayNameChange],
+	);
 	useEffect(() => {
 		if (value) {
 			const info = deserialize(value);
@@ -127,7 +132,7 @@ const LocalizableInput: React.FC<Props> = ({ allowClear, disabled, value, onChan
 				}));
 			}
 		}
-	}, [value]);
+	}, [value, deserialize, handleResourceChange, state.displayName, state.resourceName]);
 
 	return (
 		<div className="w-full">

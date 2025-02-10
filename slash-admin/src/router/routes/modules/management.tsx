@@ -21,7 +21,7 @@ const PermissionDefinitions = lazy(
 	() => import("@/pages/management/permissions/permissions/permission-definition-table"),
 );
 
-const PermissionGroupDefinition= lazy(
+const PermissionGroupDefinition = lazy(
 	() => import("@/pages/management/permissions/definitions/permission-group-definition-table"),
 );
 const management: AppRouteObject = {

@@ -1,10 +1,10 @@
-import { useEffect, useRef, useState } from "react";
-import { Button, Modal, Space, Table, Tag, message } from "antd";
+import { useCallback,  useRef, useState } from "react";
+import { Button, Modal, Space, Table, Tag } from "antd";
 import { EditOutlined, DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
 
 import type { MultiTenancySides, PermissionDefinitionDto } from "#/permissions/definitions";
-import { ActionType, ProTable, type ProColumns } from "@ant-design/pro-table";
+import { type ActionType, ProTable, type ProColumns } from "@ant-design/pro-table";
 
 import { localizationSerializer } from "@/utils/abp/localization-serializer";
 
@@ -16,8 +16,9 @@ import PermissionDefinitionModal from "./permission-definition-modal";
 import { useLocalizer } from "@/hooks/abp/use-localization";
 import { useTypesMap } from "./types";
 import { listToTree } from "@/utils/tree";
-import { ExtraPropertyDictionary } from "#/abp-core";
-import { ColumnsType } from "antd/es/table";
+import type { ExtraPropertyDictionary } from "#/abp-core";
+import type { ColumnsType } from "antd/es/table";
+import { toast } from "sonner";
 
 interface PermissionVo {
 	children: PermissionVo[];
@@ -39,14 +40,21 @@ interface PermissionGroupVo {
 	permissions: PermissionVo[];
 }
 
-//TODO use query 管理，lint
+//TODO use query 管理，lint,遗弃的api
 const PermissionDefinitionTable: React.FC = () => {
-	const { t: $t, i18n } = useTranslation();
+	const { t: $t } = useTranslation();
 	const actionRef = useRef<ActionType>();
 	const [modalVisible, setModalVisible] = useState(false);
 	const [selectedPermission, setSelectedPermission] = useState<PermissionDefinitionDto>();
 
-	const { Lr } = useLocalizer();
+	const { Lr } = useLocalizer(
+		undefined,
+		useCallback(() => {
+			actionRef.current?.reload();
+			setModalVisible(false);
+		}, []),
+	);
+
 	const { deserialize } = localizationSerializer();
 	const { multiTenancySidesMap, providersMap } = useTypesMap($t);
 
@@ -89,7 +97,7 @@ const PermissionDefinitionTable: React.FC = () => {
 			content: $t("AbpUi.ItemWillBeDeletedMessageWithFormat", { 0: permission.name }),
 			onOk: async () => {
 				await deleteApi(permission.name);
-				message.success($t("AbpUi.SuccessfullyDeleted"));
+				toast.success($t("AbpUi.DeletedSuccessfully"));
 				actionRef.current?.reload();
 			},
 		});
@@ -218,10 +226,7 @@ const PermissionDefinitionTable: React.FC = () => {
 			</Button>
 		),
 	];
-	useEffect(() => {
-		actionRef.current?.reload();
-		setModalVisible(false);
-	}, [i18n.language]); //因为使用了从L Lr直接获取值，然后复制给displayName的方式，所以需要监听语言变化
+
 	return (
 		<>
 			<ProTable<PermissionGroupVo>

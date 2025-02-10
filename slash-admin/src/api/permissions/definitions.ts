@@ -32,7 +32,7 @@ export function getApi(name: string): Promise<PermissionDefinitionDto> {
  * @returns 权限定义数据传输对象列表
  */
 export function getListApi(input?: PermissionDefinitionGetListInput): Promise<ListResultDto<PermissionDefinitionDto>> {
-	return requestClient.get<ListResultDto<PermissionDefinitionDto>>(`/api/permission-management/definitions`, {
+	return requestClient.get<ListResultDto<PermissionDefinitionDto>>("/api/permission-management/definitions", {
 		params: input,
 	});
 }

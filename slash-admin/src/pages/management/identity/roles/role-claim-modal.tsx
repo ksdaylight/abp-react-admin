@@ -47,7 +47,7 @@ const RoleClaimModal: React.FC<Props> = ({ visible, onClose, role }) => {
 	const { mutateAsync: deleteClaim } = useMutation({
 		mutationFn: (input: IdentityClaimDeleteDto) => deleteClaimApi(role.id, input),
 		onSuccess: () => {
-			toast.success($t("AbpUi.SuccessfullyDeleted"));
+			toast.success($t("AbpUi.DeletedSuccessfully"));
 			queryClient.invalidateQueries({ queryKey });
 		},
 	});

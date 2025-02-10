@@ -15,19 +15,20 @@ export function isNullOrWhiteSpace(str?: string) {
  * @example format('Hello, {name}!', {name: 'World'})
  */
 export function format(formatted: string, args: any[] | object) {
+	let resultFormatted = formatted;
 	if (Array.isArray(args)) {
 		for (const [i, arg] of args.entries()) {
 			const regexp = new RegExp(String.raw`\{` + i + String.raw`\}`, "gi");
-			formatted = formatted.replace(regexp, arg);
+			resultFormatted = formatted.replace(regexp, arg);
 		}
 	} else if (typeof args === "object") {
 		Object.keys(args).forEach((key) => {
 			const regexp = new RegExp(String.raw`\{` + key + String.raw`\}`, "gi");
 			const param = (args as any)[key];
-			formatted = formatted.replace(regexp, param);
+			resultFormatted = formatted.replace(regexp, param);
 		});
 	}
-	return formatted;
+	return resultFormatted;
 }
 
 export function getUnique(val: string) {

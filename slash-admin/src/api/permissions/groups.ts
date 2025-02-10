@@ -35,7 +35,7 @@ export function getListApi(
 	input?: PermissionGroupDefinitionGetListInput,
 ): Promise<ListResultDto<PermissionGroupDefinitionDto>> {
 	return requestClient.get<ListResultDto<PermissionGroupDefinitionDto>>(
-		`/api/permission-management/definitions/groups`,
+		"/api/permission-management/definitions/groups",
 		{
 			params: input,
 		},
