@@ -1,18 +1,28 @@
 import { useMemo } from "react";
-import { useTranslation } from "react-i18next";
+// import { useTranslation } from "react-i18next";
 import { ChangeType } from "#/auditing/entity-changes";
+import { useLocalizer } from "../use-localization";
 
 export function useAuditLogs() {
-	const { t } = useTranslation();
+	const { L } = useLocalizer(["AbpAuditLogging", "AbpUi"]); //TODO  验证脱离i18n的这个是否可用
 
 	const changeTypeColorMap = useMemo(
 		() => ({
-			[ChangeType.Created]: { color: "#87d068", value: t("AbpAuditLogging.Created") },
-			[ChangeType.Deleted]: { color: "red", value: t("AbpAuditLogging.Deleted") },
-			[ChangeType.Updated]: { color: "#108ee9", value: t("AbpAuditLogging.Updated") },
+			[ChangeType.Created]: { color: "#87d068", value: L("Created") },
+			[ChangeType.Deleted]: { color: "red", value: L("Deleted") },
+			[ChangeType.Updated]: { color: "#108ee9", value: L("Updated") },
 		}),
-		[t],
+		[L],
 	);
+	// const { t } = useTranslation();
+	// const changeTypeColorMap = useMemo(
+	// 	() => ({
+	// 		[ChangeType.Created]: { color: "#87d068", value: t("AbpAuditLogging.Created") },
+	// 		[ChangeType.Deleted]: { color: "red", value: t("AbpAuditLogging.Deleted") },
+	// 		[ChangeType.Updated]: { color: "#108ee9", value: t("AbpAuditLogging.Updated") },
+	// 	}),
+	// 	[t],
+	// );
 
 	const methodColorMap: { [key: string]: string } = {
 		DELETE: "red",

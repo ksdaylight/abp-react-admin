@@ -25,6 +25,8 @@ i18n
 		fallbackLng: LocalEnum.en_US,
 		interpolation: {
 			escapeValue: false, // not needed for react as it escapes by default
+			prefix: "{",
+			suffix: "}",
 		},
 		resources: {
 			en_US: { translation: en_US },

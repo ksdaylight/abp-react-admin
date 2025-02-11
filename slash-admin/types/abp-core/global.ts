@@ -27,7 +27,10 @@ interface LocalizableStringInfo {
 type Dictionary<TKey extends number | string | symbol = any, KValue = any> = {
 	[key in TKey]: KValue;
 };
-
+/** 扩展属性字典 */
+interface ExtraPropertyDictionary {
+	[key: string]: any;
+}
 /** 并发接口 */
 interface IHasConcurrencyStamp {
 	/** 并发令牌，更新数据时需携带 */

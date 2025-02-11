@@ -38,7 +38,6 @@ export default function SearchBar() {
 		);
 	}, [searchQuery, t, flattenedRoutes]);
 
-	// biome-ignore lint/correctness/useExhaustiveDependencies:  在搜索结果变化时重置选中索引
 	useEffect(() => {
 		setSelectedItemIndex(0);
 	}, [searchResult.length]);

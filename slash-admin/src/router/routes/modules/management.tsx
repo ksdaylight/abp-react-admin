@@ -17,7 +17,13 @@ const SecurityLogs = lazy(() => import("@/pages/management/identity/security-log
 const ClaimTypes = lazy(() => import("@/pages/management/identity/claim-types/claim-types-table"));
 
 const AuditingAuditLogs = lazy(() => import("@/pages/management/audit-logs/audit-log-table"));
+const PermissionDefinitions = lazy(
+	() => import("@/pages/management/permissions/permissions/permission-definition-table"),
+);
 
+const PermissionGroupDefinition = lazy(
+	() => import("@/pages/management/permissions/definitions/permission-group-definition-table"),
+);
 const management: AppRouteObject = {
 	order: 2,
 	path: "management",
@@ -117,6 +123,38 @@ const management: AppRouteObject = {
 						label: "abp.manage.identity.securityLogs",
 						key: "/management/identity/security-logs",
 						icon: <Iconify icon="carbon:security" />,
+					},
+				},
+			],
+		},
+		{
+			path: "permissions",
+			meta: {
+				label: "abp.manage.permissions.title",
+				key: "/management/permissions",
+				icon: <Iconify icon="arcticons:permissionsmanager" />,
+			},
+			children: [
+				{
+					index: true,
+					element: <Navigate to="groups" replace />,
+				},
+				{
+					path: "groups",
+					element: <PermissionGroupDefinition />,
+					meta: {
+						label: "abp.manage.permissions.groups",
+						key: "/management/permissions/groups",
+						icon: <Iconify icon="lucide:group" />,
+					},
+				},
+				{
+					path: "definitions",
+					element: <PermissionDefinitions />,
+					meta: {
+						label: "abp.manage.permissions.definitions",
+						key: "/management/permissions/definitions",
+						icon: <Iconify icon="icon-park-outline:permissions" />,
 					},
 				},
 			],

@@ -34,7 +34,7 @@ const ClaimTypeTable: React.FC = () => {
 	const { mutateAsync: deleteClaimType } = useMutation({
 		mutationFn: deleteApi,
 		onSuccess: () => {
-			toast.success($t("AbpUi.SuccessfullyDeleted"));
+			toast.success($t("AbpUi.DeletedSuccessfully"));
 			queryClient.invalidateQueries({ queryKey: ["claimTypes"] });
 		},
 	});

@@ -26,7 +26,6 @@ export function useCurrentRouteMeta() {
 
 	const [currentRouteMeta, setCurrentRouteMeta] = useState<RouteMeta>();
 
-	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
 	useEffect(() => {
 		// 获取当前匹配的路由
 		const lastRoute = matchs.at(-1);

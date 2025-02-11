@@ -40,7 +40,7 @@ const AuditLogTable: React.FC = () => {
 	const { mutateAsync: deleteAuditLog } = useMutation({
 		mutationFn: deleteApi,
 		onSuccess: () => {
-			toast.success($t("AbpUi.SuccessfullyDeleted"));
+			toast.success($t("AbpUi.DeletedSuccessfully"));
 			queryClient.invalidateQueries({ queryKey: ["auditLogs"] });
 		},
 	});
@@ -299,7 +299,7 @@ const AuditLogTable: React.FC = () => {
 						}}
 						search={{
 							labelWidth: "auto",
-							span: 6, //search part , Sets 4 columns layout
+							span: 6, //search part width
 							defaultCollapsed: true,
 						}}
 						scroll={{ x: "max-content" }}

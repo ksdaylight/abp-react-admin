@@ -32,6 +32,7 @@
 			"authorizations": "授权管理",
 			"scopes": "范围管理",
 			"tokens": "授权令牌"
-		}
+		},
+		"sequence": "序号"
 	}
 }

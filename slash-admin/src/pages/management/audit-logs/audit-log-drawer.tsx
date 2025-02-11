@@ -72,7 +72,7 @@ const AuditLogDrawer: React.FC<Props> = ({ visible, onClose, auditLog }) => {
 				{<JsonEdit data={tryParseJson(record.parameters || "")} />}
 			</Descriptions.Item>
 			<Descriptions.Item label={$t("AbpAuditLogging.Additional")}>
-				{<JsonEdit data={tryParseJson(record.extraProperties || "")} />}
+				{<JsonEdit data={tryParseJson((record.extraProperties as unknown as string) || "")} />}
 			</Descriptions.Item>
 		</Descriptions>
 	);

@@ -8,6 +8,7 @@ import { getLocalizationApi } from "@/api/abp-core";
 import type { Locale as AntdLocal } from "antd/es/locale";
 import useAbpStore from "./abpCoreStore";
 import { mapLocaleToAbpLanguageFormat } from "@/utils";
+import type { Dictionary } from "#/abp-core";
 
 type Locale = keyof typeof LocalEnum;
 type Language = {
@@ -35,6 +36,8 @@ export const LANGUAGE_MAP: Record<Locale, Language> = {
 type LocaleStore = {
 	locale: Locale;
 	language: Language;
+	localizations: Dictionary<string, Dictionary<string, string>>;
+
 	actions: {
 		setLocale: (locale: Locale, i18n: any) => Promise<void>;
 	};
@@ -45,6 +48,7 @@ const useLocaleStore = create<LocaleStore>()(
 		(set) => ({
 			locale: LocalEnum.en_US, // 默认语言
 			language: LANGUAGE_MAP[LocalEnum.en_US],
+			localizations: {},
 			actions: {
 				setLocale: async (locale: Locale, i18n: any) => {
 					let { localization } = useAbpStore.getState();
@@ -60,9 +64,9 @@ const useLocaleStore = create<LocaleStore>()(
 					}
 
 					if (localization) {
-						setLocalization(localization);
+						setLocalization(localization); //存进去
 					}
-					const locales = getI18nLocales();
+					const locales = getI18nLocales(); //刚刚存进去的，清理下
 					i18n.changeLanguage(locale);
 					Object.keys(locales).forEach((resource) => {
 						const translations = { [resource]: locales[resource] }; // 保留嵌套结构
@@ -72,6 +76,7 @@ const useLocaleStore = create<LocaleStore>()(
 					set({
 						locale,
 						language: LANGUAGE_MAP[locale],
+						localizations: locales,
 					});
 				},
 			},

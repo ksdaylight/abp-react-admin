@@ -14,7 +14,6 @@ NProgress.configure({
 export default function ProgressBar() {
 	const pathname = usePathname();
 
-	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
 	useEffect(() => {
 		NProgress.start();
 		const timer = setTimeout(() => NProgress.done(), 100);
