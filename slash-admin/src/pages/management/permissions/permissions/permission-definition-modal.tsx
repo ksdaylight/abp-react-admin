@@ -6,13 +6,14 @@ import { toast } from "sonner";
 import { useTranslation } from "react-i18next";
 import { useTypesMap } from "./types";
 import type { PermissionDefinitionDto } from "#/permissions/definitions";
-import type { PermissionGroupDefinitionDto } from "#/permissions/groups";
+// import type { PermissionGroupDefinitionDto } from "#/permissions/groups";
 import { listToTree } from "@/utils/tree";
 import { useLocalizer } from "@/hooks/abp/use-localization";
 import { localizationSerializer } from "@/utils/abp/localization-serializer";
 import type { PropertyInfo } from "@/components/abp/properties/types";
 import LocalizableInput from "@/components/abp/localizable-input/localizable-input";
 import PropertyTable from "@/components/abp/properties/property-table";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 const { TabPane } = Tabs;
 const { Option } = Select;
@@ -30,6 +31,7 @@ interface PermissionTreeVo {
 	displayName: string;
 	groupName: string;
 	name: string;
+	disabled?: boolean;
 }
 
 type TabKeys = "basic" | "props";
@@ -44,15 +46,74 @@ const PermissionDefinitionModal: React.FC<PermissionDefinitionModalProps> = ({
 	groupName,
 }) => {
 	const { t: $t } = useTranslation();
+	const queryClient = useQueryClient();
 	const [form] = Form.useForm();
 	const { multiTenancySideOptions, providerOptions } = useTypesMap($t);
-	const [availableGroups, setAvailableGroups] = useState<PermissionGroupDefinitionDto[]>([]);
-	const [availablePermissions, setAvailablePermissions] = useState<PermissionTreeVo[]>([]);
 	const [activeTab, setActiveTab] = useState<TabKeys>("basic");
 	const [formModel, setFormModel] = useState<PermissionDefinitionDto>({ ...defaultModel });
-	const [loading, setLoading] = useState(false);
 	const { Lr } = useLocalizer();
 	const { deserialize } = localizationSerializer();
+
+	// 查询权限组列表
+	const { data: availableGroups = [] } = useQuery({
+		queryKey: ["permissionGroups", groupName],
+		queryFn: async () => {
+			const { items } = await getGroupsApi({ filter: groupName });
+			return items
+				.filter((group) => !group.isStatic)
+				.map((group) => {
+					const localizableGroup = deserialize(group.displayName);
+					return {
+						...group,
+						displayName: Lr(localizableGroup.resourceName, localizableGroup.name),
+					};
+				});
+		},
+	
+		enabled: visible,
+	});
+
+	// 查询权限列表
+	const { data: availablePermissions = [] } = useQuery({
+		queryKey: ["permissions", formModel.groupName],
+		queryFn: async () => {
+			const { items } = await getPermissionsApi({ groupName: formModel.groupName });
+			const permissions = items.map((permission) => {
+				const localizablePermission = deserialize(permission.displayName);
+				return {
+					...permission,
+					disabled: permission.name === formModel.name,
+					displayName: Lr(localizablePermission.resourceName, localizablePermission.name),
+				};
+			});
+			return listToTree<PermissionTreeVo>(permissions, { id: "name", pid: "parentName" });
+		},
+		enabled: visible && !!formModel.groupName,
+	});
+
+	// 创建权限
+	const { mutateAsync: createPermission, isPending: isCreating } = useMutation({
+		mutationFn: createApi,
+		onSuccess: () => {
+			toast.success($t("AbpUi.SavedSuccessfully"));
+			queryClient.invalidateQueries({ queryKey: ["permissions"] });
+			queryClient.invalidateQueries({ queryKey: ["permissionGroups"] });
+			onChange();
+			onClose();
+		},
+	});
+
+	// 更新权限
+	const { mutateAsync: updatePermission, isPending: isUpdating } = useMutation({
+		mutationFn: (data: PermissionDefinitionDto) => updateApi(data.name, data),
+		onSuccess: () => {
+			toast.success($t("AbpUi.SavedSuccessfully"));
+			queryClient.invalidateQueries({ queryKey: ["permissions"] });
+			queryClient.invalidateQueries({ queryKey: ["permissionGroups"] });
+			onChange();
+			onClose();
+		},
+	});
 
 	useEffect(() => {
 		if (visible) {
@@ -66,70 +127,35 @@ const PermissionDefinitionModal: React.FC<PermissionDefinitionModalProps> = ({
 				};
 				setFormModel(initialModel);
 				form.setFieldsValue(initialModel);
-				fetchGroups(permission.groupName);
-				fetchPermissions(permission.groupName);
 			} else {
 				setFormModel({ ...defaultModel });
-				fetchGroups(groupName);
+				if (groupName) {
+					form.setFieldsValue({ groupName });
+				}
 			}
 		}
-	}, [visible, permission, form.resetFields, form.setFieldsValue, groupName]);
-
-	const fetchGroups = async (groupName?: string) => {
-		const { items } = await getGroupsApi({ filter: groupName });
-		const groups = items
-			.filter((group) => !group.isStatic)
-			.map((group) => {
-				const localizableGroup = deserialize(group.displayName);
-				return {
-					...group,
-					displayName: Lr(localizableGroup.resourceName, localizableGroup.name),
-				};
-			});
-		setAvailableGroups(groups);
-		if (groupName) {
-			form.setFieldsValue({ groupName });
-			fetchPermissions(groupName);
-		}
-	};
-
-	const fetchPermissions = async (groupName?: string) => {
-		const { items } = await getPermissionsApi({ groupName }); //TODO react query 管理
-		const permissions = items.map((permission) => {
-			const localizablePermission = deserialize(permission.displayName);
-			return {
-				...permission,
-				disabled: permission.name === form.getFieldValue("name"),
-				displayName: Lr(localizablePermission.resourceName, localizablePermission.name),
-			};
-		});
-		setAvailablePermissions(listToTree<PermissionTreeVo>(permissions, { id: "name", pid: "parentName" }));
-	};
+	}, [visible, permission, groupName]);
 
 	const handleOk = async () => {
 		try {
-			setLoading(true);
 			const values = await form.validateFields();
 			const submitData = {
 				...values,
 				extraProperties: formModel.extraProperties,
 			};
 
-			const api = permission ? updateApi(values.name, submitData) : createApi(submitData);
-			await api;
-			toast.success($t("AbpUi.SavedSuccessfully"));
-			onChange();
-			onClose();
+			if (permission) {
+				await updatePermission(submitData);
+			} else {
+				await createPermission(submitData);
+			}
 		} catch (error) {
 			console.error(error);
-		} finally {
-			setLoading(false);
 		}
 	};
 
 	const handleGroupChange = (groupName?: string) => {
 		setFormModel((prev) => ({ ...prev, groupName: groupName || "" }));
-		fetchPermissions(groupName);
 	};
 
 	const handlePropChange = (prop: PropertyInfo) => {
@@ -163,7 +189,7 @@ const PermissionDefinitionModal: React.FC<PermissionDefinitionModalProps> = ({
 			}
 			onCancel={onClose}
 			onOk={handleOk}
-			confirmLoading={loading}
+			confirmLoading={isCreating || isUpdating}
 			okButtonProps={{ disabled: formModel.isStatic }}
 			width="50%"
 		>

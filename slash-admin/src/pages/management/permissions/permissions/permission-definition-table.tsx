@@ -1,7 +1,8 @@
-import { useCallback,  useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { Button, Modal, Space, Table, Tag } from "antd";
 import { EditOutlined, DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import type { MultiTenancySides, PermissionDefinitionDto } from "#/permissions/definitions";
 import { type ActionType, ProTable, type ProColumns } from "@ant-design/pro-table";
@@ -40,12 +41,14 @@ interface PermissionGroupVo {
 	permissions: PermissionVo[];
 }
 
-//TODO use query 管理，lint,遗弃的api
 const PermissionDefinitionTable: React.FC = () => {
 	const { t: $t } = useTranslation();
 	const actionRef = useRef<ActionType>();
+	const queryClient = useQueryClient();
 	const [modalVisible, setModalVisible] = useState(false);
 	const [selectedPermission, setSelectedPermission] = useState<PermissionDefinitionDto>();
+
+	const [searchParams, setSearchParams] = useState<{ filter?: string }>({});
 
 	const { Lr } = useLocalizer(
 		undefined,
@@ -58,48 +61,54 @@ const PermissionDefinitionTable: React.FC = () => {
 	const { deserialize } = localizationSerializer();
 	const { multiTenancySidesMap, providersMap } = useTypesMap($t);
 
-	const fetchData = async (params: any) => {
-		const { filter } = params;
-		const groupRes = await getGroupsApi({ filter });
-		const permissionRes = await getPermissionsApi({ filter });
+	// 删除权限操作
+	const { mutateAsync: deletePermission } = useMutation({
+		mutationFn: deleteApi,
+		onSuccess: () => {
+			toast.success($t("AbpUi.DeletedSuccessfully"));
+			queryClient.invalidateQueries({ queryKey: ["permissions","permissionGroups"] });
+		},
+	});
 
-		const groups: PermissionGroupVo[] = groupRes.items.map((group) => {
-			const localizableGroup = deserialize(group.displayName);
-			const permissions = permissionRes.items
-				.filter((permission) => permission.groupName === group.name)
-				.map((permission) => {
-					const localizablePermission = deserialize(permission.displayName);
-					return {
-						...permission,
-						displayName: Lr(localizablePermission.resourceName, localizablePermission.name),
-					};
-				});
-			return {
-				...group,
-				displayName: Lr(localizableGroup.resourceName, localizableGroup.name),
-				permissions: listToTree<PermissionVo>(permissions, {
-					id: "name",
-					pid: "parentName",
-				}),
-			};
-		});
+	// 获取权限数据
+	const { data, isLoading } = useQuery({
+		queryKey: ["permissions", "permissionGroups", searchParams],
+		queryFn: async () => {
+			const [groupRes, permissionRes] = await Promise.all([
+				getGroupsApi(searchParams),
+				getPermissionsApi(searchParams),
+			]);
 
-		return {
-			data: groups,
-			success: true,
-			total: groups.length,
-		};
-	};
+			const groups: PermissionGroupVo[] = groupRes.items.map((group) => {
+				const localizableGroup = deserialize(group.displayName);
+				const permissions = permissionRes.items
+					.filter((permission) => permission.groupName === group.name)
+					.map((permission) => {
+						const localizablePermission = deserialize(permission.displayName);
+						return {
+							...permission,
+							displayName: Lr(localizablePermission.resourceName, localizablePermission.name),
+						};
+					});
+				return {
+					...group,
+					displayName: Lr(localizableGroup.resourceName, localizableGroup.name),
+					permissions: listToTree<PermissionVo>(permissions, {
+						id: "name",
+						pid: "parentName",
+					}),
+				};
+			});
+
+			return groups;
+		},
+	});
 
 	const handleDelete = async (permission: PermissionDefinitionDto) => {
 		Modal.confirm({
 			title: $t("AbpUi.AreYouSure"),
 			content: $t("AbpUi.ItemWillBeDeletedMessageWithFormat", { 0: permission.name }),
-			onOk: async () => {
-				await deleteApi(permission.name);
-				toast.success($t("AbpUi.DeletedSuccessfully"));
-				actionRef.current?.reload();
-			},
+			onOk: () => deletePermission(permission.name),
 		});
 	};
 
@@ -233,17 +242,26 @@ const PermissionDefinitionTable: React.FC = () => {
 				headerTitle={$t("AbpPermissionManagement.PermissionDefinitions")}
 				actionRef={actionRef}
 				columns={mainColumns}
-				request={fetchData}
+				dataSource={data}
+				loading={isLoading}
 				rowKey={(record) => record.name}
 				expandable={{ expandedRowRender }}
 				toolBarRender={toolBarRender}
 				pagination={{
 					showSizeChanger: true,
+					total: data?.length,
 				}}
 				search={{
 					labelWidth: "auto",
 					span: 12, //search part width
 					defaultCollapsed: true,
+				}}
+				request={async (params) => {
+					const { filter } = params;
+					setSearchParams({ filter: filter });
+					//强制重新请求数据（用于table的刷新按钮）
+					await queryClient.invalidateQueries({ queryKey: ["permissions", "permissionGroups"] });
+					return { data, success: true, total: data?.length };
 				}}
 			/>
 			<PermissionDefinitionModal

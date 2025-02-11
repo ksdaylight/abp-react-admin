@@ -7,6 +7,7 @@ import { createApi, getApi, updateApi } from "@/api/permissions/groups";
 import LocalizableInput from "@/components/abp/localizable-input/localizable-input";
 import PropertyTable from "@/components/abp/properties/property-table";
 import { toast } from "sonner";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 interface Props {
 	visible: boolean;
@@ -21,11 +22,45 @@ const defaultModel: PermissionGroupDefinitionDto = {} as PermissionGroupDefiniti
 
 const PermissionGroupDefinitionModal: React.FC<Props> = ({ visible, onClose, onChange, groupName }) => {
 	const { t: $t } = useTranslation();
+	const queryClient = useQueryClient();
 	const [form] = Form.useForm();
 	const [formModel, setFormModel] = useState<PermissionGroupDefinitionDto>({ ...defaultModel });
 	const [isEditModel, setIsEditModel] = useState(false);
 	const [activeTab, setActiveTab] = useState<TabKeys>("basic");
-	const [loading, setLoading] = useState(false);
+
+	// 获取权限组详情 getApi 用 useMutation
+	const { mutateAsync: fetchGroup, isPending: isFetching } = useMutation({
+		mutationFn: getApi,
+		onMutate: () => {
+			setIsEditModel(true);
+		},
+		onSuccess: (dto) => {
+			setFormModel(dto);
+			form.setFieldsValue(dto);
+		},
+	});
+
+	// 创建权限组
+	const { mutateAsync: createGroup, isPending: isCreating } = useMutation({
+		mutationFn: createApi,
+		onSuccess: (res) => {
+			toast.success($t("AbpUi.SavedSuccessfully"));
+			queryClient.invalidateQueries({ queryKey: ["permissionGroups"] });
+			onChange(res);
+			onClose();
+		}
+	});
+
+	// 更新权限组
+	const { mutateAsync: updateGroup, isPending: isUpdating } = useMutation({
+		mutationFn: (data: PermissionGroupDefinitionDto) => updateApi(data.name, data),
+		onSuccess: (res) => {
+			toast.success($t("AbpUi.SavedSuccessfully"));
+			queryClient.invalidateQueries({ queryKey: ["permissionGroups"] });
+			onChange(res);
+			onClose();
+		}
+	});
 
 	useEffect(() => {
 		if (visible) {
@@ -38,37 +73,23 @@ const PermissionGroupDefinitionModal: React.FC<Props> = ({ visible, onClose, onC
 				fetchGroup(groupName);
 			}
 		}
-	}, [visible, groupName, form.resetFields]);
-
-	const fetchGroup = async (name: string) => {
-		try {
-			setLoading(true);
-			const dto = await getApi(name);
-			setIsEditModel(true);
-			setFormModel(dto);
-			form.setFieldsValue(dto);
-		} finally {
-			setLoading(false);
-		}
-	};
+	}, [visible, groupName]);
 
 	const handleOk = async () => {
 		try {
 			const values = await form.validateFields();
-			setLoading(true);
 			const submitData = {
 				...values,
 				extraProperties: formModel.extraProperties,
 			};
-			const api = isEditModel ? updateApi(values.name, submitData) : createApi(submitData);
-			const res = await api;
-			toast.success($t("AbpUi.SavedSuccessfully"));
-			onChange(res);
-			onClose();
+
+			if (isEditModel) {
+				await updateGroup(submitData);
+			} else {
+				await createGroup(submitData);
+			}
 		} catch (error) {
-			// Form validation error
-		} finally {
-			setLoading(false);
+			console.error(error);
 		}
 	};
 
@@ -103,7 +124,7 @@ const PermissionGroupDefinitionModal: React.FC<Props> = ({ visible, onClose, onC
 			open={visible}
 			onCancel={onClose}
 			onOk={handleOk}
-			confirmLoading={loading}
+			confirmLoading={isCreating || isUpdating || isFetching}
 			okButtonProps={{ disabled: formModel.isStatic }}
 			width="50%"
 		>
