@@ -66,7 +66,7 @@ const PermissionDefinitionTable: React.FC = () => {
 		mutationFn: deleteApi,
 		onSuccess: () => {
 			toast.success($t("AbpUi.DeletedSuccessfully"));
-			queryClient.invalidateQueries({ queryKey: ["permissions","permissionGroups"] });
+			queryClient.invalidateQueries({ queryKey: ["permissions", "permissionGroups"] });
 		},
 	});
 

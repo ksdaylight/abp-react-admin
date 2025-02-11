@@ -48,7 +48,7 @@ const PermissionGroupDefinitionModal: React.FC<Props> = ({ visible, onClose, onC
 			queryClient.invalidateQueries({ queryKey: ["permissionGroups"] });
 			onChange(res);
 			onClose();
-		}
+		},
 	});
 
 	// 更新权限组
@@ -59,7 +59,7 @@ const PermissionGroupDefinitionModal: React.FC<Props> = ({ visible, onClose, onC
 			queryClient.invalidateQueries({ queryKey: ["permissionGroups"] });
 			onChange(res);
 			onClose();
-		}
+		},
 	});
 
 	useEffect(() => {

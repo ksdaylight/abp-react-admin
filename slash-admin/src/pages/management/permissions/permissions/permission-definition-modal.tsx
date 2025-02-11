@@ -69,7 +69,7 @@ const PermissionDefinitionModal: React.FC<PermissionDefinitionModalProps> = ({
 					};
 				});
 		},
-	
+
 		enabled: visible,
 	});
 

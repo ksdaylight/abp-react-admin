@@ -50,7 +50,7 @@ const PermissionGroupDefinitionTable: React.FC = () => {
 					displayName: Lr(localizableString.resourceName, localizableString.name),
 				};
 			});
-		}
+		},
 	});
 
 	// 删除权限组
@@ -59,7 +59,7 @@ const PermissionGroupDefinitionTable: React.FC = () => {
 		onSuccess: () => {
 			toast.success($t("AbpUi.DeletedSuccessfully"));
 			queryClient.invalidateQueries({ queryKey: ["permissionGroups"] });
-		}
+		},
 	});
 
 	const handleCreate = () => {
