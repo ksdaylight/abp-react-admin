@@ -19,7 +19,7 @@ const PermissionGroupDefinitionTable: React.FC = () => {
 	const { t: $t } = useTranslation();
 	const actionRef = useRef<ActionType>();
 	const queryClient = useQueryClient();
-
+	const [modal, contextHolder] = Modal.useModal();
 	const { deserialize } = localizationSerializer();
 
 	// Modal states
@@ -73,7 +73,7 @@ const PermissionGroupDefinitionTable: React.FC = () => {
 	};
 
 	const handleDelete = (group: PermissionGroupDefinitionDto) => {
-		Modal.confirm({
+		modal.confirm({
 			title: $t("AbpUi.AreYouSure"),
 			content: $t("AbpUi.ItemWillBeDeletedMessageWithFormat", { 0: group.name }),
 			onOk: () => deleteGroup(group.name),
@@ -156,6 +156,7 @@ const PermissionGroupDefinitionTable: React.FC = () => {
 
 	return (
 		<>
+			{contextHolder}
 			<ProTable<PermissionGroupDefinitionDto>
 				headerTitle={$t("AbpPermissionManagement.GroupDefinitions")}
 				actionRef={actionRef}

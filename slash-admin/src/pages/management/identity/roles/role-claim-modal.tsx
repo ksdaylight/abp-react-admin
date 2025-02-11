@@ -3,10 +3,9 @@ import { Modal } from "antd";
 import { useTranslation } from "react-i18next";
 import type { IdentityRoleDto } from "#/identity";
 import type { IdentityClaimCreateDto, IdentityClaimDeleteDto, IdentityClaimUpdateDto } from "#/identity/claims";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createClaimApi, deleteClaimApi, getClaimsApi, updateClaimApi } from "@/api/identity/role";
 import { IdentityRolePermissions } from "@/constants/identity/permissions";
-import { toast } from "sonner";
 import ClaimTable from "@/components/abp/claims/claim-table";
 
 interface Props {
@@ -15,23 +14,17 @@ interface Props {
 	role: IdentityRoleDto;
 }
 
+//TODO on change 结合测试配置的role的claims和其它calims获取的地方
+// 权限src/components/abp/permissions/permission-modal.tsx 有bug待测试
 const RoleClaimModal: React.FC<Props> = ({ visible, onClose, role }) => {
 	const { t: $t } = useTranslation();
 	const queryClient = useQueryClient();
 	const queryKey = ["roleClaims", role.id];
 
-	// Query for getting claims
-	const { data: claims } = useQuery({
-		queryKey,
-		queryFn: () => getClaimsApi(role.id),
-		enabled: visible,
-	});
-
 	// Mutations for CRUD operations
 	const { mutateAsync: createClaim } = useMutation({
 		mutationFn: (input: IdentityClaimCreateDto) => createClaimApi(role.id, input),
 		onSuccess: () => {
-			toast.success($t("AbpUi.SuccessfullyCreated"));
 			queryClient.invalidateQueries({ queryKey });
 		},
 	});
@@ -39,7 +32,6 @@ const RoleClaimModal: React.FC<Props> = ({ visible, onClose, role }) => {
 	const { mutateAsync: updateClaim } = useMutation({
 		mutationFn: (input: IdentityClaimUpdateDto) => updateClaimApi(role.id, input),
 		onSuccess: () => {
-			toast.success($t("AbpUi.SuccessfullyUpdated"));
 			queryClient.invalidateQueries({ queryKey });
 		},
 	});
@@ -47,7 +39,6 @@ const RoleClaimModal: React.FC<Props> = ({ visible, onClose, role }) => {
 	const { mutateAsync: deleteClaim } = useMutation({
 		mutationFn: (input: IdentityClaimDeleteDto) => deleteClaimApi(role.id, input),
 		onSuccess: () => {
-			toast.success($t("AbpUi.DeletedSuccessfully"));
 			queryClient.invalidateQueries({ queryKey });
 		},
 	});
@@ -68,7 +59,9 @@ const RoleClaimModal: React.FC<Props> = ({ visible, onClose, role }) => {
 				deletePolicy={IdentityRolePermissions.ManageClaims}
 				updateApi={updateClaim}
 				updatePolicy={IdentityRolePermissions.ManageClaims}
-				getApi={() => Promise.resolve(claims || { items: [] })} //简单伪装
+				getApi={async () => {
+					return await getClaimsApi(role.id); //其它的可以保持原样
+				}}
 			/>
 		</Modal>
 	);

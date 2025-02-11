@@ -16,7 +16,6 @@ import {
 	toPermissionList,
 	getChildren,
 } from "./permissions-utils";
-import "./permission-modal.scss";
 import { toast } from "sonner";
 
 interface Props {
@@ -58,7 +57,6 @@ const PermissionModal: React.FC<Props> = ({
 		}
 	}, [permissionData]);
 
-
 	// 更新权限
 	const { mutateAsync: updatePermissions, isPending: isUpdating } = useMutation({
 		mutationFn: (permissions: any) => updateApi({ providerKey, providerName }, { permissions }),
@@ -78,7 +76,6 @@ const PermissionModal: React.FC<Props> = ({
 			indeterminate: grantCount > 0 && grantCount < permissionCount,
 		};
 	}, [permissionTree]);
-
 
 	// 全选所有节点权限
 	const handleCheckAll = (e: CheckboxChangeEvent) => {
@@ -186,8 +183,8 @@ const PermissionModal: React.FC<Props> = ({
 				<Tabs
 					tabPosition="left"
 					type="card"
-          className="h-[34rem]"
-          tabBarStyle={{ width: '14rem' }}
+					className="h-[34rem]"
+					tabBarStyle={{ width: "14rem" }}
 					items={permissionTree.map((permission) => ({
 						key: permission.name,
 						label: `${permission.displayName} (${getGrantPermissionCount(permission)}/${getPermissionCount(permission)})`,
@@ -238,8 +235,6 @@ const PermissionModal: React.FC<Props> = ({
 };
 
 export default PermissionModal;
-
-
 
 /*
 

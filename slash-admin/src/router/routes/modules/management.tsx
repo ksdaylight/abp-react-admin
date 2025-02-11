@@ -24,6 +24,9 @@ const PermissionDefinitions = lazy(
 const PermissionGroupDefinition = lazy(
 	() => import("@/pages/management/permissions/definitions/permission-group-definition-table"),
 );
+
+const Roles = lazy(() => import("@/pages/management/identity/roles/role-table"));
+
 const management: AppRouteObject = {
 	order: 2,
 	path: "management",
@@ -106,6 +109,15 @@ const management: AppRouteObject = {
 				{
 					index: true,
 					element: <Navigate to="security-logs" replace />, //TODO 修改默认子级
+				},
+				{
+					path: "roles",
+					element: <Roles />,
+					meta: {
+						label: "abp.manage.identity.role",
+						key: "/management/identity/roles",
+						icon: <Iconify icon="carbon:user-role" />,
+					},
 				},
 				{
 					path: "claim-types",

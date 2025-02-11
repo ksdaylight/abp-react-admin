@@ -21,7 +21,7 @@ const ClaimTypeModal: React.FC<Props> = ({ visible, onClose, onSuccess, claimTyp
 	const { mutateAsync: createClaimType, isPending: isCreating } = useMutation({
 		mutationFn: createApi,
 		onSuccess: () => {
-			toast.success($t("AbpUi.Success"));
+			toast.success($t("AbpUi.CreatedSuccessfully"));
 			onSuccess();
 			onClose();
 		},
@@ -33,7 +33,7 @@ const ClaimTypeModal: React.FC<Props> = ({ visible, onClose, onSuccess, claimTyp
 	const { mutateAsync: updateClaimType, isPending: isUpdating } = useMutation({
 		mutationFn: ({ id, data }: { id: string; data: IdentityClaimTypeDto }) => updateApi(id, data),
 		onSuccess: () => {
-			toast.success($t("AbpUi.Success"));
+			toast.success($t("AbpUi.SavedSuccessfully"));
 			onSuccess();
 			onClose();
 		},
