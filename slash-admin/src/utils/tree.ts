@@ -27,12 +27,12 @@ const DEFAULT_CONFIG: TreeHelperConfig = {
 
 const getConfig = (config: Partial<TreeHelperConfig>) => Object.assign({}, DEFAULT_CONFIG, config);
 
-// 
+//
 // /**
 //  * 注意此函数会在list原始数据上操作，会改变原始数据
-//  * @param list 
-//  * @param config 
-//  * @returns 
+//  * @param list
+//  * @param config
+//  * @returns
 //  */
 // export function listToTree<T = any>(list: any[], config: Partial<TreeHelperConfig> = {}): T[] {
 // 	const conf = getConfig(config) as TreeHelperConfig;
@@ -55,24 +55,24 @@ const getConfig = (config: Partial<TreeHelperConfig>) => Object.assign({}, DEFAU
 // }
 
 export function listToTree<T = any>(list: any[], config: Partial<TreeHelperConfig> = {}): T[] {
-  const conf = getConfig(config) as TreeHelperConfig;
-  const nodeMap = new Map();
-  const result: T[] = [];
-  const { id, pid, children } = conf;
+	const conf = getConfig(config) as TreeHelperConfig;
+	const nodeMap = new Map();
+	const result: T[] = [];
+	const { id, pid, children } = conf;
 
-  // 创建 list 的深拷贝，避免修改原始数据
-  const clonedList = list.map(node => ({ ...node }));
+	// 创建 list 的深拷贝，避免修改原始数据
+	const clonedList = list.map((node) => ({ ...node }));
 
-  for (const node of clonedList) {
-    node[children] = node[children] || [];
-    nodeMap.set(node[id], node);
-  }
-  for (const node of clonedList) {
-    const parent = nodeMap.get(node[pid]);
-    (parent ? parent[children] : result).push(node);
-    if (parent) {
-      parent.hasChildren = true;
-    }
-  }
-  return result;
+	for (const node of clonedList) {
+		node[children] = node[children] || [];
+		nodeMap.set(node[id], node);
+	}
+	for (const node of clonedList) {
+		const parent = nodeMap.get(node[pid]);
+		(parent ? parent[children] : result).push(node);
+		if (parent) {
+			parent.hasChildren = true;
+		}
+	}
+	return result;
 }

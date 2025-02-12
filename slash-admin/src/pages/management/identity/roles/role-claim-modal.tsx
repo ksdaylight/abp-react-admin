@@ -15,7 +15,6 @@ interface Props {
 }
 
 //TODO on change 结合测试配置的role的claims和其它calims获取的地方
-// 权限src/components/abp/permissions/permission-modal.tsx 有bug待测试
 const RoleClaimModal: React.FC<Props> = ({ visible, onClose, role }) => {
 	const { t: $t } = useTranslation();
 	const queryClient = useQueryClient();

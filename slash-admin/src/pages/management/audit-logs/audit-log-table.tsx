@@ -273,7 +273,7 @@ const AuditLogTable: React.FC = () => {
 							const { current, pageSize, executionTime, ...filters } = params;
 							const [startTime, endTime] = executionTime || [];
 							const query = await queryClient.fetchQuery({
-								//TODO 换掉，其它这样的调用都换掉
+								//不用换，这样与antd结合比较好用
 								queryKey: ["auditLogs", params, sorter],
 								queryFn: () =>
 									getPagedListApi({
