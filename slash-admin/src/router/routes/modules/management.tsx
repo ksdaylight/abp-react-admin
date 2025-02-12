@@ -26,6 +26,7 @@ const PermissionGroupDefinition = lazy(
 );
 
 const Roles = lazy(() => import("@/pages/management/identity/roles/role-table"));
+const OrganizationUnits = lazy(() => import("@/pages/management/identity/organization-units/organization-unit-page"));
 
 const management: AppRouteObject = {
 	order: 2,
@@ -108,7 +109,16 @@ const management: AppRouteObject = {
 			children: [
 				{
 					index: true,
-					element: <Navigate to="security-logs" replace />, //TODO 修改默认子级
+					element: <Navigate to="users" replace />,
+				},
+				{
+					path: "users",
+					element: <Roles />,
+					meta: {
+						label: "abp.manage.identity.user",
+						key: "/management/identity/users",
+						icon: <Iconify icon="mdi:user-outline" />,
+					},
 				},
 				{
 					path: "roles",
@@ -135,6 +145,15 @@ const management: AppRouteObject = {
 						label: "abp.manage.identity.securityLogs",
 						key: "/management/identity/security-logs",
 						icon: <Iconify icon="carbon:security" />,
+					},
+				},
+				{
+					path: "organization-units",
+					element: <OrganizationUnits />,
+					meta: {
+						label: "abp.manage.identity.organizationUnits",
+						key: "/management/identity/organization-units",
+						icon: <Iconify icon="clarity:organization-line" />,
 					},
 				},
 			],

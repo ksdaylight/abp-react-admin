@@ -226,34 +226,36 @@ const PermissionModal: React.FC<Props> = ({
 										{$t("AbpPermissionManagement.SelectAllInThisTab")}
 									</Checkbox>
 									<Divider />
-									<Tree
-										checkStrictly
-										checkable
-										checkedKeys={checkedKeys}
-										disabled={readonly}
-										expandedKeys={expandedKeys}
-										fieldNames={{
-											key: "name",
-											title: "displayName",
-											children: "children",
-										}}
-										treeData={permission.children}
-										onCheck={(keys, info) => handleNodeCheck(permission, keys, info)}
-										onExpand={(_keys, info) => {
-											const nodeKey = String(info.node.key);
-											const index = expandedKeys.indexOf(nodeKey);
-											setExpandedKeys((prev) =>
-												index === -1 ? [...prev, nodeKey] : prev.filter((key) => key !== nodeKey),
-											);
-										}}
-										onSelect={(_keys, info) => {
-											const nodeKey = String(info.node.key);
-											const index = expandedKeys.indexOf(nodeKey);
-											setExpandedKeys((prev) =>
-												index === -1 ? [...prev, nodeKey] : prev.filter((key) => key !== nodeKey),
-											);
-										}}
-									/>
+									<div className="max-h-[24rem] overflow-auto pr-2">
+										<Tree
+											checkStrictly
+											checkable
+											checkedKeys={checkedKeys}
+											disabled={readonly}
+											expandedKeys={expandedKeys}
+											fieldNames={{
+												key: "name",
+												title: "displayName",
+												children: "children",
+											}}
+											treeData={permission.children}
+											onCheck={(keys, info) => handleNodeCheck(permission, keys, info)}
+											onExpand={(_keys, info) => {
+												const nodeKey = String(info.node.key);
+												const index = expandedKeys.indexOf(nodeKey);
+												setExpandedKeys((prev) =>
+													index === -1 ? [...prev, nodeKey] : prev.filter((key) => key !== nodeKey),
+												);
+											}}
+											onSelect={(_keys, info) => {
+												const nodeKey = String(info.node.key);
+												const index = expandedKeys.indexOf(nodeKey);
+												setExpandedKeys((prev) =>
+													index === -1 ? [...prev, nodeKey] : prev.filter((key) => key !== nodeKey),
+												);
+											}}
+										/>
+									</div>
 								</div>
 							</Card>
 						),
