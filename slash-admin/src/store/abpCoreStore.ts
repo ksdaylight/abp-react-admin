@@ -1,4 +1,5 @@
 import type { ApplicationConfigurationDto, ApplicationLocalizationDto } from "#/abp-core";
+import { StorageEnum } from "#/enum";
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 
@@ -58,8 +59,9 @@ const useAbpStore = create<AbpStore>()(
 		{
 			name: "abpStore", // localStorage key
 			storage: createJSONStorage(() => localStorage),
-			// 保持风格，但暂时不持久化数据
-			partialize: () => ({}),
+			partialize: (state) => ({
+				[StorageEnum.Application]: state.application,
+			}),
 		},
 	),
 );

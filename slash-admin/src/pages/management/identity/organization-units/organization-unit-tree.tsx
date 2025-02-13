@@ -184,9 +184,6 @@ const OrganizationUnitTree: React.FC<Props> = ({ onSelected }) => {
 								children: [],
 							};
 						});
-						// setOrganizationUnits((prevUnits) => {
-						// 	return prevUnits.map((unit) => (unit.key === node.key ? { ...node } : unit));
-						// });
 						setOrganizationUnits((prevUnits) => updateTreeData(prevUnits, nodeKey, node.children || []));
 
 						setLoadedKeys((prev) => [...prev, String(node.key)]);

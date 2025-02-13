@@ -13,20 +13,23 @@ const OrganizationPage = lazy(() => import("@/pages/management/system/organizati
 const PermissioPage = lazy(() => import("@/pages/management/system/permission"));
 
 const Blog = lazy(() => import("@/pages/management/blog"));
-const SecurityLogs = lazy(() => import("@/pages/management/identity/security-logs/security-logs-table"));
+
+// Identity
+const Users = lazy(() => import("@/pages/management/identity/users/user-table"));
+const Roles = lazy(() => import("@/pages/management/identity/roles/role-table"));
 const ClaimTypes = lazy(() => import("@/pages/management/identity/claim-types/claim-types-table"));
+const SecurityLogs = lazy(() => import("@/pages/management/identity/security-logs/security-logs-table"));
+const OrganizationUnits = lazy(() => import("@/pages/management/identity/organization-units/organization-unit-page"));
 
-const AuditingAuditLogs = lazy(() => import("@/pages/management/audit-logs/audit-log-table"));
-const PermissionDefinitions = lazy(
-	() => import("@/pages/management/permissions/permissions/permission-definition-table"),
-);
-
+// Permissions
 const PermissionGroupDefinition = lazy(
 	() => import("@/pages/management/permissions/definitions/permission-group-definition-table"),
 );
-
-const Roles = lazy(() => import("@/pages/management/identity/roles/role-table"));
-const OrganizationUnits = lazy(() => import("@/pages/management/identity/organization-units/organization-unit-page"));
+const PermissionDefinitions = lazy(
+	() => import("@/pages/management/permissions/permissions/permission-definition-table"),
+);
+// Auditing logs
+const AuditingAuditLogs = lazy(() => import("@/pages/management/audit-logs/audit-log-table"));
 
 const management: AppRouteObject = {
 	order: 2,
@@ -113,7 +116,7 @@ const management: AppRouteObject = {
 				},
 				{
 					path: "users",
-					element: <Roles />,
+					element: <Users />,
 					meta: {
 						label: "abp.manage.identity.user",
 						key: "/management/identity/users",

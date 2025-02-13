@@ -92,7 +92,7 @@ const OrganizationUnitModal: React.FC<Props> = ({ visible, onClose, onChange, id
 		<Modal
 			open={visible}
 			title={
-				id ? $t("AbpIdentity.OrganizationUnits") + ": " + unitData?.displayName : $t("AbpIdentity.OrganizationUnit:New")
+				id ? `${$t("AbpIdentity.OrganizationUnits")}: ${unitData?.displayName}` : $t("AbpIdentity.OrganizationUnit:New")
 			}
 			onCancel={onClose}
 			onOk={handleOk}

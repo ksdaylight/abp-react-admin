@@ -9,7 +9,7 @@ import { OrganizationUnitPermissions } from "@/constants/identity/permissions";
 import SelectRoleModal from "./select-role-modal";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { removeOrganizationUnitApi } from "@/api/identity/role";
-import { addRoles,getRoleListApi } from "@/api/identity/organization-units";
+import { addRoles, getRoleListApi } from "@/api/identity/organization-units";
 import { toast } from "sonner";
 
 interface Props {
@@ -19,12 +19,12 @@ interface Props {
 const OrganizationUnitRoleTable: React.FC<Props> = ({ selectedKey }) => {
 	const { t: $t } = useTranslation();
 	const actionRef = useRef<ActionType>();
-  const queryClient = useQueryClient();
+	const queryClient = useQueryClient();
 	const [modal, contextHolder] = Modal.useModal();
 	const [roleModalVisible, setRoleModalVisible] = useState(false);
 
 	// 获取角色列表
-	const { data, isLoading,refetch } = useQuery({
+	const { data, isLoading, refetch } = useQuery({
 		queryKey: ["organizationUnitRoles", selectedKey],
 		queryFn: () => {
 			if (!selectedKey) {
@@ -37,14 +37,18 @@ const OrganizationUnitRoleTable: React.FC<Props> = ({ selectedKey }) => {
 
 	// 添加角色
 	const { mutateAsync: addRolesToUnit } = useMutation({
-		mutationFn: (roles: IdentityRoleDto[]) =>
-			addRoles(selectedKey!, {
+		mutationFn: (roles: IdentityRoleDto[]) => {
+			if (!selectedKey) {
+				return Promise.reject(new Error("selectedKey is undefined"));
+			}
+			return addRoles(selectedKey, {
 				roleIds: roles.map((role) => role.id),
-			}),
+			});
+		},
 		onSuccess: () => {
 			toast.success($t("AbpUi.SavedSuccessfully"));
 			setRoleModalVisible(false);
-      refetch();
+			refetch();
 
 			actionRef.current?.reload();
 		},
@@ -52,10 +56,15 @@ const OrganizationUnitRoleTable: React.FC<Props> = ({ selectedKey }) => {
 
 	// 移除角色
 	const { mutateAsync: removeRole } = useMutation({
-		mutationFn: (roleId: string) => removeOrganizationUnitApi(roleId, selectedKey!),
+		mutationFn: (roleId: string) => {
+			if (!selectedKey) {
+				return Promise.reject(new Error("selectedKey is undefined"));
+			}
+			return removeOrganizationUnitApi(roleId, selectedKey);
+		},
 		onSuccess: () => {
 			toast.success($t("AbpUi.DeletedSuccessfully"));
-      refetch();
+			refetch();
 			actionRef.current?.reload();
 		},
 	});
@@ -116,12 +125,14 @@ const OrganizationUnitRoleTable: React.FC<Props> = ({ selectedKey }) => {
 				]}
 			/>
 
-			<SelectRoleModal
-				visible={roleModalVisible}
-				onClose={() => setRoleModalVisible(false)}
-				onConfirm={addRolesToUnit}
-				organizationUnitId={selectedKey!}
-			/>
+			{selectedKey && (
+				<SelectRoleModal
+					visible={roleModalVisible}
+					onClose={() => setRoleModalVisible(false)}
+					onConfirm={addRolesToUnit}
+					organizationUnitId={selectedKey}
+				/>
+			)}
 		</>
 	);
 };

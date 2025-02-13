@@ -11,10 +11,11 @@ import ClaimTable from "@/components/abp/claims/claim-table";
 interface Props {
 	visible: boolean;
 	onClose: () => void;
+	onChange: () => void;
 	user: IdentityUserDto;
 }
 
-const RoleClaimModal: React.FC<Props> = ({ visible, onClose, user }) => {
+const RoleClaimModal: React.FC<Props> = ({ visible, onClose, user, onChange }) => {
 	const { t: $t } = useTranslation();
 	const queryClient = useQueryClient();
 	const queryKey = ["userClaims", user.id];
@@ -24,6 +25,7 @@ const RoleClaimModal: React.FC<Props> = ({ visible, onClose, user }) => {
 		mutationFn: (input: IdentityClaimCreateDto) => createClaimApi(user.id, input),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey });
+			onChange();
 		},
 	});
 
@@ -31,6 +33,7 @@ const RoleClaimModal: React.FC<Props> = ({ visible, onClose, user }) => {
 		mutationFn: (input: IdentityClaimUpdateDto) => updateClaimApi(user.id, input),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey });
+			onChange();
 		},
 	});
 
@@ -38,6 +41,7 @@ const RoleClaimModal: React.FC<Props> = ({ visible, onClose, user }) => {
 		mutationFn: (input: IdentityClaimDeleteDto) => deleteClaimApi(user.id, input),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey });
+			onChange();
 		},
 	});
 
@@ -58,7 +62,7 @@ const RoleClaimModal: React.FC<Props> = ({ visible, onClose, user }) => {
 				updateApi={updateClaim}
 				updatePolicy={IdentityRolePermissions.ManageClaims}
 				getApi={async () => {
-					return await getClaimsApi(user.id); //其它的可以保持原样
+					return await getClaimsApi(user.id);
 				}}
 			/>
 		</Modal>

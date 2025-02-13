@@ -2,7 +2,6 @@ import { useState } from "react";
 import OrganizationUnitTree from "./organization-unit-tree";
 import OrganizationUnitTable from "./organization-unit-table";
 
-
 const OrganizationUnitPage = () => {
 	const [selectedKey, setSelectedKey] = useState<string>();
 

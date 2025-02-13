@@ -15,6 +15,7 @@ export enum StorageEnum {
 	AccessCodes = "accessCodes",
 	Settings = "settings",
 	I18N = "i18nextLng",
+	Application = "application",
 }
 
 export enum ThemeMode {

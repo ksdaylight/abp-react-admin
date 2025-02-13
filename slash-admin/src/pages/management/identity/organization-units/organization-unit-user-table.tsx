@@ -23,18 +23,28 @@ const OrganizationUnitUserTable: React.FC<Props> = ({ selectedKey }) => {
 	const [memberModalVisible, setMemberModalVisible] = useState(false);
 
 	// 获取用户列表
-	const { data, isLoading,refetch } = useQuery({
+	const { data, isLoading, refetch } = useQuery({
 		queryKey: ["organizationUnitUsers", selectedKey],
-		queryFn: () => getUserListApi(selectedKey!, {}),
+		queryFn: () => {
+			if (!selectedKey) {
+				return Promise.reject(new Error("selectedKey is undefined"));
+			}
+			return getUserListApi(selectedKey, {});
+		},
 		enabled: !!selectedKey,
 	});
 
 	// 添加成员
 	const { mutateAsync: addUsers } = useMutation({
-		mutationFn: (users: IdentityUserDto[]) => addMembers(selectedKey!, { userIds: users.map((u) => u.id) }),
+		mutationFn: (users: IdentityUserDto[]) => {
+			if (!selectedKey) {
+				return Promise.reject(new Error("selectedKey is undefined"));
+			}
+			return addMembers(selectedKey, { userIds: users.map((u) => u.id) });
+		},
 		onSuccess: () => {
 			toast.success($t("AbpUi.SavedSuccessfully"));
-      refetch();
+			refetch();
 			actionRef.current?.reload();
 			setMemberModalVisible(false);
 		},
@@ -42,10 +52,15 @@ const OrganizationUnitUserTable: React.FC<Props> = ({ selectedKey }) => {
 
 	// 移除成员
 	const { mutateAsync: removeUser } = useMutation({
-		mutationFn: (userId: string) => removeOrganizationUnitApi(userId, selectedKey!),
+		mutationFn: (userId: string) => {
+			if (!selectedKey) {
+				return Promise.reject(new Error("selectedKey is undefined"));
+			}
+			return removeOrganizationUnitApi(userId, selectedKey);
+		},
 		onSuccess: () => {
 			toast.success($t("AbpUi.DeletedSuccessfully"));
-      refetch();
+			refetch();
 			actionRef.current?.reload();
 		},
 	});
@@ -111,12 +126,14 @@ const OrganizationUnitUserTable: React.FC<Props> = ({ selectedKey }) => {
 				]}
 			/>
 
-			<SelectMemberModal
-				visible={memberModalVisible}
-				onClose={() => setMemberModalVisible(false)}
-				onConfirm={addUsers}
-				organizationUnitId={selectedKey!}
-			/>
+			{selectedKey && (
+				<SelectMemberModal
+					visible={memberModalVisible}
+					onClose={() => setMemberModalVisible(false)}
+					onConfirm={addUsers}
+					organizationUnitId={selectedKey}
+				/>
+			)}
 		</>
 	);
 };
