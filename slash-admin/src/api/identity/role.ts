@@ -91,9 +91,7 @@ export function deleteClaimApi(id: string, input: IdentityClaimDeleteDto): Promi
  * @param input 角色声明dto
  */
 export function createClaimApi(id: string, input: IdentityClaimCreateDto): Promise<void> {
-	return requestClient.post(`/api/identity/roles/${id}/claims`, {
-		data: input,
-	});
+	return requestClient.post(`/api/identity/roles/${id}/claims`, input);
 }
 
 /**
@@ -102,7 +100,5 @@ export function createClaimApi(id: string, input: IdentityClaimCreateDto): Promi
  * @param input 用户角色dto
  */
 export function updateClaimApi(id: string, input: IdentityClaimUpdateDto): Promise<void> {
-	return requestClient.put(`/api/identity/roles/${id}/claims`, {
-		data: input,
-	});
+	return requestClient.put(`/api/identity/roles/${id}/claims`, input);
 }

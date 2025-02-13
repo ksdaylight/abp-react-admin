@@ -3,14 +3,14 @@ import { useEffect } from "react";
 import { Modal, Form, Input, Checkbox } from "antd";
 import { useTranslation } from "react-i18next";
 import type { IdentityRoleDto } from "#/identity";
-import { useQuery, useMutation } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { createApi, getApi, updateApi } from "@/api/identity/role";
 import { toast } from "sonner";
 
 interface Props {
 	visible: boolean;
 	onClose: () => void;
-	onChange: (data: IdentityRoleDto) => void;
+	onChange: () => void;
 	role?: IdentityRoleDto;
 }
 
@@ -23,7 +23,7 @@ const defaultModel: Partial<IdentityRoleDto> = {
 const RoleModal: React.FC<Props> = ({ visible, onClose, onChange, role }) => {
 	const { t: $t } = useTranslation();
 	const [form] = Form.useForm<IdentityRoleDto>();
-
+	const queryClient = useQueryClient();
 	// Query for getting role details
 	const { data: roleData, isLoading: isLoadingRole } = useQuery({
 		queryKey: ["role", role?.id],
@@ -39,18 +39,19 @@ const RoleModal: React.FC<Props> = ({ visible, onClose, onChange, role }) => {
 	// Mutations for create/update
 	const { mutateAsync: createRole, isPending: isCreating } = useMutation({
 		mutationFn: createApi,
-		onSuccess: (data) => {
-			onChange(data);
-			toast.success($t("AbpUi.Success"));
+		onSuccess: (_) => {
+			onChange();
+			toast.success($t("AbpUi.CreatedSuccessfully"));
 			onClose();
 		},
 	});
 
 	const { mutateAsync: updateRole, isPending: isUpdating } = useMutation({
 		mutationFn: ({ id, data }: { id: string; data: IdentityRoleDto }) => updateApi(id, data),
-		onSuccess: (data) => {
-			onChange(data);
-			toast.success($t("AbpUi.Success"));
+		onSuccess: (_) => {
+			onChange();
+			queryClient.invalidateQueries({ queryKey: ["role", role?.id] });
+			toast.success($t("AbpUi.SavedSuccessfully"));
 			onClose();
 		},
 	});
@@ -61,7 +62,7 @@ const RoleModal: React.FC<Props> = ({ visible, onClose, onChange, role }) => {
 		} else {
 			form.resetFields();
 		}
-	}, [visible, roleData, role, form.setFieldsValue, form.resetFields]);
+	}, [visible, roleData, role]);
 
 	const handleOk = async () => {
 		try {
@@ -86,13 +87,13 @@ const RoleModal: React.FC<Props> = ({ visible, onClose, onChange, role }) => {
 		>
 			<Form form={form} labelCol={{ span: 6 }} wrapperCol={{ span: 18 }}>
 				<Form.Item label={$t("AbpIdentity.DisplayName:IsDefault")} name="isDefault" valuePropName="checked">
-					<Checkbox>{$t("AbpIdentity.DisplayName:IsDefault")}</Checkbox>
+					<Checkbox disabled={role?.isStatic}>{$t("AbpIdentity.DisplayName:IsDefault")}</Checkbox>
 				</Form.Item>
 				<Form.Item label={$t("AbpIdentity.DisplayName:IsPublic")} name="isPublic" valuePropName="checked">
-					<Checkbox>{$t("AbpIdentity.DisplayName:IsPublic")}</Checkbox>
+					<Checkbox disabled={role?.isStatic}>{$t("AbpIdentity.DisplayName:IsPublic")}</Checkbox>
 				</Form.Item>
 				<Form.Item label={$t("AbpIdentity.DisplayName:RoleName")} name="name" rules={[{ required: true }]}>
-					<Input />
+					<Input disabled={role?.isStatic} />
 				</Form.Item>
 			</Form>
 		</Modal>

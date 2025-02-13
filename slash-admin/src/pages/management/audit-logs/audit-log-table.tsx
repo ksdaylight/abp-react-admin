@@ -207,10 +207,9 @@ const AuditLogTable: React.FC = () => {
 			dataIndex: "hasException",
 			valueType: "checkbox",
 			hideInTable: true,
-			renderFormItem: (_, { type, defaultRender, ...rest }) => {
+			renderFormItem: (_) => {
 				return (
 					<Checkbox
-						{...rest}
 						onChange={(e) => {
 							const value = e.target.checked; // 获取 Checkbox 的选中状态
 							onFilter("hasException", value, false);
@@ -274,6 +273,7 @@ const AuditLogTable: React.FC = () => {
 							const { current, pageSize, executionTime, ...filters } = params;
 							const [startTime, endTime] = executionTime || [];
 							const query = await queryClient.fetchQuery({
+								//不用换，这样与antd结合比较好用
 								queryKey: ["auditLogs", params, sorter],
 								queryFn: () =>
 									getPagedListApi({

@@ -43,6 +43,7 @@ interface PermissionGroupVo {
 
 const PermissionDefinitionTable: React.FC = () => {
 	const { t: $t } = useTranslation();
+	const [modal, contextHolder] = Modal.useModal();
 	const actionRef = useRef<ActionType>();
 	const queryClient = useQueryClient();
 	const [modalVisible, setModalVisible] = useState(false);
@@ -105,7 +106,7 @@ const PermissionDefinitionTable: React.FC = () => {
 	});
 
 	const handleDelete = async (permission: PermissionDefinitionDto) => {
-		Modal.confirm({
+		modal.confirm({
 			title: $t("AbpUi.AreYouSure"),
 			content: $t("AbpUi.ItemWillBeDeletedMessageWithFormat", { 0: permission.name }),
 			onOk: () => deletePermission(permission.name),
@@ -238,6 +239,7 @@ const PermissionDefinitionTable: React.FC = () => {
 
 	return (
 		<>
+			{contextHolder}
 			<ProTable<PermissionGroupVo>
 				headerTitle={$t("AbpPermissionManagement.PermissionDefinitions")}
 				actionRef={actionRef}

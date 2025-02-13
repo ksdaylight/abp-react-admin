@@ -33,7 +33,7 @@ const ClaimModal: React.FC<ClaimEditModalProps> = ({ visible, claim, onClose, on
 		onSuccess: (_, variables) => {
 			onChange(variables as IdentityClaimDto);
 			onClose();
-			toast.success($t("AbpUi.SuccessfullyCreated"));
+			toast.success($t("AbpUi.CreatedSuccessfully"));
 		},
 	});
 
@@ -46,7 +46,7 @@ const ClaimModal: React.FC<ClaimEditModalProps> = ({ visible, claim, onClose, on
 				id: claim?.id,
 			} as IdentityClaimDto);
 			onClose();
-			toast.success($t("AbpUi.SuccessfullyUpdated"));
+			toast.success($t("AbpUi.SavedSuccessfully"));
 		},
 	});
 
