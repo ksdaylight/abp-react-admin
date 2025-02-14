@@ -3,6 +3,7 @@
   "texts": {
     "Permissions:OpenIddict": "OpenIddict",
     "Permissions:Applications": "应用",
+    "Permissions:Authorizations": "授权",
     "Permissions:Scopes": "范围",
     "Permissions:Tokens": "令牌",
     "Permissions:Create": "创建",

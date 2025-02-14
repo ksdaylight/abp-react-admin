@@ -11,6 +11,8 @@ public class AbpAuditingMapperProfile : Profile
         CreateMap<Volo.Abp.AuditLogging.EntityPropertyChange, Miwen.Abp.AuditLogging.EntityPropertyChange>();
         CreateMap<Volo.Abp.AuditLogging.EntityChange, Miwen.Abp.AuditLogging.EntityChange>()
             .MapExtraProperties();
+        CreateMap<Volo.Abp.AuditLogging.EntityChangeWithUsername, Miwen.Abp.AuditLogging.EntityChangeWithUsername>();
+
         CreateMap<Volo.Abp.AuditLogging.AuditLog, Miwen.Abp.AuditLogging.AuditLog>()
             .MapExtraProperties();
 

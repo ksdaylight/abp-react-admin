@@ -14,7 +14,7 @@ public abstract class PermissionDefinitionCreateOrUpdateDto : IHasExtraPropertie
     public string DisplayName { get; set; }
 
     [DynamicStringLength(typeof(PermissionDefinitionRecordConsts), nameof(PermissionDefinitionRecordConsts.MaxNameLength))]
-    public string ParentName { get; set; }
+    public string? ParentName { get; set; }
 
     public bool IsEnabled { get; set; }
 
@@ -23,7 +23,7 @@ public abstract class PermissionDefinitionCreateOrUpdateDto : IHasExtraPropertie
     public List<string> Providers { get; set; } = new List<string>();
 
     [DynamicStringLength(typeof(PermissionDefinitionRecordConsts), nameof(PermissionDefinitionRecordConsts.MaxStateCheckersLength))]
-    public string StateCheckers { get; set; }
+    public string? StateCheckers { get; set; }
 
     public ExtraPropertyDictionary ExtraProperties { get; set; } = new ExtraPropertyDictionary();
 }

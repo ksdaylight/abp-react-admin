@@ -3,6 +3,7 @@
   "texts": {
     "Permissions:OpenIddict": "OpenIddict",
     "Permissions:Applications": "Applications",
+    "Permissions:Authorizations": "Authorizations",
     "Permissions:Scopes": "Scopes",
     "Permissions:Tokens": "Tokens",
     "Permissions:Create": "Create",
