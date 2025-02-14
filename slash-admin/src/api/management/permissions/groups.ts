@@ -5,9 +5,9 @@ import type {
 	PermissionGroupDefinitionDto,
 	PermissionGroupDefinitionGetListInput,
 	PermissionGroupDefinitionUpdateDto,
-} from "#/permissions/groups";
+} from "#/management/permissions/groups";
 
-import requestClient from "../request";
+import requestClient from "../../request";
 
 /**
  * 删除权限定义

@@ -1,6 +1,6 @@
 import type { ListResultDto, PagedResultDto } from "#/abp-core";
 
-import type { IdentityRoleDto, IdentityUserDto } from "#/identity";
+import type { IdentityRoleDto, IdentityUserDto } from "#/management/identity";
 import type {
 	GetIdentityRolesInput,
 	GetIdentityUsersInput,
@@ -13,9 +13,9 @@ import type {
 	OrganizationUnitDto,
 	OrganizationUnitGetChildrenDto,
 	OrganizationUnitUpdateDto,
-} from "#/identity/organization-units";
+} from "#/management/identity/organization-units";
 
-import requestClient from "../request";
+import requestClient from "../../request";
 
 /**
  * 新增组织机构

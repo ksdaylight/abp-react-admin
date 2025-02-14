@@ -4,7 +4,7 @@ import { EditOutlined, DeleteOutlined, PlusOutlined, RedoOutlined } from "@ant-d
 import { useTranslation } from "react-i18next";
 import type { DataNode } from "antd/lib/tree";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { deleteApi, getChildrenApi, getRootListApi, moveTo } from "@/api/identity/organization-units";
+import { deleteApi, getChildrenApi, getRootListApi, moveTo } from "@/api/management/identity/organization-units";
 import { Iconify } from "@/components/icon";
 import { toast } from "sonner";
 import OrganizationUnitModal from "./organization-unit-modal";

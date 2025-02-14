@@ -4,14 +4,14 @@ import { EditOutlined, DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
-import type { MultiTenancySides, PermissionDefinitionDto } from "#/permissions/definitions";
+import type { MultiTenancySides, PermissionDefinitionDto } from "#/management/permissions/definitions";
 import { type ActionType, ProTable, type ProColumns } from "@ant-design/pro-table";
 
 import { localizationSerializer } from "@/utils/abp/localization-serializer";
 
-import { deleteApi, getListApi as getPermissionsApi } from "@/api/permissions/definitions";
-import { getListApi as getGroupsApi } from "@/api/permissions/groups";
-import { GroupDefinitionsPermissions } from "@/constants/permissions";
+import { deleteApi, getListApi as getPermissionsApi } from "@/api/management/permissions/definitions";
+import { getListApi as getGroupsApi } from "@/api/management/permissions/groups";
+import { GroupDefinitionsPermissions } from "@/constants/management/permissions";
 import { hasAccessByCodes } from "@/utils/abp/access-checker";
 import PermissionDefinitionModal from "./permission-definition-modal";
 import { useLocalizer } from "@/hooks/abp/use-localization";

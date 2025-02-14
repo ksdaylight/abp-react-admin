@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { Modal } from "antd";
 import { useTranslation } from "react-i18next";
-import type { IdentityUserDto } from "#/identity";
+import type { IdentityUserDto } from "#/management/identity";
 import { ProTable, type ProColumns } from "@ant-design/pro-table";
 import { useQuery } from "@tanstack/react-query";
-import { getUnaddedUserListApi } from "@/api/identity/organization-units";
+import { getUnaddedUserListApi } from "@/api/management/identity/organization-units";
 
 interface Props {
 	visible: boolean;

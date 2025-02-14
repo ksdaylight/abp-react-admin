@@ -3,7 +3,7 @@ import { Drawer, Descriptions } from "antd";
 import { formatToDateTime } from "@/utils/abp";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
-import { getApi } from "@/api/identity/security-logs";
+import { getApi } from "@/api/management/identity/security-logs";
 
 interface Props {
 	visible: boolean;

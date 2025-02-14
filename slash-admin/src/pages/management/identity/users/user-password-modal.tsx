@@ -1,7 +1,7 @@
 import { Form, Input, Modal, Button } from "antd";
 import { useTranslation } from "react-i18next";
 import { useMutation } from "@tanstack/react-query";
-import { changePasswordApi } from "@/api/identity/users";
+import { changePasswordApi } from "@/api/management/identity/users";
 import { toast } from "sonner";
 
 interface UserPasswordModalProps {

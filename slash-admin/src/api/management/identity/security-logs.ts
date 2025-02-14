@@ -1,6 +1,6 @@
-import type { GetSecurityLogPagedRequest, SecurityLogDto } from "#/identity";
+import type { GetSecurityLogPagedRequest, SecurityLogDto } from "#/management/identity";
 import type { PagedResultDto } from "#/abp-core";
-import requestClient from "../request";
+import requestClient from "../../request";
 
 /**
  * 删除安全日志

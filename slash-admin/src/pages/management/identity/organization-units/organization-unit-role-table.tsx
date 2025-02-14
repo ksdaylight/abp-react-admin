@@ -2,14 +2,14 @@ import { useRef, useState } from "react";
 import { Button, Modal } from "antd";
 import { DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
-import type { IdentityRoleDto } from "#/identity/role";
+import type { IdentityRoleDto } from "#/management/identity/role";
 import { ProTable, type ActionType, type ProColumns } from "@ant-design/pro-table";
 import { hasAccessByCodes } from "@/utils/abp/access-checker";
-import { OrganizationUnitPermissions } from "@/constants/identity/permissions";
+import { OrganizationUnitPermissions } from "@/constants/management/identity/permissions";
 import SelectRoleModal from "./select-role-modal";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { removeOrganizationUnitApi } from "@/api/identity/role";
-import { addRoles, getRoleListApi } from "@/api/identity/organization-units";
+import { removeOrganizationUnitApi } from "@/api/management/identity/role";
+import { addRoles, getRoleListApi } from "@/api/management/identity/organization-units";
 import { toast } from "sonner";
 
 interface Props {

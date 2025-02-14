@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { Form, Input, Modal, Tabs } from "antd";
 import { useTranslation } from "react-i18next";
-import type { PermissionGroupDefinitionDto } from "#/permissions/groups";
+import type { PermissionGroupDefinitionDto } from "#/management/permissions/groups";
 import type { PropertyInfo } from "@/components/abp/properties/types";
-import { createApi, getApi, updateApi } from "@/api/permissions/groups";
+import { createApi, getApi, updateApi } from "@/api/management/permissions/groups";
 import LocalizableInput from "@/components/abp/localizable-input/localizable-input";
 import PropertyTable from "@/components/abp/properties/property-table";
 import { toast } from "sonner";

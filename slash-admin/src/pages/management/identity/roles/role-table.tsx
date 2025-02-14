@@ -3,18 +3,18 @@ import { Button, Dropdown, Modal, Tag, Space } from "antd";
 import { EditOutlined, DeleteOutlined, EllipsisOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import type { IdentityRoleDto } from "#/identity/role";
+import type { IdentityRoleDto } from "#/management/identity/role";
 import { type ActionType, ProTable, type ProColumns } from "@ant-design/pro-table";
 import { hasAccessByCodes } from "@/utils/abp/access-checker";
-import { deleteApi, getPagedListApi } from "@/api/identity/role";
+import { deleteApi, getPagedListApi } from "@/api/management/identity/role";
 import RoleModal from "./role-modal";
 import RoleClaimModal from "./role-claim-modal";
 import PermissionModal from "@/components/abp/permissions/permission-modal";
 import { toast } from "sonner";
 import { Iconify } from "@/components/icon";
 import useAbpStore from "@/store/abpCoreStore";
-import { IdentityRolePermissions } from "@/constants/identity/permissions";
-import { AuditLogPermissions } from "@/constants/auditing/permissions";
+import { IdentityRolePermissions } from "@/constants/management/identity/permissions";
+import { AuditLogPermissions } from "@/constants/management/auditing/permissions";
 import { EntityChangeDrawer } from "@/components/abp/auditing/entity-change-drawer";
 
 const RoleTable: React.FC = () => {

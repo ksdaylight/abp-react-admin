@@ -1,4 +1,4 @@
-import type { PermissionDto, PermissionGroupDto, PermissionTree } from "#/permissions";
+import type { PermissionDto, PermissionGroupDto, PermissionTree } from "#/management/permissions";
 import { listToTree } from "@/utils/tree";
 
 export function generatePermissionTree(permissionGroups: PermissionGroupDto[]): PermissionTree[] {

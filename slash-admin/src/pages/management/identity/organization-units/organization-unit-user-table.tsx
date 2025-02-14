@@ -2,13 +2,13 @@ import { useRef, useState } from "react";
 import { Button, Modal } from "antd";
 import { DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
-import type { IdentityUserDto } from "#/identity";
+import type { IdentityUserDto } from "#/management/identity";
 import { ProTable, type ActionType, type ProColumns } from "@ant-design/pro-table";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { addMembers, getUserListApi } from "@/api/identity/organization-units";
-import { removeOrganizationUnitApi } from "@/api/identity/users";
+import { addMembers, getUserListApi } from "@/api/management/identity/organization-units";
+import { removeOrganizationUnitApi } from "@/api/management/identity/users";
 import { hasAccessByCodes } from "@/utils/abp/access-checker";
-import { OrganizationUnitPermissions } from "@/constants/identity/permissions";
+import { OrganizationUnitPermissions } from "@/constants/management/identity/permissions";
 import SelectMemberModal from "./select-member-modal";
 import { toast } from "sonner";
 

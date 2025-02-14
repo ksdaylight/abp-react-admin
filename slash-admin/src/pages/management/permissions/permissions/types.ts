@@ -1,4 +1,4 @@
-import { MultiTenancySides } from "#/permissions/definitions";
+import { MultiTenancySides } from "#/management/permissions/definitions";
 import type { TFunction } from "i18next";
 
 export function useTypesMap($t: TFunction<any>) {

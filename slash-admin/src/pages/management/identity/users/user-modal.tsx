@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Modal, Form, Input, Checkbox, Tabs, Transfer, Tree } from "antd";
 import { useTranslation } from "react-i18next";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import type { IdentityUserDto } from "#/identity/user";
+import type { IdentityUserDto } from "#/management/identity/user";
 import type { DataNode } from "antd/es/tree";
 import type { TransferItem } from "antd/es/transfer";
 import { toast } from "sonner";
@@ -14,8 +14,8 @@ import {
 	getAssignableRolesApi,
 	getRolesApi,
 	getOrganizationUnitsApi,
-} from "@/api/identity/users";
-import { getRootListApi, getChildrenApi } from "@/api/identity/organization-units";
+} from "@/api/management/identity/users";
+import { getRootListApi, getChildrenApi } from "@/api/management/identity/organization-units";
 import { useAbpSettings } from "@/hooks/abp/use-abp-settings";
 
 interface UserModalProps {

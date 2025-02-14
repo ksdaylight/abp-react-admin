@@ -3,8 +3,8 @@ import { useEffect } from "react";
 import { Button, Checkbox, Form, Input, Modal, Select, Space } from "antd";
 import { toast } from "sonner";
 import { useTranslation } from "react-i18next";
-import { ValueType, type IdentityClaimTypeDto } from "#/identity";
-import { createApi, updateApi } from "@/api/identity/claim-types";
+import { ValueType, type IdentityClaimTypeDto } from "#/management/identity";
+import { createApi, updateApi } from "@/api/management/identity/claim-types";
 import { useMutation } from "@tanstack/react-query";
 
 interface Props {

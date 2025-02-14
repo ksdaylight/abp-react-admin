@@ -3,8 +3,8 @@ import { Checkbox, Divider, Card, Tabs, Tree, Modal } from "antd";
 import type { CheckboxChangeEvent } from "antd/es/checkbox";
 import { useTranslation } from "react-i18next";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { getApi, updateApi } from "@/api/permissions/permissions";
-import type { PermissionTree } from "#/permissions";
+import { getApi, updateApi } from "@/api/management/permissions/permissions";
+import type { PermissionTree } from "#/management/permissions";
 import {
 	generatePermissionTree,
 	getGrantedPermissionKeys,

@@ -1,6 +1,6 @@
-import { getListWithUsernameApi } from "@/api/auditing/entity-changes";
+import { getListWithUsernameApi } from "@/api/management/auditing/entity-changes";
 import { EntityChangeTable } from "./entity-change-table";
-import type { EntityChangeGetWithUsernameInput } from "#/auditing/entity-changes";
+import type { EntityChangeGetWithUsernameInput } from "#/management/auditing/entity-changes";
 import { Drawer } from "antd";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";

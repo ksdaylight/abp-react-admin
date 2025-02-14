@@ -1,11 +1,11 @@
 import type React from "react";
 import { Modal } from "antd";
 import { useTranslation } from "react-i18next";
-import type { IdentityRoleDto } from "#/identity";
-import type { IdentityClaimCreateDto, IdentityClaimDeleteDto, IdentityClaimUpdateDto } from "#/identity/claims";
+import type { IdentityRoleDto } from "#/management/identity";
+import type { IdentityClaimCreateDto, IdentityClaimDeleteDto, IdentityClaimUpdateDto } from "#/management/identity/claims";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createClaimApi, deleteClaimApi, getClaimsApi, updateClaimApi } from "@/api/identity/role";
-import { IdentityRolePermissions } from "@/constants/identity/permissions";
+import { createClaimApi, deleteClaimApi, getClaimsApi, updateClaimApi } from "@/api/management/identity/role";
+import { IdentityRolePermissions } from "@/constants/management/identity/permissions";
 import ClaimTable from "@/components/abp/claims/claim-table";
 
 interface Props {
