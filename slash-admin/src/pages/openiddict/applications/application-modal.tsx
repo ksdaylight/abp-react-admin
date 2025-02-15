@@ -145,7 +145,7 @@ const ApplicationModal: React.FC<Props> = ({ visible, applicationId, onClose, on
 		if (applicationData) {
 			if (applicationData.id === applicationId) {
 				setFormModel(applicationData); //将OpenIddictApplicationDto 转到 OpenIddictApplicationUpdateDto,注意这里的特殊，formModal的展示值和最后的请求值数据结构非常相似
-				form.setFieldsValue(applicationData); // 手动同步到表单 initialValues 只在组件首次渲染时生效，去掉initialValues,让 Form 只依赖 form.setFieldsValue： 这样可以让 Form 的状态始终跟随 formModel
+				form.setFieldsValue(applicationData);
 			}
 		}
 	}, [applicationData]);
@@ -154,9 +154,6 @@ const ApplicationModal: React.FC<Props> = ({ visible, applicationId, onClose, on
 		if (visible) {
 			setActiveTab("basic");
 		}
-		// if (!applicationId) { //不行，onColse会设置applicationId，会影响到这里,还是尽量避免过多的逻辑变量影响
-		// 	setFormModel(defaultModel);
-		// }
 	}, [visible]);
 
 	// Create/Update mutations
@@ -284,8 +281,6 @@ const ApplicationModal: React.FC<Props> = ({ visible, applicationId, onClose, on
 					layout="horizontal"
 					labelCol={{ span: 6 }}
 					wrapperCol={{ span: 18 }}
-					// initialValues={formModel} // initialValues 只在组件首次渲染时生效
-					// initialValues={applicationId && applicationData?.id === applicationId ? applicationData : defaultModel}
 					onValuesChange={(changedValues) => {
 						setFormModel((prevModel) => {
 							return mergeDeepRight(prevModel, changedValues);

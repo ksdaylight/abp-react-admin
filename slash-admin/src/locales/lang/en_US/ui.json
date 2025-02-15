@@ -20,6 +20,10 @@
 				"notFound": "Not Found. The requested resource could not be found.",
 				"internalServerError": "Internal Server Error. Something went wrong on our end. Please try again later."
 			}
+		},
+		"placeholder": {
+			"input": "Please enter",
+			"select": "Please select"
 		}
 	}
 }

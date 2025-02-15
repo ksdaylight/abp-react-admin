@@ -37,7 +37,7 @@ const ApplicationTable: React.FC = () => {
 	const { mutateAsync: deleteApplication } = useMutation({
 		mutationFn: deleteApi,
 		onSuccess: () => {
-			toast.success($t("AbpUi.SuccessfullyDeleted"));
+			toast.success($t("AbpUi.DeletedSuccessfully"));
 			actionRef.current?.reload();
 		},
 	});
