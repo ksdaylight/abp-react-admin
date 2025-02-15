@@ -61,11 +61,7 @@ const UserPasswordModal: React.FC<UserPasswordModalProps> = ({ visible, userId, 
 			destroyOnClose
 		>
 			<Form form={form} layout="vertical">
-				<Form.Item
-					label={$t("AbpIdentity.Password")}
-					name="password"
-					rules={[{ required: true, message: $t("AbpIdentity.ThisFieldIsRequired") }]}
-				>
+				<Form.Item label={$t("AbpIdentity.Password")} name="password" rules={[{ required: true }]}>
 					<Input.Search
 						className="w-full"
 						enterButton={<Button type="primary">{$t("AbpIdentity.RandomPassword")}</Button>}

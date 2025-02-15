@@ -1,10 +1,10 @@
 import type { PagedResultDto } from "#/abp-core";
 import type {
-  OpenIddictScopeCreateDto,
-  OpenIddictScopeDto,
-  OpenIddictScopeGetListInput,
-  OpenIddictScopeUpdateDto,
-} from '#/openiddict/scopes';
+	OpenIddictScopeCreateDto,
+	OpenIddictScopeDto,
+	OpenIddictScopeGetListInput,
+	OpenIddictScopeUpdateDto,
+} from "#/openiddict/scopes";
 
 import requestClient from "../request";
 
@@ -14,15 +14,15 @@ import requestClient from "../request";
  * @returns 范围实体数据传输对象
  */
 export function createApi(input: OpenIddictScopeCreateDto): Promise<OpenIddictScopeDto> {
-  return requestClient.post<OpenIddictScopeDto>('/api/openiddict/scopes', input);
+	return requestClient.post<OpenIddictScopeDto>("/api/openiddict/scopes", input);
 }
 
 /**
- * 删除范围 
+ * 删除范围
  * @param id 范围id
  */
 export function deleteApi(id: string): Promise<void> {
-  return requestClient.delete(`/api/openiddict/scopes/${id}`);
+	return requestClient.delete(`/api/openiddict/scopes/${id}`);
 }
 
 /**
@@ -31,17 +31,17 @@ export function deleteApi(id: string): Promise<void> {
  * @returns 范围实体数据传输对象
  */
 export function getApi(id: string): Promise<OpenIddictScopeDto> {
-  return requestClient.get<OpenIddictScopeDto>(`/api/openiddict/scopes/${id}`);
+	return requestClient.get<OpenIddictScopeDto>(`/api/openiddict/scopes/${id}`);
 }
 
 /**
  * 更新范围
  * @param id 范围id
  * @param input 更新参数
- * @returns 范围实体数据传输对象  
+ * @returns 范围实体数据传输对象
  */
 export function updateApi(id: string, input: OpenIddictScopeUpdateDto): Promise<OpenIddictScopeDto> {
-  return requestClient.put<OpenIddictScopeDto>(`/api/openiddict/scopes/${id}`, input);
+	return requestClient.put<OpenIddictScopeDto>(`/api/openiddict/scopes/${id}`, input);
 }
 
 /**
@@ -50,7 +50,7 @@ export function updateApi(id: string, input: OpenIddictScopeUpdateDto): Promise<
  * @returns 范围实体数据传输对象分页列表
  */
 export function getPagedListApi(input?: OpenIddictScopeGetListInput): Promise<PagedResultDto<OpenIddictScopeDto>> {
-  return requestClient.get<PagedResultDto<OpenIddictScopeDto>>('/api/openiddict/scopes', {
-    params: input
-  });
+	return requestClient.get<PagedResultDto<OpenIddictScopeDto>>("/api/openiddict/scopes", {
+		params: input,
+	});
 }

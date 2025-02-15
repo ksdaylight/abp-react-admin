@@ -72,7 +72,7 @@ const AuditLogTable: React.FC = () => {
 					<Tag
 						color={getHttpStatusCodeColor(record.httpStatusCode)}
 						style={{ cursor: "pointer" }}
-						onClick={() => onFilter("httpStatusCode", record.httpStatusCode)} //TODO 这个点击可Filter,以及点击提示
+						onClick={() => onFilter("httpStatusCode", record.httpStatusCode)} // 点击标签触发筛选
 					>
 						<Tooltip title={$t("abp.manage.identity.filterHttpStatusCode")}>{record.httpStatusCode}</Tooltip>
 					</Tag>

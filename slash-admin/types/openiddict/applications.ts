@@ -48,7 +48,7 @@ interface OpenIddictApplicationCreateOrUpdateDto extends ExtensibleObject {
 	requirements: OpenIddictApplicationRequirementsDto;
 	responseTypes?: string[];
 	scopes?: string[];
-	settings: OpenIddictApplicationSettingsDto;
+	settings?: OpenIddictApplicationSettingsDto;
 }
 
 type OpenIddictApplicationCreateDto = OpenIddictApplicationCreateOrUpdateDto;

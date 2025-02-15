@@ -23,38 +23,36 @@ async function doReAuthenticate() {
  * 刷新token逻辑
  */
 async function doRefreshToken() {
-  console.debug("try -> Refresh token");
+	console.debug("try -> Refresh token");
 
-  const { userToken } = useUserStore.getState();
-  if (!userToken.refreshToken) {
-    console.warn("No refresh token available.");
-    return "";
-  }
+	const { userToken } = useUserStore.getState();
+	if (!userToken.refreshToken) {
+		console.warn("No refresh token available.");
+		return "";
+	}
 
-  try {
-    const res = await refreshToken({ refreshToken: userToken.refreshToken });
+	try {
+		const res = await refreshToken({ refreshToken: userToken.refreshToken });
 
-    const { tokenType, accessToken, refreshToken: newRefreshToken } = res;
+		const { tokenType, accessToken, refreshToken: newRefreshToken } = res;
 
-    if (accessToken) {
-      // 更新 userStore，保存新 token
-      useUserStore.getState().actions.setUserToken({
-        accessToken: `${tokenType} ${accessToken}`,
-        refreshToken: newRefreshToken,
-      });
-      console.debug("Token refreshed successfully.");
-      return `${tokenType} ${accessToken}`; // 返回新 token 供拦截器使用
-    }
+		if (accessToken) {
+			// 更新 userStore，保存新 token
+			useUserStore.getState().actions.setUserToken({
+				accessToken: `${tokenType} ${accessToken}`,
+				refreshToken: newRefreshToken,
+			});
+			console.debug("Token refreshed successfully.");
+			return `${tokenType} ${accessToken}`; // 返回新 token 供拦截器使用
+		}
 
-    console.error("Failed to refresh token: No access token returned.");
-    return "";
-
-  } catch (error) {
-    console.error("Error refreshing token:", error);
-    return ""; // 返回空字符串，触发重登录逻辑
-  }
+		console.error("Failed to refresh token: No access token returned.");
+		return "";
+	} catch (error) {
+		console.error("Error refreshing token:", error);
+		return ""; // 返回空字符串，触发重登录逻辑
+	}
 }
-
 
 function formatToken(token: null | string) {
 	return token ? token : null; //有个tokenType的获取值

@@ -7,7 +7,12 @@ import type {
 	IdentityClaimUpdateDto,
 } from "#/management/identity/claims";
 
-import type { GetRolePagedListInput, IdentityRoleCreateDto, IdentityRoleDto, IdentityRoleUpdateDto } from "#/management/identity";
+import type {
+	GetRolePagedListInput,
+	IdentityRoleCreateDto,
+	IdentityRoleDto,
+	IdentityRoleUpdateDto,
+} from "#/management/identity";
 
 import requestClient from "../../request";
 

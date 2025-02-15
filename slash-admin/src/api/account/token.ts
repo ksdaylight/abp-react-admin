@@ -22,7 +22,7 @@ export async function loginApi(request: PasswordTokenRequestModel): Promise<Toke
 			headers: {
 				"Content-Type": "application/x-www-form-urlencoded",
 			},
-			timeout: 30_000, 
+			timeout: 30_000,
 		},
 	);
 	return {

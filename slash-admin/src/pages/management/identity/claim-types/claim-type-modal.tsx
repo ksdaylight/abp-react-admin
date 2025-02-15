@@ -78,11 +78,7 @@ const ClaimTypeModal: React.FC<Props> = ({ visible, onClose, onSuccess, claimTyp
 			confirmLoading={isCreating || isUpdating}
 		>
 			<Form form={form} layout="vertical" initialValues={{ required: false }}>
-				<Form.Item
-					label={$t("AbpIdentity.IdentityClaim:Name")}
-					name="name"
-					rules={[{ required: true, message: $t("AbpUi.Required") }]}
-				>
+				<Form.Item label={$t("AbpIdentity.IdentityClaim:Name")} name="name" rules={[{ required: true }]}>
 					<Input />
 				</Form.Item>
 				<Form.Item label={$t("AbpIdentity.IdentityClaim:Required")} name="required" valuePropName="checked">

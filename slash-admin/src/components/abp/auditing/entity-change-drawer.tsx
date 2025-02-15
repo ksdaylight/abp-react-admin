@@ -9,9 +9,10 @@ interface EntityChangeDrawerProps {
 	open: boolean;
 	onClose: () => void;
 	input?: EntityChangeGetWithUsernameInput;
+	subject?: string;
 }
 
-export const EntityChangeDrawer: React.FC<EntityChangeDrawerProps> = ({ open, onClose, input }) => {
+export const EntityChangeDrawer: React.FC<EntityChangeDrawerProps> = ({ open, onClose, input, subject }) => {
 	const { t } = useTranslation();
 
 	const { data: entityChanges = [] } = useQuery({
@@ -28,7 +29,7 @@ export const EntityChangeDrawer: React.FC<EntityChangeDrawerProps> = ({ open, on
 	});
 
 	return (
-		<Drawer title={t("AbpAuditLogging.EntitiesChanged")} open={open} onClose={onClose} width={800}>
+		<Drawer title={`${t("AbpAuditLogging.EntitiesChanged")}: ${subject}`} open={open} onClose={onClose} width={800}>
 			<EntityChangeTable data={entityChanges} showUserName />
 		</Drawer>
 	);

@@ -278,8 +278,8 @@ const UserModal: React.FC<UserModalProps> = ({ visible, userId, onClose, onChang
 									onChange={(targetKeys) => {
 										console.log("targetKeys", targetKeys);
 										const stringTargetKeys = targetKeys.map(String); // 转换成 string[]
-										setTargetKeys(stringTargetKeys);
-										form.setFieldValue("roleNames", targetKeys);
+										setTargetKeys(stringTargetKeys); // 触发react更新
+										form.setFieldValue("roleNames", targetKeys); //提交时从form获取roleNames
 									}}
 									render={(item) => item.title || ""}
 									listStyle={{

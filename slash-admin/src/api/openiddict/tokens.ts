@@ -1,8 +1,5 @@
 import type { PagedResultDto } from "#/abp-core";
-import type {
-  OpenIddictTokenDto,
-  OpenIddictTokenGetListInput,
-} from '#/openiddict/tokens';
+import type { OpenIddictTokenDto, OpenIddictTokenGetListInput } from "#/openiddict/tokens";
 import requestClient from "../request";
 
 /**
@@ -10,7 +7,7 @@ import requestClient from "../request";
  * @param id 令牌id
  */
 export function deleteApi(id: string): Promise<void> {
-  return requestClient.delete(`/api/openiddict/tokens/${id}`);
+	return requestClient.delete(`/api/openiddict/tokens/${id}`);
 }
 
 /**
@@ -19,7 +16,7 @@ export function deleteApi(id: string): Promise<void> {
  * @returns 令牌实体数据传输对象
  */
 export function getApi(id: string): Promise<OpenIddictTokenDto> {
-  return requestClient.get<OpenIddictTokenDto>(`/api/openiddict/tokens/${id}`);
+	return requestClient.get<OpenIddictTokenDto>(`/api/openiddict/tokens/${id}`);
 }
 
 /**
@@ -28,7 +25,7 @@ export function getApi(id: string): Promise<OpenIddictTokenDto> {
  * @returns 令牌实体数据传输对象分页列表
  */
 export function getPagedListApi(input?: OpenIddictTokenGetListInput): Promise<PagedResultDto<OpenIddictTokenDto>> {
-  return requestClient.get<PagedResultDto<OpenIddictTokenDto>>('/api/openiddict/tokens', {
-    params: input
-  });
+	return requestClient.get<PagedResultDto<OpenIddictTokenDto>>("/api/openiddict/tokens", {
+		params: input,
+	});
 }
