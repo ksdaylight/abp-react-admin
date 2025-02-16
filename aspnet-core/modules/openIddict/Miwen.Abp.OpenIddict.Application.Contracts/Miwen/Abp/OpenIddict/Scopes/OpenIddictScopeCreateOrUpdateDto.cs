@@ -9,11 +9,11 @@ namespace Miwen.Abp.OpenIddict.Scopes;
 public abstract class OpenIddictScopeCreateOrUpdateDto : ExtensibleObject
 {
 
-    public string Description { get; set; }
+    public string? Description { get; set; }
 
     public Dictionary<string, string> Descriptions { get; set; } = new Dictionary<string, string>();
 
-    public string DisplayName { get; set; }
+    public string? DisplayName { get; set; }
 
     public Dictionary<string, string> DisplayNames { get; set; } = new Dictionary<string, string>();
 
