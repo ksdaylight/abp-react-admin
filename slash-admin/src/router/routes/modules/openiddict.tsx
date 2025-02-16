@@ -10,6 +10,7 @@ const OpenIddictApplications = lazy(() => import("@/pages/openiddict/application
 
 const OpenIddictAuthorizations = lazy(() => import("@/pages/openiddict/authorizations/authorization-table"));
 
+const OpenIddictTokens = lazy(() => import("@/pages/openiddict/tokens/token-table"));
 const openiddict: AppRouteObject[] = [
 	{
 		order: 2.2, //暂时挨着management，后续再调整
@@ -41,6 +42,15 @@ const openiddict: AppRouteObject[] = [
 					icon: <Iconify icon="arcticons:ente-authenticator" />,
 					label: "abp.openiddict.authorizations",
 					key: "/openiddict/authorizations",
+				},
+			},
+			{
+				path: "tokens",
+				element: <OpenIddictTokens />,
+				meta: {
+					icon: <Iconify icon="oui:token-key" />,
+					label: "abp.openiddict.tokens",
+					key: "/openiddict/tokens",
 				},
 			},
 		],

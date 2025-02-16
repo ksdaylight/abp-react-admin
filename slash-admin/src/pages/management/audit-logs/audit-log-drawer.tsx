@@ -9,7 +9,6 @@ import { getApi } from "@/api/management/auditing/audit-logs";
 import { EntityChangeTable } from "@/components/abp/auditing/entity-change-table";
 import { formatToDateTime } from "@/utils/abp";
 import JsonEdit from "@/components/abp/common/json-edit";
-import { tryParseJson } from "@/utils/try-parse-json";
 
 interface Props {
 	visible: boolean;
@@ -69,10 +68,10 @@ const AuditLogDrawer: React.FC<Props> = ({ visible, onClose, auditLog }) => {
 	const expandedRowRender = (record: Action) => (
 		<Descriptions column={1} bordered size="small">
 			<Descriptions.Item label={$t("AbpAuditLogging.Parameters")}>
-				{<JsonEdit data={tryParseJson(record.parameters || "")} />}
+				{<JsonEdit data={record.parameters || ""} />}
 			</Descriptions.Item>
 			<Descriptions.Item label={$t("AbpAuditLogging.Additional")}>
-				{<JsonEdit data={tryParseJson((record.extraProperties as unknown as string) || "")} />}
+				{<JsonEdit data={record.extraProperties || ""} />}
 			</Descriptions.Item>
 		</Descriptions>
 	);
@@ -116,7 +115,7 @@ const AuditLogDrawer: React.FC<Props> = ({ visible, onClose, auditLog }) => {
 							{auditLogModel.comments}
 						</Descriptions.Item>
 						<Descriptions.Item label={$t("AbpAuditLogging.Exception")} span={2}>
-							{<JsonEdit data={tryParseJson(auditLogModel.exceptions || "")} />}
+							{<JsonEdit data={auditLogModel.exceptions || ""} />}
 						</Descriptions.Item>
 						<Descriptions.Item label={$t("AbpAuditLogging.Additional")} span={2}>
 							{auditLogModel?.extraProperties ? JSON.stringify(auditLogModel.extraProperties, null, 2) : ""}

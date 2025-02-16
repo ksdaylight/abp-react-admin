@@ -1,9 +1,9 @@
-import { Form, Input, Modal, Select } from "antd";
+import { Form, Input, Modal } from "antd";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
 import type { IdentityUserDto } from "#/management/identity/user";
 import { getApi as getApplication } from "@/api/openiddict/applications";
-import { getApi as getAuthorization } from "@/api/openiddict/authorizations";
+import { getApi as getToken } from "@/api/openiddict/tokens";
 import { findByIdApi } from "@/api/management/identity/user-lookup";
 import { hasAccessByCodes } from "@/utils/abp/access-checker";
 import { UserLookupPermissions } from "@/constants/management/identity/permissions";
@@ -13,55 +13,60 @@ import { CircleLoading } from "@/components/loading";
 
 interface Props {
 	visible: boolean;
-	authorizationId?: string;
+	tokenId?: string;
 	onClose: () => void;
 }
 
-const AuthorizationModal: React.FC<Props> = ({ visible, authorizationId, onClose }) => {
+const TokenModal: React.FC<Props> = ({ visible, tokenId, onClose }) => {
 	const { t: $t } = useTranslation();
 	const [form] = Form.useForm();
 
-	// 获取授权详情和关联数据
-	const { data: authorizationData, isLoading } = useQuery({
-		queryKey: ["authorization", authorizationId],
+	// 获取Token详情和关联数据
+	const { data: tokenData, isLoading } = useQuery({
+		queryKey: ["token", tokenId],
 		queryFn: async () => {
-			if (!authorizationId) {
-				return Promise.reject(new Error("authorizationId is undefined"));
+			if (!tokenId) {
+				return Promise.reject(new Error("tokenId is undefined"));
 			}
 
-			const authorization = await getAuthorization(authorizationId);
-			if (!authorization.applicationId) {
-				return Promise.reject(new Error("authorization.applicationId is undefined"));
+			const token = await getToken(tokenId);
+			if (!token.applicationId) {
+				return Promise.reject(new Error("token.applicationId is undefined"));
 			}
-			const application = await getApplication(authorization.applicationId);
+			const application = await getApplication(token.applicationId);
 
 			let subjectInfo: IdentityUserDto | undefined;
 			if (hasAccessByCodes([UserLookupPermissions.Default])) {
-				if (authorization.subject) {
-					subjectInfo = await findByIdApi(authorization.subject);
+				if (token.subject) {
+					subjectInfo = await findByIdApi(token.subject);
 				}
 			}
 
 			return {
-				...authorization,
-				applicationId: `${application.clientId}(${authorization.applicationId})`,
-				subject: subjectInfo?.userName ? `${subjectInfo.userName}(${authorization.subject})` : authorization.subject,
+				...token,
+				applicationId: `${application.clientId}(${token.applicationId})`,
+				subject: subjectInfo?.userName ? `${subjectInfo.userName}(${token.subject})` : token.subject,
 			};
 		},
-		enabled: visible && !!authorizationId,
+		enabled: visible && !!tokenId,
 	});
 
 	// 更新表单数据
 	useEffect(() => {
-		if (authorizationData && authorizationData.id === authorizationId) {
-			form.setFieldsValue(authorizationData);
+		if (tokenData && tokenData.id === tokenId) {
+			form.setFieldsValue(tokenData);
 		}
-	}, [authorizationData]);
+	}, [tokenData]);
 
 	const formItems = [
 		{
 			name: "applicationId",
 			label: $t("AbpOpenIddict.DisplayName:ApplicationId"),
+			component: Input,
+		},
+		{
+			name: "authorizationId",
+			label: $t("AbpOpenIddict.DisplayName:AuthorizationId"),
 			component: Input,
 		},
 		{
@@ -75,34 +80,40 @@ const AuthorizationModal: React.FC<Props> = ({ visible, authorizationId, onClose
 			component: Input,
 		},
 		{
-			name: "creationDate",
-			label: $t("AbpOpenIddict.DisplayName:CreationDate"),
-			component: Input,
-		},
-		{
 			name: "status",
 			label: $t("AbpOpenIddict.DisplayName:Status"),
 			component: Input,
 		},
 		{
-			name: "scopes",
-			label: $t("AbpOpenIddict.DisplayName:Scopes"),
-			component: Select,
-			props: {
-				mode: "tags" as const,
-				open: false,
-			},
+			name: "creationDate",
+			label: $t("AbpOpenIddict.DisplayName:CreationDate"),
+			component: Input,
 		},
 		{
-			name: "properties",
-			label: $t("AbpOpenIddict.DisplayName:Properties"),
+			name: "expirationDate",
+			label: $t("AbpOpenIddict.DisplayName:ExpirationDate"),
+			component: Input,
+		},
+		{
+			name: "redemptionDate",
+			label: $t("AbpOpenIddict.DisplayName:RedemptionDate"),
+			component: Input,
+		},
+		{
+			name: "referenceId",
+			label: $t("AbpOpenIddict.DisplayName:ReferenceId"),
+			component: Input,
+		},
+		{
+			name: "payload",
+			label: $t("AbpOpenIddict.DisplayName:Payload"),
 			render: (value: string) => <JsonEdit data={value || ""} />,
 		},
 	];
 
 	return (
-		<Modal open={visible} title={$t("AbpOpenIddict.Authorizations")} onCancel={onClose} footer={null} width="50%">
-			{!!authorizationId && visible && isLoading ? (
+		<Modal open={visible} title={$t("AbpOpenIddict.Tokens")} onCancel={onClose} footer={null} width="50%">
+			{!!tokenId && visible && isLoading ? (
 				<CircleLoading />
 			) : (
 				<Form
@@ -115,7 +126,7 @@ const AuthorizationModal: React.FC<Props> = ({ visible, authorizationId, onClose
 							{item.render ? (
 								item.render(form.getFieldValue(item.name))
 							) : (
-								<item.component className="w-full" readOnly {...item.props} />
+								<item.component className="w-full" readOnly />
 							)}
 						</Form.Item>
 					))}
@@ -125,4 +136,4 @@ const AuthorizationModal: React.FC<Props> = ({ visible, authorizationId, onClose
 	);
 };
 
-export default AuthorizationModal;
+export default TokenModal;
