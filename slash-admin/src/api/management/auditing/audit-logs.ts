@@ -1,7 +1,7 @@
 import type { PagedResultDto } from "#/abp-core";
 
-import type { AuditLogDto, AuditLogGetListInput } from "#/auditing";
-import requestClient from "../request";
+import type { AuditLogDto, AuditLogGetListInput } from "#/management/auditing";
+import requestClient from "../../request";
 
 /**
  * 获取审计日志

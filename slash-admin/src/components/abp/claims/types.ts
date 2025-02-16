@@ -5,7 +5,7 @@ import type {
 	IdentityClaimDeleteDto,
 	IdentityClaimDto,
 	IdentityClaimUpdateDto,
-} from "#/identity/claims";
+} from "#/management/identity/claims";
 
 interface ClaimEditModalProps {
 	/** 新增声明api */

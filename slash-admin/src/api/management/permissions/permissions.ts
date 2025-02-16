@@ -1,6 +1,6 @@
-import type { PermissionProvider, PermissionResultDto, PermissionsUpdateDto } from "#/permissions";
+import type { PermissionProvider, PermissionResultDto, PermissionsUpdateDto } from "#/management/permissions";
 
-import requestClient from "../request";
+import requestClient from "../../request";
 
 /**
  * 查询权限

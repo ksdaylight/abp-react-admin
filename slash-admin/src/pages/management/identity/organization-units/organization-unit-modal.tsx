@@ -5,9 +5,9 @@ import type {
 	OrganizationUnitDto,
 	OrganizationUnitCreateDto,
 	OrganizationUnitUpdateDto,
-} from "#/identity/organization-units";
+} from "#/management/identity/organization-units";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { createApi, getApi, updateApi } from "@/api/identity/organization-units";
+import { createApi, getApi, updateApi } from "@/api/management/identity/organization-units";
 
 interface Props {
 	visible: boolean;

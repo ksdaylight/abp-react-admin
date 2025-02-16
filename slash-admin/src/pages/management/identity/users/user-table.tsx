@@ -9,13 +9,13 @@ import {
 	PlusOutlined,
 } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
-import type { IdentityUserDto } from "#/identity/user";
+import type { IdentityUserDto } from "#/management/identity/user";
 import { ProTable, type ActionType, type ProColumns } from "@ant-design/pro-table";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { deleteApi, getPagedListApi, unLockApi } from "@/api/identity/users";
+import { deleteApi, getPagedListApi, unLockApi } from "@/api/management/identity/users";
 import { hasAccessByCodes } from "@/utils/abp/access-checker";
-import { IdentityUserPermissions } from "@/constants/identity/permissions";
-import { AuditLogPermissions } from "@/constants/auditing/permissions";
+import { IdentityUserPermissions } from "@/constants/management/identity/permissions";
+import { AuditLogPermissions } from "@/constants/management/auditing/permissions";
 import { Iconify } from "@/components/icon";
 import { toast } from "sonner";
 import { formatToDateTime } from "@/utils/abp";

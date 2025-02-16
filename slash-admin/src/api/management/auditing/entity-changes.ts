@@ -1,7 +1,7 @@
 import type { ListResultDto } from "#/abp-core";
 
-import type { EntityChangeGetWithUsernameInput, EntityChangeWithUsernameDto } from "#/auditing";
-import requestClient from "../request";
+import type { EntityChangeGetWithUsernameInput, EntityChangeWithUsernameDto } from "#/management/auditing";
+import requestClient from "../../request";
 
 /**
  * 获取包含用户名称的实体变更列表

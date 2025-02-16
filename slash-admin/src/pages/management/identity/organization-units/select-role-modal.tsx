@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { Modal, Table } from "antd";
 import { useTranslation } from "react-i18next";
-import type { IdentityRoleDto } from "#/identity/role";
+import type { IdentityRoleDto } from "#/management/identity/role";
 import { useQuery } from "@tanstack/react-query";
-import { getUnaddedRoleListApi } from "@/api/identity/organization-units";
+import { getUnaddedRoleListApi } from "@/api/management/identity/organization-units";
 
 interface Props {
 	visible: boolean;

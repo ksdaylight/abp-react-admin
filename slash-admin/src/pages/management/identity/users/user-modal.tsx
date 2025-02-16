@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Modal, Form, Input, Checkbox, Tabs, Transfer, Tree } from "antd";
 import { useTranslation } from "react-i18next";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import type { IdentityUserDto } from "#/identity/user";
+import type { IdentityUserDto } from "#/management/identity/user";
 import type { DataNode } from "antd/es/tree";
 import type { TransferItem } from "antd/es/transfer";
 import { toast } from "sonner";
@@ -14,8 +14,8 @@ import {
 	getAssignableRolesApi,
 	getRolesApi,
 	getOrganizationUnitsApi,
-} from "@/api/identity/users";
-import { getRootListApi, getChildrenApi } from "@/api/identity/organization-units";
+} from "@/api/management/identity/users";
+import { getRootListApi, getChildrenApi } from "@/api/management/identity/organization-units";
 import { useAbpSettings } from "@/hooks/abp/use-abp-settings";
 
 interface UserModalProps {
@@ -278,8 +278,8 @@ const UserModal: React.FC<UserModalProps> = ({ visible, userId, onClose, onChang
 									onChange={(targetKeys) => {
 										console.log("targetKeys", targetKeys);
 										const stringTargetKeys = targetKeys.map(String); // 转换成 string[]
-										setTargetKeys(stringTargetKeys);
-										form.setFieldValue("roleNames", targetKeys);
+										setTargetKeys(stringTargetKeys); // 触发react更新
+										form.setFieldValue("roleNames", targetKeys); //提交时从form获取roleNames
 									}}
 									render={(item) => item.title || ""}
 									listStyle={{

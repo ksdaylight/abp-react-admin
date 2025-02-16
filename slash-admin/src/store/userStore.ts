@@ -104,6 +104,7 @@ export const useSignIn = () => {
 
 	const signInMutation = useMutation({
 		mutationFn: loginApi,
+		retry: 0,
 	});
 
 	const signIn = async (data: PasswordTokenRequestModel) => {

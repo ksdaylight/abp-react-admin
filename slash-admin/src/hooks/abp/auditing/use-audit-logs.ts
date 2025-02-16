@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 // import { useTranslation } from "react-i18next";
-import { ChangeType } from "#/auditing/entity-changes";
+import { ChangeType } from "#/management/auditing/entity-changes";
 import { useLocalizer } from "../use-localization";
 
 export function useAuditLogs() {

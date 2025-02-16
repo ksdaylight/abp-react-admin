@@ -3,13 +3,13 @@ import { Button, Popconfirm, Space, Card, Input } from "antd";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
 import ClaimTypeModal from "./claim-type-modal";
-import { type IdentityClaimTypeDto, ValueType } from "#/identity";
+import { type IdentityClaimTypeDto, ValueType } from "#/management/identity";
 import { toast } from "sonner";
-import { IdentityClaimTypePermissions } from "@/constants/identity/permissions";
+import { IdentityClaimTypePermissions } from "@/constants/management/identity/permissions";
 import { withAccessChecker, hasAccessByCodes } from "@/utils/abp/access-checker";
 import ProTable, { type ActionType, type ProColumns } from "@ant-design/pro-table";
 import { antdOrderToAbpOrder } from "@/utils/abp/sort-order";
-import { deleteApi, getPagedListApi } from "@/api/identity/claim-types";
+import { deleteApi, getPagedListApi } from "@/api/management/identity/claim-types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const ClaimTypeTable: React.FC = () => {

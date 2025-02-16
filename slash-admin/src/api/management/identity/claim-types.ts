@@ -5,8 +5,8 @@ import type {
 	IdentityClaimTypeCreateDto,
 	IdentityClaimTypeDto,
 	IdentityClaimTypeUpdateDto,
-} from "#/identity";
-import requestClient from "../request";
+} from "#/management/identity";
+import requestClient from "../../request";
 
 /**
  * 新增用户声明

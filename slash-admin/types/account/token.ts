@@ -21,6 +21,11 @@ interface PasswordTokenRequestModel {
 	/** 用户名 */
 	username: string;
 }
+/** 用户刷新令牌请求数据模型 */
+interface RefreshTokenRequestModel {
+	/** 用户密码 */
+	refreshToken: string;
+}
 /** 令牌返回数据模型 */
 interface TokenResult {
 	/** 访问令牌 */
@@ -44,4 +49,11 @@ interface OAuthTokenResult {
 	token_type: string;
 }
 
-export type { OAuthTokenResult, PasswordTokenRequest, PasswordTokenRequestModel, TokenRequest, TokenResult };
+export type {
+	OAuthTokenResult,
+	PasswordTokenRequest,
+	PasswordTokenRequestModel,
+	TokenRequest,
+	TokenResult,
+	RefreshTokenRequestModel,
+};

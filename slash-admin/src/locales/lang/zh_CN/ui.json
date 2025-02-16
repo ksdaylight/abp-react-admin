@@ -21,6 +21,10 @@
 			"pageNotFound": "哎呀！未找到页面",
 			"pageNotFoundDesc": "抱歉，我们无法找到您要找的页面。"
 		},
+		"placeholder": {
+			"input": "请输入",
+			"select": "请选择"
+		},
 		"ui.fallback.http.badRequest": "测试去哪里"
 	}
 }

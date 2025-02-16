@@ -5,13 +5,13 @@ import ProTable, { type ProColumns, type ActionType } from "@ant-design/pro-tabl
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
 import { formatToDateTime } from "@/utils/abp";
-import type { SecurityLogDto } from "#/identity";
+import type { SecurityLogDto } from "#/management/identity";
 import { antdOrderToAbpOrder } from "@/utils/abp/sort-order";
-import { SecurityLogPermissions } from "@/constants/identity/permissions";
+import { SecurityLogPermissions } from "@/constants/management/identity/permissions";
 import { hasAccessByCodes, withAccessChecker } from "@/utils/abp/access-checker";
 import { toast } from "sonner";
 import SecurityLogDrawer from "./security-log-drawer";
-import { deleteApi, getPagedListApi } from "@/api/identity/security-logs";
+import { deleteApi, getPagedListApi } from "@/api/management/identity/security-logs";
 import DeleteModal from "@/components/abp/common/delete-modal";
 
 const SecurityLogs = () => {

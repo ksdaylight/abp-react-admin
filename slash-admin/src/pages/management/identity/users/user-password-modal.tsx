@@ -1,7 +1,7 @@
 import { Form, Input, Modal, Button } from "antd";
 import { useTranslation } from "react-i18next";
 import { useMutation } from "@tanstack/react-query";
-import { changePasswordApi } from "@/api/identity/users";
+import { changePasswordApi } from "@/api/management/identity/users";
 import { toast } from "sonner";
 
 interface UserPasswordModalProps {
@@ -61,11 +61,7 @@ const UserPasswordModal: React.FC<UserPasswordModalProps> = ({ visible, userId, 
 			destroyOnClose
 		>
 			<Form form={form} layout="vertical">
-				<Form.Item
-					label={$t("AbpIdentity.Password")}
-					name="password"
-					rules={[{ required: true, message: $t("AbpIdentity.ThisFieldIsRequired") }]}
-				>
+				<Form.Item label={$t("AbpIdentity.Password")} name="password" rules={[{ required: true }]}>
 					<Input.Search
 						className="w-full"
 						enterButton={<Button type="primary">{$t("AbpIdentity.RandomPassword")}</Button>}

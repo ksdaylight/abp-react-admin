@@ -1,8 +1,8 @@
 import type { ListResultDto } from "#/abp-core";
 
-import type { IdentityUserDto, UserLookupCountInput, UserLookupSearchInput } from "#/identity/user";
+import type { IdentityUserDto, UserLookupCountInput, UserLookupSearchInput } from "#/management/identity/user";
 
-import requestClient from "../request";
+import requestClient from "../../request";
 
 /**
  * 通过id查询用户

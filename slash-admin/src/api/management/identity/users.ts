@@ -1,19 +1,19 @@
 import type { ListResultDto, PagedResultDto } from "#/abp-core";
-import type { IdentityRoleDto, OrganizationUnitDto } from "#/identity";
+import type { IdentityRoleDto, OrganizationUnitDto } from "#/management/identity";
 import type {
 	IdentityClaimCreateDto,
 	IdentityClaimDeleteDto,
 	IdentityClaimDto,
 	IdentityClaimUpdateDto,
-} from "#/identity/claims";
+} from "#/management/identity/claims";
 import type {
 	ChangeUserPasswordInput,
 	GetUserPagedListInput,
 	IdentityUserCreateDto,
 	IdentityUserDto,
 	IdentityUserUpdateDto,
-} from "#/identity";
-import requestClient from "../request";
+} from "#/management/identity";
+import requestClient from "../../request";
 
 /**
  * 新增用户

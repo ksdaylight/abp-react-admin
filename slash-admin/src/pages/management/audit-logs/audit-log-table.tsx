@@ -6,12 +6,12 @@ import { useTranslation } from "react-i18next";
 import ProTable, { type ProColumns, type ActionType } from "@ant-design/pro-table";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { formatToDateTime } from "@/utils/abp";
-import type { AuditLogDto } from "#/auditing/audit-logs";
-import { deleteApi, getPagedListApi } from "@/api/auditing/audit-logs";
+import type { AuditLogDto } from "#/management/auditing/audit-logs";
+import { deleteApi, getPagedListApi } from "@/api/management/auditing/audit-logs";
 import { httpMethodOptions, httpStatusCodeOptions } from "./mapping";
 import AuditLogDrawer from "./audit-log-drawer";
 import { hasAccessByCodes, withAccessChecker } from "@/utils/abp/access-checker";
-import { AuditLogPermissions } from "@/constants/auditing/permissions";
+import { AuditLogPermissions } from "@/constants/management/auditing/permissions";
 import { useAuditLogs } from "@/hooks/abp/auditing/use-audit-logs";
 import { antdOrderToAbpOrder } from "@/utils/abp/sort-order";
 import { toast } from "sonner";
@@ -72,7 +72,7 @@ const AuditLogTable: React.FC = () => {
 					<Tag
 						color={getHttpStatusCodeColor(record.httpStatusCode)}
 						style={{ cursor: "pointer" }}
-						onClick={() => onFilter("httpStatusCode", record.httpStatusCode)} //TODO 这个点击可Filter,以及点击提示
+						onClick={() => onFilter("httpStatusCode", record.httpStatusCode)} // 点击标签触发筛选
 					>
 						<Tooltip title={$t("abp.manage.identity.filterHttpStatusCode")}>{record.httpStatusCode}</Tooltip>
 					</Tag>

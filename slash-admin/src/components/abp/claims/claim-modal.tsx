@@ -2,9 +2,9 @@ import type React from "react";
 import { useEffect } from "react";
 import { Modal, Form, Input, Select } from "antd";
 import { useTranslation } from "react-i18next";
-import type { IdentityClaimCreateDto, IdentityClaimDto, IdentityClaimUpdateDto } from "#/identity/claims";
+import type { IdentityClaimCreateDto, IdentityClaimDto, IdentityClaimUpdateDto } from "#/management/identity/claims";
 import { useQuery, useMutation } from "@tanstack/react-query";
-import { getAssignableClaimsApi } from "@/api/identity/claim-types";
+import { getAssignableClaimsApi } from "@/api/management/identity/claim-types";
 import { toast } from "sonner";
 
 interface ClaimEditModalProps {

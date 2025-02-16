@@ -1,7 +1,7 @@
 import { Modal, Form, InputNumber, Select } from "antd";
 import { useTranslation } from "react-i18next";
 import { useMutation } from "@tanstack/react-query";
-import { lockApi } from "@/api/identity/users";
+import { lockApi } from "@/api/management/identity/users";
 
 interface Props {
 	visible: boolean;

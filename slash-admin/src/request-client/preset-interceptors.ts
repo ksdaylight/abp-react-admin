@@ -14,8 +14,8 @@ export const authenticateResponseInterceptor = ({
 }: {
 	client: RequestClient;
 	doReAuthenticate: () => Promise<void>;
-	doRefreshToken: () => Promise<string>;
 	enableRefreshToken: boolean;
+	doRefreshToken: () => Promise<string>;
 	formatToken: (token: string) => null | string;
 }): ResponseInterceptorConfig => {
 	return {

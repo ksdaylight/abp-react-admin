@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { Modal, Form, Input, Checkbox, Select, Tabs, TreeSelect } from "antd";
-import { createApi, getListApi as getPermissionsApi, updateApi } from "@/api/permissions/definitions";
-import { getListApi as getGroupsApi } from "@/api/permissions/groups";
+import { createApi, getListApi as getPermissionsApi, updateApi } from "@/api/management/permissions/definitions";
+import { getListApi as getGroupsApi } from "@/api/management/permissions/groups";
 import { toast } from "sonner";
 import { useTranslation } from "react-i18next";
 import { useTypesMap } from "./types";
-import type { PermissionDefinitionDto } from "#/permissions/definitions";
+import type { PermissionDefinitionDto } from "#/management/permissions/definitions";
 // import type { PermissionGroupDefinitionDto } from "#/permissions/groups";
 import { listToTree } from "@/utils/tree";
 import { useLocalizer } from "@/hooks/abp/use-localization";

@@ -1,6 +1,6 @@
 import { formatToDateTime } from "@/utils/abp";
 import { useTranslation } from "react-i18next";
-import type { EntityChangeDto, PropertyChange, ChangeType } from "#/auditing/entity-changes";
+import type { EntityChangeDto, PropertyChange, ChangeType } from "#/management/auditing/entity-changes";
 import { Tag, Table, Card } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import { useState, useMemo } from "react";

@@ -1,4 +1,4 @@
-import type { OAuthTokenResult, PasswordTokenRequestModel, TokenResult } from "#/account";
+import type { OAuthTokenResult, PasswordTokenRequestModel, RefreshTokenRequestModel, TokenResult } from "#/account";
 import requestClient from "../request";
 
 /**
@@ -8,7 +8,6 @@ import requestClient from "../request";
  */
 export async function loginApi(request: PasswordTokenRequestModel): Promise<TokenResult> {
 	const clientId = import.meta.env.VITE_GLOB_CLIENT_ID;
-
 	const result = await requestClient.post<OAuthTokenResult>(
 		"/connect/token",
 		{
@@ -18,6 +17,32 @@ export async function loginApi(request: PasswordTokenRequestModel): Promise<Toke
 			password: request.password,
 			scope: "openid email address phone profile offline_access miwen-abp-application",
 			username: request.username,
+		},
+		{
+			headers: {
+				"Content-Type": "application/x-www-form-urlencoded",
+			},
+			timeout: 30_000,
+		},
+	);
+	return {
+		accessToken: result.access_token,
+		expiresIn: result.expires_in,
+		refreshToken: result.refresh_token,
+		tokenType: result.token_type,
+	};
+}
+
+export async function refreshToken(request: RefreshTokenRequestModel): Promise<TokenResult> {
+	const clientId = import.meta.env.VITE_GLOB_CLIENT_ID;
+	const result = await requestClient.post<OAuthTokenResult>(
+		"/connect/token",
+		{
+			client_id: clientId,
+			client_secret: "",
+			grant_type: "refresh_token",
+			refresh_token: request.refreshToken,
+			scope: "openid email address phone profile offline_access miwen-abp-application",
 		},
 		{
 			headers: {

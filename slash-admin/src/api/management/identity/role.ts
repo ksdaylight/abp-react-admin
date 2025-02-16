@@ -5,11 +5,16 @@ import type {
 	IdentityClaimDeleteDto,
 	IdentityClaimDto,
 	IdentityClaimUpdateDto,
-} from "#/identity/claims";
+} from "#/management/identity/claims";
 
-import type { GetRolePagedListInput, IdentityRoleCreateDto, IdentityRoleDto, IdentityRoleUpdateDto } from "#/identity";
+import type {
+	GetRolePagedListInput,
+	IdentityRoleCreateDto,
+	IdentityRoleDto,
+	IdentityRoleUpdateDto,
+} from "#/management/identity";
 
-import requestClient from "../request";
+import requestClient from "../../request";
 
 /**
  * 新增角色
