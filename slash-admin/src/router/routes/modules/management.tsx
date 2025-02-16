@@ -31,6 +31,9 @@ const PermissionDefinitions = lazy(
 // Auditing logs
 const AuditingAuditLogs = lazy(() => import("@/pages/management/audit-logs/audit-log-table"));
 
+// settings
+const SettingDefinitions = lazy(() => import("@/pages/management/settings/definitions/setting-definition-table"));
+
 const management: AppRouteObject = {
 	order: 2,
 	path: "management",
@@ -189,6 +192,38 @@ const management: AppRouteObject = {
 						label: "abp.manage.permissions.definitions",
 						key: "/management/permissions/definitions",
 						icon: <Iconify icon="icon-park-outline:permissions" />,
+					},
+				},
+			],
+		},
+		{
+			path: "settings",
+			meta: {
+				label: "abp.manage.settings.title",
+				key: "/management/settings",
+				icon: <Iconify icon="ic:outline-settings" />,
+			},
+			children: [
+				{
+					index: true,
+					element: <Navigate to="definitions" replace />,
+				},
+				{
+					path: "definitions",
+					element: <SettingDefinitions />,
+					meta: {
+						label: "abp.manage.settings.definitions",
+						key: "/management/settings/definitions",
+						icon: <Iconify icon="codicon:settings" />,
+					},
+				},
+				{
+					path: "system",
+					element: <PermissionDefinitions />,
+					meta: {
+						label: "abp.manage.settings.system",
+						key: "/management/settings/system",
+						icon: <Iconify icon="tabler:settings-cog" />,
 					},
 				},
 			],

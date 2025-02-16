@@ -33,15 +33,17 @@ const useAbpStore = create<AbpStore>()(
 						const resourcesByName = resources[resource];
 						if (resourcesByName) {
 							Object.keys(resourcesByName.texts).forEach((key) => {
-								let localeKey = key.replaceAll(".", "_");
-								// 清理多余的 _ 后缀或前缀
-								if (localeKey.endsWith("_")) {
-									localeKey = localeKey.slice(0, Math.max(0, localeKey.length - 1));
-								}
-								if (localeKey.startsWith("_")) {
-									localeKey = localeKey.slice(1);
-								}
-								resourceLocales[localeKey] = resourcesByName.texts[key];
+								// let localeKey = key.replaceAll(".", "_");
+								// // 清理多余的 _ 后缀或前缀
+								// if (localeKey.endsWith("_")) {
+								// 	localeKey = localeKey.slice(0, Math.max(0, localeKey.length - 1));
+								// }
+								// if (localeKey.startsWith("_")) {
+								// 	localeKey = localeKey.slice(1);
+								// }
+								//(25-02-16) 不用额外转key "AbpIdentity.Users.UserName" -> "AbpIdentity_Users_UserName"
+
+								resourceLocales[key] = resourcesByName.texts[key];
 							});
 							abpLocales[resource] = resourceLocales;
 						}
