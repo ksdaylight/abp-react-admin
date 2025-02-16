@@ -146,11 +146,17 @@ const SettingDefinitionModal: React.FC<Props> = ({ visible, settingName, onClose
 			{!!settingName && visible && isLoading ? (
 				<CircleLoading />
 			) : (
-				<Form form={form} layout="horizontal" labelCol={{ span: 6 }} wrapperCol={{ span: 18 }} onValuesChange={(changedValues) => {
+				<Form
+					form={form}
+					layout="horizontal"
+					labelCol={{ span: 6 }}
+					wrapperCol={{ span: 18 }}
+					onValuesChange={(changedValues) => {
 						setFormModel((prevModel) => {
 							return mergeDeepRight(prevModel, changedValues);
 						});
-					}}>
+					}}
+				>
 					<Tabs activeKey={activeTab} onChange={(key) => setActiveTab(key as TabKeys)}>
 						<Tabs.TabPane key="basic" tab={$t("AbpSettingManagement.BasicInfo")}>
 							<Form.Item label={$t("AbpSettingManagement.DisplayName:Name")} name="name" rules={[{ required: true }]}>

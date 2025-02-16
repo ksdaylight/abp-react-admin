@@ -33,6 +33,8 @@ const AuditingAuditLogs = lazy(() => import("@/pages/management/audit-logs/audit
 
 // settings
 const SettingDefinitions = lazy(() => import("@/pages/management/settings/definitions/setting-definition-table"));
+const SystemSettings = lazy(() => import("@/pages/management/settings/settings/system-setting.tsx"));
+
 
 const management: AppRouteObject = {
 	order: 2,
@@ -219,7 +221,7 @@ const management: AppRouteObject = {
 				},
 				{
 					path: "system",
-					element: <PermissionDefinitions />,
+					element: <SystemSettings />,
 					meta: {
 						label: "abp.manage.settings.system",
 						key: "/management/settings/system",
