@@ -166,7 +166,7 @@ const TokenTable = () => {
 						rowKey="id"
 						columns={columns}
 						request={async (params, sorter) => {
-							const { current, pageSize, creationDate, expirationDate,filter, ...filters } = params;
+							const { current, pageSize, creationDate, expirationDate, filter, ...filters } = params;
 							const [startCreationTime, endCreationTime] = creationDate || [];
 							const [startExpirationTime, endExpirationTime] = expirationDate || [];
 							const query = await queryClient.fetchQuery({
@@ -179,7 +179,7 @@ const TokenTable = () => {
 										endCreationTime: endCreationTime,
 										beginExpirationDate: startExpirationTime,
 										endExpirationDate: endExpirationTime,
-                    filter: filter,
+										filter: filter,
 										...filters,
 									}),
 							});
