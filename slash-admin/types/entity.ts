@@ -6,6 +6,7 @@ export interface UserToken {
 }
 
 export interface UserInfo {
+	[key: string]: any;
 	id: string;
 	email: string;
 	password?: string;

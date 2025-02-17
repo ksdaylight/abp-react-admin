@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { toast } from "sonner";
 
 // ----------------------------------------------------------------------
 
@@ -25,7 +24,6 @@ export function useCopyToClipboard(): ReturnType {
 		try {
 			await navigator.clipboard.writeText(text);
 			setCopiedText(text);
-			toast.success("Copied!");
 			return true;
 		} catch (error) {
 			console.warn("Copy failed", error);

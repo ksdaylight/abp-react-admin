@@ -23,7 +23,7 @@ type UserStore = {
 		setUserToken: (token: UserToken) => void;
 		setAccessCodes: (accessCodes: string[]) => void;
 		clearUserInfoAndToken: () => void;
-		fetchUserInfo: () => Promise<UserInfo | null>;
+		fetchAndSetUser: () => Promise<UserInfo | null>;
 	};
 };
 
@@ -46,7 +46,7 @@ const useUserStore = create<UserStore>()(
 				clearUserInfoAndToken() {
 					set({ userInfo: {}, userToken: {} });
 				},
-				fetchUserInfo: async () => {
+				fetchAndSetUser: async () => {
 					let userInfo: ({ [key: string]: any } & UserInfo) | null = null;
 
 					try {
@@ -56,17 +56,20 @@ const useUserStore = create<UserStore>()(
 						userInfo = {
 							id: userInfoRes.sub, //额外加的
 							userId: userInfoRes.sub,
-							username: userInfoRes.uniqueName,
-							realName: userInfoRes.name,
+							username: userInfoRes.uniqueName ?? abpConfig.currentUser.userName,
+							realName: userInfoRes.name ?? abpConfig.currentUser.name,
 							avatar: userInfoRes.avatarUrl ?? userInfoRes.picture,
 							desc: userInfoRes.uniqueName ?? userInfoRes.name,
 							email: userInfoRes.email ?? userInfoRes.email,
+							emailVerified: userInfoRes.emailVerified ?? abpConfig.currentUser.emailVerified,
+							phoneNumber: userInfoRes.phoneNumber ?? abpConfig.currentUser.phoneNumber,
+							phoneNumberVerified: userInfoRes.phoneNumberVerified ?? abpConfig.currentUser.phoneNumberVerified,
 							token: "",
 							roles: abpConfig.currentUser.roles,
 							homePath: "/",
 						};
 
-						// 更新到 zustand store 中
+						// 更新一系列到 zustand store 中
 						set({ userInfo });
 
 						useAbpStore.getState().actions.setApplication(abpConfig);
@@ -100,7 +103,7 @@ export const useUserActions = () => useUserStore((state) => state.actions);
 
 export const useSignIn = () => {
 	const navigatge = useNavigate();
-	const { setUserToken, setUserInfo, fetchUserInfo } = useUserActions();
+	const { setUserToken, fetchAndSetUser } = useUserActions();
 
 	const signInMutation = useMutation({
 		mutationFn: loginApi,
@@ -116,9 +119,7 @@ export const useSignIn = () => {
 			if (accessToken) {
 				setUserToken({ accessToken: `${tokenType} ${accessToken}`, refreshToken });
 
-				const userInfo = await fetchUserInfo();
-
-				if (userInfo) setUserInfo(userInfo); //暂时不管没获取成功的情况
+				await fetchAndSetUser();
 
 				navigatge(HOMEPAGE, { replace: true });
 				toast.success("Sign in success!");

@@ -1,11 +1,12 @@
 import { useState } from "react";
-import { Card, Steps, Button, Form, Input, QRCode, message } from "antd";
+import { Card, Steps, Button, Form, Input, QRCode } from "antd";
 import { useTranslation } from "react-i18next";
 
 import { verifyAuthenticatorCodeApi } from "@/api/account/profile";
 import { useMutation } from "@tanstack/react-query";
 import { AuthenticatorDto } from "#/account/profile";
 import { useCopyToClipboard } from "@/hooks/event/use-copy-to-clipboard";
+import { toast } from "sonner";
 
 interface Props {
 	authenticator: AuthenticatorDto;
@@ -38,7 +39,7 @@ const AuthenticatorSteps: React.FC<Props> = ({ authenticator, onDone }) => {
 	const handleCopy = async (text?: string) => {
 		if (!text) return;
 		await copyFn(text);
-		message.success($t("AbpUi.CopiedToTheClipboard"));
+		toast.success($t("AbpUi.CopiedToTheClipboard"));
 	};
 
 	const handleValidCode = async () => {

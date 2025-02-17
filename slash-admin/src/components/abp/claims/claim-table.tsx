@@ -19,6 +19,7 @@ const ClaimTable: React.FC<ClaimModalProps> = ({
 	getApi,
 	updateApi,
 	updatePolicy,
+	queryKey,
 }) => {
 	const { t: $t } = useTranslation();
 	const actionRef = useRef<ActionType>();
@@ -27,7 +28,7 @@ const ClaimTable: React.FC<ClaimModalProps> = ({
 	const [selectedClaim, setSelectedClaim] = useState<IdentityClaimDto | null>(null);
 
 	const { data: claimsData } = useQuery({
-		queryKey: ["claims"],
+		queryKey: queryKey,
 		queryFn: getApi,
 	});
 
@@ -35,7 +36,7 @@ const ClaimTable: React.FC<ClaimModalProps> = ({
 		mutationFn: deleteApi,
 		onSuccess: () => {
 			toast.success($t("AbpUi.DeletedSuccessfully"));
-			queryClient.invalidateQueries({ queryKey: ["claims"] });
+			queryClient.invalidateQueries({ queryKey: queryKey });
 		},
 	});
 
@@ -119,7 +120,7 @@ const ClaimTable: React.FC<ClaimModalProps> = ({
 				claim={selectedClaim || undefined}
 				onClose={closeModal}
 				onChange={() => {
-					queryClient.invalidateQueries({ queryKey: ["claims"] });
+					queryClient.invalidateQueries({ queryKey: queryKey });
 					closeModal();
 				}}
 				createApi={createApi}

@@ -25,6 +25,7 @@ interface ClaimEditModalProps {
 interface ClaimModalProps extends ClaimEditModalProps {
 	/** 加载声明列表api */
 	getApi: () => Promise<ListResultDto<IdentityClaimDto>>;
+	queryKey: string[];
 }
 
 interface ClaimModalEvents {

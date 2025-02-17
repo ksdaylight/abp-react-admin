@@ -62,9 +62,8 @@ const RoleClaimModal: React.FC<Props> = ({ visible, onClose, role }) => {
 				deletePolicy={IdentityRolePermissions.ManageClaims}
 				updateApi={updateClaim}
 				updatePolicy={IdentityRolePermissions.ManageClaims}
-				getApi={async () => {
-					return await getClaimsApi(role.id); //其它的可以保持原样
-				}}
+				getApi={async () => getClaimsApi(role.id)}
+				queryKey={queryKey}
 			/>
 		</Modal>
 	);
