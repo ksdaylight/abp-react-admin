@@ -8,6 +8,7 @@ import requestClient from "../request";
  */
 export async function loginApi(request: PasswordTokenRequestModel): Promise<TokenResult> {
 	const clientId = import.meta.env.VITE_GLOB_CLIENT_ID;
+	const scope = import.meta.env.VITE_GLOB_SCOPE;
 	const result = await requestClient.post<OAuthTokenResult>(
 		"/connect/token",
 		{
@@ -15,7 +16,7 @@ export async function loginApi(request: PasswordTokenRequestModel): Promise<Toke
 			client_secret: "",
 			grant_type: "password",
 			password: request.password,
-			scope: "openid email address phone profile offline_access miwen-abp-application",
+			scope: scope,
 			username: request.username,
 		},
 		{
@@ -35,6 +36,7 @@ export async function loginApi(request: PasswordTokenRequestModel): Promise<Toke
 
 export async function refreshToken(request: RefreshTokenRequestModel): Promise<TokenResult> {
 	const clientId = import.meta.env.VITE_GLOB_CLIENT_ID;
+	const scope = import.meta.env.VITE_GLOB_SCOPE;
 	const result = await requestClient.post<OAuthTokenResult>(
 		"/connect/token",
 		{
@@ -42,7 +44,7 @@ export async function refreshToken(request: RefreshTokenRequestModel): Promise<T
 			client_secret: "",
 			grant_type: "refresh_token",
 			refresh_token: request.refreshToken,
-			scope: "openid email address phone profile offline_access miwen-abp-application",
+			scope: scope,
 		},
 		{
 			headers: {

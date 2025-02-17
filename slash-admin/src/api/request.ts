@@ -5,6 +5,8 @@ import userStore from "@/store/userStore";
 import { mapLocaleToAbpLanguageFormat } from "@/utils";
 import { toast } from "sonner";
 import { refreshToken } from "./account/token";
+import { wrapperResult } from "@/utils/abp/request";
+import { handleOAuthError } from "@/utils/abp/handleOAuthError";
 
 const requestClient = new RequestClient({
 	baseURL: import.meta.env.VITE_APP_BASE_API,
@@ -75,17 +77,11 @@ requestClient.addRequestInterceptor({
 // response数据解构
 requestClient.addResponseInterceptor<any>({
 	fulfilled: (response) => {
-		const { data, status, headers } = response;
+		const { data, status } = response;
+		const { hasWrapResult, getData } = wrapperResult(response);
 
-		if (headers._abpwrapresult === "true") {
-			const { code, result, message, details } = data;
-			const hasSuccess = data && Reflect.has(data, "code") && code === "0";
-			if (hasSuccess) {
-				return result;
-			}
-			const content = details || message;
-
-			throw Object.assign({}, response, { response, message: content });
+		if (hasWrapResult()) {
+			return getData();
 		}
 
 		if (status >= 200 && status < 400) {
@@ -113,6 +109,13 @@ requestClient.addResponseInterceptor(
 		// 这里可以根据业务进行定制,你可以拿到 error 内的信息进行定制化处理，根据不同的 code 做不同的提示，而不是直接使用 message.error 提示 msg
 		// 当前mock接口返回的错误字段是 error 或者 message
 		const responseData = error?.response?.data ?? {};
+		if (responseData?.error_description) {
+			const { formatError } = handleOAuthError();
+			toast.error(formatError(responseData) || msg, {
+				position: "top-center",
+			});
+			return;
+		}
 		const errorMessage = responseData?.error ?? responseData?.message ?? "";
 		// 如果没有错误信息，则会根据状态码进行提示
 		toast.error(errorMessage || msg, {

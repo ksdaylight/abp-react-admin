@@ -1,6 +1,16 @@
 {
 	"abp": {
 		"title": "Abp Framework",
+		"oauth": {
+			"twoFactor": {
+				"title": "Two Factor",
+				"authenticator": "Authenticator",
+				"emailAddress": "Email Address",
+				"phoneNumber": "Phone Number",
+				"getCode": "Get Code",
+				"code": "Code"
+			}
+		},
 		"manage": {
 			"title": "Manage",
 			"identity": {
@@ -11,9 +21,7 @@
 				"securityLogs": "Security Logs",
 				"organizationUnits": "Organization Units",
 				"auditLogs": "Audit Logs",
-				"filterHttpStatusCode": "Click to filter by HTTP Status Code",
-				"filterHttpMethod": "Click to filter by HTTP Method",
-				"filterRequestUrl": "Click to filter by url"
+				"sessions": "Sessions"
 			},
 			"permissions": {
 				"title": "Permissions",
@@ -24,6 +32,10 @@
 				"title": "Settings",
 				"definitions": "Definitions",
 				"system": "System Settings"
+			},
+			"notifications": {
+				"title": "Notifications",
+				"myNotifilers": "My Notifilers"
 			}
 		},
 		"openiddict": {
@@ -33,6 +45,38 @@
 			"scopes": "Scopes",
 			"tokens": "Tokens"
 		},
-		"sequence": "N/S"
+		"account": {
+			"title": "Account",
+			"settings": {
+				"title": "My Settings",
+				"basic": {
+					"title": "Basic Settings"
+				},
+				"security": {
+					"title": "Security Settings",
+					"unSet": "Not Set",
+					"verified": "Verified",
+					"unVerified": "Not Verified",
+					"email": "Email",
+					"password": "Password",
+					"passwordDesc": "Reset My Password",
+					"phoneNumber": "PhoneNumber"
+				},
+				"bindSettings": "Bind Settings",
+				"noticeSettings": "Notice Settings",
+				"authenticatorSettings": "Authenticator Settings",
+				"changeAvatar": "Change Avatar",
+				"sessionSettings": "Session Settings"
+			},
+			"profile": "My Profile"
+		},
+		"platform": {
+			"title": "Platform",
+			"messages": {
+				"title": "Message Manage",
+				"email": "Email Messages",
+				"sms": "Sms Messages"
+			}
+		}
 	}
 }

@@ -34,7 +34,7 @@ const ScopeTable: React.FC = () => {
 		mutationFn: deleteApi,
 		onSuccess: () => {
 			toast.success($t("AbpUi.DeletedSuccessfully"));
-      queryClient.invalidateQueries({ queryKey: ["openIddict.scopes"] });
+			queryClient.invalidateQueries({ queryKey: ["openIddict.scopes"] });
 			actionRef.current?.reload();
 		},
 	});
