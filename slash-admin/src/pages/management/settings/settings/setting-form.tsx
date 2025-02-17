@@ -192,7 +192,7 @@ const SettingForm: React.FC<Props> = ({ getApi, submitApi, onChange, slots }) =>
 			<Form labelCol={{ span: 5 }} wrapperCol={{ span: 15 }}>
 				<Tabs activeKey={String(activeTab)} onChange={(key) => setActiveTab(Number(key))}>
 					{settingGroups.map((group, index) => (
-						<Tabs.TabPane key={index} tab={group.displayName}>
+						<Tabs.TabPane key={`${index}${group.displayName}`} tab={group.displayName}>
 							<Collapse defaultActiveKey={getExpandedCollapseKeys(group)}>
 								{group.settings.map((setting) => (
 									<Collapse.Panel key={setting.displayName} header={setting.displayName}>

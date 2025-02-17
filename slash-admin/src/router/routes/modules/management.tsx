@@ -20,6 +20,7 @@ const Roles = lazy(() => import("@/pages/management/identity/roles/role-table"))
 const ClaimTypes = lazy(() => import("@/pages/management/identity/claim-types/claim-types-table"));
 const SecurityLogs = lazy(() => import("@/pages/management/identity/security-logs/security-logs-table"));
 const OrganizationUnits = lazy(() => import("@/pages/management/identity/organization-units/organization-unit-page"));
+const IdentitySessions = lazy(() => import("@/pages/management/identity/sessions/session-table"));
 
 // Permissions
 const PermissionGroupDefinition = lazy(
@@ -34,7 +35,6 @@ const AuditingAuditLogs = lazy(() => import("@/pages/management/audit-logs/audit
 // settings
 const SettingDefinitions = lazy(() => import("@/pages/management/settings/definitions/setting-definition-table"));
 const SystemSettings = lazy(() => import("@/pages/management/settings/settings/system-setting.tsx"));
-
 
 const management: AppRouteObject = {
 	order: 2,
@@ -162,6 +162,15 @@ const management: AppRouteObject = {
 						label: "abp.manage.identity.organizationUnits",
 						key: "/management/identity/organization-units",
 						icon: <Iconify icon="clarity:organization-line" />,
+					},
+				},
+				{
+					path: "sessions",
+					element: <IdentitySessions />,
+					meta: {
+						label: "abp.manage.identity.sessions",
+						key: "/management/identity/sessions",
+						icon: <Iconify icon="carbon:prompt-session" />,
 					},
 				},
 			],

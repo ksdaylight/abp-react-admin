@@ -11,6 +11,7 @@
 				"securityLogs": "安全日志",
 				"organizationUnits": "组织机构",
 				"auditLogs": "审计日志",
+				"sessions": "会话管理",
 				"filterHttpStatusCode": "按 HTTP状态代码 进行过滤",
 				"filterHttpMethod": "按 HTTP方法 进行过滤",
 				"filterRequestUrl": "按 url 进行过滤"
