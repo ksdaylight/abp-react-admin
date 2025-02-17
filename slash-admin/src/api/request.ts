@@ -5,6 +5,7 @@ import userStore from "@/store/userStore";
 import { mapLocaleToAbpLanguageFormat } from "@/utils";
 import { toast } from "sonner";
 import { refreshToken } from "./account/token";
+import { wrapperResult } from "@/utils/abp/request";
 
 const requestClient = new RequestClient({
 	baseURL: import.meta.env.VITE_APP_BASE_API,
@@ -75,17 +76,11 @@ requestClient.addRequestInterceptor({
 // response数据解构
 requestClient.addResponseInterceptor<any>({
 	fulfilled: (response) => {
-		const { data, status, headers } = response;
+		const { data, status } = response;
+		const { hasWrapResult, getData } = wrapperResult(response);
 
-		if (headers._abpwrapresult === "true") {
-			const { code, result, message, details } = data;
-			const hasSuccess = data && Reflect.has(data, "code") && code === "0";
-			if (hasSuccess) {
-				return result;
-			}
-			const content = details || message;
-
-			throw Object.assign({}, response, { response, message: content });
+		if (hasWrapResult()) {
+			return getData();
 		}
 
 		if (status >= 200 && status < 400) {
