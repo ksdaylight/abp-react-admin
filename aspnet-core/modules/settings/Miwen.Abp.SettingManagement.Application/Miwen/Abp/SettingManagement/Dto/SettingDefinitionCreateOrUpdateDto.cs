@@ -13,10 +13,10 @@ public abstract class SettingDefinitionCreateOrUpdateDto : IHasExtraProperties
     public string DisplayName { get; set; }
 
     [DynamicStringLength(typeof(SettingDefinitionRecordConsts), nameof(SettingDefinitionRecordConsts.MaxDescriptionLength))]
-    public string Description { get; set; }
+    public string? Description { get; set; }
 
     [DynamicStringLength(typeof(SettingDefinitionRecordConsts), nameof(SettingDefinitionRecordConsts.MaxDefaultValueLength))]
-    public string DefaultValue { get; set; }
+    public string? DefaultValue { get; set; }
 
     public bool IsVisibleToClients { get; set; }
 

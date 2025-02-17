@@ -38,7 +38,7 @@ public class AbpOpenIddictLinkUserModule : AbpModule
         {
             options.Resources
                 .Get<AbpOpenIddictResource>()
-                .AddVirtualJson("/LINGYUN/Abp/OpenIddict/LinkUser/Localization/Resources");
+                .AddVirtualJson("/Miwen/Abp/OpenIddict/LinkUser/Localization/Resources");
         });
     }
 }

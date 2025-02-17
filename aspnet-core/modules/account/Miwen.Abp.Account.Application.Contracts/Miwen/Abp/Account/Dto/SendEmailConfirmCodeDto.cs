@@ -17,5 +17,5 @@ public class SendEmailConfirmCodeDto
 
     public string ReturnUrl { get; set; }
 
-    public string ReturnUrlHash { get; set; }
+    public string? ReturnUrlHash { get; set; }
 }

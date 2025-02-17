@@ -42,7 +42,7 @@ public class AbpOpenIddictSmsModule : AbpModule
         {
             options.Resources
                 .Get<AbpOpenIddictResource>()
-                .AddVirtualJson("/LINGYUN/Abp/OpenIddict/Sms/Localization/Resources");
+                .AddVirtualJson("/Miwen/Abp/OpenIddict/Sms/Localization/Resources");
         });
     }
 }

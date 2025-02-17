@@ -20,7 +20,7 @@ public class AbpAccountApplicationContractsModule : AbpModule
         {
             options.Resources
                 .Get<AccountResource>()
-                .AddVirtualJson("/LINGYUN/Abp/Account/Localization/Resources");
+                .AddVirtualJson("/Miwen/Abp/Account/Localization/Resources");
         });
     }
 }
