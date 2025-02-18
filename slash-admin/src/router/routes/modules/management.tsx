@@ -36,6 +36,10 @@ const AuditingAuditLogs = lazy(() => import("@/pages/management/audit-logs/audit
 const SettingDefinitions = lazy(() => import("@/pages/management/settings/definitions/setting-definition-table"));
 const SystemSettings = lazy(() => import("@/pages/management/settings/settings/system-setting.tsx"));
 
+// notifications
+const MyNotifications = lazy(() => import("@/pages/management/notifications/my-notification-table"));
+
+
 const management: AppRouteObject = {
 	order: 2,
 	path: "management",
@@ -247,6 +251,29 @@ const management: AppRouteObject = {
 				key: "/management/audit-logs",
 				icon: <Iconify icon="fluent-mdl2:compliance-audit" />,
 			},
+		},
+		{
+			path: "notifications",
+			meta: {
+				label: "abp.manage.notifications.title",
+				key: "/management/notifications",
+				icon: <Iconify icon="tabler:notification" />,
+			},
+			children: [
+				{
+					index: true,
+					element: <Navigate to="my-notifilers" replace />,
+				},
+				{
+					path: "my-notifilers",
+					element: <MyNotifications />,
+					meta: {
+						label: "abp.manage.notifications.myNotifilers",
+						key: "/management/notifications/my-notifilers",
+						icon: <Iconify icon="ant-design:notification-outlined" />,
+					},
+				}
+			],
 		},
 	],
 };

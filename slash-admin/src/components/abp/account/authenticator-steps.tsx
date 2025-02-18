@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 
 import { verifyAuthenticatorCodeApi } from "@/api/account/profile";
 import { useMutation } from "@tanstack/react-query";
-import { AuthenticatorDto } from "#/account/profile";
+import type { AuthenticatorDto } from "#/account/profile";
 import { useCopyToClipboard } from "@/hooks/event/use-copy-to-clipboard";
 import { toast } from "sonner";
 

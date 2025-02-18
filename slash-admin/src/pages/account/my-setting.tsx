@@ -96,7 +96,7 @@ const MySetting = () => {
 								phoneNumber: userInfo.phoneNumber,
 								phoneNumberVerified: userInfo.phoneNumberVerified,
 								preferredUsername: userInfo.username ?? "",
-								role: userInfo.roles!,
+								role: userInfo.roles ?? [],
 								sub: userInfo.userId ?? "",
 								uniqueName: userInfo.username ?? "",
 								givenName: userInfo.givenName ?? "",

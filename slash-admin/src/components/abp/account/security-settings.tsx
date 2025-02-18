@@ -3,7 +3,7 @@ import { Card, List, Button, Tag, Switch } from "antd";
 import { useTranslation } from "react-i18next";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { getTwoFactorEnabledApi, changeTwoFactorEnabledApi, sendEmailConfirmLinkApi } from "@/api/account/profile";
-import { UserInfo } from "#/account/user";
+import type { UserInfo } from "#/account/user";
 
 interface Props {
 	userInfo: UserInfo | null;
@@ -80,7 +80,7 @@ const SecuritySettings: React.FC<Props> = ({ userInfo, onChangePassword, onChang
 					}
 				>
 					<List.Item.Meta
-						title={<a>{$t("abp.account.settings.security.password")}</a>}
+						title={$t("abp.account.settings.security.password")}
 						description={$t("abp.account.settings.security.passwordDesc")}
 					/>
 				</List.Item>
@@ -115,7 +115,7 @@ const SecuritySettings: React.FC<Props> = ({ userInfo, onChangePassword, onChang
 					extra={
 						userInfo?.email &&
 						!userInfo?.emailVerified && (
-							<Button type="link" disabled={sendMailInterval > 0} onClick={() => sendEmailConfirm(userInfo.email!)}>
+							<Button type="link" disabled={sendMailInterval > 0} onClick={() => sendEmailConfirm(userInfo.email)}>
 								{getSendMailTitle()}
 							</Button>
 						)
