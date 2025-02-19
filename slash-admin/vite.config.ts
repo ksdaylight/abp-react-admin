@@ -12,6 +12,7 @@ export default defineConfig(({ mode }) => {
 	const env = loadEnv(mode, process.cwd(), "");
 	const base = env.VITE_APP_BASE_PATH || "/";
 	const isProduction = mode === "production";
+	const proxyTarget = env.VITE_PROXY_API || "http://localhost:30001";
 
 	return {
 		base,
@@ -36,34 +37,25 @@ export default defineConfig(({ mode }) => {
 			open: false,
 			host: true,
 			port: 3100,
-			// proxy: {
-			// 	"/api": {
-			// 		target: "http://192.168.31.246:30001",
-			// 		changeOrigin: true,
-			// 		secure: false,
-			// 		// rewrite: (path) => path.replace(/^\/api/, ""),
-			// 	},
-			// },
 			proxy: {
 				"/.well-known": {
 					changeOrigin: true,
-					// rewrite: (path) => path.replace(/^\/api/, ''),
-					// mock代理目标地址
-					target: "http://192.168.31.246:30001",
+					target: proxyTarget,
 					ws: true,
 				},
 				"/api": {
 					changeOrigin: true,
-					// rewrite: (path) => path.replace(/^\/api/, ''),
-					// mock代理目标地址
-					target: "http://192.168.31.246:30001",
+					target: proxyTarget,
 					ws: true,
 				},
 				"/connect": {
 					changeOrigin: true,
-					// rewrite: (path) => path.replace(/^\/api/, ''),
-					// mock代理目标地址
-					target: "http://192.168.31.246:30001",
+					target: proxyTarget,
+					ws: true,
+				},
+				"/signalr-hubs": {
+					changeOrigin: true,
+					target: proxyTarget,
 					ws: true,
 				},
 			},

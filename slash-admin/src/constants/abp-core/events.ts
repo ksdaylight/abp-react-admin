@@ -1,6 +1,6 @@
 export const Events = {
 	/** 收到服务器消息 */
-	GetNotification: "get-notification",
+	GetNotification: "get-notifications",
 	/** 新通知消息 */
 	NotificationRecevied: "sys_notifications_recevied",
 	/** 用户登录事件 */

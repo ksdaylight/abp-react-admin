@@ -129,9 +129,7 @@ export const useSignIn = () => {
 				toast.success("Sign in success!");
 			}
 		} catch (err) {
-			toast.error(err.message, {
-				position: "top-center",
-			});
+			console.error(err.message);
 		}
 	};
 
