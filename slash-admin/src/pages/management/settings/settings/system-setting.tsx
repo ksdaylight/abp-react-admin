@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Form, Input, Modal } from "antd";
+import { Button, Input, Modal } from "antd";
 import { useTranslation } from "react-i18next";
 import type { SettingsUpdateInput } from "#/management/settings/settings";
 
@@ -79,7 +79,6 @@ const SystemSetting: React.FC = () => {
 	return (
 		<>
 			{contextHolder}
-
 			<SettingForm
 				getApi={handleGet}
 				submitApi={handleSubmit}

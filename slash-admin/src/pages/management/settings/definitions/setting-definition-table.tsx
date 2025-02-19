@@ -1,5 +1,5 @@
 import { useRef, useState, useCallback } from "react";
-import { Button, Modal, Space } from "antd";
+import { Button, Card, Modal, Space } from "antd";
 import { EditOutlined, DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
 import { ProTable, type ActionType, type ProColumns } from "@ant-design/pro-table";
@@ -99,53 +99,54 @@ const SettingDefinitionTable: React.FC = () => {
 	return (
 		<>
 			{contextHolder}
-			<ProTable<SettingDefinitionDto>
-				headerTitle={$t("AbpSettingManagement.Settings")}
-				actionRef={actionRef}
-				rowKey="name"
-				columns={columns}
-				request={async (params) => {
-					const { filter } = params;
-					const query = await queryClient.fetchQuery({
-						queryKey: ["settings", params],
-						queryFn: async () => {
-							const res = await getListApi({ filter });
-							return res.items.map((item) => {
-								const localizableString = deserialize(item.displayName);
-								return {
-									...item,
-									displayName: Lr(localizableString.resourceName, localizableString.name),
-								};
-							});
-						},
-					});
+			<Card>
+				<ProTable<SettingDefinitionDto>
+					headerTitle={$t("AbpSettingManagement.Settings")}
+					actionRef={actionRef}
+					rowKey="name"
+					columns={columns}
+					request={async (params) => {
+						const { filter } = params;
+						const query = await queryClient.fetchQuery({
+							queryKey: ["settings", params],
+							queryFn: async () => {
+								const res = await getListApi({ filter });
+								return res.items.map((item) => {
+									const localizableString = deserialize(item.displayName);
+									return {
+										...item,
+										displayName: Lr(localizableString.resourceName, localizableString.name),
+									};
+								});
+							},
+						});
 
-					return {
-						data: query,
-						success: true,
-						total: query.length,
-					};
-				}}
-				search={{
-					labelWidth: "auto",
-					defaultCollapsed: false,
-				}}
-				toolBarRender={() => [
-					hasAccessByCodes([SettingDefinitionsPermissions.Create]) && (
-						<Button
-							type="primary"
-							icon={<PlusOutlined />}
-							onClick={() => {
-								setSelectedSetting(undefined);
-								setModalVisible(true);
-							}}
-						>
-							{$t("AbpSettingManagement.Definition:AddNew")}
-						</Button>
-					),
-				]}
-			/>
-
+						return {
+							data: query,
+							success: true,
+							total: query.length,
+						};
+					}}
+					search={{
+						labelWidth: "auto",
+						defaultCollapsed: false,
+					}}
+					toolBarRender={() => [
+						hasAccessByCodes([SettingDefinitionsPermissions.Create]) && (
+							<Button
+								type="primary"
+								icon={<PlusOutlined />}
+								onClick={() => {
+									setSelectedSetting(undefined);
+									setModalVisible(true);
+								}}
+							>
+								{$t("AbpSettingManagement.Definition:AddNew")}
+							</Button>
+						),
+					]}
+				/>
+			</Card>
 			<SettingDefinitionModal
 				visible={modalVisible}
 				settingName={selectedSetting?.name}

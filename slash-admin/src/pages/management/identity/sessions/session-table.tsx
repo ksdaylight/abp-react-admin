@@ -1,5 +1,5 @@
 import { useRef, useState, useTransition } from "react";
-import { Button, Modal, Select, Space, Tag } from "antd";
+import { Button, Card, Modal, Select, Space, Tag } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
 import { ProTable, type ActionType, type ProColumns } from "@ant-design/pro-table";
@@ -150,36 +150,38 @@ const SessionTable: React.FC = () => {
 	return (
 		<>
 			{contextHolder}
-			<ProTable<IdentitySessionDto>
-				headerTitle={$t("AbpIdentity.IdentitySessions")}
-				actionRef={actionRef}
-				rowKey="sessionId"
-				columns={columns}
-				scroll={{ x: "max-content" }}
-				request={async (params) => {
-					const { current, pageSize, userId, clientId, device } = params;
-					const query = await queryClient.fetchQuery({
-						queryKey: ["sessions", params],
-						queryFn: () =>
-							getSessionsApi({
-								maxResultCount: pageSize,
-								skipCount: ((current || 1) - 1) * (pageSize || 0),
-								userId,
-								clientId,
-								device,
-							}),
-					});
-					return {
-						data: query.items,
-						success: true,
-						total: query.totalCount,
-					};
-				}}
-				search={{
-					labelWidth: "auto",
-					defaultCollapsed: false,
-				}}
-			/>
+			<Card>
+				<ProTable<IdentitySessionDto>
+					headerTitle={$t("AbpIdentity.IdentitySessions")}
+					actionRef={actionRef}
+					rowKey="sessionId"
+					columns={columns}
+					scroll={{ x: "max-content" }}
+					request={async (params) => {
+						const { current, pageSize, userId, clientId, device } = params;
+						const query = await queryClient.fetchQuery({
+							queryKey: ["sessions", params],
+							queryFn: () =>
+								getSessionsApi({
+									maxResultCount: pageSize,
+									skipCount: ((current || 1) - 1) * (pageSize || 0),
+									userId,
+									clientId,
+									device,
+								}),
+						});
+						return {
+							data: query.items,
+							success: true,
+							total: query.totalCount,
+						};
+					}}
+					search={{
+						labelWidth: "auto",
+						defaultCollapsed: false,
+					}}
+				/>
+			</Card>
 		</>
 	);
 };

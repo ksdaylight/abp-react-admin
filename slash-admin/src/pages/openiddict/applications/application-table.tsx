@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { Button, Dropdown, Modal, Space } from "antd";
+import { Button, Card, Dropdown, Modal, Space } from "antd";
 import { DeleteOutlined, EditOutlined, EllipsisOutlined, PlusOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
 import { ProTable, type ActionType, type ProColumns } from "@ant-design/pro-table";
@@ -193,48 +193,50 @@ const ApplicationTable: React.FC = () => {
 	return (
 		<>
 			{contextHolder}
-			<ProTable<OpenIddictApplicationDto>
-				headerTitle={$t("AbpOpenIddict.Applications")}
-				actionRef={actionRef}
-				rowKey="id"
-				columns={columns}
-				request={async (params) => {
-					const { current, pageSize, filter } = params;
-					const query = await queryClient.fetchQuery({
-						queryKey: ["openIddict.applications", params],
-						queryFn: () =>
-							getPagedListApi({
-								maxResultCount: pageSize,
-								skipCount: ((current || 1) - 1) * (pageSize || 0),
-								filter: filter,
-							}),
-					});
-					return {
-						data: query.items,
-						success: true,
-						total: query.totalCount,
-					};
-				}}
-				search={{
-					span: 12,
-					labelWidth: "auto",
-				}}
-				toolBarRender={() => [
-					hasAccessByCodes([ApplicationsPermissions.Create]) && (
-						<Button
-							type="primary"
-							icon={<PlusOutlined />}
-							onClick={() => {
-								setSelectedApp(undefined);
-								setModalVisible(true);
-							}}
-						>
-							{$t("AbpOpenIddict.Applications:AddNew")}
-						</Button>
-					),
-				]}
-			/>
-
+			<Card>
+				<ProTable<OpenIddictApplicationDto>
+					headerTitle={$t("AbpOpenIddict.Applications")}
+					actionRef={actionRef}
+					rowKey="id"
+					columns={columns}
+					scroll={{ x: "max-content" }}
+					request={async (params) => {
+						const { current, pageSize, filter } = params;
+						const query = await queryClient.fetchQuery({
+							queryKey: ["openIddict.applications", params],
+							queryFn: () =>
+								getPagedListApi({
+									maxResultCount: pageSize,
+									skipCount: ((current || 1) - 1) * (pageSize || 0),
+									filter: filter,
+								}),
+						});
+						return {
+							data: query.items,
+							success: true,
+							total: query.totalCount,
+						};
+					}}
+					search={{
+						span: 12,
+						labelWidth: "auto",
+					}}
+					toolBarRender={() => [
+						hasAccessByCodes([ApplicationsPermissions.Create]) && (
+							<Button
+								type="primary"
+								icon={<PlusOutlined />}
+								onClick={() => {
+									setSelectedApp(undefined);
+									setModalVisible(true);
+								}}
+							>
+								{$t("AbpOpenIddict.Applications:AddNew")}
+							</Button>
+						),
+					]}
+				/>
+			</Card>
 			{/* Modals */}
 			<ApplicationModal
 				visible={modalVisible}

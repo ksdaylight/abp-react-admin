@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { Button, Modal } from "antd";
+import { Button, Card, Modal } from "antd";
 import { DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
 import type { IdentityUserDto } from "#/management/identity";
@@ -105,27 +105,28 @@ const OrganizationUnitUserTable: React.FC<Props> = ({ selectedKey }) => {
 	return (
 		<>
 			{contextHolder}
-			<ProTable<IdentityUserDto>
-				headerTitle={$t("AbpIdentity.Users")}
-				actionRef={actionRef}
-				rowKey="id"
-				columns={columns}
-				dataSource={data?.items}
-				loading={isLoading}
-				search={false}
-				pagination={{
-					showSizeChanger: true,
-					total: data?.totalCount,
-				}}
-				toolBarRender={() => [
-					getAddMemberEnabled && (
-						<Button type="primary" icon={<PlusOutlined />} onClick={() => setMemberModalVisible(true)}>
-							{$t("AbpIdentity.OrganizationUnit:AddMember")}
-						</Button>
-					),
-				]}
-			/>
-
+			<Card>
+				<ProTable<IdentityUserDto>
+					headerTitle={$t("AbpIdentity.Users")}
+					actionRef={actionRef}
+					rowKey="id"
+					columns={columns}
+					dataSource={data?.items}
+					loading={isLoading}
+					search={false}
+					pagination={{
+						showSizeChanger: true,
+						total: data?.totalCount,
+					}}
+					toolBarRender={() => [
+						getAddMemberEnabled && (
+							<Button type="primary" icon={<PlusOutlined />} onClick={() => setMemberModalVisible(true)}>
+								{$t("AbpIdentity.OrganizationUnit:AddMember")}
+							</Button>
+						),
+					]}
+				/>
+			</Card>
 			{selectedKey && (
 				<SelectMemberModal
 					visible={memberModalVisible}

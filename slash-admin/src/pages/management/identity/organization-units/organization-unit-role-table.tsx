@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { Button, Modal } from "antd";
+import { Button, Card, Modal } from "antd";
 import { DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
 import type { IdentityRoleDto } from "#/management/identity/role";
@@ -104,27 +104,28 @@ const OrganizationUnitRoleTable: React.FC<Props> = ({ selectedKey }) => {
 	return (
 		<>
 			{contextHolder}
-			<ProTable<IdentityRoleDto>
-				headerTitle={$t("AbpIdentity.Roles")}
-				actionRef={actionRef}
-				columns={columns}
-				dataSource={data?.items}
-				loading={isLoading}
-				rowKey="id"
-				search={false}
-				pagination={{
-					showSizeChanger: true,
-					total: data?.totalCount,
-				}}
-				toolBarRender={() => [
-					selectedKey && hasAccessByCodes([OrganizationUnitPermissions.ManageRoles]) && (
-						<Button type="primary" icon={<PlusOutlined />} onClick={() => setRoleModalVisible(true)}>
-							{$t("AbpIdentity.OrganizationUnit:AddRole")}
-						</Button>
-					),
-				]}
-			/>
-
+			<Card>
+				<ProTable<IdentityRoleDto>
+					headerTitle={$t("AbpIdentity.Roles")}
+					actionRef={actionRef}
+					columns={columns}
+					dataSource={data?.items}
+					loading={isLoading}
+					rowKey="id"
+					search={false}
+					pagination={{
+						showSizeChanger: true,
+						total: data?.totalCount,
+					}}
+					toolBarRender={() => [
+						selectedKey && hasAccessByCodes([OrganizationUnitPermissions.ManageRoles]) && (
+							<Button type="primary" icon={<PlusOutlined />} onClick={() => setRoleModalVisible(true)}>
+								{$t("AbpIdentity.OrganizationUnit:AddRole")}
+							</Button>
+						),
+					]}
+				/>
+			</Card>
 			{selectedKey && (
 				<SelectRoleModal
 					visible={roleModalVisible}

@@ -121,7 +121,7 @@ const ClaimTypeTable: React.FC = () => {
 						</div>
 					),
 				}
-			: {}, //TODO 测试没这个权限的
+			: {},
 	];
 
 	return (
@@ -179,6 +179,7 @@ const ClaimTypeTable: React.FC = () => {
 							),
 						]}
 						search={false}
+						scroll={{ x: "max-content" }}
 					/>
 				</Card>
 			</Space>

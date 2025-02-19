@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { Button, Dropdown, Modal, Space, type MenuProps } from "antd";
+import { Button, Card, Dropdown, Modal, Space, type MenuProps } from "antd";
 import { DeleteOutlined, DownOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
 import { ProTable, type ActionType, type ProColumns } from "@ant-design/pro-table";
@@ -207,60 +207,62 @@ const MyNotificationTable: React.FC = () => {
 	return (
 		<>
 			{contextHolder}
-			<ProTable<Notification>
-				headerTitle={$t("Notifications.Notifications")}
-				actionRef={actionRef}
-				rowKey="id"
-				columns={columns}
-				rowSelection={{
-					onChange: (_, rows) => setSelectedRows(rows),
-				}}
-				toolBarRender={() => [
-					selectedRows.length > 0 && (
-						<Dropdown menu={{ items: bulkActionMenu }}>
-							<Button>
-								<Space>
-									<Icon icon="material-symbols:bookmark-outline" />
-									{$t("Notifications.MarkAs")}
-									<DownOutlined />
-								</Space>
-							</Button>
-						</Dropdown>
-					),
-				]}
-				request={async (params) => {
-					const { current, pageSize, filter, readState } = params;
-					const query = await queryClient.fetchQuery({
-						queryKey: ["notifications", params],
-						queryFn: async () =>
-							getMyNotifilersApi({
-								maxResultCount: pageSize,
-								skipCount: ((current || 1) - 1) * (pageSize || 0),
-								filter,
-								readState,
+			<Card>
+				<ProTable<Notification>
+					headerTitle={$t("Notifications.Notifications")}
+					actionRef={actionRef}
+					rowKey="id"
+					columns={columns}
+					rowSelection={{
+						onChange: (_, rows) => setSelectedRows(rows),
+					}}
+					toolBarRender={() => [
+						selectedRows.length > 0 && (
+							<Dropdown menu={{ items: bulkActionMenu }}>
+								<Button>
+									<Space>
+										<Icon icon="material-symbols:bookmark-outline" />
+										{$t("Notifications.MarkAs")}
+										<DownOutlined />
+									</Space>
+								</Button>
+							</Dropdown>
+						),
+					]}
+					request={async (params) => {
+						const { current, pageSize, filter, readState } = params;
+						const query = await queryClient.fetchQuery({
+							queryKey: ["notifications", params],
+							queryFn: async () =>
+								getMyNotifilersApi({
+									maxResultCount: pageSize,
+									skipCount: ((current || 1) - 1) * (pageSize || 0),
+									filter,
+									readState,
+								}),
+						});
+						return {
+							data: query.items.map((item) => {
+								const notification = deserialize(item);
+								return {
+									...item,
+									...notification,
+								};
 							}),
-					});
-					return {
-						data: query.items.map((item) => {
-							const notification = deserialize(item);
-							return {
-								...item,
-								...notification,
-							};
-						}),
-						success: true,
-						total: query.totalCount,
-					};
-				}}
-				pagination={{
-					showSizeChanger: true,
-				}}
-				scroll={{ x: "max-content" }}
-				search={{
-					labelWidth: "auto",
-					defaultCollapsed: false,
-				}}
-			/>
+							success: true,
+							total: query.totalCount,
+						};
+					}}
+					pagination={{
+						showSizeChanger: true,
+					}}
+					scroll={{ x: "max-content" }}
+					search={{
+						labelWidth: "auto",
+						defaultCollapsed: false,
+					}}
+				/>
+			</Card>
 			<MyNotificationModal
 				visible={modalVisible}
 				notification={selectedNotification}
