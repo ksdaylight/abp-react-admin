@@ -73,11 +73,10 @@ export default function AccountDropdown() {
 			label: <NavLink to="/account/my-settings">{t("abp.account.settings.title")}</NavLink>,
 			key: "2",
 		},
-		{
-			label: <NavLink to="/management/user/profile">{t("sys.menu.user.profile")}</NavLink>,
-			key: "3",
-		},
-
+		// {
+		// 	label: <NavLink to="/management/user/profile">{t("sys.menu.user.profile")}</NavLink>,
+		// 	key: "3",
+		// },
 		{ type: "divider" },
 		{
 			label: (

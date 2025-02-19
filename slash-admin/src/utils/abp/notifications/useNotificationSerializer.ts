@@ -1,5 +1,6 @@
 import type { Notification, NotificationInfo } from "#/notifications";
-import { useLocalizer } from "@/hooks/abp/use-localization";
+import { getResources } from "../localzations/get-resources";
+import { LrWithResources } from "../localzations/lr-with-resources";
 
 export function useNotificationSerializer() {
 	function deserialize(notificationInfo: NotificationInfo): Notification {
@@ -8,24 +9,30 @@ export function useNotificationSerializer() {
 		let message = data.extraProperties.message;
 		let description = data.extraProperties.description;
 		if (data.extraProperties.L === true || data.extraProperties.L === "true") {
-			const { L } = useLocalizer([
-				data.extraProperties.title.resourceName ?? data.extraProperties.title.ResourceName,
-				data.extraProperties.message.resourceName ?? data.extraProperties.message.ResourceName,
-				data.extraProperties.description?.resourceName ?? data.extraProperties.description?.ResourceName ?? "AbpUi",
-			]);
-			title = L(
-				data.extraProperties.title.name ?? data.extraProperties.title.Name,
-				data.extraProperties.title.values ?? data.extraProperties.title.Values,
-			);
-			message = L(
-				data.extraProperties.message.name ?? data.extraProperties.message.Name,
-				data.extraProperties.message.values ?? data.extraProperties.message.Values,
-			);
-			if (description) {
-				description = L(
-					data.extraProperties.description.name ?? data.extraProperties.description.Name,
-					data.extraProperties.description.values ?? data.extraProperties.description.Values,
+			{
+				//用于释放resources
+				const resources = getResources([
+					data.extraProperties.title.resourceName ?? data.extraProperties.title.ResourceName,
+					data.extraProperties.message.resourceName ?? data.extraProperties.message.ResourceName,
+					data.extraProperties.description?.resourceName ?? data.extraProperties.description?.ResourceName ?? "AbpUi",
+				]);
+				title = LrWithResources(
+					resources,
+					data.extraProperties.title.name ?? data.extraProperties.title.Name,
+					data.extraProperties.title.values ?? data.extraProperties.title.Values,
 				);
+				message = LrWithResources(
+					resources,
+					data.extraProperties.message.name ?? data.extraProperties.message.Name,
+					data.extraProperties.message.values ?? data.extraProperties.message.Values,
+				);
+				if (description) {
+					description = LrWithResources(
+						resources,
+						data.extraProperties.description.name ?? data.extraProperties.description.Name,
+						data.extraProperties.description.values ?? data.extraProperties.description.Values,
+					);
+				}
 			}
 		}
 		return {

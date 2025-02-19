@@ -227,7 +227,7 @@ const AuditLogTable: React.FC = () => {
 					hideInSearch: true,
 					width: 220,
 					render: (_, record) => (
-						<div style={{ display: "flex", gap: "8px" }}>
+						<div className="flex gap-1">
 							{withAccessChecker(
 								<Button type="link" icon={<EditOutlined />} onClick={() => openDrawer(record)}>
 									{$t("AbpAuditLogging.ShowLogDialog")}

@@ -10,9 +10,11 @@ interface Props extends ReactQuillProps {
 }
 export default function Editor({ id = "slash-quill", sample = false, hiddleToolbar = false, ...other }: Props) {
 	const modules = {
-		toolbar: {
-			container: `#${id}`,
-		},
+		...(hiddleToolbar ? {} : {
+			toolbar: {
+				container: `#${id}`,
+			},
+		}),
 		history: {
 			delay: 500,
 			maxStack: 100,

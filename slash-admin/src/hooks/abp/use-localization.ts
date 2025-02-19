@@ -1,8 +1,8 @@
 import { useEffect, useMemo } from "react";
-import { mergeRight } from "ramda";
 import type { Dictionary } from "#/abp-core/global";
 import { format } from "@/utils/string";
 import useLocaleStore, { useLocale } from "@/store/localeI18nStore";
+import { getResources } from "@/utils/abp/localzations/get-resources";
 
 // const { L } = useLocalizer(['AbpAuditLogging', 'AbpUi']);
 
@@ -16,24 +16,7 @@ export function useLocalizer(resourceNames?: string | string[], callback?: () =>
 	const localizations = useLocaleStore.getState().localizations || {};
 	const locale = useLocale();
 
-	const mergedResources = useMemo(() => {
-		let merged: Dictionary<string, string> = {};
-		if (resourceNames) {
-			if (Array.isArray(resourceNames)) {
-				resourceNames.forEach((name) => {
-					merged = mergeRight(merged, localizations[name] || {});
-				});
-			} else {
-				merged = mergeRight(merged, localizations[resourceNames] || {});
-			}
-		} else {
-			// Merge everything if no resource names provided
-			Object.keys(localizations).forEach((r) => {
-				merged = mergeRight(merged, localizations[r] || {});
-			});
-		}
-		return merged;
-	}, [resourceNames, localizations]);
+	const mergedResources = useMemo(() => getResources(resourceNames), [resourceNames]);
 
 	useEffect(() => {
 		if (callback) {
@@ -41,11 +24,23 @@ export function useLocalizer(resourceNames?: string | string[], callback?: () =>
 		}
 	}, [locale, callback]);
 
+	/**
+	 * 注意，使用react hook 来存储 key
+	 * @param key
+	 * @param args
+	 * @returns
+	 */
 	function L(key: string, args?: any[] | Record<string, string>) {
 		if (!key) return "";
 		return mergedResources[key] ? format(mergedResources[key], args ?? []) : key;
 	}
-
+	/**
+	 * 实际没调用国react hook,可以在很多地方调用
+	 * @param resource
+	 * @param key
+	 * @param args
+	 * @returns
+	 */
 	function Lr(resource: string, key: string, args?: any[] | Record<string, string>) {
 		if (!resource || !key) return "";
 		// const { localizations } = useLocaleStore.getState();

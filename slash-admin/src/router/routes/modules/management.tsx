@@ -39,7 +39,6 @@ const SystemSettings = lazy(() => import("@/pages/management/settings/settings/s
 // notifications
 const MyNotifications = lazy(() => import("@/pages/management/notifications/my-notification-table"));
 
-
 const management: AppRouteObject = {
 	order: 2,
 	path: "management",
@@ -272,7 +271,7 @@ const management: AppRouteObject = {
 						key: "/management/notifications/my-notifilers",
 						icon: <Iconify icon="ant-design:notification-outlined" />,
 					},
-				}
+				},
 			],
 		},
 	],

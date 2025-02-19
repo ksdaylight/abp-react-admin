@@ -130,7 +130,7 @@ const MySetting = () => {
 							onSelect={({ key }) => setSelectedKey(key)}
 						/>
 					</div>
-					<div className="basis-5/6">{renderContent()}</div>
+					<div className="basis-5/6 overflow-hidden">{renderContent()}</div>
 				</div>
 			</Card>
 

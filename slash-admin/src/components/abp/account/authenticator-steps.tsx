@@ -67,7 +67,7 @@ const AuthenticatorSteps: React.FC<Props> = ({ authenticator, onDone }) => {
 								</div>
 							}
 						/>
-						<div className="mt-2 flex flex-row">
+						<div className="mt-2 flex flex-row flex-wrap">
 							<div className="basis-1/2">
 								<Card title={$t("AbpAccount.Authenticator:UseQrCode")} className="min-h-[350px]">
 									<div className="flex justify-center">

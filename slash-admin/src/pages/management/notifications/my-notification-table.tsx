@@ -32,6 +32,7 @@ const MyNotificationTable: React.FC = () => {
 		mutationFn: deleteMyNotifilerApi,
 		onSuccess: () => {
 			toast.success($t("AbpUi.SuccessfullyDeleted"));
+			queryClient.invalidateQueries({ queryKey: ["notifications"] });
 			actionRef.current?.reload();
 		},
 	});
@@ -40,6 +41,7 @@ const MyNotificationTable: React.FC = () => {
 	const { mutateAsync: markReadState } = useMutation({
 		mutationFn: markReadStateApi,
 		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: ["notifications"] });
 			actionRef.current?.reload();
 		},
 	});
@@ -54,6 +56,7 @@ const MyNotificationTable: React.FC = () => {
 
 	const handleRead = async (ids: string[], state: NotificationReadState) => {
 		await markReadState({ idList: ids, state });
+		queryClient.invalidateQueries({ queryKey: ["notifications"] });
 		setSelectedRows([]);
 	};
 
@@ -161,7 +164,9 @@ const MyNotificationTable: React.FC = () => {
 						className="text-xl"
 						color={record.state === NotificationReadState.Read ? "#00DD00" : "#FF7744"}
 					/>
-					<a onClick={() => handleClickNotification(record)}>{record.title}</a>
+					<button type="button" onClick={() => handleClickNotification(record)}>
+						{record.title}
+					</button>
 				</div>
 			),
 		},
@@ -169,7 +174,11 @@ const MyNotificationTable: React.FC = () => {
 			title: $t("Notifications.Notifications:Content"),
 			dataIndex: "message",
 			hideInSearch: true,
-			render: (_, record) => <a onClick={() => handleClickNotification(record)}>{record.message}</a>,
+			render: (_, record) => (
+				<button type="button" onClick={() => handleClickNotification(record)}>
+					{record.message}
+				</button>
+			),
 		},
 		{
 			title: $t("AbpUi.Actions"),
@@ -223,7 +232,7 @@ const MyNotificationTable: React.FC = () => {
 					const { current, pageSize, filter, readState } = params;
 					const query = await queryClient.fetchQuery({
 						queryKey: ["notifications", params],
-						queryFn: () =>
+						queryFn: async () =>
 							getMyNotifilersApi({
 								maxResultCount: pageSize,
 								skipCount: ((current || 1) - 1) * (pageSize || 0),
@@ -235,15 +244,18 @@ const MyNotificationTable: React.FC = () => {
 						data: query.items.map((item) => {
 							const notification = deserialize(item);
 							return {
+								...item,
 								...notification,
-								id: item.id,
-								state: item.state,
 							};
 						}),
 						success: true,
 						total: query.totalCount,
 					};
 				}}
+				pagination={{
+					showSizeChanger: true,
+				}}
+				scroll={{ x: "max-content" }}
 				search={{
 					labelWidth: "auto",
 					defaultCollapsed: false,
