@@ -114,6 +114,7 @@ using Volo.Abp.Timing;
 using Volo.Abp.MailKit;
 using Miwen.Abp.AuditLogging.IP.Location;
 using Miwen.Abp.IP2Region;
+using Miwen.Abp.Authentication.Github;
 
 
 namespace Miwen.MicroService.Applications.Single;
@@ -219,7 +220,8 @@ namespace Miwen.MicroService.Applications.Single;
 
      typeof(AbpEntityFrameworkCorePostgreSqlModule),
 
-
+    typeof(AbpAuthenticationGithubModule),//Github登录
+    
     typeof(AbpAuthorizationOrganizationUnitsModule),
     typeof(AbpIdentityOrganizaztionUnitsModule),
 
