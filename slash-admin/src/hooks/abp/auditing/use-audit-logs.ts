@@ -4,7 +4,7 @@ import { ChangeType } from "#/management/auditing/entity-changes";
 import { useLocalizer } from "../use-localization";
 
 export function useAuditLogs() {
-	const { L } = useLocalizer(["AbpAuditLogging", "AbpUi"]); //TODO  验证脱离i18n的这个是否可用
+	const { L } = useLocalizer(["AbpAuditLogging", "AbpUi"]);
 
 	const changeTypeColorMap = useMemo(
 		() => ({

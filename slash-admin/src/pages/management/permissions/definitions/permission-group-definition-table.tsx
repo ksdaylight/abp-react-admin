@@ -1,5 +1,5 @@
 import { useCallback, useRef, useState } from "react";
-import { Button, Dropdown, Modal } from "antd";
+import { Button, Card, Dropdown, Modal } from "antd";
 import { EditOutlined, DeleteOutlined, PlusOutlined, EllipsisOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
 import type { PermissionGroupDefinitionDto } from "#/management/permissions/groups";
@@ -157,38 +157,39 @@ const PermissionGroupDefinitionTable: React.FC = () => {
 	return (
 		<>
 			{contextHolder}
-			<ProTable<PermissionGroupDefinitionDto>
-				headerTitle={$t("AbpPermissionManagement.GroupDefinitions")}
-				actionRef={actionRef}
-				columns={columns}
-				dataSource={data}
-				loading={isLoading}
-				rowKey="name"
-				pagination={{
-					showSizeChanger: true,
-					total: data?.length,
-				}}
-				search={{
-					labelWidth: "auto",
-					span: 12,
-					defaultCollapsed: true,
-				}}
-				toolBarRender={() => [
-					hasAccessByCodes([GroupDefinitionsPermissions.Create]) && (
-						<Button type="primary" icon={<PlusOutlined />} onClick={handleCreate}>
-							{$t("AbpPermissionManagement.GroupDefinitions:AddNew")}
-						</Button>
-					),
-				]}
-				request={async (params) => {
-					const { filter } = params;
-					setSearchParams({ filter });
-					// 强制重新请求数据
-					await queryClient.invalidateQueries({ queryKey: ["permissionGroups"] });
-					return { data, success: true, total: data?.length };
-				}}
-			/>
-
+			<Card>
+				<ProTable<PermissionGroupDefinitionDto>
+					headerTitle={$t("AbpPermissionManagement.GroupDefinitions")}
+					actionRef={actionRef}
+					columns={columns}
+					dataSource={data}
+					loading={isLoading}
+					rowKey="name"
+					pagination={{
+						showSizeChanger: true,
+						total: data?.length,
+					}}
+					search={{
+						labelWidth: "auto",
+						span: 12,
+						defaultCollapsed: true,
+					}}
+					toolBarRender={() => [
+						hasAccessByCodes([GroupDefinitionsPermissions.Create]) && (
+							<Button type="primary" icon={<PlusOutlined />} onClick={handleCreate}>
+								{$t("AbpPermissionManagement.GroupDefinitions:AddNew")}
+							</Button>
+						),
+					]}
+					request={async (params) => {
+						const { filter } = params;
+						setSearchParams({ filter });
+						// 强制重新请求数据
+						await queryClient.invalidateQueries({ queryKey: ["permissionGroups"] });
+						return { data, success: true, total: data?.length };
+					}}
+				/>
+			</Card>
 			<PermissionGroupDefinitionModal
 				visible={groupModalVisible}
 				groupName={selectedGroup?.name}

@@ -6,12 +6,17 @@ import Toolbar, { formats } from "./toolbar";
 
 interface Props extends ReactQuillProps {
 	sample?: boolean;
+	hiddleToolbar?: boolean;
 }
-export default function Editor({ id = "slash-quill", sample = false, ...other }: Props) {
+export default function Editor({ id = "slash-quill", sample = false, hiddleToolbar = false, ...other }: Props) {
 	const modules = {
-		toolbar: {
-			container: `#${id}`,
-		},
+		...(hiddleToolbar
+			? {}
+			: {
+					toolbar: {
+						container: `#${id}`,
+					},
+				}),
 		history: {
 			delay: 500,
 			maxStack: 100,
@@ -24,7 +29,7 @@ export default function Editor({ id = "slash-quill", sample = false, ...other }:
 	};
 	return (
 		<StyledEditor>
-			<Toolbar id={id} isSimple={sample} />
+			{!hiddleToolbar && <Toolbar id={id} isSimple={sample} />}
 			<ReactQuill modules={modules} formats={formats} {...other} placeholder="Write something awesome..." />
 		</StyledEditor>
 	);

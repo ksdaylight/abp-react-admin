@@ -13,11 +13,13 @@ import { useSetLocale } from "./store/localeI18nStore";
 import { useTranslation } from "react-i18next";
 import { getStringItem } from "./utils/storage";
 import { LocalEnum, StorageEnum } from "#/enum";
+import { useSessions } from "./hooks/abp/use-sessions";
 
 function App() {
 	const { i18n } = useTranslation();
 	const setLocale = useSetLocale();
 	const defaultLng = getStringItem(StorageEnum.I18N) || LocalEnum.en_US;
+	useSessions();
 	useEffect(() => {
 		async function initializeI18n() {
 			await setLocale(defaultLng as LocalEnum, i18n);

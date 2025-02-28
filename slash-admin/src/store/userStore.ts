@@ -10,6 +10,8 @@ import { getUserInfoApi, loginApi } from "@/api/account";
 import type { PasswordTokenRequestModel } from "#/account";
 import { getConfigApi } from "@/api/abp-core";
 import useAbpStore from "./abpCoreStore";
+import { useEventBus } from "@/utils/abp/useEventBus";
+import { Events } from "@/constants/abp-core";
 
 const { VITE_APP_HOMEPAGE: HOMEPAGE } = import.meta.env;
 
@@ -44,6 +46,8 @@ const useUserStore = create<UserStore>()(
 					set({ accessCodes });
 				},
 				clearUserInfoAndToken() {
+					const { publish } = useEventBus();
+					publish(Events.UserLogout);
 					set({ userInfo: {}, userToken: {} });
 				},
 				fetchAndSetUser: async () => {
@@ -125,9 +129,7 @@ export const useSignIn = () => {
 				toast.success("Sign in success!");
 			}
 		} catch (err) {
-			toast.error(err.message, {
-				position: "top-center",
-			});
+			console.error(err.message);
 		}
 	};
 

@@ -1,5 +1,5 @@
 import { useCallback, useRef, useState } from "react";
-import { Button, Modal, Space, Table, Tag } from "antd";
+import { Button, Card, Modal, Space, Table, Tag } from "antd";
 import { EditOutlined, DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -240,32 +240,35 @@ const PermissionDefinitionTable: React.FC = () => {
 	return (
 		<>
 			{contextHolder}
-			<ProTable<PermissionGroupVo>
-				headerTitle={$t("AbpPermissionManagement.PermissionDefinitions")}
-				actionRef={actionRef}
-				columns={mainColumns}
-				dataSource={data}
-				loading={isLoading}
-				rowKey={(record) => record.name}
-				expandable={{ expandedRowRender }}
-				toolBarRender={toolBarRender}
-				pagination={{
-					showSizeChanger: true,
-					total: data?.length,
-				}}
-				search={{
-					labelWidth: "auto",
-					span: 12, //search part width
-					defaultCollapsed: true,
-				}}
-				request={async (params) => {
-					const { filter } = params;
-					setSearchParams({ filter: filter });
-					//强制重新请求数据（用于table的刷新按钮）
-					await queryClient.invalidateQueries({ queryKey: ["permissions", "permissionGroups"] });
-					return { data, success: true, total: data?.length };
-				}}
-			/>
+
+			<Card>
+				<ProTable<PermissionGroupVo>
+					headerTitle={$t("AbpPermissionManagement.PermissionDefinitions")}
+					actionRef={actionRef}
+					columns={mainColumns}
+					dataSource={data}
+					loading={isLoading}
+					rowKey={(record) => record.name}
+					expandable={{ expandedRowRender }}
+					toolBarRender={toolBarRender}
+					pagination={{
+						showSizeChanger: true,
+						total: data?.length,
+					}}
+					search={{
+						labelWidth: "auto",
+						span: 12, //search part width
+						defaultCollapsed: true,
+					}}
+					request={async (params) => {
+						const { filter } = params;
+						setSearchParams({ filter: filter });
+						//强制重新请求数据（用于table的刷新按钮）
+						await queryClient.invalidateQueries({ queryKey: ["permissions", "permissionGroups"] });
+						return { data, success: true, total: data?.length };
+					}}
+				/>
+			</Card>
 			<PermissionDefinitionModal
 				visible={modalVisible}
 				permission={selectedPermission}

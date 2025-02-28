@@ -18,7 +18,7 @@ const requestClient = new RequestClient({
 async function doReAuthenticate() {
 	console.warn("Access token or refresh token is invalid or expired. ");
 	//直接登出
-	userStore.getState().actions.clearUserInfoAndToken(); //TODO 对比+验证
+	userStore.getState().actions.clearUserInfoAndToken();
 }
 
 /**

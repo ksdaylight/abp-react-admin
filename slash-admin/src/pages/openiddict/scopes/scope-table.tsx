@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { Button, Dropdown, Modal, Space } from "antd";
+import { Button, Card, Dropdown, Modal, Space } from "antd";
 import { DeleteOutlined, EditOutlined, EllipsisOutlined, PlusOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
 import { ProTable, type ActionType, type ProColumns } from "@ant-design/pro-table";
@@ -129,47 +129,50 @@ const ScopeTable: React.FC = () => {
 	return (
 		<>
 			{contextHolder}
-			<ProTable<OpenIddictScopeDto>
-				headerTitle={$t("AbpOpenIddict.Scopes")}
-				actionRef={actionRef}
-				rowKey="id"
-				columns={columns}
-				request={async (params) => {
-					const { current, pageSize, filter } = params;
-					const query = await queryClient.fetchQuery({
-						queryKey: ["openIddict.scopes", params],
-						queryFn: () =>
-							getPagedListApi({
-								maxResultCount: pageSize,
-								skipCount: ((current || 1) - 1) * (pageSize || 0),
-								filter: filter,
-							}),
-					});
-					return {
-						data: query.items,
-						success: true,
-						total: query.totalCount,
-					};
-				}}
-				search={{
-					span: 12,
-					labelWidth: "auto",
-				}}
-				toolBarRender={() => [
-					hasAccessByCodes([ScopesPermissions.Create]) && (
-						<Button
-							type="primary"
-							icon={<PlusOutlined />}
-							onClick={() => {
-								setSelectedScope(undefined);
-								setModalVisible(true);
-							}}
-						>
-							{$t("AbpOpenIddict.Scopes:AddNew")}
-						</Button>
-					),
-				]}
-			/>
+			<Card>
+				<ProTable<OpenIddictScopeDto>
+					headerTitle={$t("AbpOpenIddict.Scopes")}
+					actionRef={actionRef}
+					rowKey="id"
+					columns={columns}
+					request={async (params) => {
+						const { current, pageSize, filter } = params;
+						const query = await queryClient.fetchQuery({
+							queryKey: ["openIddict.scopes", params],
+							queryFn: () =>
+								getPagedListApi({
+									maxResultCount: pageSize,
+									skipCount: ((current || 1) - 1) * (pageSize || 0),
+									filter: filter,
+								}),
+						});
+						return {
+							data: query.items,
+							success: true,
+							total: query.totalCount,
+						};
+					}}
+					search={{
+						span: 12,
+						labelWidth: "auto",
+					}}
+					scroll={{ x: "max-content" }}
+					toolBarRender={() => [
+						hasAccessByCodes([ScopesPermissions.Create]) && (
+							<Button
+								type="primary"
+								icon={<PlusOutlined />}
+								onClick={() => {
+									setSelectedScope(undefined);
+									setModalVisible(true);
+								}}
+							>
+								{$t("AbpOpenIddict.Scopes:AddNew")}
+							</Button>
+						),
+					]}
+				/>
+			</Card>
 
 			{/* Modals */}
 			<ScopeModal

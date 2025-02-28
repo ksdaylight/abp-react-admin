@@ -8,12 +8,13 @@ import requestClient from "../request";
  */
 export async function loginApi(request: PasswordTokenRequestModel): Promise<TokenResult> {
 	const clientId = import.meta.env.VITE_GLOB_CLIENT_ID;
+	const clientSecret = import.meta.env.VITE_GLOB_CLIENT_SECRET;
 	const scope = import.meta.env.VITE_GLOB_SCOPE;
 	const result = await requestClient.post<OAuthTokenResult>(
 		"/connect/token",
 		{
 			client_id: clientId,
-			client_secret: "",
+			client_secret: clientSecret,
 			grant_type: "password",
 			password: request.password,
 			scope: scope,
@@ -36,12 +37,13 @@ export async function loginApi(request: PasswordTokenRequestModel): Promise<Toke
 
 export async function refreshToken(request: RefreshTokenRequestModel): Promise<TokenResult> {
 	const clientId = import.meta.env.VITE_GLOB_CLIENT_ID;
+	const clientSecret = import.meta.env.VITE_GLOB_CLIENT_SECRET;
 	const scope = import.meta.env.VITE_GLOB_SCOPE;
 	const result = await requestClient.post<OAuthTokenResult>(
 		"/connect/token",
 		{
 			client_id: clientId,
-			client_secret: "",
+			client_secret: clientSecret,
 			grant_type: "refresh_token",
 			refresh_token: request.refreshToken,
 			scope: scope,

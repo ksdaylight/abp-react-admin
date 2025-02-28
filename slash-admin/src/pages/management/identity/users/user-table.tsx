@@ -28,6 +28,7 @@ import UserClaimModal from "./user-claim-modal";
 import UserPasswordModal from "./user-password-modal";
 import PermissionModal from "@/components/abp/permissions/permission-modal";
 import { EntityChangeDrawer } from "@/components/abp/auditing/entity-change-drawer";
+import Card from "@/components/card";
 
 const UserTable: React.FC = () => {
 	const { t: $t } = useTranslation();
@@ -263,48 +264,50 @@ const UserTable: React.FC = () => {
 	return (
 		<>
 			{contextHolder}
-			<ProTable<IdentityUserDto>
-				actionRef={actionRef}
-				columns={columns}
-				request={async (params) => {
-					const { current, pageSize, filter } = params;
-					const query = await queryClient.fetchQuery({
-						queryKey: ["users", params],
-						queryFn: () =>
-							getPagedListApi({
-								maxResultCount: pageSize,
-								skipCount: ((current || 1) - 1) * (pageSize || 0),
-								filter: filter,
-							}),
-					});
-					return {
-						data: query.items,
-						total: query.totalCount,
-					};
-				}}
-				rowKey="id"
-				search={{
-					span: 12,
-					labelWidth: "auto",
-				}}
-				pagination={{
-					showSizeChanger: true,
-				}}
-				toolBarRender={() => [
-					hasAccessByCodes([IdentityUserPermissions.Create]) && (
-						<Button
-							type="primary"
-							icon={<PlusOutlined />}
-							onClick={() => {
-								setSelectedUser(undefined);
-								setUserModalVisible(true);
-							}}
-						>
-							{$t("AbpIdentity.NewUser")}
-						</Button>
-					),
-				]}
-			/>
+			<Card>
+				<ProTable<IdentityUserDto>
+					actionRef={actionRef}
+					columns={columns}
+					request={async (params) => {
+						const { current, pageSize, filter } = params;
+						const query = await queryClient.fetchQuery({
+							queryKey: ["users", params],
+							queryFn: () =>
+								getPagedListApi({
+									maxResultCount: pageSize,
+									skipCount: ((current || 1) - 1) * (pageSize || 0),
+									filter: filter,
+								}),
+						});
+						return {
+							data: query.items,
+							total: query.totalCount,
+						};
+					}}
+					rowKey="id"
+					search={{
+						span: 12,
+						labelWidth: "auto",
+					}}
+					pagination={{
+						showSizeChanger: true,
+					}}
+					toolBarRender={() => [
+						hasAccessByCodes([IdentityUserPermissions.Create]) && (
+							<Button
+								type="primary"
+								icon={<PlusOutlined />}
+								onClick={() => {
+									setSelectedUser(undefined);
+									setUserModalVisible(true);
+								}}
+							>
+								{$t("AbpIdentity.NewUser")}
+							</Button>
+						),
+					]}
+				/>
+			</Card>
 
 			{/* User Modal */}
 			<UserModal

@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 
 import { verifyAuthenticatorCodeApi } from "@/api/account/profile";
 import { useMutation } from "@tanstack/react-query";
-import { AuthenticatorDto } from "#/account/profile";
+import type { AuthenticatorDto } from "#/account/profile";
 import { useCopyToClipboard } from "@/hooks/event/use-copy-to-clipboard";
 import { toast } from "sonner";
 
@@ -67,7 +67,7 @@ const AuthenticatorSteps: React.FC<Props> = ({ authenticator, onDone }) => {
 								</div>
 							}
 						/>
-						<div className="mt-2 flex flex-row">
+						<div className="mt-2 flex flex-row flex-wrap">
 							<div className="basis-1/2">
 								<Card title={$t("AbpAccount.Authenticator:UseQrCode")} className="min-h-[350px]">
 									<div className="flex justify-center">

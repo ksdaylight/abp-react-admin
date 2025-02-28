@@ -142,7 +142,7 @@ const SecurityLogs = () => {
 					hideInSearch: true,
 					width: 150,
 					render: (_, record) => (
-						<div style={{ display: "flex", gap: "8px" }}>
+						<div className="flex gap-1">
 							{withAccessChecker(
 								<Button type="link" icon={<EditOutlined />} onClick={() => openDrawer(record.id)}>
 									{$t("AbpUi.Edit")}

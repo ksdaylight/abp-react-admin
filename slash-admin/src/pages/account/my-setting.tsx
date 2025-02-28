@@ -96,7 +96,7 @@ const MySetting = () => {
 								phoneNumber: userInfo.phoneNumber,
 								phoneNumberVerified: userInfo.phoneNumberVerified,
 								preferredUsername: userInfo.username ?? "",
-								role: userInfo.roles!,
+								role: userInfo.roles ?? [],
 								sub: userInfo.userId ?? "",
 								uniqueName: userInfo.username ?? "",
 								givenName: userInfo.givenName ?? "",
@@ -130,7 +130,7 @@ const MySetting = () => {
 							onSelect={({ key }) => setSelectedKey(key)}
 						/>
 					</div>
-					<div className="basis-5/6">{renderContent()}</div>
+					<div className="basis-5/6 overflow-hidden">{renderContent()}</div>
 				</div>
 			</Card>
 

@@ -97,7 +97,7 @@ const ClaimTypeTable: React.FC = () => {
 					fixed: "right",
 					width: 150,
 					render: (_, record) => (
-						<div style={{ display: "flex", gap: "8px" }}>
+						<div className="flex gap-1">
 							{withAccessChecker(
 								<Button key="edit" type="link" icon={<EditOutlined />} onClick={() => openModal(record)}>
 									{$t("AbpUi.Edit")}
@@ -121,7 +121,7 @@ const ClaimTypeTable: React.FC = () => {
 						</div>
 					),
 				}
-			: {}, //TODO 测试没这个权限的
+			: {},
 	];
 
 	return (
@@ -179,6 +179,7 @@ const ClaimTypeTable: React.FC = () => {
 							),
 						]}
 						search={false}
+						scroll={{ x: "max-content" }}
 					/>
 				</Card>
 			</Space>

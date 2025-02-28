@@ -6,13 +6,13 @@ import { CircleLoading } from "@/components/loading";
 
 import type { AppRouteObject } from "#/router";
 
-const ProfilePage = lazy(() => import("@/pages/management/user/profile"));
-const AccountPage = lazy(() => import("@/pages/management/user/account"));
+// const ProfilePage = lazy(() => import("@/pages/management/user/profile"));
+// const AccountPage = lazy(() => import("@/pages/management/user/account"));
 
-const OrganizationPage = lazy(() => import("@/pages/management/system/organization"));
-const PermissioPage = lazy(() => import("@/pages/management/system/permission"));
+// const OrganizationPage = lazy(() => import("@/pages/management/system/organization"));
+// const PermissioPage = lazy(() => import("@/pages/management/system/permission"));
 
-const Blog = lazy(() => import("@/pages/management/blog"));
+// const Blog = lazy(() => import("@/pages/management/blog"));
 
 // Identity
 const Users = lazy(() => import("@/pages/management/identity/users/user-table"));
@@ -36,6 +36,9 @@ const AuditingAuditLogs = lazy(() => import("@/pages/management/audit-logs/audit
 const SettingDefinitions = lazy(() => import("@/pages/management/settings/definitions/setting-definition-table"));
 const SystemSettings = lazy(() => import("@/pages/management/settings/settings/system-setting.tsx"));
 
+// notifications
+const MyNotifications = lazy(() => import("@/pages/management/notifications/my-notification-table"));
+
 const management: AppRouteObject = {
 	order: 2,
 	path: "management",
@@ -54,59 +57,59 @@ const management: AppRouteObject = {
 			index: true,
 			element: <Navigate to="user" replace />,
 		},
-		{
-			path: "user",
-			meta: { label: "sys.menu.user.index", key: "/management/user" },
-			children: [
-				{
-					index: true,
-					element: <Navigate to="profile" replace />,
-				},
-				{
-					path: "profile",
-					element: <ProfilePage />,
-					meta: {
-						label: "sys.menu.user.profile",
-						key: "/management/user/profile",
-					},
-				},
-				{
-					path: "account",
-					element: <AccountPage />,
-					meta: {
-						label: "sys.menu.user.account",
-						key: "/management/user/account",
-					},
-				},
-			],
-		},
-		{
-			path: "system",
-			meta: { label: "sys.menu.system.index", key: "/management/system" },
-			children: [
-				{
-					path: "organization",
-					element: <OrganizationPage />,
-					meta: {
-						label: "sys.menu.system.organization",
-						key: "/management/system/organization",
-					},
-				},
-				{
-					path: "permission",
-					element: <PermissioPage />,
-					meta: {
-						label: "sys.menu.system.permission",
-						key: "/management/system/permission",
-					},
-				},
-			],
-		},
-		{
-			path: "blog",
-			element: <Blog />,
-			meta: { label: "sys.menu.blog", key: "/management/blog" },
-		},
+		// {
+		// 	path: "user",
+		// 	meta: { label: "sys.menu.user.index", key: "/management/user" },
+		// 	children: [
+		// 		{
+		// 			index: true,
+		// 			element: <Navigate to="profile" replace />,
+		// 		},
+		// 		{
+		// 			path: "profile",
+		// 			element: <ProfilePage />,
+		// 			meta: {
+		// 				label: "sys.menu.user.profile",
+		// 				key: "/management/user/profile",
+		// 			},
+		// 		},
+		// 		{
+		// 			path: "account",
+		// 			element: <AccountPage />,
+		// 			meta: {
+		// 				label: "sys.menu.user.account",
+		// 				key: "/management/user/account",
+		// 			},
+		// 		},
+		// 	],
+		// },
+		// {
+		// 	path: "system",
+		// 	meta: { label: "sys.menu.system.index", key: "/management/system" },
+		// 	children: [
+		// 		{
+		// 			path: "organization",
+		// 			element: <OrganizationPage />,
+		// 			meta: {
+		// 				label: "sys.menu.system.organization",
+		// 				key: "/management/system/organization",
+		// 			},
+		// 		},
+		// 		{
+		// 			path: "permission",
+		// 			element: <PermissioPage />,
+		// 			meta: {
+		// 				label: "sys.menu.system.permission",
+		// 				key: "/management/system/permission",
+		// 			},
+		// 		},
+		// 	],
+		// },
+		// {
+		// 	path: "blog",
+		// 	element: <Blog />,
+		// 	meta: { label: "sys.menu.blog", key: "/management/blog" },
+		// },
 		{
 			path: "identity",
 			meta: {
@@ -247,6 +250,29 @@ const management: AppRouteObject = {
 				key: "/management/audit-logs",
 				icon: <Iconify icon="fluent-mdl2:compliance-audit" />,
 			},
+		},
+		{
+			path: "notifications",
+			meta: {
+				label: "abp.manage.notifications.title",
+				key: "/management/notifications",
+				icon: <Iconify icon="tabler:notification" />,
+			},
+			children: [
+				{
+					index: true,
+					element: <Navigate to="my-notifilers" replace />,
+				},
+				{
+					path: "my-notifilers",
+					element: <MyNotifications />,
+					meta: {
+						label: "abp.manage.notifications.myNotifilers",
+						key: "/management/notifications/my-notifilers",
+						icon: <Iconify icon="ant-design:notification-outlined" />,
+					},
+				},
+			],
 		},
 	],
 };

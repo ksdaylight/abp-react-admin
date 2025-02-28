@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { Button, Dropdown, Modal, Tag, Space } from "antd";
+import { Button, Dropdown, Modal, Tag, Space, Card } from "antd";
 import { EditOutlined, DeleteOutlined, EllipsisOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -158,43 +158,45 @@ const RoleTable: React.FC = () => {
 	return (
 		<>
 			{contextHolder}
-			<ProTable<IdentityRoleDto>
-				headerTitle={$t("AbpIdentity.Roles")}
-				actionRef={actionRef}
-				rowKey="id"
-				columns={columns}
-				dataSource={data?.items}
-				loading={isLoading}
-				search={{
-					labelWidth: "auto",
-					span: 12,
-					defaultCollapsed: true,
-				}}
-				pagination={{
-					showSizeChanger: true,
-					total: data?.totalCount,
-				}}
-				request={async (params) => {
-					const { filter } = params;
-					setSearchParams({ filter });
-					// 强制重新请求数据
-					await queryClient.invalidateQueries({ queryKey: ["roles"] });
-					return { data: data?.items, success: true, total: data?.totalCount };
-				}}
-				toolBarRender={() => [
-					hasAccessByCodes([IdentityRolePermissions.Create]) && (
-						<Button
-							type="primary"
-							onClick={() => {
-								setSelectedRole(undefined);
-								setRoleModalVisible(true);
-							}}
-						>
-							{$t("AbpIdentity.NewRole")}
-						</Button>
-					),
-				]}
-			/>
+			<Card>
+				<ProTable<IdentityRoleDto>
+					headerTitle={$t("AbpIdentity.Roles")}
+					actionRef={actionRef}
+					rowKey="id"
+					columns={columns}
+					dataSource={data?.items}
+					loading={isLoading}
+					search={{
+						labelWidth: "auto",
+						span: 12,
+						defaultCollapsed: true,
+					}}
+					pagination={{
+						showSizeChanger: true,
+						total: data?.totalCount,
+					}}
+					request={async (params) => {
+						const { filter } = params;
+						setSearchParams({ filter });
+						// 强制重新请求数据
+						await queryClient.invalidateQueries({ queryKey: ["roles"] });
+						return { data: data?.items, success: true, total: data?.totalCount };
+					}}
+					toolBarRender={() => [
+						hasAccessByCodes([IdentityRolePermissions.Create]) && (
+							<Button
+								type="primary"
+								onClick={() => {
+									setSelectedRole(undefined);
+									setRoleModalVisible(true);
+								}}
+							>
+								{$t("AbpIdentity.NewRole")}
+							</Button>
+						),
+					]}
+				/>
+			</Card>
 			<RoleModal
 				visible={roleModalVisible}
 				role={selectedRole}

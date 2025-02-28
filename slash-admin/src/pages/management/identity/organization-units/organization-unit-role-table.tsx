@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { Button, Modal } from "antd";
+import { Button, Card, Modal } from "antd";
 import { DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
 import type { IdentityRoleDto } from "#/management/identity/role";
@@ -7,7 +7,7 @@ import { ProTable, type ActionType, type ProColumns } from "@ant-design/pro-tabl
 import { hasAccessByCodes } from "@/utils/abp/access-checker";
 import { OrganizationUnitPermissions } from "@/constants/management/identity/permissions";
 import SelectRoleModal from "./select-role-modal";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { removeOrganizationUnitApi } from "@/api/management/identity/role";
 import { addRoles, getRoleListApi } from "@/api/management/identity/organization-units";
 import { toast } from "sonner";
@@ -19,7 +19,6 @@ interface Props {
 const OrganizationUnitRoleTable: React.FC<Props> = ({ selectedKey }) => {
 	const { t: $t } = useTranslation();
 	const actionRef = useRef<ActionType>();
-	const queryClient = useQueryClient();
 	const [modal, contextHolder] = Modal.useModal();
 	const [roleModalVisible, setRoleModalVisible] = useState(false);
 
@@ -104,27 +103,28 @@ const OrganizationUnitRoleTable: React.FC<Props> = ({ selectedKey }) => {
 	return (
 		<>
 			{contextHolder}
-			<ProTable<IdentityRoleDto>
-				headerTitle={$t("AbpIdentity.Roles")}
-				actionRef={actionRef}
-				columns={columns}
-				dataSource={data?.items}
-				loading={isLoading}
-				rowKey="id"
-				search={false}
-				pagination={{
-					showSizeChanger: true,
-					total: data?.totalCount,
-				}}
-				toolBarRender={() => [
-					selectedKey && hasAccessByCodes([OrganizationUnitPermissions.ManageRoles]) && (
-						<Button type="primary" icon={<PlusOutlined />} onClick={() => setRoleModalVisible(true)}>
-							{$t("AbpIdentity.OrganizationUnit:AddRole")}
-						</Button>
-					),
-				]}
-			/>
-
+			<Card>
+				<ProTable<IdentityRoleDto>
+					headerTitle={$t("AbpIdentity.Roles")}
+					actionRef={actionRef}
+					columns={columns}
+					dataSource={data?.items}
+					loading={isLoading}
+					rowKey="id"
+					search={false}
+					pagination={{
+						showSizeChanger: true,
+						total: data?.totalCount,
+					}}
+					toolBarRender={() => [
+						selectedKey && hasAccessByCodes([OrganizationUnitPermissions.ManageRoles]) && (
+							<Button type="primary" icon={<PlusOutlined />} onClick={() => setRoleModalVisible(true)}>
+								{$t("AbpIdentity.OrganizationUnit:AddRole")}
+							</Button>
+						),
+					]}
+				/>
+			</Card>
 			{selectedKey && (
 				<SelectRoleModal
 					visible={roleModalVisible}
