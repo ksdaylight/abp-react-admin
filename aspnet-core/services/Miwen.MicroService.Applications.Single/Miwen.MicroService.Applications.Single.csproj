@@ -144,6 +144,7 @@
 		<ProjectReference Include="..\..\modules\localization-management\Miwen.Abp.LocalizationManagement.HttpApi\Miwen.Abp.LocalizationManagement.HttpApi.csproj" />
 		<ProjectReference Include="..\..\modules\openIddict\Miwen.Abp.OpenIddict.AspNetCore.Session\Miwen.Abp.OpenIddict.AspNetCore.Session.csproj" />
 		<ProjectReference Include="..\..\modules\openIddict\Miwen.Abp.OpenIddict.AspNetCore\Miwen.Abp.OpenIddict.AspNetCore.csproj" />
+		<ProjectReference Include="..\..\modules\openIddict\Miwen.Abp.OpenIddict.ExternalLogin\Miwen.Abp.OpenIddict.ExternalLogin.csproj" />
 		<ProjectReference Include="..\..\modules\realtime-message\Miwen.Abp.IM.SignalR\Miwen.Abp.IM.SignalR.csproj" />
 		<ProjectReference Include="..\..\modules\realtime-message\Miwen.Abp.IM\Miwen.Abp.IM.csproj" />
 		<ProjectReference Include="..\..\modules\realtime-message\Miwen.Abp.MessageService.Application.Contracts\Miwen.Abp.MessageService.Application.Contracts.csproj" />

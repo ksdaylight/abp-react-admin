@@ -529,7 +529,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Miwen.Abp.IP.Location", "fr
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "authentication", "authentication", "{D16BF31A-479E-4DD4-B64A-C7722F14D2CE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Miwen.Abp.Authentication.Github", "framework\authentication\Miwen.Abp.Authentication.Github\Miwen.Abp.Authentication.Github.csproj", "{D4842E54-4292-4E39-ADAA-DC22A5A3AFEE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Miwen.Abp.Authentication.Github", "framework\authentication\Miwen.Abp.Authentication.Github\Miwen.Abp.Authentication.Github.csproj", "{D4842E54-4292-4E39-ADAA-DC22A5A3AFEE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Miwen.Abp.OpenIddict.ExternalLogin", "modules\openIddict\Miwen.Abp.OpenIddict.ExternalLogin\Miwen.Abp.OpenIddict.ExternalLogin.csproj", "{72A53AE5-1B3D-4927-88B3-35D85E05A9F6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -1385,6 +1387,10 @@ Global
 		{D4842E54-4292-4E39-ADAA-DC22A5A3AFEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D4842E54-4292-4E39-ADAA-DC22A5A3AFEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D4842E54-4292-4E39-ADAA-DC22A5A3AFEE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{72A53AE5-1B3D-4927-88B3-35D85E05A9F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72A53AE5-1B3D-4927-88B3-35D85E05A9F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72A53AE5-1B3D-4927-88B3-35D85E05A9F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72A53AE5-1B3D-4927-88B3-35D85E05A9F6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1643,6 +1649,7 @@ Global
 		{7AE741BE-C01A-4307-AC27-6E8F76C8D5B5} = {8777132E-D9D1-4070-8B7A-4BCF86DC91EB}
 		{D16BF31A-479E-4DD4-B64A-C7722F14D2CE} = {70597A9E-C51D-4EE9-A2B4-6F675B165FE1}
 		{D4842E54-4292-4E39-ADAA-DC22A5A3AFEE} = {D16BF31A-479E-4DD4-B64A-C7722F14D2CE}
+		{72A53AE5-1B3D-4927-88B3-35D85E05A9F6} = {B3037C27-3F60-4641-B7A2-02AD2BDA94D8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {28315BFD-90E7-4E14-A2EA-F3D23AF4126F}

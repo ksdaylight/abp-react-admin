@@ -115,6 +115,7 @@ using Volo.Abp.MailKit;
 using Miwen.Abp.AuditLogging.IP.Location;
 using Miwen.Abp.IP2Region;
 using Miwen.Abp.Authentication.Github;
+using Miwen.Abp.OpenIddict.ExternalLogin;
 
 
 namespace Miwen.MicroService.Applications.Single;
@@ -160,7 +161,8 @@ namespace Miwen.MicroService.Applications.Single;
     typeof(AbpOpenIddictEntityFrameworkCoreModule),
     typeof(AbpOpenIddictSmsModule),
     typeof(AbpOpenIddictPortalModule),
-
+    typeof(AbpOpenIddictExternalLoginModule),
+    
     //typeof(AbpOssManagementMinioModule), // 取消注释以使用Minio
     typeof(AbpOssManagementFileSystemModule),
     typeof(AbpOssManagementImagingModule),
