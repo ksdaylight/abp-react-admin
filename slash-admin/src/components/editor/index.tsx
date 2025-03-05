@@ -1,25 +1,22 @@
 /* eslint-disable import/order */
 import "@/utils/highlight";
-import { useSettings } from "@/store/settingStore";
-import { useThemeToken } from "@/theme/hooks";
 import ReactQuill, { type ReactQuillProps } from "react-quill";
 import { StyledEditor } from "./styles";
 import Toolbar, { formats } from "./toolbar";
 
 interface Props extends ReactQuillProps {
 	sample?: boolean;
+	hiddleToolbar?: boolean;
 }
-export default function Editor({
-	id = "slash-quill",
-	sample = false,
-	...other
-}: Props) {
-	const token = useThemeToken();
-	const { themeMode } = useSettings();
+export default function Editor({ id = "slash-quill", sample = false, hiddleToolbar = false, ...other }: Props) {
 	const modules = {
-		toolbar: {
-			container: `#${id}`,
-		},
+		...(hiddleToolbar
+			? {}
+			: {
+					toolbar: {
+						container: `#${id}`,
+					},
+				}),
 		history: {
 			delay: 500,
 			maxStack: 100,
@@ -31,14 +28,9 @@ export default function Editor({
 		},
 	};
 	return (
-		<StyledEditor $token={token} $thememode={themeMode}>
-			<Toolbar id={id} isSimple={sample} />
-			<ReactQuill
-				modules={modules}
-				formats={formats}
-				{...other}
-				placeholder="Write something awesome..."
-			/>
+		<StyledEditor>
+			{!hiddleToolbar && <Toolbar id={id} isSimple={sample} />}
+			<ReactQuill modules={modules} formats={formats} {...other} placeholder="Write something awesome..." />
 		</StyledEditor>
 	);
 }

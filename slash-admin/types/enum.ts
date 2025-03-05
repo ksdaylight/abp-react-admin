@@ -4,7 +4,7 @@ export enum BasicStatus {
 }
 
 export enum ResultEnum {
-	SUCCESS = 0,
+	SUCCESS = "0",
 	ERROR = -1,
 	TIMEOUT = 401,
 }
@@ -12,8 +12,10 @@ export enum ResultEnum {
 export enum StorageEnum {
 	UserInfo = "userInfo",
 	UserToken = "userToken",
+	AccessCodes = "accessCodes",
 	Settings = "settings",
 	I18N = "i18nextLng",
+	Application = "application",
 }
 
 export enum ThemeMode {

@@ -9,8 +9,7 @@ import zh_CN from "./lang/zh_CN";
 
 import { LocalEnum, StorageEnum } from "#/enum";
 
-const defaultLng =
-	getStringItem(StorageEnum.I18N) || (LocalEnum.en_US as string);
+const defaultLng = getStringItem(StorageEnum.I18N) || (LocalEnum.en_US as string);
 i18n
 	// detect user language
 	// learn more: https://github.com/i18next/i18next-browser-languageDetector
@@ -21,10 +20,13 @@ i18n
 	// for all options read: https://www.i18next.com/overview/configuration-options
 	.init({
 		debug: true,
-		lng: defaultLng, // localstorage -> i18nextLng: en_US
+		nsSeparator: false, // 禁用冒号作为命名空间分隔符,abp中很多这样的
+		lng: defaultLng, // localstorage -> i18nextLng: en-US
 		fallbackLng: LocalEnum.en_US,
 		interpolation: {
 			escapeValue: false, // not needed for react as it escapes by default
+			prefix: "{",
+			suffix: "}",
 		},
 		resources: {
 			en_US: { translation: en_US },

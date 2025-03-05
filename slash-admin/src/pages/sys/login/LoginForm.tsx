@@ -6,22 +6,27 @@ import { AiFillGithub, AiFillGoogleCircle, AiFillWechat } from "react-icons/ai";
 import { DEFAULT_USER, TEST_USER } from "@/_mock/assets";
 import type { SignInReq } from "@/api/services/userService";
 import { useSignIn } from "@/store/userStore";
-import ProTag from "@/theme/antd/components/tag";
-import { useThemeToken } from "@/theme/hooks";
 
-import {
-	LoginStateEnum,
-	useLoginStateContext,
-} from "./providers/LoginStateProvider";
+import { LoginStateEnum, useLoginStateContext } from "./providers/LoginStateProvider";
+// import { useQuery } from "@tanstack/react-query";
+// import { abpApiDefinitionGet } from "@/api/gen";
 
 function LoginForm() {
 	const { t } = useTranslation();
-	const themeToken = useThemeToken();
 	const [loading, setLoading] = useState(false);
 
 	const { loginState, setLoginState } = useLoginStateContext();
 	const signIn = useSignIn();
 
+	// const { data } = useQuery({
+	// 	queryKey: ["test"],
+	// 	queryFn: () => abpApiDefinitionGet({
+	// 		query:{
+	// 			IncludeTypes:false
+	// 		}
+	// 	}),
+	// });
+	// console.log(data)
 	if (loginState !== LoginStateEnum.LOGIN) return null;
 
 	const handleFinish = async ({ username, password }: SignInReq) => {
@@ -34,9 +39,7 @@ function LoginForm() {
 	};
 	return (
 		<>
-			<div className="mb-4 text-2xl font-bold xl:text-3xl">
-				{t("sys.login.signInFormTitle")}
-			</div>
+			<div className="mb-4 text-2xl font-bold xl:text-3xl">{t("sys.login.signInFormTitle")}</div>
 			<Form
 				name="login"
 				size="large"
@@ -49,43 +52,17 @@ function LoginForm() {
 			>
 				<div className="mb-4 flex flex-col">
 					<Alert
-						type="info"
 						description={
 							<div className="flex flex-col">
 								<div className="flex">
-									<ProTag className="flex-shrink-0">
-										Admin {t("sys.login.userName")}:
-									</ProTag>
-									<strong
-										className="ml-1"
-										style={{ color: themeToken.colorInfoTextHover }}
-									>
-										<span>{DEFAULT_USER.username}</span>
-									</strong>
+									<span className="flex-shrink-0 text-text-disabled">{t("sys.login.userName")}:</span>
+									<span className="ml-1 text-text-secondary">
+										{DEFAULT_USER.username} / {TEST_USER.username}
+									</span>
 								</div>
-
 								<div className="flex">
-									<ProTag className="flex-shrink-0">
-										Test {t("sys.login.userName")}:
-									</ProTag>
-									<strong
-										className="ml-1"
-										style={{ color: themeToken.colorInfoTextHover }}
-									>
-										<span>{TEST_USER.username}</span>
-									</strong>
-								</div>
-
-								<div>
-									<ProTag className="flex-shrink-0">
-										{t("sys.login.password")}:
-									</ProTag>
-									<strong
-										className=" ml-1"
-										style={{ color: themeToken.colorInfoTextHover }}
-									>
-										{DEFAULT_USER.password}
-									</strong>
+									<span className="flex-shrink-0 text-text-disabled">{t("sys.login.password")}:</span>
+									<span className="ml-1 text-text-secondary">{DEFAULT_USER.password}</span>
 								</div>
 							</div>
 						}
@@ -93,24 +70,11 @@ function LoginForm() {
 					/>
 				</div>
 
-				<Form.Item
-					name="username"
-					rules={[
-						{ required: true, message: t("sys.login.accountPlaceholder") },
-					]}
-				>
+				<Form.Item name="username" rules={[{ required: true, message: t("sys.login.accountPlaceholder") }]}>
 					<Input placeholder={t("sys.login.userName")} />
 				</Form.Item>
-				<Form.Item
-					name="password"
-					rules={[
-						{ required: true, message: t("sys.login.passwordPlaceholder") },
-					]}
-				>
-					<Input.Password
-						type="password"
-						placeholder={t("sys.login.password")}
-					/>
+				<Form.Item name="password" rules={[{ required: true, message: t("sys.login.passwordPlaceholder") }]}>
+					<Input.Password type="password" placeholder={t("sys.login.password")} />
 				</Form.Item>
 				<Form.Item>
 					<Row align="middle">
@@ -132,41 +96,24 @@ function LoginForm() {
 					</Row>
 				</Form.Item>
 				<Form.Item>
-					<Button
-						type="primary"
-						htmlType="submit"
-						className="w-full"
-						loading={loading}
-					>
+					<Button type="primary" htmlType="submit" className="w-full" loading={loading}>
 						{t("sys.login.loginButton")}
 					</Button>
 				</Form.Item>
 
 				<Row align="middle" gutter={8}>
 					<Col span={9} flex="1">
-						<Button
-							className="w-full !text-sm"
-							onClick={() => setLoginState(LoginStateEnum.MOBILE)}
-						>
+						<Button className="w-full !text-sm" onClick={() => setLoginState(LoginStateEnum.MOBILE)}>
 							{t("sys.login.mobileSignInFormTitle")}
 						</Button>
 					</Col>
 					<Col span={9} flex="1">
-						<Button
-							className="w-full !text-sm"
-							onClick={() => setLoginState(LoginStateEnum.QR_CODE)}
-						>
+						<Button className="w-full !text-sm" onClick={() => setLoginState(LoginStateEnum.QR_CODE)}>
 							{t("sys.login.qrSignInFormTitle")}
 						</Button>
 					</Col>
-					<Col
-						span={6}
-						flex="1"
-						onClick={() => setLoginState(LoginStateEnum.REGISTER)}
-					>
-						<Button className="w-full !text-sm">
-							{t("sys.login.signUpFormTitle")}
-						</Button>
+					<Col span={6} flex="1" onClick={() => setLoginState(LoginStateEnum.REGISTER)}>
+						<Button className="w-full !text-sm">{t("sys.login.signUpFormTitle")}</Button>
 					</Col>
 				</Row>
 

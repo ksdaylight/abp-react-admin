@@ -1,4 +1,4 @@
-import { Navigate } from "react-router-dom";
+import { Navigate } from "react-router";
 
 import DashboardLayout from "@/layouts/dashboard";
 
@@ -21,8 +21,5 @@ export const menuRoutes: AppRouteObject = {
 			<DashboardLayout />
 		</AuthGuard>
 	),
-	children: [
-		{ index: true, element: <Navigate to={HOMEPAGE} replace /> },
-		...menuModuleRoutes,
-	],
+	children: [{ index: true, element: <Navigate to={HOMEPAGE} replace /> }, ...menuModuleRoutes],
 };

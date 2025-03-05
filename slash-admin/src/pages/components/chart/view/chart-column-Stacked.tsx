@@ -43,7 +43,5 @@ export default function ChartColumnStacked() {
 		},
 	});
 
-	return (
-		<Chart type="bar" series={series} options={chartOptions} height={320} />
-	);
+	return <Chart type="bar" series={series} options={chartOptions} height={320} />;
 }

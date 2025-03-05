@@ -9,11 +9,12 @@
 		"build": "tsc && vite build",
 		"preview": "vite preview",
 		"preinstall": "lefthook install",
-		"gen-api": "NODE_TLS_REJECT_UNAUTHORIZED=0 openapi-ts"
+		"gen-api": "openapi-ts"
 	},
 	"dependencies": {
 		"@ant-design/cssinjs": "^1.17.2",
 		"@ant-design/icons": "^5.2.6",
+		"@ant-design/pro-table": "^3.18.3",
 		"@fullcalendar/common": "^5.11.5",
 		"@fullcalendar/core": "^6.1.9",
 		"@fullcalendar/daygrid": "^6.1.9",
@@ -24,8 +25,11 @@
 		"@fullcalendar/timeline": "^6.1.9",
 		"@hey-api/client-axios": "^0.2.12",
 		"@iconify/react": "^4.1.1",
+		"@microsoft/signalr": "^8.0.7",
 		"@tanstack/react-query": "^5.50.1",
 		"@tanstack/react-query-devtools": "^5.50.1",
+		"@vanilla-extract/css": "^1.17.0",
+		"@vanilla-extract/vite-plugin": "^4.0.19",
 		"@vercel/analytics": "^1.2.2",
 		"@vitejs/plugin-react": "^4.1.0",
 		"antd": "^5.9.3",
@@ -36,10 +40,12 @@
 		"clsx": "^2.1.1",
 		"color": "^4.2.3",
 		"dayjs": "^1.11.10",
+		"defu": "^6.1.4",
 		"framer-motion": "^10.16.4",
 		"highlight.js": "^11.9.0",
 		"i18next": "^23.5.1",
 		"i18next-browser-languagedetector": "^7.1.0",
+		"json-edit-react": "^1.19.2",
 		"nprogress": "^0.2.0",
 		"numeral": "^2.0.6",
 		"ramda": "^0.29.1",
@@ -54,7 +60,7 @@
 		"react-markdown": "^8.0.7",
 		"react-organizational-chart": "^2.2.1",
 		"react-quill": "^2.0.0",
-		"react-router-dom": "^6.16.0",
+		"react-router": "^7.0.2",
 		"react-use": "^17.4.0",
 		"rehype-highlight": "^6.0.0",
 		"rehype-raw": "^6.1.1",
@@ -81,9 +87,9 @@
 		"@types/react": "^18.2.28",
 		"@types/react-beautiful-dnd": "^13.1.6",
 		"@types/react-dom": "^18.2.13",
-		"@types/react-router-dom": "^5.3.3",
 		"@types/styled-components": "^5.1.28",
 		"autoprefixer": "^10.4.16",
+		"axios-mock-adapter": "^2.1.0",
 		"lefthook": "^1.8.2",
 		"msw": "^2.4.9",
 		"postcss": "^8.4.31",
@@ -95,9 +101,17 @@
 		"typescript": "^5.2.2",
 		"vite": "^5.4.9",
 		"vite-plugin-svg-icons": "^2.0.1",
-		"vite-tsconfig-paths": "^5.0.1"
+		"vite-tsconfig-paths": "^5.0.1",
+		"vitest": "^2.1.8"
 	},
+	"engines": {
+		"node": "20.*"
+	},
+	"packageManager": "pnpm@9.1.0",
 	"msw": {
 		"workerDirectory": "public"
+	},
+	"commitlint": {
+		"extends": ["@commitlint/config-conventional"]
 	}
 }

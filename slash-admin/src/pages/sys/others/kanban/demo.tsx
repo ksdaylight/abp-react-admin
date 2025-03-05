@@ -126,26 +126,15 @@ export default function Kanban() {
 						// biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
 						<Droppable key={ind} droppableId={`${ind}`}>
 							{(provided, snapshot) => (
-								<div
-									ref={provided.innerRef}
-									style={getListStyle(snapshot.isDraggingOver)}
-									{...provided.droppableProps}
-								>
+								<div ref={provided.innerRef} style={getListStyle(snapshot.isDraggingOver)} {...provided.droppableProps}>
 									{el.map((item, index) => (
-										<Draggable
-											key={item.id}
-											draggableId={item.id}
-											index={index}
-										>
+										<Draggable key={item.id} draggableId={item.id} index={index}>
 											{(provided, snapshot) => (
 												<div
 													ref={provided.innerRef}
 													{...provided.draggableProps}
 													{...provided.dragHandleProps}
-													style={getItemStyle(
-														snapshot.isDragging,
-														provided.draggableProps.style,
-													)}
+													style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}
 												>
 													<div
 														style={{
@@ -159,9 +148,7 @@ export default function Kanban() {
 															onClick={() => {
 																const newState = [...state];
 																newState[ind].splice(index, 1);
-																setState(
-																	newState.filter((group) => group.length),
-																);
+																setState(newState.filter((group) => group.length));
 															}}
 														>
 															delete

@@ -371,8 +371,7 @@ const MENU_LEVEL_PERMISSION = {
 							name: "Menu Level 3a",
 							type: PermissionType.MENU,
 							route: "menu-level-3a",
-							component:
-								"/menu-level/menu-level-1b/menu-level-2b/menu-level-3a/index.tsx",
+							component: "/menu-level/menu-level-1b/menu-level-2b/menu-level-3a/index.tsx",
 						},
 						{
 							id: "3298034742548454",
@@ -381,8 +380,7 @@ const MENU_LEVEL_PERMISSION = {
 							name: "Menu Level 3b",
 							type: PermissionType.MENU,
 							route: "menu-level-3b",
-							component:
-								"/menu-level/menu-level-1b/menu-level-2b/menu-level-3b/index.tsx",
+							component: "/menu-level/menu-level-1b/menu-level-2b/menu-level-3b/index.tsx",
 						},
 					],
 				},
@@ -545,11 +543,7 @@ const TEST_ROLE = {
 	status: BasicStatus.ENABLE,
 	order: 2,
 	desc: "test",
-	permission: [
-		DASHBOARD_PERMISSION,
-		COMPONENTS_PERMISSION,
-		FUNCTIONS_PERMISSION,
-	],
+	permission: [DASHBOARD_PERMISSION, COMPONENTS_PERMISSION, FUNCTIONS_PERMISSION],
 };
 export const ROLE_LIST = [ADMIN_ROLE, TEST_ROLE];
 
@@ -563,20 +557,30 @@ export const DEFAULT_USER = {
 	avatar: faker.image.avatarGitHub(),
 	createdAt: faker.date.anytime(),
 	updatedAt: faker.date.recent(),
-	password: "demo1234",
+	password: "1q2w3E*",
 	role: ADMIN_ROLE,
 	permissions: ADMIN_ROLE.permission,
+	desc: "",
+	homePath: "/",
+	token: "/",
+	realName: "",
+	userId: "",
 };
 export const TEST_USER = {
 	id: "efaa20ea-4dc5-47ee-a200-8a899be29494",
 	username: "test",
-	password: "demo1234",
+	password: "1q2w3E*",
 	email: faker.internet.email(),
 	avatar: faker.image.avatarGitHub(),
 	createdAt: faker.date.anytime(),
 	updatedAt: faker.date.recent(),
 	role: TEST_ROLE,
 	permissions: TEST_ROLE.permission,
+	desc: "",
+	homePath: "/",
+	token: "/",
+	realName: "",
+	userId: "",
 };
 export const USER_LIST = [DEFAULT_USER, TEST_USER];
 
@@ -594,8 +598,7 @@ if (import.meta.hot) {
 
 		if (!userInfo?.username) return;
 
-		const newUserInfo =
-			userInfo.username === DEFAULT_USER.username ? DEFAULT_USER : TEST_USER;
+		const newUserInfo = userInfo.username === DEFAULT_USER.username ? DEFAULT_USER : TEST_USER;
 
 		setUserInfo(newUserInfo);
 

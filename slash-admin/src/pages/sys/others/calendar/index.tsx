@@ -1,9 +1,5 @@
 import { faker } from "@faker-js/faker";
-import type {
-	DateSelectArg,
-	EventClickArg,
-	EventInput,
-} from "@fullcalendar/core";
+import type { DateSelectArg, EventClickArg, EventInput } from "@fullcalendar/core";
 //  fullcalendar plugins
 import dayGridPlugin from "@fullcalendar/daygrid"; // 提供 dayGridMonth, dayGridWeek, dayGridDay, dayGrid 视图
 import interactionPlugin from "@fullcalendar/interaction"; // 如果需要 click select drag 这些action 则需要该依赖
@@ -18,13 +14,8 @@ import { useSettings } from "@/store/settingStore";
 import { useResponsive } from "@/theme/hooks";
 
 import CalendarEvent from "./calendar-event";
-import CalendarEventForm, {
-	type CalendarEventFormFieldType,
-} from "./calendar-event-form";
-import CalendarHeader, {
-	type HandleMoveArg,
-	type ViewType,
-} from "./calendar-header";
+import CalendarEventForm, { type CalendarEventFormFieldType } from "./calendar-event-form";
+import CalendarHeader, { type HandleMoveArg, type ViewType } from "./calendar-header";
 import { INITIAL_EVENTS } from "./event-utils";
 import { StyledCalendar } from "./styles";
 
@@ -42,8 +33,7 @@ export default function Calendar() {
 	const [view, setView] = useState<ViewType>("dayGridMonth");
 	const [date, setDate] = useState(new Date());
 	const [open, setOpen] = useState(false);
-	const [eventInitValue, setEventInitValue] =
-		useState<CalendarEventFormFieldType>(DefaultEventInitValue);
+	const [eventInitValue, setEventInitValue] = useState<CalendarEventFormFieldType>(DefaultEventInitValue);
 	const [eventFormType, setEventFormType] = useState<"add" | "edit">("add");
 
 	const { themeMode } = useSettings();
@@ -111,8 +101,7 @@ export default function Calendar() {
 	 */
 	// click event and open modal
 	const handleEventClick = (arg: EventClickArg) => {
-		const { title, extendedProps, allDay, start, end, backgroundColor, id } =
-			arg.event;
+		const { title, extendedProps, allDay, start, end, backgroundColor, id } = arg.event;
 		setOpen(true);
 		setEventFormType("edit");
 		const newEventValue: CalendarEventFormFieldType = {
@@ -137,15 +126,7 @@ export default function Calendar() {
 	};
 	// edit event
 	const handleEdit = (values: CalendarEventFormFieldType) => {
-		const {
-			id,
-			title = "",
-			description,
-			start,
-			end,
-			allDay = false,
-			color,
-		} = values;
+		const { id, title = "", description, start, end, allDay = false, color } = values;
 		const calendarApi = fullCalendarRef.current?.getApi();
 		if (!calendarApi) return;
 		const oldEvent = calendarApi.getEventById(id);
@@ -170,14 +151,7 @@ export default function Calendar() {
 	const handleCreate = (values: CalendarEventFormFieldType) => {
 		const calendarApi = fullCalendarRef.current?.getApi();
 		if (!calendarApi) return;
-		const {
-			title = "",
-			description,
-			start,
-			end,
-			allDay = false,
-			color,
-		} = values;
+		const { title = "", description, start, end, allDay = false, color } = values;
 
 		const newEvent: EventInput = {
 			id: faker.string.uuid(),
@@ -215,12 +189,7 @@ export default function Calendar() {
 					/>
 					<FullCalendar
 						ref={fullCalendarRef}
-						plugins={[
-							dayGridPlugin,
-							timeGridPlugin,
-							interactionPlugin,
-							listPlugin,
-						]}
+						plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, listPlugin]}
 						initialDate={date}
 						initialView={screenMap.xs ? "listWeek" : view}
 						events={INITIAL_EVENTS}

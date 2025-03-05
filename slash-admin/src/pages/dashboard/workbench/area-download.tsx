@@ -43,25 +43,10 @@ function ChartArea({ series }: { series: ApexAxisChartSeries }) {
 	const chartOptions = useChart({
 		xaxis: {
 			type: "category",
-			categories: [
-				"Jan",
-				"Feb",
-				"Mar",
-				"Apr",
-				"May",
-				"Jun",
-				"Jut",
-				"Aug",
-				"Sep",
-				"Oct",
-				"Nov",
-				"Dec",
-			],
+			categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jut", "Aug", "Sep", "Oct", "Nov", "Dec"],
 		},
 		tooltip: {},
 	});
 
-	return (
-		<Chart type="area" series={series} options={chartOptions} height={300} />
-	);
+	return <Chart type="area" series={series} options={chartOptions} height={300} />;
 }

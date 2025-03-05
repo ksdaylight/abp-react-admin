@@ -1,5 +1,4 @@
 import { Avatar, Drawer, Image, Select } from "antd";
-import Color from "color";
 import { type CSSProperties, memo, useState } from "react";
 import { Draggable } from "react-beautiful-dnd";
 import styled from "styled-components";
@@ -8,39 +7,28 @@ import CyanBlur from "@/assets/images/background/cyan-blur.png";
 import RedBlur from "@/assets/images/background/red-blur.png";
 import { IconButton, Iconify, SvgIcon } from "@/components/icon";
 import { type Task, TaskPriority } from "@/pages/sys/others/kanban/types";
-import { useSettings } from "@/store/settingStore";
-import { useThemeToken } from "@/theme/hooks";
 
 import TaskDetail from "./task-detail";
 
-import { ThemeMode } from "#/enum";
+import { themeVars } from "@/theme/theme.css";
+import { rgbAlpha } from "@/utils/theme";
 
 type Props = {
 	index: number;
 	task: Task;
 };
 function KanbanTask({ index, task }: Props) {
-	const { themeMode } = useSettings();
 	const [drawerOpen, setDrawerOpen] = useState(false);
-	const themeToken = useThemeToken();
 
 	const style: CSSProperties = {
-		backdropFilter: "blur(20px)",
+		backdropFilter: "blur(6px)",
 		backgroundImage: `url("${CyanBlur}"), url("${RedBlur}")`,
 		backgroundRepeat: "no-repeat, no-repeat",
-		backgroundColor: Color(themeToken.colorBgContainer).alpha(0.9).toString(),
 		backgroundPosition: "right top, left bottom",
-		backgroundSize: "50, 50%",
+		backgroundSize: "50%, 50%",
 	};
 
-	const {
-		id,
-		title,
-		comments = [],
-		attachments = [],
-		priority,
-		assignee,
-	} = task;
+	const { id, title, comments = [], attachments = [], priority, assignee } = task;
 	return (
 		<>
 			<Draggable draggableId={id} index={index}>
@@ -50,16 +38,9 @@ function KanbanTask({ index, task }: Props) {
 						{...provided.draggableProps}
 						{...provided.dragHandleProps}
 						$isDragging={snapshot.isDragging}
-						$themeMode={themeMode}
 					>
 						<div>
-							{attachments.length > 0 && (
-								<Image
-									src={attachments[0]}
-									alt=""
-									className="mb-4 rounded-md"
-								/>
-							)}
+							{attachments.length > 0 && <Image src={attachments[0]} alt="" className="mb-4 rounded-md" />}
 							<div onClick={() => setDrawerOpen(true)}>
 								<div className="flex justify-end">
 									<TaskPrioritySvg taskPriority={priority} />
@@ -67,18 +48,10 @@ function KanbanTask({ index, task }: Props) {
 								<div>{title}</div>
 								<div className="mt-4 flex items-center justify-between">
 									<div className="flex items-center text-base text-gray-600">
-										<Iconify
-											icon="uim:comment-dots"
-											size={16}
-											className="mr-1"
-										/>
+										<Iconify icon="uim:comment-dots" size={16} className="mr-1" />
 										<span className="text-xs">{comments.length}</span>
 
-										<Iconify
-											icon="iconamoon:attachment-bold"
-											size={16}
-											className="ml-2 mr-1"
-										/>
+										<Iconify icon="iconamoon:attachment-bold" size={16} className="ml-2 mr-1" />
 										<span className="text-xs">{attachments.length}</span>
 									</div>
 
@@ -87,8 +60,8 @@ function KanbanTask({ index, task }: Props) {
 											max={{
 												count: 3,
 												style: {
-													color: themeToken.colorPrimary,
-													backgroundColor: themeToken.colorPrimaryBg,
+													color: themeVars.colors.palette.primary.default,
+													backgroundColor: rgbAlpha(themeVars.colors.palette.primary.default, 0.9),
 												},
 											}}
 										>
@@ -124,11 +97,7 @@ function KanbanTask({ index, task }: Props) {
 						</div>
 						<div className="flex text-gray">
 							<IconButton>
-								<Iconify
-									icon="solar:like-bold"
-									size={20}
-									color={themeToken.colorSuccess}
-								/>
+								<Iconify icon="solar:like-bold" size={20} color={themeVars.colors.palette.success.default} />
 							</IconButton>
 							<IconButton>
 								<Iconify icon="solar:trash-bin-trash-bold" size={20} />
@@ -162,55 +131,30 @@ type TaskPrioritySvgProps = {
 	taskPriority: TaskPriority;
 };
 function TaskPrioritySvg({ taskPriority }: TaskPrioritySvgProps) {
-	const { colorSuccess, colorInfo, colorWarning } = useThemeToken();
 	switch (taskPriority) {
 		case TaskPriority.HIGH:
-			return (
-				<SvgIcon icon="ic_rise" size={20} color={colorWarning} className="" />
-			);
+			return <SvgIcon icon="ic_rise" size={20} color={themeVars.colors.palette.warning.default} className="" />;
 		case TaskPriority.MEDIUM:
 			return (
-				<SvgIcon
-					icon="ic_rise"
-					size={20}
-					color={colorSuccess}
-					className="rotate-90"
-				/>
+				<SvgIcon icon="ic_rise" size={20} color={themeVars.colors.palette.success.default} className="rotate-90" />
 			);
 		case TaskPriority.LOW:
-			return (
-				<SvgIcon
-					icon="ic_rise"
-					size={20}
-					color={colorInfo}
-					className="rotate-180"
-				/>
-			);
+			return <SvgIcon icon="ic_rise" size={20} color={themeVars.colors.palette.info.default} className="rotate-180" />;
 		default:
 			break;
 	}
 }
-const Container = styled.div<{ $isDragging: boolean; $themeMode: ThemeMode }>`
+const Container = styled.div<{ $isDragging: boolean }>`
   width: 248px;
   border-radius: 12px;
   padding: 16px;
   margin-bottom: 16px;
   font-weight: 400;
   font-size: 12px;
-  background-color: ${(props) => {
-		if (props.$themeMode === ThemeMode.Light) {
-			return props.$isDragging
-				? "rgba(255, 255, 255, 0.48)"
-				: "rgb(255, 255, 255)";
-		}
-		return props.$isDragging ? "rgba(22, 28, 36, 0.48)" : "rgb(22, 28, 36)";
-	}};
+  background-color: ${themeVars.colors.background.default};
   backdrop-filter: ${(props) => (props.$isDragging ? "blur(6px)" : "")};
 
   &:hover {
-    box-shadow: ${(props) =>
-			props.$themeMode === ThemeMode.Light
-				? "rgba(145, 158, 171, 0.16) 0px 20px 40px -4px"
-				: "rgba(0, 0, 0, 0.16) 0px 20px 40px -4px"};
+    box-shadow: ${themeVars.shadows["3xl"]};
   }
 `;

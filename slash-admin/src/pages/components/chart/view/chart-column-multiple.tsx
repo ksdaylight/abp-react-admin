@@ -19,17 +19,7 @@ export default function ChartColumnMultiple() {
 			colors: ["transparent"],
 		},
 		xaxis: {
-			categories: [
-				"Feb",
-				"Mar",
-				"Apr",
-				"May",
-				"Jun",
-				"Jul",
-				"Aug",
-				"Sep",
-				"Oct",
-			],
+			categories: ["Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct"],
 		},
 		tooltip: {
 			y: {
@@ -39,7 +29,5 @@ export default function ChartColumnMultiple() {
 		plotOptions: { bar: { columnWidth: "36%" } },
 	});
 
-	return (
-		<Chart type="bar" series={series} options={chartOptions} height={320} />
-	);
+	return <Chart type="bar" series={series} options={chartOptions} height={320} />;
 }

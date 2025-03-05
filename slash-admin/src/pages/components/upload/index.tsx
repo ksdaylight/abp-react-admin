@@ -1,13 +1,4 @@
-import {
-	Card,
-	Col,
-	Row,
-	Space,
-	Switch,
-	Tabs,
-	type TabsProps,
-	Typography,
-} from "antd";
+import { Card, Col, Row, Space, Switch, Tabs, type TabsProps, Typography } from "antd";
 import { useState } from "react";
 
 import { Iconify } from "@/components/icon";
@@ -20,9 +11,7 @@ export default function UploadPage() {
 		setThumbnail(checked);
 	};
 
-	const ThumbnailSwitch = (
-		<Switch size="small" checked={thumbnail} onChange={onChange} />
-	);
+	const ThumbnailSwitch = <Switch size="small" checked={thumbnail} onChange={onChange} />;
 
 	const boxPlaceHolder = (
 		<div className="flex flex-col">
@@ -34,11 +23,7 @@ export default function UploadPage() {
 	);
 	const UploadFileTab = (
 		<Space direction="vertical" size="middle" style={{ display: "flex" }}>
-			<Card
-				title="Upload Multi File"
-				className="w-full"
-				extra={ThumbnailSwitch}
-			>
+			<Card title="Upload Multi File" className="w-full" extra={ThumbnailSwitch}>
 				<Upload thumbnail={thumbnail} name="multi" />
 			</Card>
 			<Card title="Upload Single File" extra={ThumbnailSwitch}>

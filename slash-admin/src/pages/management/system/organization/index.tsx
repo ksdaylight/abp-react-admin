@@ -1,25 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
-import {
-	Button,
-	Card,
-	Col,
-	Form,
-	Input,
-	InputNumber,
-	Modal,
-	Popconfirm,
-	Radio,
-	Row,
-	Select,
-	Space,
-} from "antd";
+import { Button, Card, Col, Form, Input, InputNumber, Modal, Popconfirm, Radio, Row, Select, Space, Tag } from "antd";
 import Table, { type ColumnsType } from "antd/es/table";
 import type { TableRowSelection } from "antd/es/table/interface";
 import { useEffect, useState } from "react";
 
 import orgService from "@/api/services/orgService";
 import { IconButton, Iconify } from "@/components/icon";
-import ProTag from "@/theme/antd/components/tag";
 
 import OrganizationChart from "./organization-chart";
 
@@ -29,22 +15,21 @@ type SearchFormFieldType = Pick<Organization, "name" | "status">;
 
 export default function OrganizationPage() {
 	const [searchForm] = Form.useForm();
-	const [organizationModalPros, setOrganizationModalProps] =
-		useState<OrganizationModalProps>({
-			formValue: {
-				id: "",
-				name: "",
-				status: "enable",
-			},
-			title: "New",
-			show: false,
-			onOk: () => {
-				setOrganizationModalProps((prev) => ({ ...prev, show: false }));
-			},
-			onCancel: () => {
-				setOrganizationModalProps((prev) => ({ ...prev, show: false }));
-			},
-		});
+	const [organizationModalPros, setOrganizationModalProps] = useState<OrganizationModalProps>({
+		formValue: {
+			id: "",
+			name: "",
+			status: "enable",
+		},
+		title: "New",
+		show: false,
+		onOk: () => {
+			setOrganizationModalProps((prev) => ({ ...prev, show: false }));
+		},
+		onCancel: () => {
+			setOrganizationModalProps((prev) => ({ ...prev, show: false }));
+		},
+	});
 
 	const columns: ColumnsType<Organization> = [
 		{ title: "Name", dataIndex: "name", width: 300 },
@@ -54,11 +39,7 @@ export default function OrganizationPage() {
 			dataIndex: "status",
 			align: "center",
 			width: 120,
-			render: (status) => (
-				<ProTag color={status === "enable" ? "success" : "error"}>
-					{status}
-				</ProTag>
-			),
+			render: (status) => <Tag color={status === "enable" ? "success" : "error"}>{status}</Tag>,
 		},
 		{ title: "Desc", dataIndex: "desc", align: "center", width: 300 },
 		{
@@ -71,18 +52,9 @@ export default function OrganizationPage() {
 					<IconButton onClick={() => onEdit(record)}>
 						<Iconify icon="solar:pen-bold-duotone" size={18} />
 					</IconButton>
-					<Popconfirm
-						title="Delete the Organization"
-						okText="Yes"
-						cancelText="No"
-						placement="left"
-					>
+					<Popconfirm title="Delete the Organization" okText="Yes" cancelText="No" placement="left">
 						<IconButton>
-							<Iconify
-								icon="mingcute:delete-2-fill"
-								size={18}
-								className="text-error"
-							/>
+							<Iconify icon="mingcute:delete-2-fill" size={18} className="text-error" />
 						</IconButton>
 					</Popconfirm>
 				</div>
@@ -93,11 +65,7 @@ export default function OrganizationPage() {
 	// rowSelection objects indicates the need for row selection
 	const rowSelection: TableRowSelection<Organization> = {
 		onChange: (selectedRowKeys, selectedRows) => {
-			console.log(
-				`selectedRowKeys: ${selectedRowKeys}`,
-				"selectedRows: ",
-				selectedRows,
-			);
+			console.log(`selectedRowKeys: ${selectedRowKeys}`, "selectedRows: ", selectedRows);
 		},
 		onSelect: (record, selected, selectedRows) => {
 			console.log(record, selected, selectedRows);
@@ -147,26 +115,18 @@ export default function OrganizationPage() {
 				<Form form={searchForm}>
 					<Row gutter={[16, 16]}>
 						<Col span={24} lg={6}>
-							<Form.Item<SearchFormFieldType>
-								label="Name"
-								name="name"
-								className="!mb-0"
-							>
+							<Form.Item<SearchFormFieldType> label="Name" name="name" className="!mb-0">
 								<Input />
 							</Form.Item>
 						</Col>
 						<Col span={24} lg={6}>
-							<Form.Item<SearchFormFieldType>
-								label="Status"
-								name="status"
-								className="!mb-0"
-							>
+							<Form.Item<SearchFormFieldType> label="Status" name="status" className="!mb-0">
 								<Select>
 									<Select.Option value="enable">
-										<ProTag color="success">Enable</ProTag>
+										<Tag color="success">Enable</Tag>
 									</Select.Option>
 									<Select.Option value="disable">
-										<ProTag color="error">Disable</ProTag>
+										<Tag color="error">Disable</Tag>
 									</Select.Option>
 								</Select>
 							</Form.Item>
@@ -219,26 +179,14 @@ type OrganizationModalProps = {
 	onCancel: VoidFunction;
 };
 
-function OrganizationModal({
-	title,
-	show,
-	formValue,
-	onOk,
-	onCancel,
-}: OrganizationModalProps) {
+function OrganizationModal({ title, show, formValue, onOk, onCancel }: OrganizationModalProps) {
 	const [form] = Form.useForm();
 	useEffect(() => {
 		form.setFieldsValue({ ...formValue });
 	}, [formValue, form]);
 	return (
 		<Modal title={title} open={show} onOk={onOk} onCancel={onCancel}>
-			<Form
-				initialValues={formValue}
-				form={form}
-				labelCol={{ span: 4 }}
-				wrapperCol={{ span: 18 }}
-				layout="horizontal"
-			>
+			<Form initialValues={formValue} form={form} labelCol={{ span: 4 }} wrapperCol={{ span: 18 }} layout="horizontal">
 				<Form.Item<Organization> label="Name" name="name" required>
 					<Input />
 				</Form.Item>

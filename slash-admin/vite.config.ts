@@ -1,5 +1,6 @@
 import path from "node:path";
 
+import { vanillaExtractPlugin } from "@vanilla-extract/vite-plugin";
 import react from "@vitejs/plugin-react";
 import { visualizer } from "rollup-plugin-visualizer";
 import { defineConfig, loadEnv } from "vite";
@@ -11,11 +12,15 @@ export default defineConfig(({ mode }) => {
 	const env = loadEnv(mode, process.cwd(), "");
 	const base = env.VITE_APP_BASE_PATH || "/";
 	const isProduction = mode === "production";
+	const proxyTarget = env.VITE_PROXY_API || "http://localhost:30001";
 
 	return {
 		base,
 		plugins: [
 			react(),
+			vanillaExtractPlugin({
+				identifiers: ({ debugId }) => `${debugId}`,
+			}),
 			tsconfigPaths(),
 			createSvgIconsPlugin({
 				iconDirs: [path.resolve(process.cwd(), "src/assets/icons")],
@@ -29,20 +34,34 @@ export default defineConfig(({ mode }) => {
 				}),
 		],
 		server: {
-			open: true,
+			open: false,
 			host: true,
-			port: 3001,
+			port: 3100,
 			proxy: {
-				"/api": {
-					target: "https://192.168.31.246:44335",
+				"/.well-known": {
 					changeOrigin: true,
-					secure: false,
-					// rewrite: (path) => path.replace(/^\/api/, ""),
+					target: proxyTarget,
+					ws: true,
+				},
+				"/api": {
+					changeOrigin: true,
+					target: proxyTarget,
+					ws: true,
+				},
+				"/connect": {
+					changeOrigin: true,
+					target: proxyTarget,
+					ws: true,
+				},
+				"/signalr-hubs": {
+					changeOrigin: true,
+					target: proxyTarget,
+					ws: true,
 				},
 			},
 		},
 		optimizeDeps: {
-			include: ["react", "react-dom", "react-router-dom", "antd"],
+			include: ["react", "react-dom", "react-router", "antd"],
 		},
 		esbuild: {
 			drop: isProduction ? ["console", "debugger"] : [],
@@ -57,15 +76,11 @@ export default defineConfig(({ mode }) => {
 			rollupOptions: {
 				output: {
 					manualChunks: {
-						"vendor-react": ["react", "react-dom", "react-router-dom"],
+						"vendor-react": ["react", "react-dom", "react-router"],
 						"vendor-antd": ["antd", "@ant-design/icons", "@ant-design/cssinjs"],
 						"vendor-charts": ["apexcharts", "react-apexcharts"],
 						"vendor-utils": ["axios", "dayjs", "i18next", "zustand"],
-						"vendor-ui": [
-							"framer-motion",
-							"styled-components",
-							"@iconify/react",
-						],
+						"vendor-ui": ["framer-motion", "styled-components", "@iconify/react"],
 					},
 				},
 			},

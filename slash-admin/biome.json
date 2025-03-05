@@ -8,10 +8,11 @@
 	},
 	"files": {
 		"ignoreUnknown": false,
-		"ignore": ["public", ".vscode"]
+		"ignore": ["public", ".vscode", "src/api/gen"]
 	},
 	"formatter": {
 		"enabled": true,
+		"lineWidth": 120,
 		"indentStyle": "tab"
 	},
 	"organizeImports": {
@@ -26,6 +27,12 @@
 			},
 			"a11y": {
 				"useKeyWithClickEvents": "off"
+			},
+			"complexity": {
+				"noForEach": "off"
+			},
+			"correctness": {
+				"useExhaustiveDependencies": "off"
 			}
 		}
 	},

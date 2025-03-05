@@ -1,4 +1,4 @@
-import { Button, Card, Popconfirm } from "antd";
+import { Button, Card, Popconfirm, Tag } from "antd";
 import Table, { type ColumnsType } from "antd/es/table";
 import { isNil } from "ramda";
 import { useState } from "react";
@@ -6,7 +6,6 @@ import { useTranslation } from "react-i18next";
 
 import { IconButton, Iconify, SvgIcon } from "@/components/icon";
 import { useUserPermission } from "@/store/userStore";
-import ProTag from "@/theme/antd/components/tag";
 
 import PermissionModal, { type PermissionModalProps } from "./permission-modal";
 
@@ -29,18 +28,17 @@ export default function PermissionPage() {
 	const permissions = useUserPermission();
 	const { t } = useTranslation();
 
-	const [permissionModalProps, setPermissionModalProps] =
-		useState<PermissionModalProps>({
-			formValue: { ...defaultPermissionValue },
-			title: "New",
-			show: false,
-			onOk: () => {
-				setPermissionModalProps((prev) => ({ ...prev, show: false }));
-			},
-			onCancel: () => {
-				setPermissionModalProps((prev) => ({ ...prev, show: false }));
-			},
-		});
+	const [permissionModalProps, setPermissionModalProps] = useState<PermissionModalProps>({
+		formValue: { ...defaultPermissionValue },
+		title: "New",
+		show: false,
+		onOk: () => {
+			setPermissionModalProps((prev) => ({ ...prev, show: false }));
+		},
+		onCancel: () => {
+			setPermissionModalProps((prev) => ({ ...prev, show: false }));
+		},
+	});
 	const columns: ColumnsType<Permission> = [
 		{
 			title: "Name",
@@ -52,9 +50,7 @@ export default function PermissionPage() {
 			title: "Type",
 			dataIndex: "type",
 			width: 60,
-			render: (_, record) => (
-				<ProTag color="processing">{PermissionType[record.type]}</ProTag>
-			),
+			render: (_, record) => <Tag color="processing">{PermissionType[record.type]}</Tag>,
 		},
 		{
 			title: "Icon",
@@ -63,9 +59,7 @@ export default function PermissionPage() {
 			render: (icon: string) => {
 				if (isNil(icon)) return "";
 				if (icon.startsWith("ic")) {
-					return (
-						<SvgIcon icon={icon} size={18} className="ant-menu-item-icon" />
-					);
+					return <SvgIcon icon={icon} size={18} className="ant-menu-item-icon" />;
 				}
 				return <Iconify icon={icon} size={18} className="ant-menu-item-icon" />;
 			},
@@ -80,9 +74,9 @@ export default function PermissionPage() {
 			align: "center",
 			width: 120,
 			render: (status) => (
-				<ProTag color={status === BasicStatus.DISABLE ? "error" : "success"}>
+				<Tag color={status === BasicStatus.DISABLE ? "error" : "success"}>
 					{status === BasicStatus.DISABLE ? "Disable" : "Enable"}
-				</ProTag>
+				</Tag>
 			),
 		},
 		{ title: "Order", dataIndex: "order", width: 60 },
@@ -101,18 +95,9 @@ export default function PermissionPage() {
 					<IconButton onClick={() => onEdit(record)}>
 						<Iconify icon="solar:pen-bold-duotone" size={18} />
 					</IconButton>
-					<Popconfirm
-						title="Delete the Permission"
-						okText="Yes"
-						cancelText="No"
-						placement="left"
-					>
+					<Popconfirm title="Delete the Permission" okText="Yes" cancelText="No" placement="left">
 						<IconButton>
-							<Iconify
-								icon="mingcute:delete-2-fill"
-								size={18}
-								className="text-error"
-							/>
+							<Iconify icon="mingcute:delete-2-fill" size={18} className="text-error" />
 						</IconButton>
 					</Popconfirm>
 				</div>

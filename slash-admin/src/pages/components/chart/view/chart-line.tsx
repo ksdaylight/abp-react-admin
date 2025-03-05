@@ -10,17 +10,7 @@ const series = [
 export default function ChartLine() {
 	const chartOptions = useChart({
 		xaxis: {
-			categories: [
-				"Jan",
-				"Feb",
-				"Mar",
-				"Apr",
-				"May",
-				"Jun",
-				"Jul",
-				"Aug",
-				"Sep",
-			],
+			categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep"],
 		},
 		tooltip: {
 			x: {
@@ -30,7 +20,5 @@ export default function ChartLine() {
 		},
 	});
 
-	return (
-		<Chart type="line" series={series} options={chartOptions} height={320} />
-	);
+	return <Chart type="line" series={series} options={chartOptions} height={320} />;
 }
