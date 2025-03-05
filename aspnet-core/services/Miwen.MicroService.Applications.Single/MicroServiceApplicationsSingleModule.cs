@@ -220,7 +220,7 @@ namespace Miwen.MicroService.Applications.Single;
 
      typeof(AbpEntityFrameworkCorePostgreSqlModule),
 
-    typeof(AbpAuthenticationGithubModule),//Github登录
+    typeof(AbpAuthenticationGithubModule),//MVC 的 Github登录
     
     typeof(AbpAuthorizationOrganizationUnitsModule),
     typeof(AbpIdentityOrganizaztionUnitsModule),

@@ -295,4 +295,10 @@
 		<PackageVersion Include="AspNetCore.HealthChecks.UI.Client" Version="8.0.0" />
 		<PackageVersion Include="AspNetCore.HealthChecks.UI.InMemory.Storage" Version="8.0.0" />
 	</ItemGroup>
+
+	<ItemGroup>
+		<PackageVersion Include="OpenIddict.Client.AspNetCore" Version="5.5.0" />
+		<PackageVersion Include="OpenIddict.Client.WebIntegration" Version="5.5.0" />
+		
+	</ItemGroup>
 </Project>
