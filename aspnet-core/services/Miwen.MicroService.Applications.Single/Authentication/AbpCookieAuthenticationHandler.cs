@@ -48,7 +48,7 @@ public class AbpCookieAuthenticationHandler : CookieAuthenticationHandler
                 if (string.Equals(ctx.Request.Headers[XRequestFromHeader], DontRedirectRequestFromHeader, StringComparison.Ordinal))
                 {
                     // ctx.Response.Headers.Location = ctx.RedirectUri;
-                    ctx.Response.StatusCode = 401;
+                    ctx.Response.StatusCode = 403;
                 }
                 else
                 {
