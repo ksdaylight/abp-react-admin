@@ -15,9 +15,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>		
-		<PackageReference Include="OpenIddict.Client.AspNetCore" />
 		<PackageReference Include="Volo.Abp.OpenIddict.AspNetCore" />
-	  <PackageReference Include="OpenIddict.Client.WebIntegration" />
 	</ItemGroup>
 
 	<ItemGroup>

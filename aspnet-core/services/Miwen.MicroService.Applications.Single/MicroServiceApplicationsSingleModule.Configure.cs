@@ -75,6 +75,7 @@ using Volo.Abp.Threading;
 using Volo.Abp.UI.Navigation.Urls;
 using Volo.Abp.VirtualFileSystem;
 using VoloAbpExceptionHandlingOptions = Volo.Abp.AspNetCore.ExceptionHandling.AbpExceptionHandlingOptions;
+using Miwen.Abp.OpenIddict.ExternalLogin;
 
 namespace Miwen.MicroService.Applications.Single;
 
@@ -320,6 +321,8 @@ public partial class MicroServiceApplicationsSingleModule
             //options.PersistentSessionGrantTypes.Add(WeChatTokenExtensionGrantConsts.OfficialGrantType);
             //options.PersistentSessionGrantTypes.Add(WeChatTokenExtensionGrantConsts.MiniProgramGrantType);
             //options.PersistentSessionGrantTypes.Add(AbpWeChatWorkGlobalConsts.GrantType);
+            options.PersistentSessionGrantTypes.Add(ExternalLoginTokenExtensionGrantConsts.GrantType);
+
         });
     }
 

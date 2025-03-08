@@ -1,17 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using OpenIddict.Abstractions;
-using System.Security.Claims;
 using Volo.Abp.OpenIddict.Controllers;
-using IdentityUser = Volo.Abp.Identity.IdentityUser;
 using Volo.Abp.Identity;
-using OpenIddict.Server.AspNetCore;
-using Microsoft.AspNetCore.Authentication;
-using OpenIddict.Client.WebIntegration;
-using OpenIddict.Client.AspNetCore;
-using static OpenIddict.Abstractions.OpenIddictConstants;
 using System.Linq;
 using System;
+using System.Web;
 
 namespace Miwen.Abp.OpenIddict.AspNetCore.Controllers;
 
@@ -27,203 +20,31 @@ public class AccountExternalController : AbpOpenIdDictControllerBase
     /// 请求触发认证地址
     /// </summary>
     [HttpGet("login")]
-    public IActionResult ExternalLogin(string provider, string returnUrl)
+    public async Task<IActionResult> ExternalLogin(string provider, string clientId)
     {
         //var redirectUrl = Url.Action("ExternalLoginCallback", "AccountExternal", new { provider, returnUrl }, Request.Scheme); //也就是配置成下面那个函数//虽然可以方便请求回调，但是只会进行get请求，opiddict拒绝对get请求返回token，最终还是要前端主动post
-        var redirectUrl = $"http://localhost:3100/#/login?provider={provider}&returnUrl={returnUrl}";
 
+        // Retrieve the application details from the database.
+        var application = await ApplicationManager.FindByClientIdAsync(clientId) ??
+            throw new InvalidOperationException(L["DetailsConcerningTheCallingClientApplicationCannotBeFound"]);
+        var cilentRedirctUri = await ApplicationManager.GetRedirectUrisAsync(application);
+
+        //查找clietn的uri中，parameter中是否有provider，有的话就用这个uri
+        var matchingUri = cilentRedirctUri.FirstOrDefault(uri =>
+        {
+            var queryParameters = HttpUtility.ParseQueryString(new Uri(uri).Query);
+            return queryParameters["provider"] == provider;
+        });
+        //没有找到的话就用referer
+        var baseUrl = matchingUri != null
+        ? new Uri(matchingUri).GetLeftPart(UriPartial.Path)
+        : Request.Headers["Referer"].ToString().Split('?')[0];
+
+        //返回的url中加上provider和clientId
+        var redirectUrl = $"{baseUrl}?provider={provider}&clientId={clientId}";
+
+        //从provider中获取配置
         var properties = SignInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
         return Challenge(properties, provider);
-
     }
-
-    /// <summary>
-    /// 请求触发认证地址
-    /// </summary>
-    [HttpGet("login-opiddict")]
-    public IActionResult ExternalLogin2(string provider, string returnUrl)
-    {
-        //var redirectUrl = Url.Action("ExternalLoginCallback", "AccountExternal", new { provider, returnUrl }, Request.Scheme); //也就是配置成下面那个函数//虽然可以方便请求回调，但是只会进行get请求，opiddict拒绝对get请求返回token，最终还是要前端主动post
-        //var redirectUrl = $"http://localhost:3100/#/login?provider={provider}&returnUrl={returnUrl}";
-
-        //var properties = SignInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl); 
-        //return Challenge(properties, provider);
-
-        var properties = new AuthenticationProperties
-        {
-            // Only allow local return URLs to prevent open redirect attacks.
-            RedirectUri = "http://localhost:3100/#/login?provider=Github&returnUrl=/dashboard-2"
-        };
-
-        // Ask the OpenIddict client middleware to redirect the user agent to GitHub.
-        return Challenge(properties, OpenIddictClientWebIntegrationConstants.Providers.GitHub); //尝试通过provider获取配置
-    }
-
-
-    /// <summary>
-    /// OAuth 回调
-    /// </summary>
-    [HttpPost("external-login-callback")]
-    public async Task<IActionResult> ExternalLoginCallback(string provider, string returnUrl = "")
-    {
-        var loginInfo = await SignInManager.GetExternalLoginInfoAsync();
-        if (loginInfo == null)
-        {
-            return BadRequest("GitHub 登录失败");
-        }
-
-        //var email = loginInfo.Principal.FindFirstValue(ClaimTypes.Email);
-        //if (string.IsNullOrEmpty(email))
-        //{
-        //    return BadRequest("GitHub 未返回 Email");
-        //}
-
-        //var user = await UserManager.FindByEmailAsync(email);
-        //if (user == null)
-        //{
-        //    return BadRequest("用户未注册，请先注册");
-        //}
-
-        var result = await SignInManager.ExternalLoginSignInAsync(loginInfo.LoginProvider, loginInfo.ProviderKey, isPersistent: false);
-        if (!result.Succeeded)
-        {
-            return BadRequest("外部登录失败");
-        }
-
-        IdentityUser? user = await UserManager.FindByLoginAsync(loginInfo.LoginProvider, loginInfo.ProviderKey);
-        if (user == null)
-        {
-            return BadRequest("获取用户失败"); //通过cookie获取
-        }
-        // Clear the dynamic claims cache.
-        await IdentityDynamicClaimsPrincipalContributorCache.ClearAsync(user.Id, user.TenantId);
-        var principal = await SignInManager.CreateUserPrincipalAsync(user);
-        return SignIn(principal, OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
-
-
-
-        //var application = await ApplicationManager.FindByClientIdAsync("react-spa");
-        //if (application == null)
-        //{
-        //    return BadRequest("无效的应用");
-        //}
-
-        //var token = await _tokenManager.CreateAsync(new OpenIddictTokenDescriptor
-        //{
-        //    Subject = user.Id.ToString(),
-        //    ApplicationId = "react-admin-client",
-        //    //Lifetime = TimeSpan.FromHours(1),
-        //    Type = OpenIddictConstants.TokenTypes.Bearer
-        //});
-
-        //return Ok(new
-        //{
-        //    //access_token = await _tokenManager.ObfuscateAsync(token),
-        //    token_type = "Bearer",
-        //    expires_in = 3600
-        //});
-    }
-
-
-    // Note: this controller uses the same callback action for all providers
-    // but for users who prefer using a different action per provider,
-    // the following action can be split into separate actions.
-    [HttpGet("callback/login/{provider}"), HttpPost("callback/login/{provider}"), IgnoreAntiforgeryToken]
-    public async Task<ActionResult> LogInCallback()
-    {
-        // Retrieve the authorization data validated by OpenIddict as part of the callback handling.
-        var result = await HttpContext.AuthenticateAsync(OpenIddictClientAspNetCoreDefaults.AuthenticationScheme);
-
-        // Multiple strategies exist to handle OAuth 2.0/OpenID Connect callbacks, each with their pros and cons:
-        //
-        //   * Directly using the tokens to perform the necessary action(s) on behalf of the user, which is suitable
-        //     for applications that don't need a long-term access to the user's resources or don't want to store
-        //     access/refresh tokens in a database or in an authentication cookie (which has security implications).
-        //     It is also suitable for applications that don't need to authenticate users but only need to perform
-        //     action(s) on their behalf by making API calls using the access token returned by the remote server.
-        //
-        //   * Storing the external claims/tokens in a database (and optionally keeping the essential claims in an
-        //     authentication cookie so that cookie size limits are not hit). For the applications that use ASP.NET
-        //     Core Identity, the UserManager.SetAuthenticationTokenAsync() API can be used to store external tokens.
-        //
-        //     Note: in this case, it's recommended to use column encryption to protect the tokens in the database.
-        //
-        //   * Storing the external claims/tokens in an authentication cookie, which doesn't require having
-        //     a user database but may be affected by the cookie size limits enforced by most browser vendors
-        //     (e.g Safari for macOS and Safari for iOS/iPadOS enforce a per-domain 4KB limit for all cookies).
-        //
-        //     Note: this is the approach used here, but the external claims are first filtered to only persist
-        //     a few claims like the user identifier. The same approach is used to store the access/refresh tokens.
-
-        // Important: if the remote server doesn't support OpenID Connect and doesn't expose a userinfo endpoint,
-        // result.Principal.Identity will represent an unauthenticated identity and won't contain any user claim.
-        //
-        // Such identities cannot be used as-is to build an authentication cookie in ASP.NET Core (as the
-        // antiforgery stack requires at least a name claim to bind CSRF cookies to the user's identity) but
-        // the access/refresh tokens can be retrieved using result.Properties.GetTokens() to make API calls.
-        if (result.Principal is not ClaimsPrincipal { Identity.IsAuthenticated: true })
-        {
-            throw new InvalidOperationException("The external authorization data cannot be used for authentication.");
-        }
-
-        // Build an identity based on the external claims and that will be used to create the authentication cookie.
-        var identity = new ClaimsIdentity(
-            authenticationType: "ExternalLogin",
-            nameType: ClaimTypes.Name,
-            roleType: ClaimTypes.Role);
-
-        // By default, OpenIddict will automatically try to map the email/name and name identifier claims from
-        // their standard OpenID Connect or provider-specific equivalent, if available. If needed, additional
-        // claims can be resolved from the external identity and copied to the final authentication cookie.
-        identity.SetClaim(ClaimTypes.Email, result.Principal.GetClaim(ClaimTypes.Email))
-                .SetClaim(ClaimTypes.Name, result.Principal.GetClaim(ClaimTypes.Name))
-                .SetClaim(ClaimTypes.NameIdentifier, result.Principal.GetClaim(ClaimTypes.NameIdentifier));
-
-        // Preserve the registration details to be able to resolve them later.
-        identity.SetClaim(Claims.Private.RegistrationId, result.Principal.GetClaim(Claims.Private.RegistrationId))
-                .SetClaim(Claims.Private.ProviderName, result.Principal.GetClaim(Claims.Private.ProviderName));
-
-        // Important: when using ASP.NET Core Identity and its default UI, the identity created in this action is
-        // not directly persisted in the final authentication cookie (called "application cookie" by Identity) but
-        // in an intermediate authentication cookie called "external cookie" (the final authentication cookie is
-        // later created by Identity's ExternalLogin Razor Page by calling SignInManager.ExternalLoginSignInAsync()).
-        //
-        // Unfortunately, this process doesn't preserve the claims added here, which prevents flowing claims
-        // returned by the external provider down to the final authentication cookie. For scenarios that
-        // require that, the claims can be stored in Identity's database by calling UserManager.AddClaimAsync()
-        // directly in this action or by scaffolding the ExternalLogin.cshtml page that is part of the default UI:
-        // https://learn.microsoft.com/en-us/aspnet/core/security/authentication/social/additional-claims#add-and-update-user-claims.
-        //
-        // Alternatively, if flowing the claims from the "external cookie" to the "application cookie" is preferred,
-        // the default ExternalLogin.cshtml page provided by Identity can be scaffolded to replace the call to
-        // SignInManager.ExternalLoginSignInAsync() by a manual sign-in operation that will preserve the claims.
-        // For scenarios where scaffolding the ExternalLogin.cshtml page is not convenient, a custom SignInManager
-        // with an overridden SignInOrTwoFactorAsync() method can also be used to tweak the default Identity logic.
-        //
-        // For more information, see https://haacked.com/archive/2019/07/16/external-claims/ and
-        // https://stackoverflow.com/questions/42660568/asp-net-core-identity-extract-and-save-external-login-tokens-and-add-claims-to-l/42670559#42670559.
-
-        // Build the authentication properties based on the properties that were added when the challenge was triggered.
-        var properties = new AuthenticationProperties(result.Properties.Items)
-        {
-            RedirectUri = result.Properties.RedirectUri ?? "/"
-        };
-
-        // If needed, the tokens returned by the authorization server can be stored in the authentication cookie.
-        // To make cookies less heavy, tokens that are not used are filtered out before creating the cookie.
-        properties.StoreTokens(result.Properties.GetTokens().Where(token => token.Name is
-            // Preserve the access and refresh tokens returned in the token response, if available.
-            OpenIddictClientAspNetCoreConstants.Tokens.BackchannelAccessToken or
-            OpenIddictClientAspNetCoreConstants.Tokens.BackchannelIdentityToken or
-            OpenIddictClientAspNetCoreConstants.Tokens.RefreshToken));
-
-        // Ask the default sign-in handler to return a new cookie and redirect the
-        // user agent to the return URL stored in the authentication properties.
-        //
-        // For scenarios where the default sign-in handler configured in the ASP.NET Core
-        // authentication options shouldn't be used, a specific scheme can be specified here.
-        return SignIn(new ClaimsPrincipal(identity), properties);
-        //主要是看看能不能获取到用户set到cookie里，就像那个handler一样,可以的，就是都在result.Principal 里面，要自己去决定放什么到token里去
-    }
-
 }

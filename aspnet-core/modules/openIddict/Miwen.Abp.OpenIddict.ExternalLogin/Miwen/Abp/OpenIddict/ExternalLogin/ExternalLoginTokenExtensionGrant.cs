@@ -1,5 +1,4 @@
-﻿//using Miwen.Platform.Portal;
-using Microsoft.AspNetCore.Authentication;
+﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,17 +13,13 @@ using System.Collections.Immutable;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Volo.Abp;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.Identity;
 using Volo.Abp.OpenIddict;
 using Volo.Abp.OpenIddict.ExtensionGrantTypes;
 using Volo.Abp.Security.Claims;
 using Volo.Abp.Uow;
-using Volo.Abp.Validation;
-using static Volo.Abp.OpenIddict.Controllers.TokenController;
 using IdentityUser = Volo.Abp.Identity.IdentityUser;
-using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
 
 namespace Miwen.Abp.OpenIddict.ExternalLogin;
 public class ExternalLoginTokenExtensionGrant : ITokenExtensionGrant
@@ -49,17 +44,20 @@ public class ExternalLoginTokenExtensionGrant : ITokenExtensionGrant
     public async virtual Task<IActionResult> HandleAsync(ExtensionGrantContext context)
     {
         LazyServiceProvider = context.HttpContext.RequestServices.GetRequiredService<IAbpLazyServiceProvider>();
-               
+
         return await HandleExternalLoginAsync(context);
-       
+
     }
 
     protected async virtual Task<IActionResult> HandleExternalLoginAsync(ExtensionGrantContext context)
     {
         using var scope = ServiceScopeFactory.CreateScope();
-          
-   
+
+
+
         await IdentityOptions.SetAsync();
+
+        //读取cookie中的外部登录信息
         var loginInfo = await SignInManager.GetExternalLoginInfoAsync();
 
         if (loginInfo == null)
@@ -74,13 +72,14 @@ public class ExternalLoginTokenExtensionGrant : ITokenExtensionGrant
 
             return Forbid(properties, OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
         }
-
+        //使用cookie中的登录信息进行外部登录
         var result = await SignInManager.ExternalLoginSignInAsync(
             loginInfo.LoginProvider,
             loginInfo.ProviderKey,
             isPersistent: false,
             bypassTwoFactor: true
         );
+
 
         if (!result.Succeeded)
         {
@@ -89,25 +88,21 @@ public class ExternalLoginTokenExtensionGrant : ITokenExtensionGrant
                 Identity = OpenIddictSecurityLogIdentityConsts.OpenIddict,
                 Action = "Login" + result,
             });
+        }
+        string? errorDescription = null;
+        if (result.IsLockedOut)
+        {
+            Logger.LogInformation("Authentication failed , reason: locked out");
+            errorDescription = "The user account has been locked out due to invalid login attempts. Please wait a while and try again.";
+        }
+        if (result.IsNotAllowed)
+        {
+            Logger.LogInformation("Authentication failed , reason: not allowed");
 
-            string errorDescription;
-            if (result.IsLockedOut)
-            {
-                Logger.LogInformation("Authentication failed , reason: locked out"); //TODO 检测中是否有携带Username
-                errorDescription = "The user account has been locked out due to invalid login attempts. Please wait a while and try again.";
-            }
-            else if (result.IsNotAllowed)
-            {
-                Logger.LogInformation("Authentication failed , reason: not allowed");
-                              
-                errorDescription = "You are not allowed to login! Your account is inactive.";
-            }
-            else
-            {
-                Logger.LogInformation("Authentication failed, reason: invalid credentials");
-                errorDescription = "Invalid username!";
-            }
-
+            errorDescription = "You are not allowed to login! Your account is inactive.";
+        }
+        if (errorDescription != null)
+        {
             var properties = new AuthenticationProperties(new Dictionary<string, string>
             {
                 [OpenIddictServerAspNetCoreConstants.Properties.Error] = OpenIddictConstants.Errors.InvalidGrant,
@@ -117,10 +112,11 @@ public class ExternalLoginTokenExtensionGrant : ITokenExtensionGrant
             return Forbid(properties, OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
         }
 
+
         IdentityUser? user;
         if (result.Succeeded)
         {
-            user = await UserManager.FindByLoginAsync(loginInfo.LoginProvider, loginInfo.ProviderKey); //有过登录记录
+            user = await UserManager.FindByLoginAsync(loginInfo.LoginProvider, loginInfo.ProviderKey); //之前有过登录记录，在AbpUserLogins数据库中可以找到
             if (user != null)
             {
                 await IdentityDynamicClaimsPrincipalContributorCache.ClearAsync(user.Id, user.TenantId);
@@ -128,46 +124,38 @@ public class ExternalLoginTokenExtensionGrant : ITokenExtensionGrant
             }
         }
         var email = loginInfo.Principal.FindFirstValue(AbpClaimTypes.Email) ?? loginInfo.Principal.FindFirstValue(ClaimTypes.Email);
+
+        var redirecUrlParamter = context.Request.GetParameter("register_address"); //获取paramter中的register_address参数,用于注册302跳转
+        var redirecUrl = redirecUrlParamter.ToString();
         if (email.IsNullOrWhiteSpace())
         {
-            //return RedirectToPage("./Register", new
-            //{
-            //    IsExternalLogin = true,
-            //    ExternalLoginAuthSchema = loginInfo.LoginProvider,
-            //    ReturnUrl = returnUrl
-            //});TODO 完成注册
-            var properties = new AuthenticationProperties(new Dictionary<string, string>
+            if (redirecUrl.IsNullOrWhiteSpace())
             {
-                [OpenIddictServerAspNetCoreConstants.Properties.Error] = OpenIddictConstants.Errors.InvalidGrant,
-                [OpenIddictServerAspNetCoreConstants.Properties.ErrorDescription] = "TODO register"
-            });
-            return Forbid(properties, OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
+                return new RedirectResult("/");
+
+            }
+            return new RedirectResult($"{redirecUrl}?isExternalLogin=true&externalLoginAuthSchema={loginInfo.LoginProvider}&needRegister=true");//这里就不做url的清洗等健壮性操作，直接携带参数跳转
         }
         user = await UserManager.FindByEmailAsync(email);
         if (user == null)
         {
-            //return RedirectToPage("./Register", new
-            //{
-            //    IsExternalLogin = true,
-            //    ExternalLoginAuthSchema = loginInfo.LoginProvider,
-            //    ReturnUrl = returnUrl
-            //});
-            var properties = new AuthenticationProperties(new Dictionary<string, string>
+            if (redirecUrl.IsNullOrWhiteSpace())
             {
-                [OpenIddictServerAspNetCoreConstants.Properties.Error] = OpenIddictConstants.Errors.InvalidGrant,
-                [OpenIddictServerAspNetCoreConstants.Properties.ErrorDescription] = "TODO register"
-            });
-            return Forbid(properties, OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
+                return new RedirectResult("/");
+
+            }
+            return new RedirectResult($"{redirecUrl}?isExternalLogin=true&externalLoginAuthSchema={loginInfo.LoginProvider}&needRegister=true");//这里就不做url的清洗
+
         }
 
-        if (await UserManager.FindByLoginAsync(loginInfo.LoginProvider, loginInfo.ProviderKey) == null)
+        if (await UserManager.FindByLoginAsync(loginInfo.LoginProvider, loginInfo.ProviderKey) == null)  //之前没有登录记录，需要创建登录记录
         {
             CheckIdentityErrors(await UserManager.AddLoginAsync(user, loginInfo));
         }
 
-        await SignInManager.SignInAsync(user, false);
+        await SignInManager.SignInAsync(user, false); //登录 TODO 检查这里是否多余
 
-        await IdentitySecurityLogManager.SaveAsync(new IdentitySecurityLogContext()
+        await IdentitySecurityLogManager.SaveAsync(new IdentitySecurityLogContext() 
         {
             Identity = IdentitySecurityLogIdentityConsts.IdentityExternal,
             Action = result.ToIdentitySecurityLogAction(),
@@ -177,11 +165,11 @@ public class ExternalLoginTokenExtensionGrant : ITokenExtensionGrant
         await IdentityDynamicClaimsPrincipalContributorCache.ClearAsync(user.Id, user.TenantId);
 
 
-        return await SetSuccessResultAsync(context, user);
+        return await SetSuccessResultAsync(context, user); // 交由openiddict颁发token
     }
 
- 
- 
+
+
 
     protected virtual async Task<IActionResult> SetSuccessResultAsync(ExtensionGrantContext context, IdentityUser user)
     {
