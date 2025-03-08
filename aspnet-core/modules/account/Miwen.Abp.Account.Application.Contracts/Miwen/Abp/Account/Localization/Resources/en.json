@@ -43,6 +43,7 @@
     "YourAuthenticatorIsSuccessfullyReset": "Your authenticator reset was successful.",
     "Steps:PreStep": "Pre Step",
     "Steps:NextStep": "Next Step",
-    "Steps:Done": "Done"
+    "Steps:Done": "Done",
+    "LoginInfoNotAvailable": "External login info is not available"
   }
 }

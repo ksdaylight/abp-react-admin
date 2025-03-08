@@ -20,6 +20,12 @@ public interface IAccountAppService : IApplicationService
     /// <returns></returns>
     //Task RegisterAsync(WeChatRegisterDto input);
     /// <summary>
+    /// 通过外部登录注册用户账户
+    /// </summary>
+    /// <param name="input"></param>
+    /// <returns></returns>
+    Task ExternalUserRegisterAsync(ExternalUserRegisterDto input);
+    /// <summary>
     /// 通过手机号重置用户密码
     /// </summary>
     /// <param name="input"></param>

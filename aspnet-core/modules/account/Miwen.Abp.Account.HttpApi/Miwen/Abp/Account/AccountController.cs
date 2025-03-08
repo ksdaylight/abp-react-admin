@@ -27,6 +27,13 @@ public class AccountController : AbpControllerBase, IAccountAppService
     //}
 
     [HttpPost]
+    [Route("external/register")]
+    public async virtual Task ExternalUserRegisterAsync(ExternalUserRegisterDto input)
+    {
+        await AccountAppService.ExternalUserRegisterAsync(input);
+    }
+
+    [HttpPost]
     [Route("phone/register")]
     public async virtual Task RegisterAsync(PhoneRegisterDto input)
     {

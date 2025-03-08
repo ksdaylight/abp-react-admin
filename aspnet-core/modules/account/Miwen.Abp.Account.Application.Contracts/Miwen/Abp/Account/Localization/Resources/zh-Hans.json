@@ -43,6 +43,7 @@
     "YourAuthenticatorIsSuccessfullyReset": "您的验证器重置成功.",
     "Steps:PreStep": "上一步",
     "Steps:NextStep": "下一步",
-    "Steps:Done": "完成"
+    "Steps:Done": "完成",
+    "LoginInfoNotAvailable":"外部登录信息不可用"
   }
 }

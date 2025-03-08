@@ -4,7 +4,6 @@ using Miwen.Abp.Identity.Security;
 using Miwen.Abp.Identity.Settings;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Caching.Distributed;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using System;
 using System.ComponentModel.DataAnnotations;
@@ -20,6 +19,9 @@ using Volo.Abp.Identity;
 using Volo.Abp.Settings;
 using Volo.Abp.Validation;
 using IIdentityUserRepository = Miwen.Abp.Identity.IIdentityUserRepository;
+using IdentityUser = Volo.Abp.Identity.IdentityUser;
+using Microsoft.Extensions.Logging;
+using System.Net.Mail;
 
 namespace Miwen.Abp.Account;
 
@@ -32,6 +34,7 @@ public class AccountAppService : AccountApplicationServiceBase, IAccountAppServi
     protected IdentitySecurityLogManager IdentitySecurityLogManager { get; }
     //protected AbpWeChatMiniProgramOptionsFactory MiniProgramOptionsFactory { get; }
     protected IDistributedCache<SecurityTokenCacheItem> SecurityTokenCache { get; }
+    protected SignInManager<IdentityUser> SignInManager { get; }
 
     public AccountAppService(
         ITotpService totpService,
@@ -40,6 +43,7 @@ public class AccountAppService : AccountApplicationServiceBase, IAccountAppServi
         IAccountSmsSecurityCodeSender securityCodeSender,
         IDistributedCache<SecurityTokenCacheItem> securityTokenCache,
         //AbpWeChatMiniProgramOptionsFactory miniProgramOptionsFactory,
+        SignInManager<IdentityUser> signInManager,
         IdentitySecurityLogManager identitySecurityLogManager)
     {
         TotpService = totpService;
@@ -49,6 +53,7 @@ public class AccountAppService : AccountApplicationServiceBase, IAccountAppServi
         SecurityTokenCache = securityTokenCache;
         //MiniProgramOptionsFactory = miniProgramOptionsFactory;
         IdentitySecurityLogManager = identitySecurityLogManager;
+        SignInManager = signInManager;
     }
 
     //public async virtual Task RegisterAsync(WeChatRegisterDto input)
@@ -73,7 +78,7 @@ public class AccountAppService : AccountApplicationServiceBase, IAccountAppServi
     //    {
     //        userName = "wxid-" + wehchatOpenId.OpenId.ToMd5().ToLower();
     //    }
-        
+
     //    var userEmail = input.EmailAddress;//如果邮件地址不验证,随意写入一个
     //    if (userEmail.IsNullOrWhiteSpace())
     //    {
@@ -99,6 +104,64 @@ public class AccountAppService : AccountApplicationServiceBase, IAccountAppServi
 
     //    await CurrentUnitOfWork.SaveChangesAsync();
     //}
+
+
+    public async virtual Task ExternalUserRegisterAsync(ExternalUserRegisterDto input)
+    {
+        ThowIfInvalidEmailAddress(input.EmailAddress);
+
+        await CheckSelfRegistrationAsync();
+       
+
+        var externalLoginInfo = await SignInManager.GetExternalLoginInfoAsync();
+        if (externalLoginInfo == null)
+        {
+            Logger.LogWarning("External login info is not available");
+            throw new UserFriendlyException(L["LoginInfoNotAvailable"]);
+        }
+
+        if (input.UserName.IsNullOrWhiteSpace())
+        {
+            input.UserName = await UserManager.GetUserNameFromEmailAsync(input.EmailAddress);
+        }
+
+        await IdentityOptions.SetAsync();
+
+        // 创建新用户
+        var user = new IdentityUser(GuidGenerator.Create(), input.UserName, input.EmailAddress, CurrentTenant.Id); //TODO 验证这个多租户注入是否正确
+
+        // 创建用户并添加默认角色
+        (await UserManager.CreateAsync(user)).CheckErrors();
+        (await UserManager.AddDefaultRolesAsync(user)).CheckErrors();
+
+        // 检查外部登录信息是否已存在
+        var userLoginAlreadyExists = user.Logins.Any(x =>
+            x.TenantId == user.TenantId &&
+            x.LoginProvider == externalLoginInfo.LoginProvider &&
+            x.ProviderKey == externalLoginInfo.ProviderKey);
+
+        // 如果外部登录不存在则添加
+        if (!userLoginAlreadyExists)
+        {
+            (await UserManager.AddLoginAsync(user, new UserLoginInfo(
+                externalLoginInfo.LoginProvider,
+                externalLoginInfo.ProviderKey,
+                externalLoginInfo.ProviderDisplayName
+            ))).CheckErrors();
+        }
+
+         await IdentitySecurityLogManager.SaveAsync(
+            new IdentitySecurityLogContext
+            {
+                Action = "ExternalUserRegister",
+                ClientId = await FindClientIdAsync(),
+                Identity = "Account",
+                UserName = user.UserName
+            });
+
+        await CurrentUnitOfWork.SaveChangesAsync();
+        //成功后，前端自处理后续登录用户的操作
+    }
 
     public async virtual Task SendPhoneRegisterCodeAsync(SendPhoneRegisterCodeDto input)
     {

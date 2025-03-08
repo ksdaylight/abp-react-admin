@@ -16,6 +16,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="Volo.Abp.Account.Application" />
+		<PackageReference Include="Volo.Abp.AspNetCore.Mvc" />
 		<PackageReference Include="Volo.Abp.Sms" />
 	</ItemGroup>
 

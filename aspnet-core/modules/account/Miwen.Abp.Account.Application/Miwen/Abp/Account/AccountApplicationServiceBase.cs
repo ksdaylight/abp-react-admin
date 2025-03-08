@@ -5,7 +5,7 @@ using Volo.Abp.Account.Localization;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Identity;
 using Volo.Abp.Users;
-
+using IdentityUser = Volo.Abp.Identity.IdentityUser;
 namespace Miwen.Abp.Account;
 
 public abstract class AccountApplicationServiceBase : ApplicationService
