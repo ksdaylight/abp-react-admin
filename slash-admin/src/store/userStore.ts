@@ -6,8 +6,8 @@ import { createJSONStorage, persist } from "zustand/middleware";
 import { toast } from "sonner";
 import type { UserInfo, UserToken } from "#/entity";
 import { StorageEnum } from "#/enum";
-import { getUserInfoApi, loginApi } from "@/api/account";
-import type { PasswordTokenRequestModel } from "#/account";
+import { externalLoginApi, getUserInfoApi, loginApi } from "@/api/account";
+import type { PasswordTokenRequestModel, SignInRedirectResult, TokenResult } from "#/account";
 import { getConfigApi } from "@/api/abp-core";
 import useAbpStore from "./abpCoreStore";
 import { useEventBus } from "@/utils/abp/useEventBus";
@@ -134,6 +134,44 @@ export const useSignIn = () => {
 	};
 
 	return signIn;
+};
+// 添加类型守卫
+function isTokenResult(res: TokenResult | SignInRedirectResult): res is TokenResult {
+	return "accessToken" in res;
+}
+export const useExternalSignIn = (handleRegister: (res: SignInRedirectResult) => void) => {
+	const navigatge = useNavigate();
+	const { setUserToken, fetchAndSetUser } = useUserActions();
+
+	const externalSignInMutation = useMutation({
+		mutationFn: externalLoginApi,
+		retry: 0,
+	});
+
+	const externalSignIn = async () => {
+		try {
+			const res = await externalSignInMutation.mutateAsync();
+
+			if (isTokenResult(res)) {
+				const { tokenType, accessToken, refreshToken } = res;
+				// 如果成功获取到 accessToken
+				if (accessToken) {
+					setUserToken({ accessToken: `${tokenType} ${accessToken}`, refreshToken });
+
+					await fetchAndSetUser();
+
+					navigatge(HOMEPAGE, { replace: true });
+					toast.success("Sign in success!");
+				}
+			} else {
+				handleRegister(res);
+			}
+		} catch (err) {
+			console.error(err.message);
+		}
+	};
+
+	return externalSignIn;
 };
 
 export default useUserStore;
