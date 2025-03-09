@@ -1,33 +1,22 @@
 import { Alert, Button, Checkbox, Col, Divider, Form, Input, Row } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { AiFillGithub, AiFillGoogleCircle, AiFillWechat } from "react-icons/ai";
-
 import { DEFAULT_USER, TEST_USER } from "@/_mock/assets";
 import type { SignInReq } from "@/api/services/userService";
-import { useSignIn } from "@/store/userStore";
+import { useExternalSignIn, useSignIn } from "@/store/userStore";
 
 import { LoginStateEnum, useLoginStateContext } from "./providers/LoginStateProvider";
-// import { useQuery } from "@tanstack/react-query";
-// import { abpApiDefinitionGet } from "@/api/gen";
+import { SignInRedirectResult } from "#/account";
 
 function LoginForm() {
 	const { t } = useTranslation();
+	
 	const [loading, setLoading] = useState(false);
 
-	const { loginState, setLoginState } = useLoginStateContext();
-	const signIn = useSignIn();
+	const { loginState, setLoginState, setIsExternalLoginState } = useLoginStateContext();
 
-	// const { data } = useQuery({
-	// 	queryKey: ["test"],
-	// 	queryFn: () => abpApiDefinitionGet({
-	// 		query:{
-	// 			IncludeTypes:false
-	// 		}
-	// 	}),
-	// });
-	// console.log(data)
-	if (loginState !== LoginStateEnum.LOGIN) return null;
+	const signIn = useSignIn();
 
 	const handleFinish = async ({ username, password }: SignInReq) => {
 		setLoading(true);
@@ -37,6 +26,47 @@ function LoginForm() {
 			setLoading(false);
 		}
 	};
+
+	const loginWithProvider = async (provider: string) => {
+		const clientId = import.meta.env.VITE_GLOB_CLIENT_ID; // OpenIddict Client ID
+		const baseAddress = import.meta.env.VITE_EXTERNAL_LOGIN_ADDRESS; 
+		window.location.href = `${baseAddress}?provider=${provider}&clientId=${clientId}`;
+		// window.location.href = `http://localhost:30001/connect/external/login?provider=${provider}&clientId=${clientId}`;
+	};
+
+	const handleRegister = (res: SignInRedirectResult) => {
+		setIsExternalLoginState(res.isExternalLogin);
+		if (res.needRegister) {
+			setLoginState(LoginStateEnum.REGISTER);
+		}
+	};
+	const externalSignIn = useExternalSignIn(handleRegister);
+
+	const handleExternalLogin = async () => {
+		setLoading(true);
+		try {
+			await externalSignIn();
+		} finally {
+			setLoading(false);
+		}
+	};
+
+	useEffect(() => {
+		const search = window.location.search;
+		// 创建 URLSearchParams 实例来解析查询字符串
+		const params = new URLSearchParams(search);
+
+		// 提取具体的参数
+		const provider = params.get("provider") || "";
+		const clientId = params.get("clientId") || "";
+
+		if (provider && clientId) {
+			handleExternalLogin();
+		}
+	}, []); //TODO 添加更醒目的三方登录提示
+
+	if (loginState !== LoginStateEnum.LOGIN) return null;
+
 	return (
 		<>
 			<div className="mb-4 text-2xl font-bold xl:text-3xl">{t("sys.login.signInFormTitle")}</div>
@@ -120,7 +150,7 @@ function LoginForm() {
 				<Divider className="!text-xs">{t("sys.login.otherSignIn")}</Divider>
 
 				<div className="flex cursor-pointer justify-around text-2xl">
-					<AiFillGithub />
+					<AiFillGithub onClick={() => loginWithProvider("gitHub-dotnet")} />
 					<AiFillWechat />
 					<AiFillGoogleCircle />
 				</div>

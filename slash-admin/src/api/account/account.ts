@@ -4,6 +4,7 @@ import type {
 	TwoFactorProvider,
 	SendEmailSigninCodeDto,
 	SendPhoneSigninCodeDto,
+	ExternalSignUpApiDto,
 } from "#/account/account";
 import requestClient from "@/api/request";
 
@@ -26,3 +27,7 @@ export const sendEmailSigninCodeApi = (input: SendEmailSigninCodeDto) =>
  */
 export const sendPhoneSigninCodeApi = (input: SendPhoneSigninCodeDto) =>
 	requestClient.post("/api/account/phone/send-signin-code", input);
+
+export const externalSignUpApi = (input: ExternalSignUpApiDto) =>
+	requestClient.post("/api/account/external/register", input, { withCredentials: true });
+

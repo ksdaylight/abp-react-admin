@@ -49,6 +49,11 @@ interface OAuthTokenResult {
 	token_type: string;
 }
 
+interface SignInRedirectResult {
+	isExternalLogin: boolean;
+	needRegister: boolean;
+	redirectUrl?: string;
+}
 export type {
 	OAuthTokenResult,
 	PasswordTokenRequest,
@@ -56,4 +61,5 @@ export type {
 	TokenRequest,
 	TokenResult,
 	RefreshTokenRequestModel,
+	SignInRedirectResult,
 };
