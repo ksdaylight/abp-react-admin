@@ -531,7 +531,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "authentication", "authentic
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Miwen.Abp.Authentication.Github", "framework\authentication\Miwen.Abp.Authentication.Github\Miwen.Abp.Authentication.Github.csproj", "{D4842E54-4292-4E39-ADAA-DC22A5A3AFEE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Miwen.Abp.OpenIddict.ExternalLogin", "modules\openIddict\Miwen.Abp.OpenIddict.ExternalLogin\Miwen.Abp.OpenIddict.ExternalLogin.csproj", "{72A53AE5-1B3D-4927-88B3-35D85E05A9F6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Miwen.Abp.OpenIddict.ExternalLogin", "modules\openIddict\Miwen.Abp.OpenIddict.ExternalLogin\Miwen.Abp.OpenIddict.ExternalLogin.csproj", "{72A53AE5-1B3D-4927-88B3-35D85E05A9F6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "OAuth", "OAuth", "{A1A9A611-D1D5-4C7F-B226-C2A364D8ED7B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Miwen.Abp.OAuth.Github", "framework\OAuth\Miwen.Abp.OAuth.Github\Miwen.Abp.OAuth.Github.csproj", "{1457B1A2-F33E-4DE8-853F-D13067E3992C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Miwen.Abp.OAuth", "framework\OAuth\Miwen.Abp.OAuth\Miwen.Abp.OAuth.csproj", "{99694793-6306-4AF0-8032-57CF53F13E7B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Miwen.Abp.OAuth.SettingManagement", "framework\OAuth\Miwen.Abp.OAuth.SettingManagement\Miwen.Abp.OAuth.SettingManagement.csproj", "{A8BBB0D8-699F-4089-94C0-B05416C06C24}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -1391,6 +1399,18 @@ Global
 		{72A53AE5-1B3D-4927-88B3-35D85E05A9F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{72A53AE5-1B3D-4927-88B3-35D85E05A9F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{72A53AE5-1B3D-4927-88B3-35D85E05A9F6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1457B1A2-F33E-4DE8-853F-D13067E3992C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1457B1A2-F33E-4DE8-853F-D13067E3992C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1457B1A2-F33E-4DE8-853F-D13067E3992C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1457B1A2-F33E-4DE8-853F-D13067E3992C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{99694793-6306-4AF0-8032-57CF53F13E7B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{99694793-6306-4AF0-8032-57CF53F13E7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{99694793-6306-4AF0-8032-57CF53F13E7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{99694793-6306-4AF0-8032-57CF53F13E7B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A8BBB0D8-699F-4089-94C0-B05416C06C24}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A8BBB0D8-699F-4089-94C0-B05416C06C24}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A8BBB0D8-699F-4089-94C0-B05416C06C24}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A8BBB0D8-699F-4089-94C0-B05416C06C24}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1650,6 +1670,10 @@ Global
 		{D16BF31A-479E-4DD4-B64A-C7722F14D2CE} = {70597A9E-C51D-4EE9-A2B4-6F675B165FE1}
 		{D4842E54-4292-4E39-ADAA-DC22A5A3AFEE} = {D16BF31A-479E-4DD4-B64A-C7722F14D2CE}
 		{72A53AE5-1B3D-4927-88B3-35D85E05A9F6} = {B3037C27-3F60-4641-B7A2-02AD2BDA94D8}
+		{A1A9A611-D1D5-4C7F-B226-C2A364D8ED7B} = {70597A9E-C51D-4EE9-A2B4-6F675B165FE1}
+		{1457B1A2-F33E-4DE8-853F-D13067E3992C} = {A1A9A611-D1D5-4C7F-B226-C2A364D8ED7B}
+		{99694793-6306-4AF0-8032-57CF53F13E7B} = {A1A9A611-D1D5-4C7F-B226-C2A364D8ED7B}
+		{A8BBB0D8-699F-4089-94C0-B05416C06C24} = {A1A9A611-D1D5-4C7F-B226-C2A364D8ED7B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {28315BFD-90E7-4E14-A2EA-F3D23AF4126F}

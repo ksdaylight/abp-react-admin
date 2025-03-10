@@ -116,6 +116,9 @@ using Miwen.Abp.AuditLogging.IP.Location;
 using Miwen.Abp.IP2Region;
 using Miwen.Abp.Authentication.Github;
 using Miwen.Abp.OpenIddict.ExternalLogin;
+using Volo.Abp.Localization;
+using Miwen.Abp.OAuth.Github;
+using LINGYUN.Abp.Tencent.SettingManagement;
 
 
 namespace Miwen.MicroService.Applications.Single;
@@ -222,7 +225,7 @@ namespace Miwen.MicroService.Applications.Single;
 
      typeof(AbpEntityFrameworkCorePostgreSqlModule),
 
-    typeof(AbpAuthenticationGithubModule),//MVC 的 Github登录
+    typeof(AbpAuthenticationGithubModule),//Github登录
     
     typeof(AbpAuthorizationOrganizationUnitsModule),
     typeof(AbpIdentityOrganizaztionUnitsModule),
@@ -261,6 +264,9 @@ namespace Miwen.MicroService.Applications.Single;
     typeof(AbpNotificationsEmailingModule),
     typeof(AbpMultiTenancyEditionsModule),
 
+    
+    typeof(AbpOAuthGithubModule),//OAuth Github
+    typeof(AbpOAuthSettingManagementModule),//
 
     typeof(AbpIP2RegionModule),
     typeof(AbpIdGeneratorModule),

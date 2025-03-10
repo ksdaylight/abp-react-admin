@@ -1,13 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
 	<Import Project="..\..\..\common.props" />
 	<Import Project="..\..\..\configureawait.props" />
 
 	<PropertyGroup>
-		<TargetFramework>net8.0</TargetFramework>
 		<Nullable>enable</Nullable>
-		<AssemblyName>Miwen.Abp.Authentication.Github</AssemblyName>
-		<PackageId>Miwen.Abp.Authentication.Github</PackageId>
+		<TargetFramework>net8.0</TargetFramework>
+		<AssemblyName>Miwen.Abp.OAuth</AssemblyName>
+		<PackageId>Miwen.Abp.OAuth</PackageId>
 		<GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
 		<GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
 		<GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
@@ -15,15 +14,20 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" />
+		<None Remove="Miwen\Abp\OAuth\Localization\Resources\*.json" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Volo.Abp.Core" />
+		<EmbeddedResource Include="Miwen\Abp\OAuth\Localization\Resources\*.json" />
 	</ItemGroup>
 
+	
 	<ItemGroup>
-	  <ProjectReference Include="..\..\OAuth\Miwen.Abp.OAuth.Github\Miwen.Abp.OAuth.Github.csproj" />
+		<!--TODO 只会再添加Feature配置<PackageReference Include="Volo.Abp.Features" />-->
+		<PackageReference Include="Volo.Abp.Caching" />
+		<PackageReference Include="Volo.Abp.Localization" />
+		<PackageReference Include="Volo.Abp.Settings" />
 	</ItemGroup>
+	
 	
 </Project>

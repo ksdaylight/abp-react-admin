@@ -1,0 +1,9 @@
+﻿{
+  "culture": "en",
+  "texts": {
+    "DisplayName:OAuth": "OAuth login",
+    "Permission:OAuth": "OAuth login",
+    "Permission:OAuth.Settings": "Configure OAuth login",
+    "Features:OAuth": "OAuth login service TODO"
+  }
+}

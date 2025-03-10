@@ -4,10 +4,10 @@
 	<Import Project="..\..\..\configureawait.props" />
 
 	<PropertyGroup>
-		<TargetFramework>net8.0</TargetFramework>
 		<Nullable>enable</Nullable>
-		<AssemblyName>Miwen.Abp.Authentication.Github</AssemblyName>
-		<PackageId>Miwen.Abp.Authentication.Github</PackageId>
+		<TargetFramework>net8.0</TargetFramework>
+		<AssemblyName>Miwen.Abp.OAuth.Github</AssemblyName>
+		<PackageId>Miwen.Abp.OAuth.Github</PackageId>
 		<GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
 		<GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
 		<GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
@@ -15,15 +15,16 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" />
+		<None Remove="Miwen\Abp\OAuth\Github\Localization\Resources\*.json" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Volo.Abp.Core" />
+		<EmbeddedResource Include="Miwen\Abp\OAuth\Github\Localization\Resources\*.json" />
 	</ItemGroup>
-
+		
 	<ItemGroup>
-	  <ProjectReference Include="..\..\OAuth\Miwen.Abp.OAuth.Github\Miwen.Abp.OAuth.Github.csproj" />
+	  <ProjectReference Include="..\Miwen.Abp.OAuth\Miwen.Abp.OAuth.csproj" />
 	</ItemGroup>
+	
 	
 </Project>

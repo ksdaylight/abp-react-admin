@@ -87,6 +87,8 @@
 		<ProjectReference Include="..\..\framework\mvc\Miwen.Abp.AspNetCore.Mvc.Idempotent.Wrapper\Miwen.Abp.AspNetCore.Mvc.Idempotent.Wrapper.csproj" />
 		<ProjectReference Include="..\..\framework\mvc\Miwen.Abp.AspNetCore.Mvc.Wrapper\Miwen.Abp.AspNetCore.Mvc.Wrapper.csproj" />
 		<ProjectReference Include="..\..\framework\navigation\Miwen.Abp.UI.Navigation\Miwen.Abp.UI.Navigation.csproj" />
+		<ProjectReference Include="..\..\framework\OAuth\Miwen.Abp.OAuth.Github\Miwen.Abp.OAuth.Github.csproj" />
+		<ProjectReference Include="..\..\framework\OAuth\Miwen.Abp.OAuth.SettingManagement\Miwen.Abp.OAuth.SettingManagement.csproj" />
 		<ProjectReference Include="..\..\framework\open-api\Miwen.Abp.OpenApi.Authorization\Miwen.Abp.OpenApi.Authorization.csproj" />
 		<ProjectReference Include="..\..\framework\open-api\Miwen.Abp.OpenApi\Miwen.Abp.OpenApi.csproj" />
 		<ProjectReference Include="..\..\framework\settings\Miwen.Abp.SettingManagement.Application.Contracts\Miwen.Abp.SettingManagement.Application.Contracts.csproj" />

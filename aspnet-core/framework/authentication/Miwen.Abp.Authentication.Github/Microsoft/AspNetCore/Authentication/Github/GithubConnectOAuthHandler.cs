@@ -10,17 +10,34 @@ using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Net.Http.Headers;
+using Miwen.Abp.OAuth.Github;
 
 namespace Microsoft.AspNetCore.Authentication.Github;
 
-public class  GithubConnectOAuthHandler : OAuthHandler<GithubConnectOAuthOptions>
+public class GithubConnectOAuthHandler : OAuthHandler<GithubConnectOAuthOptions>
 {
+    protected AbpOAuthGithubOptionsFactory OAuthGithubOptionsFactory { get; }
+
     public GithubConnectOAuthHandler(
         IOptionsMonitor<GithubConnectOAuthOptions> options,
+        AbpOAuthGithubOptionsFactory oAuthGithubOptionsFactory,
         ILoggerFactory logger,
         UrlEncoder encoder)
         : base(options, logger, encoder)
     {
+        OAuthGithubOptionsFactory = oAuthGithubOptionsFactory;
+    }
+
+    protected override async Task InitializeHandlerAsync()
+    {
+        var options = await OAuthGithubOptionsFactory.CreateAsync();
+
+        // 用配置项重写
+        Options.ClientId = options.ClientId;
+        Options.ClientSecret = options.ClientSecret;
+        Options.TimeProvider ??= TimeProvider.System;
+
+        await base.InitializeHandlerAsync();
     }
 
     /// <summary>

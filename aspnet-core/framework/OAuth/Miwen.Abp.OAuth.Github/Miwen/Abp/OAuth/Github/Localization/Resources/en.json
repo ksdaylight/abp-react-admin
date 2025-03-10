@@ -1,0 +1,14 @@
+﻿{
+  "culture": "en",
+  "texts": {
+    "Features:GithubConnect": "Github OAuth2 Login",
+    "Features:GithubConnectEnable": "Enable Github OAuth2 Login",
+    "Features:GithubConnectEnable.Desc": "Enable Github OAuth2 for quick login.",
+    "DisplayName:OAuth.GithubConnect": "Github OAuth2 Login",
+    "Description:OAuth.GithubConnect": "Integrate Github third-party login.",
+    "DisplayName:GithubConnect.ClientId": "Github Application Client ID",
+    "Description:GithubConnect.ClientId": "Required Client ID for Github OAuth2, obtained in Developer Settings.",
+    "DisplayName:GithubConnect.ClientSecret": "Client Secret for Client ID",
+    "Description:GithubConnect.ClientSecret": "Used to verify application identity when accessing Github, obtained in Developer Settings."
+  }
+}

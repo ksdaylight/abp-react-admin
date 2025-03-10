@@ -76,6 +76,7 @@ using Volo.Abp.UI.Navigation.Urls;
 using Volo.Abp.VirtualFileSystem;
 using VoloAbpExceptionHandlingOptions = Volo.Abp.AspNetCore.ExceptionHandling.AbpExceptionHandlingOptions;
 using Miwen.Abp.OpenIddict.ExternalLogin;
+using Miwen.Abp.OAuth.Localization;
 
 namespace Miwen.MicroService.Applications.Single;
 
@@ -812,6 +813,7 @@ public partial class MicroServiceApplicationsSingleModule
                 //typeof(AliyunResource),
                 //typeof(TencentCloudResource),
                 //typeof(WeChatResource),
+                typeof(OAuthResource),
                 typeof(PlatformResource),
                 typeof(AbpOpenIddictResource),
                 typeof(AbpIdentityServerResource));

@@ -10,7 +10,6 @@ public class GithubConnectOAuthOptions : OAuthOptions
 {
     public GithubConnectOAuthOptions()
     {
-        // TODO 可以动态自定义配置
         ClientId = "GithubConnect";
         ClientSecret = "GithubConnect";
 

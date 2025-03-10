@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<Import Project="..\..\..\common.props" />
+	<Import Project="..\..\..\configureawait.props" />
+
+	<PropertyGroup>
+		<Nullable>enable</Nullable>
+		<TargetFramework>net8.0</TargetFramework>
+		<AssemblyName>Miwen.Abp.OAuth.SettingManagement</AssemblyName>
+		<PackageId>Miwen.Abp.OAuth.SettingManagement</PackageId>
+		<GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+		<GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+		<GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+		<RootNamespace />
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Volo.Abp.AspNetCore.Mvc" />
+		<PackageReference Include="Volo.Abp.SettingManagement.Domain" />
+	</ItemGroup>
+	
+	<ItemGroup>
+		<ProjectReference Include="..\..\settings\Miwen.Abp.SettingManagement.Application.Contracts\Miwen.Abp.SettingManagement.Application.Contracts.csproj" />
+		<ProjectReference Include="..\Miwen.Abp.OAuth.Github\Miwen.Abp.OAuth.Github.csproj" />
+		<ProjectReference Include="..\Miwen.Abp.OAuth\Miwen.Abp.OAuth.csproj" />
+	</ItemGroup>
+	
+</Project>

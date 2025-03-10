@@ -1,0 +1,9 @@
+﻿{
+  "culture": "zh-Hans",
+  "texts": {
+    "DisplayName:OAuth": "OAuth 三方登录",
+    "Permission:OAuth": "OAuth 三方登录",
+    "Permission:OAuth.Settings": "配置 OAuth 三方登录",
+    "Features:OAuth": "OAuth 三方登录服务 TODO"
+  }
+}
