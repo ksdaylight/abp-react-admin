@@ -1,30 +1,11 @@
 using Miwen.Abp.Identity.Session.AspNetCore;
 using Miwen.MicroService.Applications.Single;
-using Microsoft.AspNetCore.Cors;
 using Serilog;
 using Volo.Abp.IO;
 using Volo.Abp.Modularity.PlugIns;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddCors(options =>
-{
-    options.AddDefaultPolicy(policy =>
-    {
-        policy
-            .WithOrigins(
-                builder.Configuration["App:CorsOrigins"]
-                    .Split(",", StringSplitOptions.RemoveEmptyEntries)
-                    .Select(o => o.RemovePostFix("/"))
-                    .ToArray()
-            )
-            .WithAbpExposedHeaders()
-            .WithAbpWrapExposedHeaders()
-            .SetIsOriginAllowedToAllowWildcardSubdomains()
-            .AllowAnyHeader()
-            .AllowAnyMethod()
-            .AllowCredentials();
-    });
-});
+
 builder.Host.AddAppSettingsSecretsJson()
     .UseAutofac()
     .UseSerilog((context, provider, config) =>
@@ -67,6 +48,19 @@ app.UseCorrelationId();
 app.UseStaticFiles();
 app.UseRouting();
 app.UseCors();
+app.Use(async (ctx, next) =>
+{
+    await next();
+
+    if (ctx.Request.Path.StartsWithSegments("/connect"))
+    {
+        var origin = ctx.Request.Headers.Origin.ToString();
+        var aco = ctx.Response.Headers["Access-Control-Allow-Origin"].ToString();
+        var acc = ctx.Response.Headers["Access-Control-Allow-Credentials"].ToString();
+        Log.Information("CORS DEBUG Path={Path} Origin={Origin} ACO={ACO} ACC={ACC}",
+            ctx.Request.Path, origin, aco, acc);
+    }
+});
 app.UseAuthentication();
 app.UseMultiTenancy();
 app.UseUnitOfWork();

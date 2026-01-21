@@ -81,8 +81,7 @@ using Miwen.Abp.OAuth.Localization;
 namespace Miwen.MicroService.Applications.Single;
 
 public partial class MicroServiceApplicationsSingleModule
-{
-    protected const string DefaultCorsPolicyName = "Default";
+{    
     public static string ApplicationName { get; set; } = "MicroService-Applications-Single";
     private readonly static OneTimeRunner OneTimeRunner = new();
 
@@ -938,14 +937,21 @@ public partial class MicroServiceApplicationsSingleModule
     {
         services.AddCors(options =>
         {
-            options.AddPolicy(DefaultCorsPolicyName, builder =>
+            options.AddDefaultPolicy( builder =>
             {
+                var corsOrigins = configuration.GetSection("App:CorsOrigins").Get<List<string>>();
+                if (corsOrigins == null || corsOrigins.Count == 0)
+                {
+                    corsOrigins = configuration["App:CorsOrigins"]?
+                        .Split(",", StringSplitOptions.RemoveEmptyEntries)
+                        .Select(o => o.RemovePostFix("/"))
+                        .ToList() ?? new List<string>();
+                }
+
                 builder
-                    .WithOrigins(
-                        configuration["App:CorsOrigins"]
-                            .Split(",", StringSplitOptions.RemoveEmptyEntries)
-                            .Select(o => o.RemovePostFix("/"))
-                            .ToArray()
+                    .WithOrigins(corsOrigins
+                        .Select(o => o.RemovePostFix("/"))
+                        .ToArray()
                     )
                     .WithAbpExposedHeaders()
                     .WithAbpWrapExposedHeaders()
