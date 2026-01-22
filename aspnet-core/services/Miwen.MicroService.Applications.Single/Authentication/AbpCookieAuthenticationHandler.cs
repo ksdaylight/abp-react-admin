@@ -25,7 +25,7 @@ public class AbpCookieAuthenticationHandler : CookieAuthenticationHandler
     }
 
     protected const string XRequestFromHeader = "X-Request-From";
-    protected const string DontRedirectRequestFromHeader = "slash-admin"; //TODO vben amdin
+    protected const string DontRedirectRequestFromHeader = "vben"; //"slash-admin"; //TODO vben amdin
     protected override Task InitializeEventsAsync()
     {
         var events = new CookieAuthenticationEvents
