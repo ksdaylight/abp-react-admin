@@ -69,7 +69,8 @@ requestClient.addRequestInterceptor({
 		}
 		const { locale } = useLocaleStore.getState();
 		config.headers["Accept-Language"] = mapLocaleToAbpLanguageFormat(locale);
-		config.headers["X-Request-From"] = "slash-admin";
+		// config.headers["X-Request-From"] = "slash-admin";
+		config.headers["X-Request-From"] = "vben";
 		return config;
 	},
 });
