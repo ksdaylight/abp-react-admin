@@ -48,19 +48,6 @@ app.UseCorrelationId();
 app.UseStaticFiles();
 app.UseRouting();
 app.UseCors();
-app.Use(async (ctx, next) =>
-{
-    await next();
-
-    if (ctx.Request.Path.StartsWithSegments("/connect"))
-    {
-        var origin = ctx.Request.Headers.Origin.ToString();
-        var aco = ctx.Response.Headers["Access-Control-Allow-Origin"].ToString();
-        var acc = ctx.Response.Headers["Access-Control-Allow-Credentials"].ToString();
-        Log.Information("CORS DEBUG Path={Path} Origin={Origin} ACO={ACO} ACC={ACC}",
-            ctx.Request.Path, origin, aco, acc);
-    }
-});
 app.UseAuthentication();
 app.UseMultiTenancy();
 app.UseUnitOfWork();
