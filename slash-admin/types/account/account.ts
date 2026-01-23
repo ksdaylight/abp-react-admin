@@ -14,7 +14,6 @@ interface SendPhoneSigninCodeDto {
 
 type TwoFactorProvider = NameValue<string>;
 
-
 interface ExternalSignUpApiDto {
 	userName: string;
 	emailAddress: string;

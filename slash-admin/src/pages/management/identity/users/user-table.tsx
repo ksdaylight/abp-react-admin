@@ -14,7 +14,7 @@ import { ProTable, type ActionType, type ProColumns } from "@ant-design/pro-tabl
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteApi, getPagedListApi, unLockApi } from "@/api/management/identity/users";
 import { hasAccessByCodes } from "@/utils/abp/access-checker";
-import { IdentityUserPermissions } from "@/constants/management/identity/permissions";
+import { IdentitySessionPermissions, IdentityUserPermissions } from "@/constants/management/identity/permissions";
 import { AuditLogPermissions } from "@/constants/management/auditing/permissions";
 import { Iconify } from "@/components/icon";
 import { toast } from "sonner";
@@ -29,6 +29,7 @@ import UserPasswordModal from "./user-password-modal";
 import PermissionModal from "@/components/abp/permissions/permission-modal";
 import { EntityChangeDrawer } from "@/components/abp/auditing/entity-change-drawer";
 import Card from "@/components/card";
+import { UserSessionDrawer } from "./user-session-drawer";
 
 const UserTable: React.FC = () => {
 	const { t: $t } = useTranslation();
@@ -44,6 +45,7 @@ const UserTable: React.FC = () => {
 	const [passwordModalVisible, setPasswordModalVisible] = useState(false);
 	const [permissionModalVisible, setPermissionModalVisible] = useState(false);
 	const [entityChangeDrawerVisible, setEntityChangeDrawerVisible] = useState(false);
+	const [identitySessionsDrawerVisible, setIdentitySessionsDrawerVisible] = useState(false);
 
 	// Selected user state
 	const [selectedUser, setSelectedUser] = useState<IdentityUserDto>();
@@ -88,6 +90,9 @@ const UserTable: React.FC = () => {
 				break;
 			case "permissions":
 				setPermissionModalVisible(true);
+				break;
+			case "session":
+				setIdentitySessionsDrawerVisible(true);
 				break;
 			case "claims":
 				setClaimModalVisible(true);
@@ -228,6 +233,15 @@ const UserTable: React.FC = () => {
 				key: "permissions",
 				icon: <Iconify icon="icon-park-outline:permissions" />,
 				label: $t("AbpPermissionManagement.Permissions"),
+			});
+		}
+
+		// Identity Sessions
+		if (hasAccessByCodes([IdentitySessionPermissions.Default])) {
+			items.push({
+				key: "session",
+				icon: <Iconify icon="carbon:prompt-session" />,
+				label: $t("AbpIdentity.IdentitySessions"),
 			});
 		}
 
@@ -375,6 +389,17 @@ const UserTable: React.FC = () => {
 				}}
 				onChange={() => actionRef.current?.reload()}
 			/>
+			{/* Session Drawer */}
+			{selectedUser && (
+				<UserSessionDrawer
+					open={identitySessionsDrawerVisible}
+					user={selectedUser}
+					onClose={() => {
+						setIdentitySessionsDrawerVisible(false);
+						setSelectedUser(undefined);
+					}}
+				/>
+			)}
 
 			{/* Entity Change Drawer */}
 			<EntityChangeDrawer
@@ -383,6 +408,7 @@ const UserTable: React.FC = () => {
 					entityId: selectedUser?.id,
 					entityTypeFullName: "Volo.Abp.Identity.IdentityUser",
 				}}
+				subject={selectedUser?.userName}
 				onClose={() => {
 					setEntityChangeDrawerVisible(false);
 					setSelectedUser(undefined);

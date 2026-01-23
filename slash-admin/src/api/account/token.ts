@@ -108,13 +108,12 @@ export async function externalLoginApi(): Promise<TokenResult | SignInRedirectRe
 			needRegister,
 			// redirectUrl //这个react项目这里不需要
 		};
-	} else {
-		const result = await res.json();
-		return {
-			accessToken: result.access_token,
-			expiresIn: result.expires_in,
-			refreshToken: result.refresh_token,
-			tokenType: result.token_type,
-		};
 	}
+	const result = await res.json();
+	return {
+		accessToken: result.access_token,
+		expiresIn: result.expires_in,
+		refreshToken: result.refresh_token,
+		tokenType: result.token_type,
+	};
 }

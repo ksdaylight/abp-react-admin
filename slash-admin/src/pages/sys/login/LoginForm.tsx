@@ -7,11 +7,11 @@ import type { SignInReq } from "@/api/services/userService";
 import { useExternalSignIn, useSignIn } from "@/store/userStore";
 
 import { LoginStateEnum, useLoginStateContext } from "./providers/LoginStateProvider";
-import { SignInRedirectResult } from "#/account";
+import type { SignInRedirectResult } from "#/account";
 
 function LoginForm() {
 	const { t } = useTranslation();
-	
+
 	const [loading, setLoading] = useState(false);
 
 	const { loginState, setLoginState, setIsExternalLoginState } = useLoginStateContext();
@@ -29,7 +29,7 @@ function LoginForm() {
 
 	const loginWithProvider = async (provider: string) => {
 		const clientId = import.meta.env.VITE_GLOB_CLIENT_ID; // OpenIddict Client ID
-		const baseAddress = import.meta.env.VITE_EXTERNAL_LOGIN_ADDRESS; 
+		const baseAddress = import.meta.env.VITE_EXTERNAL_LOGIN_ADDRESS;
 		window.location.href = `${baseAddress}?provider=${provider}&clientId=${clientId}`;
 		// window.location.href = `http://localhost:30001/connect/external/login?provider=${provider}&clientId=${clientId}`;
 	};

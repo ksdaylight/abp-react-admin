@@ -30,4 +30,3 @@ export const sendPhoneSigninCodeApi = (input: SendPhoneSigninCodeDto) =>
 
 export const externalSignUpApi = (input: ExternalSignUpApiDto) =>
 	requestClient.post("/api/account/external/register", input, { withCredentials: true });
-
