@@ -110,6 +110,12 @@ importers:
       json-edit-react:
         specifier: ^1.19.2
         version: 1.19.2(react@18.2.0)
+      lodash.isdate:
+        specifier: ^4.0.1
+        version: 4.0.1
+      lodash.isnumber:
+        specifier: ^3.0.3
+        version: 3.0.3
       nprogress:
         specifier: ^0.2.0
         version: 0.2.0
@@ -210,6 +216,12 @@ importers:
       '@types/color':
         specifier: ^3.0.4
         version: 3.0.6
+      '@types/lodash.isdate':
+        specifier: ^4.0.9
+        version: 4.0.9
+      '@types/lodash.isnumber':
+        specifier: ^3.0.9
+        version: 3.0.9
       '@types/nprogress':
         specifier: ^0.2.1
         version: 0.2.3
@@ -1294,6 +1306,12 @@ packages:
 
   '@types/lodash-es@4.17.12':
     resolution: {integrity: sha512-0NgftHUcV4v34VhXm8QBSftKVXtbkBG3ViCjs6+eJ5a6y6Mi/jiFGPc1sC7QK+9BFhWrURE3EOggmWaSxL9OzQ==}
+
+  '@types/lodash.isdate@4.0.9':
+    resolution: {integrity: sha512-zgU4tWEQEkwhvIxlSc0qsu6+8FLBPa89nPJQtvym2HK6obbSF5DRDErhoW4rmZwoMQ1QbHWh9AgCqRD7vLye1w==}
+
+  '@types/lodash.isnumber@3.0.9':
+    resolution: {integrity: sha512-hAACPcK8mOZwe1kKoMLC0mM/EA+W5H36amfPsLTA4bWnL4rdKJsQ5pbUnVkcbnq/n4ibtNfHum7oLJFQlay/xA==}
 
   '@types/lodash@4.17.13':
     resolution: {integrity: sha512-lfx+dftrEZcdBPczf9d0Qv0x+j/rfNCMuC6OcfXmO8gkfeNAY88PgKUbvG56whcN23gc27yenwF6oJZXGFpYxg==}
@@ -2918,8 +2936,14 @@ packages:
   lodash.camelcase@4.3.0:
     resolution: {integrity: sha512-TwuEnCnxbc3rAvhf/LbG7tJUDzhqXyFnv3dtzLOPgCG/hODL7WFnsbwktkD7yUV0RrreP/l1PALq/YSg6VvjlA==}
 
+  lodash.isdate@4.0.1:
+    resolution: {integrity: sha512-hg5B1GD+R9egsBgMwmAhk+V53Us03TVvXT4dnyKugEfsD4QKuG9Wlyvxq8OGy2nu7qVGsh4DRSnMk33hoWBq/Q==}
+
   lodash.isfunction@3.0.9:
     resolution: {integrity: sha512-AirXNj15uRIMMPihnkInB4i3NHeb4iBtNg9WRWuK2o31S+ePwwNmDPaTL3o7dTJ+VXNZim7rFs4rxN4YU1oUJw==}
+
+  lodash.isnumber@3.0.3:
+    resolution: {integrity: sha512-QYqzpfwO3/CWf3XP+Z+tkQsfaLL/EnUlXWVkIk5FUPc4sBdTehEqZONuyRt2P67PXAk+NXmTBcc97zw9t1FQrw==}
 
   lodash.isplainobject@4.0.6:
     resolution: {integrity: sha512-oSXzaWypCMHkPC3NvBEaPHf0KsA5mvPrOPgQWDsbg8n7orZ290M0BmC/jgRZ4vcJ6DTAhjrsSYgdsW/F+MFOBA==}
@@ -6074,6 +6098,14 @@ snapshots:
     dependencies:
       '@types/lodash': 4.17.13
 
+  '@types/lodash.isdate@4.0.9':
+    dependencies:
+      '@types/lodash': 4.17.13
+
+  '@types/lodash.isnumber@3.0.9':
+    dependencies:
+      '@types/lodash': 4.17.13
+
   '@types/lodash@4.17.13': {}
 
   '@types/mdast@3.0.15':
@@ -7851,7 +7883,11 @@ snapshots:
 
   lodash.camelcase@4.3.0: {}
 
+  lodash.isdate@4.0.1: {}
+
   lodash.isfunction@3.0.9: {}
+
+  lodash.isnumber@3.0.3: {}
 
   lodash.isplainobject@4.0.6: {}
 

@@ -34,6 +34,9 @@ const PermissionDefinitions = lazy(
 const FeatureGroupDefinition = lazy(
 	() => import("@/pages/management/features/definitions-groups/feature-group-definition-table"),
 );
+const FeatureDefinitions = lazy(
+	() => import("@/pages/management/features/definitions-features/feature-definition-table"),
+);
 
 // Auditing logs
 const AuditingAuditLogs = lazy(() => import("@/pages/management/audit-logs/audit-log-table"));
@@ -262,11 +265,11 @@ const management: AppRouteObject = {
 				},
 				{
 					path: "definitions",
-					element: <SettingDefinitions />,
+					element: <FeatureDefinitions />,
 					meta: {
-						label: "abp.manage.settings.definitions",
-						key: "/management/settings/definitions",
-						icon: <Iconify icon="codicon:settings" />,
+						label: "abp.manage.features.definitions",
+						key: "/management/features/definitions",
+						icon: <Iconify icon="pajamas:feature-flag" />,
 					},
 				},
 				{
