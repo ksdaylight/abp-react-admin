@@ -12,11 +12,11 @@ import {
 	GroupDefinitionsPermissions,
 } from "@/constants/management/features/permissions";
 import FeatureGroupDefinitionModal from "./feature-group-definition-modal";
-import FeatureDefinitionModal from "./feature-group-definition-modal";
 import { useLocalizer } from "@/hooks/abp/use-localization";
 import { toast } from "sonner";
 import { Iconify } from "@/components/icon";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import FeatureDefinitionModal from "../definitions-features/feature-definition-modal";
 
 const FeatureGroupDefinitionTable: React.FC = () => {
 	const { t: $t } = useTranslation();
@@ -153,8 +153,8 @@ const FeatureGroupDefinitionTable: React.FC = () => {
 											hasAccessByCodes([FeatureDefinitionsPermissions.Create])
 												? {
 														key: "features",
-														icon: <Iconify icon="pajamas:feature-flag" />,
-														label: $t("AbpFeatureManagement.GroupDefinitions:AddNew"),
+														icon: <Iconify icon="ant-design:gold-outlined" />,
+														label: $t("AbpFeatureManagement.FeatureDefinitions:AddNew"),
 													}
 												: null,
 										].filter((item) => item !== null),
