@@ -25,6 +25,8 @@ import {
 	SelectionStringValueType,
 	ToggleStringValueType,
 } from "@/components/abp/string-value-type";
+import { useValidation } from "@/hooks/abp/use-validation";
+import { ValidationEnum } from "@/constants/abp-core";
 
 interface Props {
 	visible: boolean;
@@ -52,7 +54,7 @@ const defaultModel: FeatureDefinitionDto = {
 const FeatureDefinitionModal: React.FC<Props> = ({ visible, onClose, onChange, featureName, groupName }) => {
 	const { t: $t } = useTranslation();
 	const { Lr } = useLocalizer();
-	const { deserialize } = localizationSerializer();
+	const { deserialize, validate: validateLocalizer } = localizationSerializer();
 	const queryClient = useQueryClient();
 	const [form] = Form.useForm();
 
@@ -71,6 +73,8 @@ const FeatureDefinitionModal: React.FC<Props> = ({ visible, onClose, onChange, f
 	const [currentValidatorName, setCurrentValidatorName] = useState<string>("NULL");
 	const [selectionOptions, setSelectionOptions] = useState<{ label: string; value: string }[]>([]);
 
+	//
+	const { mapEnumValidMessage } = useValidation();
 	// for checkbox refreshing issue
 	const defaultValue = Form.useWatch("defaultValue", form);
 
@@ -350,7 +354,21 @@ const FeatureDefinitionModal: React.FC<Props> = ({ visible, onClose, onChange, f
 						<Form.Item
 							label={$t("AbpFeatureManagement.DisplayName:DisplayName")}
 							name="displayName"
-							rules={[{ required: true }]}
+							rules={[
+								{ required: true },
+								{
+									validator: async (_, value) => {
+										if (!validateLocalizer(value)) {
+											return Promise.reject(
+												mapEnumValidMessage(ValidationEnum.FieldRequired, [
+													$t("AbpFeatureManagement.DisplayName:DisplayName"),
+												]),
+											);
+										}
+										return Promise.resolve();
+									},
+								},
+							]}
 						>
 							<LocalizableInput disabled={formModel.isStatic} />
 						</Form.Item>
