@@ -40,6 +40,7 @@ const FeatureDefinitions = lazy(
 
 // Auditing logs
 const AuditingAuditLogs = lazy(() => import("@/pages/management/audit-logs/audit-log-table"));
+const Loggings = lazy(() => import("@/pages/management/loggings/logging-table"));
 
 // settings
 const SettingDefinitions = lazy(() => import("@/pages/management/settings/definitions/setting-definition-table"));
@@ -287,9 +288,18 @@ const management: AppRouteObject = {
 			path: "audit-logs",
 			element: <AuditingAuditLogs />,
 			meta: {
-				label: "abp.manage.identity.auditLogs",
+				label: "abp.manage.auditLogs",
 				key: "/management/audit-logs",
 				icon: <Iconify icon="fluent-mdl2:compliance-audit" />,
+			},
+		},
+		{
+			path: "sys-logs",
+			element: <Loggings />,
+			meta: {
+				label: "abp.manage.loggings",
+				key: "/management/sys-logs",
+				icon: <Iconify icon="icon-park-outline:log" />,
 			},
 		},
 		{
