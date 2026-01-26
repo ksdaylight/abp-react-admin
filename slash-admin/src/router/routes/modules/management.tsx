@@ -49,6 +49,11 @@ const SystemSettings = lazy(() => import("@/pages/management/settings/settings/s
 // notifications
 const MyNotifications = lazy(() => import("@/pages/management/notifications/my-notification-table"));
 
+// Localization
+const Languages = lazy(() => import("@/pages/management/localization/languages/localization-language-table"));
+const Resources = lazy(() => import("@/pages/management/localization/resources/localization-resource-table"));
+const Texts = lazy(() => import("@/pages/management/localization/texts/localization-text-table"));
+
 const management: AppRouteObject = {
 	order: 2,
 	path: "management",
@@ -184,6 +189,47 @@ const management: AppRouteObject = {
 						label: "abp.manage.identity.sessions",
 						key: "/management/identity/sessions",
 						icon: <Iconify icon="carbon:prompt-session" />,
+					},
+				},
+			],
+		},
+		{
+			path: "localization",
+			meta: {
+				label: "abp.manage.localization.title",
+				key: "/management/localization",
+				icon: <Iconify icon="ion:globe-outline" />,
+			},
+			children: [
+				{
+					index: true,
+					element: <Navigate to="resources" replace />,
+				},
+				{
+					path: "resources",
+					element: <Resources />,
+					meta: {
+						label: "abp.manage.localization.resources",
+						key: "/management/localization/resources",
+						icon: <Iconify icon="grommet-icons:resources" />,
+					},
+				},
+				{
+					path: "languages",
+					element: <Languages />,
+					meta: {
+						label: "abp.manage.localization.languages",
+						key: "/management/localization/languages",
+						icon: <Iconify icon="cil:language" />,
+					},
+				},
+				{
+					path: "texts",
+					element: <Texts />,
+					meta: {
+						label: "abp.manage.localization.texts",
+						key: "/management/localization/texts",
+						icon: <Iconify icon="mi:text" />,
 					},
 				},
 			],
