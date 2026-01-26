@@ -26,9 +26,9 @@ export function useValidation(): RuleCreator {
 
 	function __getFieldName(fieldName: string, resourceName?: string, prefix?: string, connector?: string) {
 		if (fieldName && resourceName) {
-			fieldName = prefix ? `${prefix}${connector ?? ":"}${fieldName}` : fieldName;
+			const finalFieldName = prefix ? `${prefix}${connector ?? ":"}${fieldName}` : fieldName;
 			const { L: l } = useLocalizer(resourceName);
-			return l(fieldName);
+			return l(finalFieldName);
 		}
 		return fieldName;
 	}

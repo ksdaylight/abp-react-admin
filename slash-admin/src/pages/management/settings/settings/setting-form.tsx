@@ -168,27 +168,28 @@ const SettingForm: React.FC<Props> = ({ getApi, submitApi, onChange, slots }) =>
 				return null;
 		}
 	};
-	const ToolbarSlot = slots?.["toolbar"];
+	// const ToolbarSlot = slots?.["toolbar"];
+	const ToolbarSlot = slots?.toolbar;
 	return (
 		<Card
 			title={$t("AbpSettingManagement.Settings")}
 			extra={
 				<Space>
-          {/* Render the Toolbar Slot here */}
-          {ToolbarSlot && <ToolbarSlot />}
-          
-          {settingsUpdateInput.settings.length > 0 && (
-            <Button
-              type="primary"
-              icon={<SettingOutlined />}
-              loading={submitting}
-              onClick={handleSubmit}
-              className="w-[100px]"
-            >
-              {$t("AbpUi.Submit")}
-            </Button>
-          )}
-        </Space>
+					{/* Render the Toolbar Slot here */}
+					{ToolbarSlot && <ToolbarSlot />}
+
+					{settingsUpdateInput.settings.length > 0 && (
+						<Button
+							type="primary"
+							icon={<SettingOutlined />}
+							loading={submitting}
+							onClick={handleSubmit}
+							className="w-[100px]"
+						>
+							{$t("AbpUi.Submit")}
+						</Button>
+					)}
+				</Space>
 			}
 		>
 			<Form labelCol={{ span: 5 }} wrapperCol={{ span: 15 }}>

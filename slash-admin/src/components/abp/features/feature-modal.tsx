@@ -1,10 +1,11 @@
 import type { Validator } from "#/abp-core";
-import React, { useEffect, useState } from "react";
+import type React from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { getApi, updateApi } from "@/api/management/features/features";
-import { useMutation   } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
-import type { FeatureGroupDto, UpdateFeaturesDto  } from "#/management/features/features";
+import type { FeatureGroupDto, UpdateFeaturesDto } from "#/management/features/features";
 
 import { Modal, Form, Tabs, Card, Input, InputNumber, Checkbox, Select, Spin } from "antd";
 import { useValidation } from "@/hooks/abp/use-validation";
@@ -31,7 +32,7 @@ const FeatureManagementModal: React.FC<FeatureManagementModalProps> = ({
 	displayName,
 }) => {
 	const { t: $t } = useTranslation();
-	const { Lr } = useLocalizer(); 
+	const { Lr } = useLocalizer();
 	const [form] = Form.useForm();
 
 	// Validation Hook
@@ -48,7 +49,7 @@ const FeatureManagementModal: React.FC<FeatureManagementModalProps> = ({
 	 */
 	const createRules = (fieldLabel: string, validator: Validator) => {
 		const rules: any[] = [];
-		if (validator && validator.properties) {
+		if (validator?.properties) {
 			switch (validator.name) {
 				case "NUMERIC": {
 					rules.push(

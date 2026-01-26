@@ -118,7 +118,7 @@ const SystemSetting: React.FC = () => {
 			<FeatureManagementModal
 				visible={featureModalVisible}
 				onClose={() => setFeatureModalVisible(false)}
-				providerName="T" //Fixed to 'T' 
+				providerName="T" //Fixed to 'T'
 			/>
 		</>
 	);

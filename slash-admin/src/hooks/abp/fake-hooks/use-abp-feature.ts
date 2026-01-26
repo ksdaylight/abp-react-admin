@@ -1,19 +1,29 @@
 import type { FeatureValue, IFeatureChecker } from "#/features";
 import useAbpStore from "@/store/abpCoreStore";
-import { useMemo } from "react";
+// import { useMemo } from "react";
 
 export function useFeatures(): IFeatureChecker {
-	const application = useAbpStore((state) => state.application);
+	// const application = useAbpStore((state) => state.application);
+	const { application } = useAbpStore.getState();
+	// const features = useMemo<FeatureValue[]>(() => {
+	// 	if (!application?.features?.values) {
+	// 		return [];
+	// 	}
+	// 	return Object.keys(application.features.values).map((name) => ({
+	// 		name,
+	// 		value: application.features.values[name] ?? "",
+	// 	}));
+	// }, [application]);
 
-	const features = useMemo<FeatureValue[]>(() => {
-		if (!application?.features?.values) {
-			return [];
-		}
-		return Object.keys(application.features.values).map((name) => ({
+	let features: FeatureValue[];
+	if (!application?.features?.values) {
+		features = [];
+	} else {
+		features = Object.keys(application.features.values).map((name) => ({
 			name,
 			value: application.features.values[name] ?? "",
 		}));
-	}, [application]);
+	}
 
 	function get(name: string): FeatureValue | undefined {
 		return features.find((feature) => feature.name === name);
