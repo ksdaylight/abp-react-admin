@@ -1,6 +1,6 @@
 import type React from "react";
 import { useRef, useState } from "react";
-import { Button, Tag, Space, Dropdown, Modal, Checkbox, FormInstance } from "antd";
+import { Button, Tag, Space, Dropdown, Modal, Checkbox, type FormInstance } from "antd";
 import {
 	EditOutlined,
 	DeleteOutlined,

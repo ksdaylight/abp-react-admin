@@ -163,7 +163,7 @@ const JobInfoDrawer: React.FC<Props> = ({ visible, onClose, onChange, jobId }) =
 			}
 		>
 			<Spin spinning={loading}>
-				<Form form={form} layout="horizontal" labelCol={{ span: 6 }} wrapperCol={{ span: 18 }}>
+				<Form form={form} layout="horizontal" labelCol={{ span: 6 }} wrapperCol={{ span: 18 }} autoComplete="off">
 					<Tabs activeKey={activeTab} onChange={setActiveTab}>
 						<Tabs.TabPane key="basic" tab={$t("TaskManagement.BasicInfo")}>
 							{!jobId && (
@@ -182,7 +182,7 @@ const JobInfoDrawer: React.FC<Props> = ({ visible, onClose, onChange, jobId }) =
 							</Form.Item>
 
 							<Form.Item name="nodeName" label={$t("TaskManagement.DisplayName:NodeName")}>
-								<Input autoComplete="off" />
+								<Input autoComplete="off" data-lpignore="true"/>
 							</Form.Item>
 
 							<Form.Item name="group" label={$t("TaskManagement.DisplayName:Group")} rules={[{ required: true }]}>
