@@ -23,7 +23,7 @@ const ContainerTable: React.FC = () => {
 		mutationFn: deleteApi,
 		onSuccess: () => {
 			toast.success($t("AbpUi.DeletedSuccessfully"));
-			actionRef.current?.reload();
+			queryClient.invalidateQueries({ queryKey: ["oss-containers"], exact: false });
 		},
 	});
 
@@ -110,18 +110,14 @@ const ContainerTable: React.FC = () => {
 					</Button>,
 				]}
 				request={async (params, sorter) => {
-					const { current, pageSize, ...filters } = params;
+					const { current, pageSize, filter } = params;
 					const sorting =
 						sorter && Object.keys(sorter).length > 0
 							? Object.keys(sorter)
 									.map((key) => `${key} ${antdOrderToAbpOrder(sorter[key])}`)
 									.join(", ")
 							: undefined;
-
-					// Note: getListApi uses `prefix` instead of `filter` in some implementations,
-					// checking your provided API file it seems `GetOssContainersInput` is used.
-					// Adjust property mapping if `filter` is named differently on backend (e.g. `prefix`).
-
+					// that just how this api is.
 					const query = await queryClient.fetchQuery({
 						queryKey: ["oss-containers", params, sorter],
 						queryFn: () =>
@@ -129,13 +125,13 @@ const ContainerTable: React.FC = () => {
 								maxResultCount: pageSize,
 								skipCount: ((current || 1) - 1) * (pageSize || 0),
 								sorting: sorting,
-								prefix: filters.filter, // Assuming 'filter' form field maps to 'prefix'
+								prefix: filter, //?
 							}),
 					});
 
 					return {
 						data: query.containers,
-						total: query.maxKeys, // Assuming maxKeys is total count or close enough for pagination context
+						total: query.maxKeys,
 						success: true,
 					};
 				}}
@@ -148,7 +144,7 @@ const ContainerTable: React.FC = () => {
 			<ContainerModal
 				visible={createModalVisible}
 				onClose={() => setCreateModalVisible(false)}
-				onChange={() => actionRef.current?.reload()}
+				onChange={() => queryClient.invalidateQueries({ queryKey: ["oss-containers"], exact: false })}
 			/>
 		</>
 	);
