@@ -36,8 +36,9 @@ const EditionTable: React.FC = () => {
 
 	const { mutateAsync: deleteEdition } = useMutation({
 		mutationFn: deleteApi,
-		onSuccess: () => {
+		onSuccess: async () => {
 			toast.success($t("AbpUi.DeletedSuccessfully"));
+			await queryClient.invalidateQueries({ queryKey: ["editions"], exact: false });
 			actionRef.current?.reload();
 		},
 	});
@@ -192,7 +193,10 @@ const EditionTable: React.FC = () => {
 				visible={editionModalVisible}
 				editionId={selectedEditionId}
 				onClose={() => setEditionModalVisible(false)}
-				onChange={() => actionRef.current?.reload()}
+				onChange={async () => {
+					await queryClient.invalidateQueries({ queryKey: ["editions"], exact: false });
+					actionRef.current?.reload();
+				}}
 			/>
 
 			<FeatureModal

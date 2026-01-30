@@ -8,201 +8,202 @@ import FolderModal from "./folder-modal";
 const { DirectoryTree } = Tree;
 
 interface FolderNode {
-  key: string;
-  title: string;
-  isLeaf?: boolean;
-  children?: FolderNode[];
-  dataRef?: { path?: string; name: string };
+	key: string;
+	title: string;
+	isLeaf?: boolean;
+	children?: FolderNode[];
+	dataRef?: { path?: string; name: string };
 }
 
 interface Props {
-  onBucketChange: (bucket: string) => void;
-  onFolderChange: (path: string) => void;
+	onBucketChange: (bucket: string) => void;
+	onFolderChange: (path: string) => void;
 }
 
 const FolderTree: React.FC<Props> = ({ onBucketChange, onFolderChange }) => {
-  const { t: $t } = useTranslation();
-  
-  // -- State --
-  const [bucket, setBucket] = useState<string>("");
-  const [treeData, setTreeData] = useState<FolderNode[]>([]);
-  
-  // Controlled Tree State
-  const [expandedKeys, setExpandedKeys] = useState<React.Key[]>([]);
-  const [selectedKeys, setSelectedKeys] = useState<React.Key[]>([]);
-  const [loadedKeys, setLoadedKeys] = useState<React.Key[]>([]);
+	const { t: $t } = useTranslation();
 
-  // Modal State
-  const [modalVisible, setModalVisible] = useState(false);
-  const [selectedPathForCreate, setSelectedPathForCreate] = useState<string>("");
+	// -- State --
+	const [bucket, setBucket] = useState<string>("");
+	const [treeData, setTreeData] = useState<FolderNode[]>([]);
 
-  // -- 1. React Query for Containers --
-  const { data: containerData, isLoading: isContainersLoading } = useQuery({
-    queryKey: ["oss-containers-list"],
-    queryFn: () => getContainersApi({ maxResultCount: 1000 }),
-  });
+	// Controlled Tree State
+	const [expandedKeys, setExpandedKeys] = useState<React.Key[]>([]);
+	const [selectedKeys, setSelectedKeys] = useState<React.Key[]>([]);
+	const [loadedKeys, setLoadedKeys] = useState<React.Key[]>([]);
 
-  const containers = containerData?.containers || [];
+	// Modal State
+	const [modalVisible, setModalVisible] = useState(false);
+	const [selectedPathForCreate, setSelectedPathForCreate] = useState<string>("");
 
-  // -- Helpers --
-  const rootNode: FolderNode = {
-    key: "./",
-    title: $t("AbpOssManagement.Objects:Root"),
-    isLeaf: false,
-    dataRef: { path: "", name: "./" },
-    children: [],
-  };
+	// -- 1. React Query for Containers --
+	const { data: containerData, isLoading: isContainersLoading } = useQuery({
+		queryKey: ["oss-containers-list"],
+		queryFn: () => getContainersApi({ maxResultCount: 1000 }),
+	});
 
-  // 3. FIX: Completely reset tree when bucket changes
-  const handleBucketChange = (val: string) => {
-    setBucket(val);
-    onBucketChange(val);
-    
-    // Reset ALL list states to prevent stale paths
-    setTreeData([rootNode]);
-    setExpandedKeys([]);
-    setLoadedKeys([]);
-    setSelectedKeys([]);
-    setSelectedPathForCreate(""); // Reset create path
-    onFolderChange(""); // Reset file list path
-  };
+	const containers = containerData?.containers || [];
 
-  const getFolders = async (bucketName: string, prefix: string) => {
-    const { objects } = await getObjectsApi({
-      bucket: bucketName,
-      delimiter: "/",
-      maxResultCount: 1000,
-      prefix: prefix,
-    });
-    return objects
-      .filter((f) => f.isFolder)
-      .map((folder) => ({
-        key: `${folder.path || ""}${folder.name}`,
-        title: folder.name,
-        isLeaf: false, 
-        dataRef: folder,
-        children: [],
-      }));
-  };
+	// -- Helpers --
+	const rootNode: FolderNode = {
+		key: "./",
+		title: $t("AbpOssManagement.Objects:Root"),
+		isLeaf: false,
+		dataRef: { path: "", name: "./" },
+		children: [],
+	};
 
-  const updateTreeData = (list: FolderNode[], key: React.Key, children: FolderNode[]): FolderNode[] => {
-    return list.map((node) => {
-      if (node.key === key) {
-        return { ...node, children };
-      }
-      if (node.children) {
-        return { ...node, children: updateTreeData(node.children, key, children) };
-      }
-      return node;
-    });
-  };
+	// 3. FIX: Completely reset tree when bucket changes
+	const handleBucketChange = (val: string) => {
+		setBucket(val);
+		onBucketChange(val);
 
-  // -- Tree Event Handlers --
+		// Reset ALL list states to prevent stale paths
+		setTreeData([rootNode]);
+		setExpandedKeys([]);
+		setLoadedKeys([]);
+		setSelectedKeys([]);
+		setSelectedPathForCreate(""); // Reset create path
+		onFolderChange(""); // Reset file list path
+	};
 
-  const onLoadData = async ({ key, dataRef }: any) => {
+	const getFolders = async (bucketName: string, prefix: string) => {
+		const { objects } = await getObjectsApi({
+			bucket: bucketName,
+			delimiter: "/",
+			maxResultCount: 1000,
+			prefix: prefix,
+		});
+		return objects
+			.filter((f) => f.isFolder)
+			.map((folder) => ({
+				key: `${folder.path || ""}${folder.name}`,
+				title: folder.name,
+				isLeaf: false,
+				dataRef: folder,
+				children: [],
+			}));
+	};
 
-    if (!bucket) return;
+	const updateTreeData = (list: FolderNode[], key: React.Key, children: FolderNode[]): FolderNode[] => {
+		return list.map((node) => {
+			if (node.key === key) {
+				return { ...node, children };
+			}
+			if (node.children) {
+				return { ...node, children: updateTreeData(node.children, key, children) };
+			}
+			return node;
+		});
+	};
 
-    let path = "";
-    if (dataRef?.path) path += dataRef.path;
-    if (dataRef?.name && dataRef.name !== "./") path += dataRef.name;
+	// -- Tree Event Handlers --
 
-    try {
-      const childFolders = await getFolders(bucket, path);
-      setTreeData((origin) => updateTreeData(origin, key, childFolders));
-      setLoadedKeys((prev) => [...prev, key]);
-    } catch (error) {
-      console.error(error);
-      setTreeData((origin) => updateTreeData(origin, key, []));
-    }
-  };
+	const onLoadData = async ({ key, dataRef }: any) => {
+		if (!bucket) return;
 
-  const onExpand = (keys: React.Key[], info: any) => {
-    setExpandedKeys(keys);
-        if (!info.expanded) {
-      const nodeKey = info.node.key;
-      setLoadedKeys((prev) => prev.filter((k) => k !== nodeKey));
-    }
-  };
+		let path = "";
+		if (dataRef?.path) path += dataRef.path;
+		if (dataRef?.name && dataRef.name !== "./") path += dataRef.name;
 
-  const onSelect = (keys: React.Key[], info: any) => {
-    setSelectedKeys(keys);
-    if (keys.length === 1) {
-      const keyStr = keys[0].toString();
-      // 1. Determine Path
-      const nodePath = keyStr === "./" ? "" : keyStr;
-      
-      // 2. Pass path to parent (File List)
-      onFolderChange(nodePath);
-      
-      // 3. FIX: Store specific path for "Create Folder" modal
-      setSelectedPathForCreate(nodePath);
-    }
-  };
+		try {
+			const childFolders = await getFolders(bucket, path);
+			setTreeData((origin) => updateTreeData(origin, key, childFolders));
+			setLoadedKeys((prev) => [...prev, key]);
+		} catch (error) {
+			console.error(error);
+			setTreeData((origin) => updateTreeData(origin, key, []));
+		}
+	};
 
-  const handleCreateFolder = () => {
-    // If nothing selected, it stays empty (root), which is handled by default state
-    setModalVisible(true);
-  };
+	const onExpand = (keys: React.Key[], info: any) => {
+		setExpandedKeys(keys);
+		if (!info.expanded) {
+			const nodeKey = info.node.key;
+			setLoadedKeys((prev) => prev.filter((k) => k !== nodeKey));
+		}
+	};
 
-  const handleFolderCreated = () => {
-    handleBucketChange(bucket); // TODO just re-fetch entire tree for simplicity  parent's other children (file-list.tsx) should also refresh (1), and the reverse is also true (2) and the same applies in reverse.
-  };
+	const onSelect = (keys: React.Key[], info: any) => {
+		setSelectedKeys(keys);
+		if (keys.length === 1) {
+			const keyStr = keys[0].toString();
+			// 1. Determine Path
+			const nodePath = keyStr === "./" ? "" : keyStr;
 
-  return (
-    <>
-      <Card title={$t("AbpOssManagement.Containers")} className="h-full flex flex-col">
-        <div className="flex flex-col gap-2 flex-1">
-          {isContainersLoading ? (
-             <div className="flex justify-center p-4"><Spin /></div>
-          ) : (
-            <Select
-              placeholder={$t("AbpOssManagement.Containers:Select")}
-              options={containers.map((c) => ({ label: c.name, value: c.name }))}
-              value={bucket || undefined}
-              onChange={handleBucketChange}
-              className="w-full"
-            />
-          )}
-          
-          {bucket ? (
-            <>
-              <Button block type="primary" ghost onClick={handleCreateFolder}>
-                {$t("AbpOssManagement.Objects:CreateFolder")}
-              </Button>
-              <div className="overflow-auto flex-1 mt-2">
-                <DirectoryTree
-                  key={bucket}
-                  blockNode
-                  treeData={treeData}
-                  // Controlled State
-                  expandedKeys={expandedKeys}
-                  selectedKeys={selectedKeys}
-                  loadedKeys={loadedKeys}
-                  // Handlers
-                  loadData={onLoadData}
-                  onSelect={onSelect}
-                  onExpand={onExpand}
-                  // Default
-                  defaultExpandedKeys={["./"]}
-                />
-              </div>
-            </>
-          ) : (
-            <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
-          )}
-        </div>
-      </Card>
-      
-      <FolderModal
-        visible={modalVisible}
-        bucket={bucket}
-        path={selectedPathForCreate}
-        onClose={() => setModalVisible(false)}
-        onChange={handleFolderCreated}
-      />
-    </>
-  );
+			// 2. Pass path to parent (File List)
+			onFolderChange(nodePath);
+
+			// 3. FIX: Store specific path for "Create Folder" modal
+			setSelectedPathForCreate(nodePath);
+		}
+	};
+
+	const handleCreateFolder = () => {
+		// If nothing selected, it stays empty (root), which is handled by default state
+		setModalVisible(true);
+	};
+
+	const handleFolderCreated = () => {
+		handleBucketChange(bucket); // TODO just re-fetch entire tree for simplicity  parent's other children (file-list.tsx) should also refresh (1), and the reverse is also true (2) and the same applies in reverse.
+	};
+
+	return (
+		<>
+			<Card title={$t("AbpOssManagement.Containers")} className="h-full flex flex-col">
+				<div className="flex flex-col gap-2 flex-1">
+					{isContainersLoading ? (
+						<div className="flex justify-center p-4">
+							<Spin />
+						</div>
+					) : (
+						<Select
+							placeholder={$t("AbpOssManagement.Containers:Select")}
+							options={containers.map((c) => ({ label: c.name, value: c.name }))}
+							value={bucket || undefined}
+							onChange={handleBucketChange}
+							className="w-full"
+						/>
+					)}
+
+					{bucket ? (
+						<>
+							<Button block type="primary" ghost onClick={handleCreateFolder}>
+								{$t("AbpOssManagement.Objects:CreateFolder")}
+							</Button>
+							<div className="overflow-auto flex-1 mt-2">
+								<DirectoryTree
+									key={bucket}
+									blockNode
+									treeData={treeData}
+									// Controlled State
+									expandedKeys={expandedKeys}
+									selectedKeys={selectedKeys}
+									loadedKeys={loadedKeys}
+									// Handlers
+									loadData={onLoadData}
+									onSelect={onSelect}
+									onExpand={onExpand}
+									// Default
+									defaultExpandedKeys={["./"]}
+								/>
+							</div>
+						</>
+					) : (
+						<Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+					)}
+				</div>
+			</Card>
+
+			<FolderModal
+				visible={modalVisible}
+				bucket={bucket}
+				path={selectedPathForCreate}
+				onClose={() => setModalVisible(false)}
+				onChange={handleFolderCreated}
+			/>
+		</>
+	);
 };
 
 export default FolderTree;

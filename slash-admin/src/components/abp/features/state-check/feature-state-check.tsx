@@ -1,13 +1,15 @@
-import type React from "react";
+import React, { useMemo } from "react";
 import { Checkbox, TreeSelect, Spin } from "antd";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
 import { getListApi as getFeaturesApi } from "@/api/management/features/feature-definitions";
 import { getListApi as getGroupsApi } from "@/api/management/features/feature-group-definitions";
-import { listToTree } from "@/utils/tree";
+
 import { localizationSerializer } from "@/utils/abp/localization-serializer";
 import { useLocalizer } from "@/hooks/abp/use-localization";
-import { valueTypeSerializer } from "@/components/abp/string-value-type";
+
+import { listToTree } from "@/utils/tree";
+import { valueTypeSerializer } from "../../string-value-type";
 
 interface ValueType {
 	featureNames: string[];
@@ -27,12 +29,13 @@ const FeatureStateCheck: React.FC<FeatureStateCheckProps> = ({
 	const { deserialize } = localizationSerializer();
 	const { Lr } = useLocalizer();
 
-	const { data: treeData, isLoading } = useQuery({
+	// 1. Fetch Data
+	const { data: featureData, isLoading } = useQuery({
 		queryKey: ["featureStateCheckData"],
 		queryFn: async () => {
 			const [groupsRes, featuresRes] = await Promise.all([getGroupsApi(), getFeaturesApi()]);
 
-			// Filter only Boolean features as per logic
+			// Filter: Only BOOLEAN features are relevant for state checking
 			const validFeatures = featuresRes.items.filter((item) => {
 				if (item.valueType) {
 					try {
@@ -42,58 +45,101 @@ const FeatureStateCheck: React.FC<FeatureStateCheckProps> = ({
 						return false;
 					}
 				}
-				return true; // Default behavior if no valuetype? Vue code implies filtering strictly.
+				return true;
 			});
 
-			const featureNodes = validFeatures.map((f) => {
+			// Prepare localized features list for lookup and tree building
+			const features = validFeatures.map((f) => {
 				const d = deserialize(f.displayName);
 				return {
 					...f,
-					title: Lr(d.resourceName, d.name),
+					title: Lr(d.resourceName, d.name), // Localized Title
 					key: f.name,
 					value: f.name,
-					isLeaf: true,
 				};
 			});
 
-			const groupNodes = groupsRes.items.map((g) => {
+			// Prepare localized groups
+			const groups = groupsRes.items.map((g) => {
 				const d = deserialize(g.displayName);
 				return {
+					...g,
 					title: Lr(d.resourceName, d.name),
-					key: g.name,
-					value: g.name,
-					selectable: false, // Groups are just containers
-					children: listToTree(
-						featureNodes.filter((f) => f.groupName === g.name),
-						{ id: "name", pid: "parentName" },
-					),
 				};
 			});
 
-			return groupNodes;
+			return { groups, features };
 		},
+		staleTime: Infinity, // Config data rarely changes
 	});
 
+	// 2. Construct Tree Data
+	const treeData = useMemo(() => {
+		if (!featureData) return [];
+		const { groups, features } = featureData;
+
+		return groups.map((group) => {
+			// Find features belonging to this group
+			const groupFeatures = features.filter((f) => f.groupName === group.name);
+
+			// Build hierarchy for features (parent/child)
+			const children = listToTree(groupFeatures, { id: "name", pid: "parentName" });
+
+			// Return Group Node
+			return {
+				title: group.title,
+				value: group.name,
+				key: group.name,
+				selectable: false, // Cannot select the group itself
+				checkable: false, // Cannot check the group itself
+				disableCheckbox: true, // Visual disabled checkbox
+				children: children,
+			};
+		});
+	}, [featureData]);
+
+	// 3. Map selected string[] to { label, value }[] for TreeSelect (Required for treeCheckStrictly)
+	const treeValue = useMemo(() => {
+		if (!featureData || !value.featureNames) return [];
+		return value.featureNames.map((name) => {
+			const feature = featureData.features.find((f) => f.name === name);
+			return {
+				label: feature?.title || name,
+				value: name,
+			};
+		});
+	}, [featureData, value.featureNames]);
+
+	// 4. Handle Change
 	const triggerChange = (changedValue: Partial<ValueType>) => {
 		onChange?.({ ...value, ...changedValue });
 	};
 
-	if (isLoading) return <Spin />;
+	const onTreeChange = (labeledValues: { label: React.ReactNode; value: string }[]) => {
+		// Extract just the feature names (strings) to send back
+		const names = labeledValues.map((item) => item.value);
+		triggerChange({ featureNames: names });
+	};
+
+	if (isLoading) return <Spin className="my-2" />;
 
 	return (
-		<div className="flex flex-col gap-4 w-full">
+		<div className="flex flex-col gap-2 w-full">
 			<Checkbox checked={value.requiresAll} onChange={(e) => triggerChange({ requiresAll: e.target.checked })}>
 				{$t("component.simple_state_checking.requireFeatures.requiresAll")}
 			</Checkbox>
+
 			<TreeSelect
 				treeData={treeData}
-				value={value.featureNames}
-				onChange={(val) => triggerChange({ featureNames: val })}
+				value={treeValue} // Pass objects
+				onChange={onTreeChange} // Receive objects
 				allowClear
 				treeCheckable
-				showCheckedStrategy={TreeSelect.SHOW_PARENT}
+				treeCheckStrictly // Decouples parent/child selection logic
+				showCheckedStrategy={TreeSelect.SHOW_ALL} // Show every selected node explicitly
 				placeholder={$t("ui.placeholder.select")}
 				style={{ width: "100%" }}
+				treeDefaultExpandAll
 			/>
 		</div>
 	);

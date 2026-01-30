@@ -27,89 +27,110 @@ const PermissionStateCheck: React.FC<PermissionStateCheckProps> = ({
 	const { deserialize } = localizationSerializer();
 	const { Lr } = useLocalizer();
 
-	const { data: treeData, isLoading } = useQuery({
+	// 1. Fetch Data
+	const { data: permissionData, isLoading } = useQuery({
 		queryKey: ["permissionStateCheckData"],
 		queryFn: async () => {
 			const [groupsRes, permissionsRes] = await Promise.all([getGroupsApi(), getPermissionsApi()]);
 
-			const permissionNodes = permissionsRes.items.map((p) => {
+			// Prepare localized permissions list
+			const permissions = permissionsRes.items.map((p) => {
 				const d = deserialize(p.displayName);
 				return {
-					title: Lr(d.resourceName, d.name),
-					key: p.name,
-					value: p.name,
-					groupName: p.groupName,
+					...p,
+					displayName: Lr(d.resourceName, d.name), // Localized Name
+					name: p.name,
 					parentName: p.parentName,
-					isLeaf: true,
+					groupName: p.groupName,
 				};
 			});
 
-			const groupNodes = groupsRes.items.map((g) => {
+			// Prepare localized groups
+			const groups = groupsRes.items.map((g) => {
 				const d = deserialize(g.displayName);
 				return {
-					title: Lr(d.resourceName, d.name),
-					key: g.name,
-					value: g.name,
-					selectable: false,
-					children: listToTree(
-						permissionNodes.filter((p) => p.groupName === g.name),
-						{ id: "key", pid: "parentName" },
-					),
+					...g,
+					displayName: Lr(d.resourceName, d.name),
+					name: g.name,
 				};
 			});
 
-			return groupNodes;
+			return { groups, permissions };
 		},
+		staleTime: Infinity,
 	});
 
+	// 2. Construct Tree Data
+	const treeData = useMemo(() => {
+		if (!permissionData) return [];
+		const { groups, permissions } = permissionData;
+
+		return groups.map((group) => {
+			// Find permissions belonging to this group
+			const groupPermissions = permissions.filter((p) => p.groupName === group.name);
+
+			// Build hierarchy for permissions (parent/child)
+			// Standard listToTree usage: (list, config)
+			const children = listToTree(groupPermissions, { id: "name", pid: "parentName" });
+
+			// Return Group Node
+			// Note: We use 'displayName' and 'name' which match the DTOs,
+			// and map them using the 'fieldNames' prop on TreeSelect below.
+			return {
+				displayName: group.displayName,
+				name: group.name,
+				// UI props to make group unselectable/uncheckable
+				checkable: false,
+				selectable: false,
+				disableCheckbox: true,
+				children: children,
+			};
+		});
+	}, [permissionData]);
+
+	// 3. Map selected string[] to { label, value } objects for TreeSelect (Strict Mode)
+	const treeValue = useMemo(() => {
+		if (!permissionData || !value.permissions) return [];
+		return value.permissions.map((name) => {
+			const permission = permissionData.permissions.find((p) => p.name === name);
+			return {
+				label: permission?.displayName || name,
+				value: name,
+			};
+		});
+	}, [permissionData, value.permissions]);
+
+	// 4. Handle Change
 	const triggerChange = (changedValue: Partial<ValueType>) => {
 		onChange?.({ ...value, ...changedValue });
 	};
 
-	/**
-	 * Handle TreeSelect Change.
-	 * When treeCheckStrictly is true, val is { label: string, value: string }[]
-	 * We must map it back to string[] for the data model.
-	 */
-	const handleTreeChange = (val: any) => {
-		// Check if val is array (it should be)
-		if (Array.isArray(val)) {
-			const permissionNames = val.map((item) => item.value);
-			triggerChange({ permissions: permissionNames });
-		} else {
-			triggerChange({ permissions: [] });
-		}
+	const onTreeChange = (labeledValues: { label: React.ReactNode; value: string }[]) => {
+		const names = labeledValues.map((item) => item.value);
+		triggerChange({ permissions: names });
 	};
 
-	/**
-	 * Prepare Value for TreeSelect.
-	 * When treeCheckStrictly is true, it expects objects.
-	 * We map our string[] model to { value, label }[] objects so AntD displays them correctly.
-	 */
-	const treeSelectValue = useMemo(() => {
-		return (value.permissions || []).map((p) => ({
-			value: p,
-			label: p, // AntD will try to match this with treeData to show the real label
-		}));
-	}, [value.permissions]);
-
-	if (isLoading) return <Spin />;
+	if (isLoading) return <Spin className="my-2" />;
 
 	return (
-		<div className="flex flex-col gap-4 w-full">
+		<div className="flex flex-col gap-2 w-full">
 			<Checkbox checked={value.requiresAll} onChange={(e) => triggerChange({ requiresAll: e.target.checked })}>
 				{$t("component.simple_state_checking.requirePermissions.requiresAll")}
 			</Checkbox>
+
 			<TreeSelect
 				treeData={treeData}
-				value={treeSelectValue}
-				onChange={handleTreeChange}
+				value={treeValue}
+				onChange={onTreeChange}
+				// Map DTO fields to AntD TreeSelect expected fields
+				fieldNames={{ label: "displayName", value: "name", children: "children" }}
 				allowClear
 				treeCheckable
 				treeCheckStrictly
-				showCheckedStrategy={TreeSelect.SHOW_PARENT}
-				style={{ width: "100%" }}
+				showCheckedStrategy={TreeSelect.SHOW_ALL}
 				placeholder={$t("ui.placeholder.select")}
+				style={{ width: "100%" }}
+				treeDefaultExpandAll
 			/>
 		</div>
 	);
