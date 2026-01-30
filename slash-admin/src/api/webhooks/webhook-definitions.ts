@@ -1,10 +1,10 @@
 import type { ListResultDto } from "#/abp-core";
 
 import type {
-  WebhookDefinitionCreateDto,
-  WebhookDefinitionDto,
-  WebhookDefinitionGetListInput,
-  WebhookDefinitionUpdateDto,
+	WebhookDefinitionCreateDto,
+	WebhookDefinitionDto,
+	WebhookDefinitionGetListInput,
+	WebhookDefinitionUpdateDto,
 } from "#/webhooks/definitions";
 
 import requestClient from "../request";
@@ -14,7 +14,7 @@ import requestClient from "../request";
  * @param name Webhook名称
  */
 export function deleteApi(name: string): Promise<void> {
-  return requestClient.delete(`/api/webhooks/definitions/${name}`);
+	return requestClient.delete(`/api/webhooks/definitions/${name}`);
 }
 
 /**
@@ -23,9 +23,7 @@ export function deleteApi(name: string): Promise<void> {
  * @returns Webhook定义数据传输对象
  */
 export function getApi(name: string): Promise<WebhookDefinitionDto> {
-  return requestClient.get<WebhookDefinitionDto>(
-    `/api/webhooks/definitions/${name}`,
-  );
+	return requestClient.get<WebhookDefinitionDto>(`/api/webhooks/definitions/${name}`);
 }
 
 /**
@@ -33,15 +31,10 @@ export function getApi(name: string): Promise<WebhookDefinitionDto> {
  * @param input Webhook过滤条件
  * @returns Webhook定义数据传输对象列表
  */
-export function getListApi(
-  input?: WebhookDefinitionGetListInput,
-): Promise<ListResultDto<WebhookDefinitionDto>> {
-  return requestClient.get<ListResultDto<WebhookDefinitionDto>>(
-    "/api/webhooks/definitions",
-    {
-      params: input,
-    },
-  );
+export function getListApi(input?: WebhookDefinitionGetListInput): Promise<ListResultDto<WebhookDefinitionDto>> {
+	return requestClient.get<ListResultDto<WebhookDefinitionDto>>("/api/webhooks/definitions", {
+		params: input,
+	});
 }
 
 /**
@@ -49,13 +42,8 @@ export function getListApi(
  * @param input Webhook定义参数
  * @returns Webhook定义数据传输对象
  */
-export function createApi(
-  input: WebhookDefinitionCreateDto,
-): Promise<WebhookDefinitionDto> {
-  return requestClient.post<WebhookDefinitionDto>(
-    "/api/webhooks/definitions",
-    input,
-  );
+export function createApi(input: WebhookDefinitionCreateDto): Promise<WebhookDefinitionDto> {
+	return requestClient.post<WebhookDefinitionDto>("/api/webhooks/definitions", input);
 }
 
 /**
@@ -64,12 +52,6 @@ export function createApi(
  * @param input Webhook定义参数
  * @returns Webhook定义数据传输对象
  */
-export function updateApi(
-  name: string,
-  input: WebhookDefinitionUpdateDto,
-): Promise<WebhookDefinitionDto> {
-  return requestClient.put<WebhookDefinitionDto>(
-    `/api/webhooks/definitions/${name}`,
-    input,
-  );
+export function updateApi(name: string, input: WebhookDefinitionUpdateDto): Promise<WebhookDefinitionDto> {
+	return requestClient.put<WebhookDefinitionDto>(`/api/webhooks/definitions/${name}`, input);
 }

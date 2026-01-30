@@ -1,31 +1,28 @@
-import type { IHasConcurrencyStamp, IHasExtraProperties } from '#/abp-core';
+import type { IHasConcurrencyStamp, IHasExtraProperties } from "#/abp-core";
 
 interface WebhookGroupDefinitionDto extends IHasExtraProperties {
-  displayName: string;
-  isStatic: boolean;
-  name: string;
+	displayName: string;
+	isStatic: boolean;
+	name: string;
 }
 
 interface WebhookGroupDefinitionCreateOrUpdateDto extends IHasExtraProperties {
-  displayName: string;
+	displayName: string;
 }
 
-interface WebhookGroupDefinitionCreateDto
-  extends WebhookGroupDefinitionCreateOrUpdateDto {
-  name: string;
+interface WebhookGroupDefinitionCreateDto extends WebhookGroupDefinitionCreateOrUpdateDto {
+	name: string;
 }
 
-interface WebhookGroupDefinitionUpdateDto
-  extends IHasConcurrencyStamp,
-    WebhookGroupDefinitionCreateOrUpdateDto {}
+interface WebhookGroupDefinitionUpdateDto extends IHasConcurrencyStamp, WebhookGroupDefinitionCreateOrUpdateDto {}
 
 interface WebhookGroupDefinitionGetListInput {
-  filter?: string;
+	filter?: string;
 }
 
 export type {
-  WebhookGroupDefinitionCreateDto,
-  WebhookGroupDefinitionDto,
-  WebhookGroupDefinitionGetListInput,
-  WebhookGroupDefinitionUpdateDto,
+	WebhookGroupDefinitionCreateDto,
+	WebhookGroupDefinitionDto,
+	WebhookGroupDefinitionGetListInput,
+	WebhookGroupDefinitionUpdateDto,
 };

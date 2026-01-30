@@ -1,12 +1,12 @@
 import type { ListResultDto, PagedResultDto } from "#/abp-core";
 
 import type {
-  WebhookAvailableGroupDto,
-  WebhookSubscriptionCreateDto,
-  WebhookSubscriptionDeleteManyInput,
-  WebhookSubscriptionDto,
-  WebhookSubscriptionGetListInput,
-  WebhookSubscriptionUpdateDto,
+	WebhookAvailableGroupDto,
+	WebhookSubscriptionCreateDto,
+	WebhookSubscriptionDeleteManyInput,
+	WebhookSubscriptionDto,
+	WebhookSubscriptionGetListInput,
+	WebhookSubscriptionUpdateDto,
 } from "#/webhooks/subscriptions";
 
 import requestClient from "../request";
@@ -16,13 +16,8 @@ import requestClient from "../request";
  * @param input 参数
  * @returns 订阅Dto
  */
-export function createApi(
-  input: WebhookSubscriptionCreateDto,
-): Promise<WebhookSubscriptionDto> {
-  return requestClient.post<WebhookSubscriptionDto>(
-    "/api/webhooks/subscriptions",
-    input,
-  );
+export function createApi(input: WebhookSubscriptionCreateDto): Promise<WebhookSubscriptionDto> {
+	return requestClient.post<WebhookSubscriptionDto>("/api/webhooks/subscriptions", input);
 }
 
 /**
@@ -30,31 +25,25 @@ export function createApi(
  * @param id 订阅Id
  */
 export function deleteApi(id: string): Promise<void> {
-  return requestClient.delete(`/api/webhooks/subscriptions/${id}`);
+	return requestClient.delete(`/api/webhooks/subscriptions/${id}`);
 }
 
 /**
  * 批量删除订阅
  * @param input 参数
  */
-export function bulkDeleteApi(
-  input: WebhookSubscriptionDeleteManyInput,
-): Promise<void> {
-  return requestClient.delete(`/api/webhooks/subscriptions/delete-many`, {
-    data: input,
-  });
+export function bulkDeleteApi(input: WebhookSubscriptionDeleteManyInput): Promise<void> {
+	return requestClient.delete(`/api/webhooks/subscriptions/delete-many`, {
+		data: input,
+	});
 }
 
 /**
  * 查询所有可用的Webhook分组列表
  * @returns Webhook分组列表
  */
-export function getAllAvailableWebhooksApi(): Promise<
-  ListResultDto<WebhookAvailableGroupDto>
-> {
-  return requestClient.get<ListResultDto<WebhookAvailableGroupDto>>(
-    "/api/webhooks/subscriptions/availables",
-  );
+export function getAllAvailableWebhooksApi(): Promise<ListResultDto<WebhookAvailableGroupDto>> {
+	return requestClient.get<ListResultDto<WebhookAvailableGroupDto>>("/api/webhooks/subscriptions/availables");
 }
 
 /**
@@ -63,9 +52,7 @@ export function getAllAvailableWebhooksApi(): Promise<
  * @returns 订阅Dto
  */
 export function getApi(id: string): Promise<WebhookSubscriptionDto> {
-  return requestClient.get<WebhookSubscriptionDto>(
-    `/api/webhooks/subscriptions/${id}`,
-  );
+	return requestClient.get<WebhookSubscriptionDto>(`/api/webhooks/subscriptions/${id}`);
 }
 
 /**
@@ -74,14 +61,11 @@ export function getApi(id: string): Promise<WebhookSubscriptionDto> {
  * @returns 订阅Dto列表
  */
 export function getPagedListApi(
-  input: WebhookSubscriptionGetListInput,
+	input: WebhookSubscriptionGetListInput,
 ): Promise<PagedResultDto<WebhookSubscriptionDto>> {
-  return requestClient.get<PagedResultDto<WebhookSubscriptionDto>>(
-    "/api/webhooks/subscriptions",
-    {
-      params: input,
-    },
-  );
+	return requestClient.get<PagedResultDto<WebhookSubscriptionDto>>("/api/webhooks/subscriptions", {
+		params: input,
+	});
 }
 
 /**
@@ -90,12 +74,6 @@ export function getPagedListApi(
  * @param input 更新参数
  * @returns 订阅Dto
  */
-export function updateApi(
-  id: string,
-  input: WebhookSubscriptionUpdateDto,
-): Promise<WebhookSubscriptionDto> {
-  return requestClient.put<WebhookSubscriptionDto>(
-    `/api/webhooks/subscriptions/${id}`,
-    input,
-  );
+export function updateApi(id: string, input: WebhookSubscriptionUpdateDto): Promise<WebhookSubscriptionDto> {
+	return requestClient.put<WebhookSubscriptionDto>(`/api/webhooks/subscriptions/${id}`, input);
 }

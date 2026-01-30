@@ -1,10 +1,10 @@
 import type { ListResultDto } from "#/abp-core";
 
 import type {
-  WebhookGroupDefinitionCreateDto,
-  WebhookGroupDefinitionDto,
-  WebhookGroupDefinitionGetListInput,
-  WebhookGroupDefinitionUpdateDto,
+	WebhookGroupDefinitionCreateDto,
+	WebhookGroupDefinitionDto,
+	WebhookGroupDefinitionGetListInput,
+	WebhookGroupDefinitionUpdateDto,
 } from "#/webhooks/groups";
 
 import requestClient from "../request";
@@ -14,7 +14,7 @@ import requestClient from "../request";
  * @param name Webhook分组名称
  */
 export function deleteApi(name: string): Promise<void> {
-  return requestClient.delete(`/api/webhooks/definitions/groups/${name}`);
+	return requestClient.delete(`/api/webhooks/definitions/groups/${name}`);
 }
 
 /**
@@ -23,9 +23,7 @@ export function deleteApi(name: string): Promise<void> {
  * @returns Webhook分组定义数据传输对象
  */
 export function getApi(name: string): Promise<WebhookGroupDefinitionDto> {
-  return requestClient.get<WebhookGroupDefinitionDto>(
-    `/api/webhooks/definitions/groups/${name}`,
-  );
+	return requestClient.get<WebhookGroupDefinitionDto>(`/api/webhooks/definitions/groups/${name}`);
 }
 
 /**
@@ -34,14 +32,11 @@ export function getApi(name: string): Promise<WebhookGroupDefinitionDto> {
  * @returns Webhook分组定义数据传输对象列表
  */
 export function getListApi(
-  input?: WebhookGroupDefinitionGetListInput,
+	input?: WebhookGroupDefinitionGetListInput,
 ): Promise<ListResultDto<WebhookGroupDefinitionDto>> {
-  return requestClient.get<ListResultDto<WebhookGroupDefinitionDto>>(
-    "/api/webhooks/definitions/groups",
-    {
-      params: input,
-    },
-  );
+	return requestClient.get<ListResultDto<WebhookGroupDefinitionDto>>("/api/webhooks/definitions/groups", {
+		params: input,
+	});
 }
 
 /**
@@ -49,13 +44,8 @@ export function getListApi(
  * @param input Webhook分组定义参数
  * @returns Webhook分组定义数据传输对象
  */
-export function createApi(
-  input: WebhookGroupDefinitionCreateDto,
-): Promise<WebhookGroupDefinitionDto> {
-  return requestClient.post<WebhookGroupDefinitionDto>(
-    "/api/webhooks/definitions/groups",
-    input,
-  );
+export function createApi(input: WebhookGroupDefinitionCreateDto): Promise<WebhookGroupDefinitionDto> {
+	return requestClient.post<WebhookGroupDefinitionDto>("/api/webhooks/definitions/groups", input);
 }
 
 /**
@@ -64,12 +54,6 @@ export function createApi(
  * @param input Webhook分组定义参数
  * @returns Webhook分组定义数据传输对象
  */
-export function updateApi(
-  name: string,
-  input: WebhookGroupDefinitionUpdateDto,
-): Promise<WebhookGroupDefinitionDto> {
-  return requestClient.put<WebhookGroupDefinitionDto>(
-    `/api/webhooks/definitions/groups/${name}`,
-    input,
-  );
+export function updateApi(name: string, input: WebhookGroupDefinitionUpdateDto): Promise<WebhookGroupDefinitionDto> {
+	return requestClient.put<WebhookGroupDefinitionDto>(`/api/webhooks/definitions/groups/${name}`, input);
 }

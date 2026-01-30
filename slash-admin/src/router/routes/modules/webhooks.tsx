@@ -10,12 +10,11 @@ const WebhookGroupDefine = lazy(() => import("@/pages/webhooks/definitions/group
 
 const WebhookDefine = lazy(() => import("@/pages/webhooks/definitions/webhooks/webhook-definition-table"));
 
-//TODO 
-const SendAttempts = lazy(() => import("@/pages/openiddict/scopes/scope-table"));
-const Subscriptions = lazy(() => import("@/pages/openiddict/tokens/token-table"));
+const Subscriptions = lazy(() => import("@/pages/webhooks/subscriptions/webhook-subscription-table"));
+const SendAttempts = lazy(() => import("@/pages/webhooks/send-attempts/webhook-send-attempt-table"));
 const webhooks: AppRouteObject[] = [
 	{
-		order: 5, 
+		order: 5,
 		path: "webhooks",
 		element: (
 			<Suspense fallback={<CircleLoading />}>
