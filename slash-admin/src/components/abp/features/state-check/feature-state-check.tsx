@@ -1,4 +1,5 @@
-import React, { useMemo } from "react";
+import type React from "react";
+import { useMemo } from "react";
 import { Checkbox, TreeSelect, Spin } from "antd";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
@@ -70,7 +71,7 @@ const FeatureStateCheck: React.FC<FeatureStateCheckProps> = ({
 
 			return { groups, features };
 		},
-		staleTime: Infinity, // Config data rarely changes
+		staleTime: Number.POSITIVE_INFINITY, // Config data rarely changes
 	});
 
 	// 2. Construct Tree Data

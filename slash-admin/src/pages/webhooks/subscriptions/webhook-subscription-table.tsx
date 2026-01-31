@@ -1,4 +1,5 @@
-import React, { useRef, useState } from "react";
+import type React from "react";
+import { useRef, useState } from "react";
 import { Button, Tag, Space, Modal } from "antd";
 import { EditOutlined, DeleteOutlined, PlusOutlined, CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";

@@ -31,7 +31,7 @@ export function deleteApi(id: string): Promise<void> {
  * @param input 参数
  */
 export function bulkDeleteApi(input: WebhookSendRecordDeleteManyInput): Promise<void> {
-	return requestClient.delete(`/api/webhooks/send-attempts/delete-many`, {
+	return requestClient.delete("/api/webhooks/send-attempts/delete-many", {
 		data: input,
 	});
 }
@@ -42,7 +42,7 @@ export function bulkDeleteApi(input: WebhookSendRecordDeleteManyInput): Promise<
  * @returns 发送记录Dto分页列表
  */
 export function getPagedListApi(input: WebhookSendRecordGetListInput): Promise<PagedResultDto<WebhookSendRecordDto>> {
-	return requestClient.get<PagedResultDto<WebhookSendRecordDto>>(`/api/webhooks/send-attempts`, {
+	return requestClient.get<PagedResultDto<WebhookSendRecordDto>>("/api/webhooks/send-attempts", {
 		params: input,
 	});
 }
@@ -60,5 +60,5 @@ export function reSendApi(id: string): Promise<void> {
  * @param input 参数
  */
 export function bulkReSendApi(input: WebhookSendRecordResendManyInput): Promise<void> {
-	return requestClient.post(`/api/webhooks/send-attempts/resend-many`, input);
+	return requestClient.post("/api/webhooks/send-attempts/resend-many", input);
 }

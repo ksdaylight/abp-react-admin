@@ -1,5 +1,5 @@
 import type { EntityDto, PagedAndSortedResultRequestDto } from "#/abp-core";
-import { HttpStatusCode } from "@/constants/request/http-status";
+import type { HttpStatusCode } from "@/constants/request/http-status";
 
 interface WebhookEventRecordDto extends EntityDto<string> {
 	creationTime: string;

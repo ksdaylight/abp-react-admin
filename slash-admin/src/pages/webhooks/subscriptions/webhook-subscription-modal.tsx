@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import type React from "react";
+import { useEffect, useState } from "react";
 import { Modal, Form, Input, Checkbox, Select, Tabs, Tooltip } from "antd";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";

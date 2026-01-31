@@ -33,7 +33,7 @@ export function deleteApi(id: string): Promise<void> {
  * @param input 参数
  */
 export function bulkDeleteApi(input: WebhookSubscriptionDeleteManyInput): Promise<void> {
-	return requestClient.delete(`/api/webhooks/subscriptions/delete-many`, {
+	return requestClient.delete("/api/webhooks/subscriptions/delete-many", {
 		data: input,
 	});
 }

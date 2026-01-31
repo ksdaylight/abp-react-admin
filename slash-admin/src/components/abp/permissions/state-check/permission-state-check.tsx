@@ -57,7 +57,7 @@ const PermissionStateCheck: React.FC<PermissionStateCheckProps> = ({
 
 			return { groups, permissions };
 		},
-		staleTime: Infinity,
+		staleTime: Number.POSITIVE_INFINITY,
 	});
 
 	// 2. Construct Tree Data
