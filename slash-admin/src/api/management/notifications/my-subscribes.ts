@@ -8,12 +8,8 @@ import requestClient from "../../request";
  * 获取我的所有订阅通知
  * @returns 订阅通知列表
  */
-export function getMySubscribesApi(): Promise<
-  ListResultDto<UserSubscreNotification>
-> {
-  return requestClient.get<ListResultDto<UserSubscreNotification>>(
-    "/api/notifications/my-subscribes/all",
-  );
+export function getMySubscribesApi(): Promise<ListResultDto<UserSubscreNotification>> {
+	return requestClient.get<ListResultDto<UserSubscreNotification>>("/api/notifications/my-subscribes/all");
 }
 
 /**
@@ -21,9 +17,9 @@ export function getMySubscribesApi(): Promise<
  * @param name 通知名称
  */
 export function subscribeApi(name: string): Promise<void> {
-  return requestClient.post("/api/notifications/my-subscribes", {
-    name,
-  });
+	return requestClient.post("/api/notifications/my-subscribes", {
+		name,
+	});
 }
 
 /**
@@ -31,5 +27,5 @@ export function subscribeApi(name: string): Promise<void> {
  * @param name 通知名称
  */
 export function unSubscribeApi(name: string): Promise<void> {
-  return requestClient.delete(`/api/notifications/my-subscribes?name=${name}`);
+	return requestClient.delete(`/api/notifications/my-subscribes?name=${name}`);
 }

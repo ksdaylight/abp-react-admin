@@ -1,10 +1,10 @@
 import type { ListResultDto } from "#/abp-core";
 
 import type {
-  NotificationDefinitionCreateDto,
-  NotificationDefinitionDto,
-  NotificationDefinitionGetListInput,
-  NotificationDefinitionUpdateDto,
+	NotificationDefinitionCreateDto,
+	NotificationDefinitionDto,
+	NotificationDefinitionGetListInput,
+	NotificationDefinitionUpdateDto,
 } from "#/notifications/definitions";
 
 import requestClient from "../../request";
@@ -14,9 +14,7 @@ import requestClient from "../../request";
  * @param name 通知名称
  */
 export function deleteApi(name: string): Promise<void> {
-  return requestClient.delete(
-    `/api/notifications/definitions/notifications/${name}`,
-  );
+	return requestClient.delete(`/api/notifications/definitions/notifications/${name}`);
 }
 
 /**
@@ -25,9 +23,7 @@ export function deleteApi(name: string): Promise<void> {
  * @returns 通知定义数据传输对象
  */
 export function getApi(name: string): Promise<NotificationDefinitionDto> {
-  return requestClient.get<NotificationDefinitionDto>(
-    `/api/notifications/definitions/notifications/${name}`,
-  );
+	return requestClient.get<NotificationDefinitionDto>(`/api/notifications/definitions/notifications/${name}`);
 }
 
 /**
@@ -36,14 +32,11 @@ export function getApi(name: string): Promise<NotificationDefinitionDto> {
  * @returns 通知定义数据传输对象列表
  */
 export function getListApi(
-  input?: NotificationDefinitionGetListInput,
+	input?: NotificationDefinitionGetListInput,
 ): Promise<ListResultDto<NotificationDefinitionDto>> {
-  return requestClient.get<ListResultDto<NotificationDefinitionDto>>(
-    `/api/notifications/definitions/notifications`,
-    {
-      params: input,
-    },
-  );
+	return requestClient.get<ListResultDto<NotificationDefinitionDto>>("/api/notifications/definitions/notifications", {
+		params: input,
+	});
 }
 
 /**
@@ -51,13 +44,8 @@ export function getListApi(
  * @param input 通知定义参数
  * @returns 通知定义数据传输对象
  */
-export function createApi(
-  input: NotificationDefinitionCreateDto,
-): Promise<NotificationDefinitionDto> {
-  return requestClient.post<NotificationDefinitionDto>(
-    "/api/notifications/definitions/notifications",
-    input,
-  );
+export function createApi(input: NotificationDefinitionCreateDto): Promise<NotificationDefinitionDto> {
+	return requestClient.post<NotificationDefinitionDto>("/api/notifications/definitions/notifications", input);
 }
 
 /**
@@ -66,12 +54,6 @@ export function createApi(
  * @param input 通知定义参数
  * @returns 通知定义数据传输对象
  */
-export function updateApi(
-  name: string,
-  input: NotificationDefinitionUpdateDto,
-): Promise<NotificationDefinitionDto> {
-  return requestClient.put<NotificationDefinitionDto>(
-    `/api/notifications/definitions/notifications/${name}`,
-    input,
-  );
+export function updateApi(name: string, input: NotificationDefinitionUpdateDto): Promise<NotificationDefinitionDto> {
+	return requestClient.put<NotificationDefinitionDto>(`/api/notifications/definitions/notifications/${name}`, input);
 }

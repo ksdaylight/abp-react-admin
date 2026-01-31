@@ -28,7 +28,7 @@ const WorkbenchTrends: React.FC<Props> = ({ items = [], title }) => {
 						>
 							<div className="flex min-w-0 items-center gap-x-4">
 								{/* Check if avatar is icon string or url */}
-								{item.avatar && item.avatar.includes(":") ? (
+								{item.avatar?.includes(":") ? (
 									<Avatar
 										icon={<Iconify icon={item.avatar} />}
 										className="bg-blue-100 text-blue-600 flex-none"

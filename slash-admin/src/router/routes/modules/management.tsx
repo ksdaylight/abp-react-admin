@@ -48,8 +48,12 @@ const SystemSettings = lazy(() => import("@/pages/management/settings/settings/s
 
 // notifications
 const MyNotifications = lazy(() => import("@/pages/management/notifications/my-notifications/my-notification-table"));
-const NotificationsGroupDefinition = lazy(() => import("@/pages/management/notifications/definitions/groups/notification-group-definition-table"));
-const NotificationsDefinition  = lazy(() => import("@/pages/management/notifications/definitions/notifications/notification-definition-table"));
+const NotificationsGroupDefinition = lazy(
+	() => import("@/pages/management/notifications/definitions/groups/notification-group-definition-table"),
+);
+const NotificationsDefinition = lazy(
+	() => import("@/pages/management/notifications/definitions/notifications/notification-definition-table"),
+);
 
 // Localization
 const Languages = lazy(() => import("@/pages/management/localization/languages/localization-language-table"));
