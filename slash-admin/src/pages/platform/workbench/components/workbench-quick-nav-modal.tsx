@@ -23,7 +23,7 @@ const WorkbenchQuickNavModal: React.FC<Props> = ({ visible, onClose, onChange })
 	const [availableMenus, setAvailableMenus] = useState<MenuDto[]>([]);
 	const [submitting, setSubmitting] = useState(false);
 	// const { uiFramework } = useAppConfig(); // Retrieve global config
-	const uiFramework  =  "react" // Placeholder for global config
+	const uiFramework = "react"; // Placeholder for global config
 
 	useEffect(() => {
 		if (visible) {

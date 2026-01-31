@@ -47,7 +47,9 @@ const SettingDefinitions = lazy(() => import("@/pages/management/settings/defini
 const SystemSettings = lazy(() => import("@/pages/management/settings/settings/system-setting.tsx"));
 
 // notifications
-const MyNotifications = lazy(() => import("@/pages/management/notifications/my-notification-table"));
+const MyNotifications = lazy(() => import("@/pages/management/notifications/my-notifications/my-notification-table"));
+const NotificationsGroupDefinition = lazy(() => import("@/pages/management/notifications/definitions/groups/notification-group-definition-table"));
+const NotificationsDefinition  = lazy(() => import("@/pages/management/notifications/definitions/notifications/notification-definition-table"));
 
 // Localization
 const Languages = lazy(() => import("@/pages/management/localization/languages/localization-language-table"));
@@ -358,15 +360,33 @@ const management: AppRouteObject = {
 			children: [
 				{
 					index: true,
-					element: <Navigate to="my-notifilers" replace />,
+					element: <Navigate to="my-notifications" replace />,
 				},
 				{
-					path: "my-notifilers",
+					path: "my-notifications",
 					element: <MyNotifications />,
 					meta: {
 						label: "abp.manage.notifications.myNotifilers",
-						key: "/management/notifications/my-notifilers",
+						key: "/management/notifications/my-notifications",
 						icon: <Iconify icon="ant-design:notification-outlined" />,
+					},
+				},
+				{
+					path: "groups",
+					element: <NotificationsGroupDefinition />,
+					meta: {
+						label: "abp.manage.notifications.groups",
+						key: "/management/notifications/groups",
+						icon: <Iconify icon="lucide:group" />,
+					},
+				},
+				{
+					path: "definitions",
+					element: <NotificationsDefinition />,
+					meta: {
+						label: "abp.manage.notifications.definitions",
+						key: "/management/notifications/definitions",
+						icon: <Iconify icon="nimbus:notification" />,
 					},
 				},
 			],

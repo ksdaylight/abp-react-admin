@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import { Card, Dropdown,  Modal } from "antd";
+import { Card, Dropdown, Modal } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
 import { Iconify } from "@/components/icon";
