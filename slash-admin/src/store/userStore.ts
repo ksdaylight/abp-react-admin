@@ -12,6 +12,7 @@ import { getConfigApi } from "@/api/abp-core";
 import useAbpStore from "./abpCoreStore";
 import { useEventBus } from "@/utils/abp/useEventBus";
 import { Events } from "@/constants/abp-core";
+import { getPictureApi } from "@/api/account/profile";
 
 const { VITE_APP_HOMEPAGE: HOMEPAGE } = import.meta.env;
 
@@ -56,13 +57,14 @@ const useUserStore = create<UserStore>()(
 					try {
 						const userInfoRes = await getUserInfoApi();
 						const abpConfig = await getConfigApi();
-
+						const picture = await getPictureApi();
 						userInfo = {
 							id: userInfoRes.sub, //额外加的
 							userId: userInfoRes.sub,
 							username: userInfoRes.uniqueName ?? abpConfig.currentUser.userName,
 							realName: userInfoRes.name ?? abpConfig.currentUser.name,
-							avatar: userInfoRes.avatarUrl ?? userInfoRes.picture,
+							// avatar: userInfoRes.avatarUrl ?? userInfoRes.picture,
+							avatar: URL.createObjectURL(picture) ?? '',
 							desc: userInfoRes.uniqueName ?? userInfoRes.name,
 							email: userInfoRes.email ?? userInfoRes.email,
 							emailVerified: userInfoRes.emailVerified ?? abpConfig.currentUser.emailVerified,

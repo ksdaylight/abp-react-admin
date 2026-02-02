@@ -15,7 +15,7 @@ interface Props {
 
 const WorkbenchTodo: React.FC<Props> = ({ items = [], title }) => {
 	return (
-		<Card title={title} className="h-full">
+		<Card title={title} className="min-h-[300px] shadow-sm">
 			{items.length === 0 ? (
 				<Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
 			) : (

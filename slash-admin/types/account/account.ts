@@ -19,10 +19,17 @@ interface ExternalSignUpApiDto {
 	emailAddress: string;
 }
 
+interface PhoneResetPasswordDto {
+	code: string;
+	newPassword: string;
+	phoneNumber: string;
+}
+
 export type {
 	GetTwoFactorProvidersInput,
 	SendEmailSigninCodeDto,
 	SendPhoneSigninCodeDto,
+	PhoneResetPasswordDto,
 	TwoFactorProvider,
 	ExternalSignUpApiDto,
 };

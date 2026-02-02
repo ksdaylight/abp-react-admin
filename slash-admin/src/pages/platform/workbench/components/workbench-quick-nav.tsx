@@ -45,7 +45,7 @@ const WorkbenchQuickNav: React.FC<Props> = ({ items = [], title, onClick, onDele
 	};
 
 	return (
-		<Card title={title} className="h-full">
+		<Card title={title} className="min-h-[300px] shadow-sm">
 			<div className="flex flex-wrap">
 				{getFavoriteMenus.map((item, index) => {
 					const isAddBtn = item.id === "addMenu";

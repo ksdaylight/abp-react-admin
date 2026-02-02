@@ -2,27 +2,32 @@ import type React from "react";
 import { useEffect, useState, useMemo } from "react";
 import { Col, Row } from "antd";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
-import { getListApi as getFavoriteMenusApi, deleteApi as deleteFavoriteMenuApi } from "@/api/platform/favorites";
-import { getMyNotifilersApi } from "@/api/notifications/my-notifiers";
-import { NotificationReadState } from "@/constants/notifications";
+import {
+	getListApi as getFavoriteMenusApi,
+	deleteApi as deleteFavoriteMenuApi,
+} from "@/api/platform/my-favorite-menus";
+import { getMyNotifilersApi } from "@/api/management/notifications/my-notifications";
 import { formatToDateTime } from "@/utils/abp";
-import { useAppConfig } from "@/hooks/use-app-config";
-import { useUserStore } from "@/store/user"; // Assuming store
-import { useNotificationSerializer } from "@/hooks/abp/use-notification-serializer";
+// import { useAppConfig } from "@/hooks/use-app-config";
+// import { useUserStore } from "@/store/user";
 
-import WorkbenchHeader from "./workbench-header";
-import WorkbenchQuickNav from "./workbench-quick-nav";
-import WorkbenchTodo from "./workbench-todo";
+import WorkbenchHeader from "./components/workbench-header";
+import WorkbenchQuickNav from "./components/workbench-quick-nav";
+import WorkbenchTodo from "./components/workbench-todo";
 import WorkbenchTrends from "./components/workbench-trends";
-import WorkbenchQuickNavModal from "./workbench-quick-nav-modal";
-import type { FavoriteMenu } from "../types";
+import WorkbenchQuickNavModal from "./components/workbench-quick-nav-modal";
+import type { FavoriteMenu } from "./types";
+import { useNavigate } from "react-router";
+import { NotificationReadState } from "#/notifications";
+import { useNotificationSerializer } from "@/utils/abp/notifications/useNotificationSerializer";
+import useUserStore from "@/store/userStore";
 
 const WorkbenchPage: React.FC = () => {
 	const { t: $t } = useTranslation();
 	const navigate = useNavigate();
-	const { uiFramework } = useAppConfig();
+	// const { uiFramework } = useAppConfig(); // Retrieve global config
+	const uiFramework = "vben5"; // Placeholder for global config
 	const { userInfo } = useUserStore();
 	const { deserialize } = useNotificationSerializer();
 
@@ -100,7 +105,7 @@ const WorkbenchPage: React.FC = () => {
 	};
 
 	const initFavoriteMenus = async () => {
-		const { items } = await getFavoriteMenusApi({ framework: uiFramework });
+		const { items } = await getFavoriteMenusApi(uiFramework);
 		const mapped = items.map((item) => ({
 			...item,
 			id: item.menuId, // Mapping API response to local FavoriteMenu type

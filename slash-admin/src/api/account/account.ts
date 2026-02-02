@@ -5,6 +5,7 @@ import type {
 	SendEmailSigninCodeDto,
 	SendPhoneSigninCodeDto,
 	ExternalSignUpApiDto,
+	PhoneResetPasswordDto,
 } from "#/account/account";
 import requestClient from "@/api/request";
 
@@ -30,3 +31,6 @@ export const sendPhoneSigninCodeApi = (input: SendPhoneSigninCodeDto) =>
 
 export const externalSignUpApi = (input: ExternalSignUpApiDto) =>
 	requestClient.post("/api/account/external/register", input, { withCredentials: true });
+
+export const resetPasswordApi = (input: PhoneResetPasswordDto) =>
+	requestClient.put("/api/account/phone/reset-password", input);
