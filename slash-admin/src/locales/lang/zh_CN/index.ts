@@ -4,6 +4,7 @@ import ui from "./ui.json";
 import abp from "./abp.json";
 import component from "./component.json";
 import workbench from "./workbench.json";
+import authentication from "./authentication.json";
 
 export default {
 	...common,
@@ -12,4 +13,5 @@ export default {
 	...abp,
 	...component,
 	...workbench,
+	...authentication,
 };

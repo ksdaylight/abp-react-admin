@@ -40,9 +40,8 @@ export const sendChangePhoneNumberCodeApi = (input: SendChangePhoneNumberCodeInp
  * 修改手机号
  * @param input 参数
  */
-export const changePhoneNumberApi = (input: ChangePhoneNumberInput) => {
+export const changePhoneNumberApi = (input: ChangePhoneNumberInput) =>
 	requestClient.put("/api/account/my-profile/change-phone-number", input);
-};
 
 /**
  * 修改头像
