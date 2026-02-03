@@ -64,7 +64,7 @@ const useUserStore = create<UserStore>()(
 							username: userInfoRes.uniqueName ?? abpConfig.currentUser.userName,
 							realName: userInfoRes.name ?? abpConfig.currentUser.name,
 							// avatar: userInfoRes.avatarUrl ?? userInfoRes.picture,
-							avatar: URL.createObjectURL(picture) ?? '',
+							avatar: URL.createObjectURL(picture) ?? "",
 							desc: userInfoRes.uniqueName ?? userInfoRes.name,
 							email: userInfoRes.email ?? userInfoRes.email,
 							emailVerified: userInfoRes.emailVerified ?? abpConfig.currentUser.emailVerified,
