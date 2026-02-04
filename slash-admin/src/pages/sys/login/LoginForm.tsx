@@ -8,10 +8,13 @@ import { useExternalSignIn, useSignIn } from "@/store/userStore";
 
 import { LoginStateEnum, useLoginStateContext } from "./providers/LoginStateProvider";
 import type { SignInRedirectResult } from "#/account";
+import TenantSwitch from "@/pages/saas/tenants/tenant-switch";
+import { getConfigApi } from "@/api/abp-core/abp";
+import useAbpStore from "@/store/abpCoreStore";
 
 function LoginForm() {
 	const { t } = useTranslation();
-
+	const abpStore = useAbpStore();
 	const [loading, setLoading] = useState(false);
 
 	const { loginState, setLoginState, setIsExternalLoginState } = useLoginStateContext();
@@ -50,6 +53,38 @@ function LoginForm() {
 			setLoading(false);
 		}
 	};
+
+	async function onInit() {
+		// if (onlyOidc === true) {
+		//   setTimeout(() => {
+		//     Modal.confirm({
+		//       centered: true,
+		//       title: $t('page.auth.oidcLogin'),
+		//       content: $t('page.auth.oidcLoginMessage'),
+		//       maskClosable: false,
+		//       closable: false,
+		//       cancelButtonProps: {
+		//         disabled: true,
+		//       },
+		//       async onOk() {
+		//         await authStore.oidcLogin();
+		//       },
+		//     });
+		//   }, 300);
+		//   return;
+		// } // TODO
+		const abpConfig = await getConfigApi();
+		abpStore.actions.setApplication(abpConfig);
+
+		// nextTick(() => {
+		//   const formApi = login.value?.getFormApi();
+		//   formApi?.setFieldValue('tenant', abpConfig.currentTenant.name);
+		// });
+	}
+
+	useEffect(() => {
+		onInit();
+	}, []);
 
 	useEffect(() => {
 		const search = window.location.search;
@@ -100,6 +135,18 @@ function LoginForm() {
 					/>
 				</div>
 
+				{abpStore.application?.multiTenancy.isEnabled && (
+					<Form.Item name="tenant">
+						{/* TODO */}
+						<TenantSwitch
+							onChange={async () => {
+								await onInit();
+							}}
+						/>
+					</Form.Item>
+				)}
+
+				{/* 用户名密码登录表单项 */}
 				<Form.Item name="username" rules={[{ required: true, message: t("sys.login.accountPlaceholder") }]}>
 					<Input placeholder={t("sys.login.userName")} />
 				</Form.Item>

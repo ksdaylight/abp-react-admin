@@ -4,12 +4,17 @@ import { Button, Input, Modal, Form } from "antd";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { findTenantByNameApi } from "@/api/saas/multi-tenancy";
-import useAbpStore from "@/store/abpCoreStore";
+import useAbpStore, { useApplication } from "@/store/abpCoreStore";
 
-const TenantSwitch: React.FC = () => {
+interface Props {
+	onChange: () => void;
+}
+
+const TenantSwitch: React.FC<Props> = ({ onChange }) => {
 	const { t: $t } = useTranslation();
 	const abpStore = useAbpStore();
-	const currentTenant = abpStore.application?.currentTenant;
+	const application = useApplication();
+	const currentTenant = application?.currentTenant;
 
 	const [visible, setVisible] = useState(false);
 	const [form] = Form.useForm();
@@ -26,6 +31,9 @@ const TenantSwitch: React.FC = () => {
 			setSubmitting(true);
 
 			let tenantId: string | undefined = undefined;
+			// Clear tenant cookie to avoid conflicts
+			// cookies.remove('__tenant');
+			document.cookie = "__tenant=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
 
 			if (values.name) {
 				const result = await findTenantByNameApi(values.name);
@@ -44,22 +52,9 @@ const TenantSwitch: React.FC = () => {
 				tenantId = result.tenantId;
 			}
 
-			// Logic to actually switch tenant usually involves setting a header/cookie and reloading
-			// Assuming setTenantId handles persistence or we trigger a reload
-			// Common pattern in ABP React apps:
-			// Cookies.set('__tenant', tenantId);
-			// window.location.reload();
-			// OR use store action if it handles API headers reactively.
-
-			// For this example, we'll assume the store handles it:
-			// abpStore.setTenantId(tenantId);
-			// toast.success($t("AbpUi.SavedSuccessfully"));
-			// setVisible(false);
-
-			// However, usually a reload is safer to ensure all queries refetch with new header:
-			// Simulating "emitting" change
-			console.log("Switching to tenant:", tenantId);
-			// Implementation depends on your auth/request setup
+			abpStore.actions.setTenantId(tenantId);
+			// console.log("Switching to tenant:", tenantId);
+			onChange();
 
 			setVisible(false);
 		} catch (e) {
