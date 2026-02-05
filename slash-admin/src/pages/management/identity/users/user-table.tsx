@@ -30,6 +30,8 @@ import PermissionModal from "@/components/abp/permissions/permission-modal";
 import { EntityChangeDrawer } from "@/components/abp/auditing/entity-change-drawer";
 import Card from "@/components/card";
 import { UserSessionDrawer } from "./user-session-drawer";
+import MenuAllotModal from "@/pages/platform/menus/menu-allot-modal";
+// Import the MenuAllotModal (Assuming it is in a shared folder or relative path)
 
 const UserTable: React.FC = () => {
 	const { t: $t } = useTranslation();
@@ -46,6 +48,7 @@ const UserTable: React.FC = () => {
 	const [permissionModalVisible, setPermissionModalVisible] = useState(false);
 	const [entityChangeDrawerVisible, setEntityChangeDrawerVisible] = useState(false);
 	const [identitySessionsDrawerVisible, setIdentitySessionsDrawerVisible] = useState(false);
+	const [menuModalVisible, setMenuModalVisible] = useState(false); // Added state for Menu Modal
 
 	// Selected user state
 	const [selectedUser, setSelectedUser] = useState<IdentityUserDto>();
@@ -102,6 +105,9 @@ const UserTable: React.FC = () => {
 				break;
 			case "entity-changes":
 				setEntityChangeDrawerVisible(true);
+				break;
+			case "menus": // Handle menu click
+				setMenuModalVisible(true);
 				break;
 		}
 	};
@@ -263,6 +269,15 @@ const UserTable: React.FC = () => {
 			});
 		}
 
+		// Menus (Added this section)
+		if (hasAccessByCodes(["Platform.Menu.ManageUsers"])) {
+			items.push({
+				key: "menus",
+				icon: <Iconify icon="heroicons-outline:menu-alt-3" />,
+				label: $t("AppPlatform.Menu:Manage"),
+			});
+		}
+
 		// Audit Log
 		if (hasAccessByCodes([AuditLogPermissions.Default])) {
 			items.push({
@@ -411,6 +426,17 @@ const UserTable: React.FC = () => {
 				subject={selectedUser?.userName}
 				onClose={() => {
 					setEntityChangeDrawerVisible(false);
+					setSelectedUser(undefined);
+				}}
+			/>
+
+			{/* Menu Allot Modal - Added for Users */}
+			<MenuAllotModal
+				visible={menuModalVisible}
+				subject="user"
+				identity={selectedUser?.id || ""}
+				onClose={() => {
+					setMenuModalVisible(false);
 					setSelectedUser(undefined);
 				}}
 			/>
