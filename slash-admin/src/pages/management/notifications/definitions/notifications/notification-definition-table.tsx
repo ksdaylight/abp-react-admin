@@ -13,7 +13,7 @@ import {
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { ProTable, type ProColumns, type ActionType } from "@ant-design/pro-table";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { deleteApi, getListApi as getDefinitionsApi } from "@/api/management/notifications/notification-definitions";
 import { getListApi as getGroupsApi } from "@/api/management/notifications/notification-group-definitions";
 import type { NotificationDefinitionDto } from "#/notifications/definitions";
@@ -35,7 +35,7 @@ interface ExtendedGroupDto extends NotificationGroupDefinitionDto {
 const NotificationDefinitionTable: React.FC = () => {
 	const { t: $t } = useTranslation();
 	const actionRef = useRef<ActionType>();
-	const queryClient = useQueryClient();
+	// const queryClient = useQueryClient();
 	const { deserialize } = localizationSerializer();
 	const { Lr } = useLocalizer();
 	const [modal, contextHolder] = Modal.useModal();
@@ -224,6 +224,7 @@ const NotificationDefinitionTable: React.FC = () => {
 							[NotificationDefinitionsPermissions.Create],
 						),
 					]}
+					scroll={{ x: "max-content" }}
 					// Nested Table for Definitions
 					expandable={{
 						expandedRowRender: (record) => (
@@ -233,6 +234,7 @@ const NotificationDefinitionTable: React.FC = () => {
 								pagination={false}
 								rowKey="name"
 								size="small"
+								scroll={{ x: "max-content" }}
 								// Support tree structure if definitions have children (Vue code implies listToTree)
 								expandable={{ defaultExpandAllRows: true, childrenColumnName: "children" }}
 							/>
