@@ -215,6 +215,7 @@ const FeatureDefinitionTable: React.FC = () => {
 						showSizeChanger: true,
 						total: data?.length,
 					}}
+					scroll={{ x: "max-content" }}
 					search={{
 						labelWidth: "auto",
 						span: 12,
