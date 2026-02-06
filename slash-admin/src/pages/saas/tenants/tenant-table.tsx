@@ -1,6 +1,6 @@
 import type React from "react";
 import { useRef, useState } from "react";
-import { Button, Dropdown, Modal, Space } from "antd";
+import { Button, Card, Dropdown, Modal, Space } from "antd";
 import {
 	EditOutlined,
 	DeleteOutlined,
@@ -177,52 +177,53 @@ const TenantTable: React.FC = () => {
 	return (
 		<>
 			{contextHolder}
-			<ProTable<TenantDto>
-				headerTitle={$t("AbpSaas.Tenants")}
-				actionRef={actionRef}
-				rowKey="id"
-				columns={columns}
-				search={{ labelWidth: "auto" }}
-				toolBarRender={() => [
-					withAccessChecker(
-						<Button key="create" type="primary" icon={<PlusOutlined />} onClick={handleCreate}>
-							{$t("AbpSaas.NewTenant")}
-						</Button>,
-						[TenantsPermissions.Create],
-					),
-				]}
-				request={async (params, sorter) => {
-					const { current, pageSize, ...filters } = params;
-					const sorting =
-						sorter && Object.keys(sorter).length > 0
-							? Object.keys(sorter)
-									.map((key) => `${key} ${antdOrderToAbpOrder(sorter[key])}`)
-									.join(", ")
-							: undefined;
+			<Card>
+				<ProTable<TenantDto>
+					headerTitle={$t("AbpSaas.Tenants")}
+					actionRef={actionRef}
+					rowKey="id"
+					columns={columns}
+					search={{ labelWidth: "auto" }}
+					toolBarRender={() => [
+						withAccessChecker(
+							<Button key="create" type="primary" icon={<PlusOutlined />} onClick={handleCreate}>
+								{$t("AbpSaas.NewTenant")}
+							</Button>,
+							[TenantsPermissions.Create],
+						),
+					]}
+					request={async (params, sorter) => {
+						const { current, pageSize, ...filters } = params;
+						const sorting =
+							sorter && Object.keys(sorter).length > 0
+								? Object.keys(sorter)
+										.map((key) => `${key} ${antdOrderToAbpOrder(sorter[key])}`)
+										.join(", ")
+								: undefined;
 
-					const query = await queryClient.fetchQuery({
-						queryKey: ["tenants", params, sorter],
-						queryFn: () =>
-							getPagedListApi({
-								maxResultCount: pageSize,
-								skipCount: ((current || 1) - 1) * (pageSize || 0),
-								sorting: sorting,
-								filter: filters.filter,
-							}),
-					});
+						const query = await queryClient.fetchQuery({
+							queryKey: ["tenants", params, sorter],
+							queryFn: () =>
+								getPagedListApi({
+									maxResultCount: pageSize,
+									skipCount: ((current || 1) - 1) * (pageSize || 0),
+									sorting: sorting,
+									filter: filters.filter,
+								}),
+						});
 
-					return {
-						data: query.items,
-						total: query.totalCount,
-						success: true,
-					};
-				}}
-				pagination={{
-					defaultPageSize: 10,
-					showSizeChanger: true,
-				}}
-			/>
-
+						return {
+							data: query.items,
+							total: query.totalCount,
+							success: true,
+						};
+					}}
+					pagination={{
+						defaultPageSize: 10,
+						showSizeChanger: true,
+					}}
+				/>
+			</Card>
 			<TenantModal
 				visible={tenantModalVisible}
 				tenantId={selectedTenantId}

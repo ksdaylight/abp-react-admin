@@ -1,6 +1,6 @@
 import type React from "react";
 import { useRef } from "react";
-import { Button, Tag, Space, Modal, Dropdown } from "antd";
+import { Button, Tag, Space, Modal, Dropdown, Card } from "antd";
 import { DeleteOutlined, EllipsisOutlined, SendOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
@@ -165,45 +165,47 @@ const SmsMessageTable: React.FC = () => {
 	return (
 		<>
 			{contextHolder}
-			<ProTable<SmsMessageDto>
-				headerTitle={$t("AppPlatform.SmsMessages")}
-				actionRef={actionRef}
-				rowKey="id"
-				columns={columns}
-				search={{ labelWidth: "auto", defaultCollapsed: true }}
-				request={async (params, sorter) => {
-					const { current, pageSize, sendTime, ...filters } = params;
-					const [beginSendTime, endSendTime] = sendTime || [];
+			<Card>
+				<ProTable<SmsMessageDto>
+					headerTitle={$t("AppPlatform.SmsMessages")}
+					actionRef={actionRef}
+					rowKey="id"
+					columns={columns}
+					search={{ labelWidth: "auto", defaultCollapsed: true }}
+					request={async (params, sorter) => {
+						const { current, pageSize, sendTime, ...filters } = params;
+						const [beginSendTime, endSendTime] = sendTime || [];
 
-					const sorting =
-						sorter && Object.keys(sorter).length > 0
-							? Object.keys(sorter)
-									.map((key) => `${key} ${antdOrderToAbpOrder(sorter[key])}`)
-									.join(", ")
-							: undefined;
+						const sorting =
+							sorter && Object.keys(sorter).length > 0
+								? Object.keys(sorter)
+										.map((key) => `${key} ${antdOrderToAbpOrder(sorter[key])}`)
+										.join(", ")
+								: undefined;
 
-					const query = await queryClient.fetchQuery({
-						queryKey: ["smsMessages", params, sorter],
-						queryFn: () =>
-							getPagedListApi({
-								maxResultCount: pageSize,
-								skipCount: ((current || 1) - 1) * (pageSize || 0),
-								sorting: sorting,
-								beginSendTime,
-								endSendTime,
-								...filters,
-							}),
-					});
+						const query = await queryClient.fetchQuery({
+							queryKey: ["smsMessages", params, sorter],
+							queryFn: () =>
+								getPagedListApi({
+									maxResultCount: pageSize,
+									skipCount: ((current || 1) - 1) * (pageSize || 0),
+									sorting: sorting,
+									beginSendTime,
+									endSendTime,
+									...filters,
+								}),
+						});
 
-					return {
-						data: query.items,
-						total: query.totalCount,
-						success: true,
-					};
-				}}
-				pagination={{ defaultPageSize: 10, showSizeChanger: true }}
-				scroll={{ x: "max-content" }}
-			/>
+						return {
+							data: query.items,
+							total: query.totalCount,
+							success: true,
+						};
+					}}
+					pagination={{ defaultPageSize: 10, showSizeChanger: true }}
+					scroll={{ x: "max-content" }}
+				/>
+			</Card>
 		</>
 	);
 };

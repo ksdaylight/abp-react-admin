@@ -1,6 +1,6 @@
 import type React from "react";
 import { useRef, useState } from "react";
-import { Button, Dropdown, Modal, Space } from "antd";
+import { Button, Card, Dropdown, Modal, Space } from "antd";
 import { EditOutlined, DeleteOutlined, PlusOutlined, EllipsisOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
@@ -137,35 +137,36 @@ const NotificationGroupDefinitionTable: React.FC = () => {
 	return (
 		<>
 			{contextHolder}
-			<ProTable<NotificationGroupDefinitionDto>
-				headerTitle={$t("Notifications.GroupDefinitions")}
-				actionRef={actionRef}
-				rowKey="name"
-				columns={columns}
-				search={{ labelWidth: "auto" }}
-				toolBarRender={() => [
-					withAccessChecker(
-						<Button key="create" type="primary" icon={<PlusOutlined />} onClick={handleCreate}>
-							{$t("Notifications.GroupDefinitions:AddNew")}
-						</Button>,
-						[GroupDefinitionsPermissions.Create],
-					),
-				]}
-				request={async (params) => {
-					const { current, pageSize, ...filters } = params;
-					const { items } = await getListApi({
-						filter: filters.filter,
-					});
+			<Card>
+				<ProTable<NotificationGroupDefinitionDto>
+					headerTitle={$t("Notifications.GroupDefinitions")}
+					actionRef={actionRef}
+					rowKey="name"
+					columns={columns}
+					search={{ labelWidth: "auto" }}
+					toolBarRender={() => [
+						withAccessChecker(
+							<Button key="create" type="primary" icon={<PlusOutlined />} onClick={handleCreate}>
+								{$t("Notifications.GroupDefinitions:AddNew")}
+							</Button>,
+							[GroupDefinitionsPermissions.Create],
+						),
+					]}
+					request={async (params) => {
+						const { current, pageSize, ...filters } = params;
+						const { items } = await getListApi({
+							filter: filters.filter,
+						});
 
-					return {
-						data: items,
-						total: items.length,
-						success: true,
-					};
-				}}
-				pagination={{ defaultPageSize: 10, showSizeChanger: true }}
-			/>
-
+						return {
+							data: items,
+							total: items.length,
+							success: true,
+						};
+					}}
+					pagination={{ defaultPageSize: 10, showSizeChanger: true }}
+				/>
+			</Card>
 			<NotificationGroupDefinitionModal
 				visible={groupModalVisible}
 				groupName={selectedGroupName}

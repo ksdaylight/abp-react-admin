@@ -1,6 +1,6 @@
 import type React from "react";
 import { useRef, useState } from "react";
-import { Button, Space, Modal } from "antd";
+import { Button, Space, Modal, Card } from "antd";
 import { PlusOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
@@ -99,7 +99,7 @@ const MenuTable: React.FC = () => {
 			title: $t("AbpUi.Actions"),
 			key: "actions",
 			fixed: "right",
-			width: 200,
+			width: 220,
 			render: (_, record) => (
 				<Space>
 					{withAccessChecker(
@@ -128,37 +128,38 @@ const MenuTable: React.FC = () => {
 	return (
 		<>
 			{contextHolder}
-			<ProTable<MenuDto>
-				headerTitle={$t("AppPlatform.DisplayName:Menus")}
-				actionRef={actionRef}
-				rowKey="id"
-				columns={columns}
-				search={{ labelWidth: "auto" }}
-				toolBarRender={() => [
-					withAccessChecker(
-						<Button key="create" type="primary" icon={<PlusOutlined />} onClick={() => handleCreate()}>
-							{$t("AppPlatform.Menu:AddNew")}
-						</Button>,
-						[MenuPermissions.Create],
-					),
-				]}
-				request={async (params) => {
-					const { layoutId, filter } = params;
-					const { items } = await getAllApi({ layoutId, filter });
-					const tree = listToTree(items, { id: "id", pid: "parentId" });
+			<Card>
+				<ProTable<MenuDto>
+					headerTitle={$t("AppPlatform.DisplayName:Menus")}
+					actionRef={actionRef}
+					rowKey="id"
+					columns={columns}
+					search={{ labelWidth: "auto" }}
+					toolBarRender={() => [
+						withAccessChecker(
+							<Button key="create" type="primary" icon={<PlusOutlined />} onClick={() => handleCreate()}>
+								{$t("AppPlatform.Menu:AddNew")}
+							</Button>,
+							[MenuPermissions.Create],
+						),
+					]}
+					request={async (params) => {
+						const { layoutId, filter } = params;
+						const { items } = await getAllApi({ layoutId, filter });
+						const tree = listToTree(items, { id: "id", pid: "parentId" });
 
-					setMenuTree(tree); // Save for drawer
+						setMenuTree(tree); // Save for drawer
 
-					return {
-						data: tree,
-						success: true,
-						total: items.length,
-					};
-				}}
-				expandable={{ defaultExpandAllRows: true }}
-				pagination={false}
-			/>
-
+						return {
+							data: tree,
+							success: true,
+							total: items.length,
+						};
+					}}
+					expandable={{ defaultExpandAllRows: true }}
+					pagination={false}
+				/>
+			</Card>
 			<MenuDrawer
 				visible={drawerVisible}
 				onClose={() => setDrawerVisible(false)}

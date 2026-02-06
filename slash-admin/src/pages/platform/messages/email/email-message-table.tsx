@@ -1,6 +1,6 @@
 import type React from "react";
 import { useRef, useState } from "react";
-import { Button, Tag, Space, Modal, Dropdown } from "antd";
+import { Button, Tag, Space, Modal, Dropdown, Card } from "antd";
 import { EditOutlined, DeleteOutlined, EllipsisOutlined, SendOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
@@ -164,7 +164,7 @@ const EmailMessageTable: React.FC = () => {
 			title: $t("AbpUi.Actions"),
 			valueType: "option",
 			fixed: "right",
-			width: 200,
+			width: 220,
 			render: (_, record) => (
 				<Space>
 					{/* Reuse Edit icon for 'View Content' to match Vue 'onUpdate' behavior which opens modal */}
@@ -203,46 +203,47 @@ const EmailMessageTable: React.FC = () => {
 	return (
 		<>
 			{contextHolder}
-			<ProTable<EmailMessageDto>
-				headerTitle={$t("AppPlatform.EmailMessages")}
-				actionRef={actionRef}
-				rowKey="id"
-				columns={columns}
-				search={{ labelWidth: "auto", defaultCollapsed: true }}
-				request={async (params, sorter) => {
-					const { current, pageSize, sendTime, ...filters } = params;
-					const [beginSendTime, endSendTime] = sendTime || [];
+			<Card>
+				<ProTable<EmailMessageDto>
+					headerTitle={$t("AppPlatform.EmailMessages")}
+					actionRef={actionRef}
+					rowKey="id"
+					columns={columns}
+					search={{ labelWidth: "auto", defaultCollapsed: true }}
+					request={async (params, sorter) => {
+						const { current, pageSize, sendTime, ...filters } = params;
+						const [beginSendTime, endSendTime] = sendTime || [];
 
-					const sorting =
-						sorter && Object.keys(sorter).length > 0
-							? Object.keys(sorter)
-									.map((key) => `${key} ${antdOrderToAbpOrder(sorter[key])}`)
-									.join(", ")
-							: undefined;
+						const sorting =
+							sorter && Object.keys(sorter).length > 0
+								? Object.keys(sorter)
+										.map((key) => `${key} ${antdOrderToAbpOrder(sorter[key])}`)
+										.join(", ")
+								: undefined;
 
-					const query = await queryClient.fetchQuery({
-						queryKey: ["emailMessages", params, sorter],
-						queryFn: () =>
-							getPagedListApi({
-								maxResultCount: pageSize,
-								skipCount: ((current || 1) - 1) * (pageSize || 0),
-								sorting: sorting,
-								beginSendTime,
-								endSendTime,
-								...filters,
-							}),
-					});
+						const query = await queryClient.fetchQuery({
+							queryKey: ["emailMessages", params, sorter],
+							queryFn: () =>
+								getPagedListApi({
+									maxResultCount: pageSize,
+									skipCount: ((current || 1) - 1) * (pageSize || 0),
+									sorting: sorting,
+									beginSendTime,
+									endSendTime,
+									...filters,
+								}),
+						});
 
-					return {
-						data: query.items,
-						total: query.totalCount,
-						success: true,
-					};
-				}}
-				pagination={{ defaultPageSize: 10, showSizeChanger: true }}
-				scroll={{ x: "max-content" }}
-			/>
-
+						return {
+							data: query.items,
+							total: query.totalCount,
+							success: true,
+						};
+					}}
+					pagination={{ defaultPageSize: 10, showSizeChanger: true }}
+					scroll={{ x: "max-content" }}
+				/>
+			</Card>
 			<EmailMessageModal visible={modalVisible} content={selectedContent} onClose={() => setModalVisible(false)} />
 		</>
 	);

@@ -1,6 +1,6 @@
 import type React from "react";
 import { useRef, useState } from "react";
-import { Button, Tag, Space, Modal } from "antd";
+import { Button, Tag, Space, Modal, Card } from "antd";
 import { EditOutlined, DeleteOutlined, PlusOutlined, CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
@@ -153,50 +153,51 @@ const WebhookSubscriptionTable: React.FC = () => {
 	return (
 		<>
 			{contextHolder}
-			<ProTable<WebhookSubscriptionDto>
-				headerTitle={$t("WebhooksManagement.Subscriptions")}
-				actionRef={actionRef}
-				rowKey="id"
-				columns={columns}
-				search={{ labelWidth: "auto", defaultCollapsed: true }}
-				toolBarRender={() => [
-					<Button key="create" type="primary" icon={<PlusOutlined />} onClick={handleCreate}>
-						{$t("WebhooksManagement.Subscriptions:AddNew")}
-					</Button>,
-				]}
-				request={async (params, sorter) => {
-					const { current, pageSize, creationTime, ...filters } = params;
-					const [beginCreationTime, endCreationTime] = creationTime || [];
+			<Card>
+				<ProTable<WebhookSubscriptionDto>
+					headerTitle={$t("WebhooksManagement.Subscriptions")}
+					actionRef={actionRef}
+					rowKey="id"
+					columns={columns}
+					search={{ labelWidth: "auto", defaultCollapsed: true }}
+					toolBarRender={() => [
+						<Button key="create" type="primary" icon={<PlusOutlined />} onClick={handleCreate}>
+							{$t("WebhooksManagement.Subscriptions:AddNew")}
+						</Button>,
+					]}
+					request={async (params, sorter) => {
+						const { current, pageSize, creationTime, ...filters } = params;
+						const [beginCreationTime, endCreationTime] = creationTime || [];
 
-					const sorting =
-						sorter && Object.keys(sorter).length > 0
-							? Object.keys(sorter)
-									.map((key) => `${key} ${antdOrderToAbpOrder(sorter[key])}`)
-									.join(", ")
-							: undefined;
+						const sorting =
+							sorter && Object.keys(sorter).length > 0
+								? Object.keys(sorter)
+										.map((key) => `${key} ${antdOrderToAbpOrder(sorter[key])}`)
+										.join(", ")
+								: undefined;
 
-					const query = await queryClient.fetchQuery({
-						queryKey: ["subscriptions", params, sorter],
-						queryFn: () =>
-							getPagedListApi({
-								maxResultCount: pageSize,
-								skipCount: ((current || 1) - 1) * (pageSize || 0),
-								sorting: sorting,
-								beginCreationTime,
-								endCreationTime,
-								...filters,
-							}),
-					});
+						const query = await queryClient.fetchQuery({
+							queryKey: ["subscriptions", params, sorter],
+							queryFn: () =>
+								getPagedListApi({
+									maxResultCount: pageSize,
+									skipCount: ((current || 1) - 1) * (pageSize || 0),
+									sorting: sorting,
+									beginCreationTime,
+									endCreationTime,
+									...filters,
+								}),
+						});
 
-					return {
-						data: query.items,
-						total: query.totalCount,
-						success: true,
-					};
-				}}
-				pagination={{ defaultPageSize: 10, showSizeChanger: true }}
-			/>
-
+						return {
+							data: query.items,
+							total: query.totalCount,
+							success: true,
+						};
+					}}
+					pagination={{ defaultPageSize: 10, showSizeChanger: true }}
+				/>
+			</Card>
 			<WebhookSubscriptionModal
 				visible={modalVisible}
 				subscriptionId={selectedSubscriptionId}

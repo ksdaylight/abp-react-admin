@@ -1,6 +1,6 @@
 import type React from "react";
 import { useRef, useState } from "react";
-import { Button, Tag, Dropdown, Modal, Space } from "antd";
+import { Button, Tag, Dropdown, Modal, Space, Card } from "antd";
 import { EditOutlined, DeleteOutlined, EllipsisOutlined, SendOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
@@ -210,61 +210,62 @@ const WebhookSendAttemptTable: React.FC = () => {
 	return (
 		<>
 			{contextHolder}
-			<ProTable<WebhookSendRecordDto>
-				headerTitle={$t("WebhooksManagement.SendAttempts")}
-				actionRef={actionRef}
-				rowKey="id"
-				columns={columns}
-				rowSelection={{
-					selectedRowKeys: selectedKeys,
-					onChange: (keys) => setSelectedKeys(keys),
-				}}
-				search={{ labelWidth: "auto", defaultCollapsed: true }}
-				toolBarRender={() => [
-					selectedKeys.length > 0 && hasAccessByCodes([WebhooksSendAttemptsPermissions.Resend]) && (
-						<Button key="resend" type="primary" icon={<SendOutlined />} onClick={handleBulkSend}>
-							{$t("WebhooksManagement.Resend")}
-						</Button>
-					),
-					selectedKeys.length > 0 && hasAccessByCodes([WebhooksSendAttemptsPermissions.Delete]) && (
-						<Button key="delete" danger type="primary" icon={<DeleteOutlined />} onClick={handleBulkDelete}>
-							{$t("AbpUi.Delete")}
-						</Button>
-					),
-				]}
-				request={async (params, sorter) => {
-					const { current, pageSize, creationTime, ...filters } = params;
-					const [beginCreationTime, endCreationTime] = creationTime || [];
+			<Card>
+				<ProTable<WebhookSendRecordDto>
+					headerTitle={$t("WebhooksManagement.SendAttempts")}
+					actionRef={actionRef}
+					rowKey="id"
+					columns={columns}
+					rowSelection={{
+						selectedRowKeys: selectedKeys,
+						onChange: (keys) => setSelectedKeys(keys),
+					}}
+					search={{ labelWidth: "auto", defaultCollapsed: true }}
+					toolBarRender={() => [
+						selectedKeys.length > 0 && hasAccessByCodes([WebhooksSendAttemptsPermissions.Resend]) && (
+							<Button key="resend" type="primary" icon={<SendOutlined />} onClick={handleBulkSend}>
+								{$t("WebhooksManagement.Resend")}
+							</Button>
+						),
+						selectedKeys.length > 0 && hasAccessByCodes([WebhooksSendAttemptsPermissions.Delete]) && (
+							<Button key="delete" danger type="primary" icon={<DeleteOutlined />} onClick={handleBulkDelete}>
+								{$t("AbpUi.Delete")}
+							</Button>
+						),
+					]}
+					request={async (params, sorter) => {
+						const { current, pageSize, creationTime, ...filters } = params;
+						const [beginCreationTime, endCreationTime] = creationTime || [];
 
-					const sorting =
-						sorter && Object.keys(sorter).length > 0
-							? Object.keys(sorter)
-									.map((key) => `${key} ${antdOrderToAbpOrder(sorter[key])}`)
-									.join(", ")
-							: undefined;
+						const sorting =
+							sorter && Object.keys(sorter).length > 0
+								? Object.keys(sorter)
+										.map((key) => `${key} ${antdOrderToAbpOrder(sorter[key])}`)
+										.join(", ")
+								: undefined;
 
-					const query = await queryClient.fetchQuery({
-						queryKey: ["sendAttempts", params, sorter],
-						queryFn: () =>
-							getPagedListApi({
-								maxResultCount: pageSize,
-								skipCount: ((current || 1) - 1) * (pageSize || 0),
-								sorting: sorting,
-								beginCreationTime,
-								endCreationTime,
-								...filters,
-							}),
-					});
+						const query = await queryClient.fetchQuery({
+							queryKey: ["sendAttempts", params, sorter],
+							queryFn: () =>
+								getPagedListApi({
+									maxResultCount: pageSize,
+									skipCount: ((current || 1) - 1) * (pageSize || 0),
+									sorting: sorting,
+									beginCreationTime,
+									endCreationTime,
+									...filters,
+								}),
+						});
 
-					return {
-						data: query.items,
-						total: query.totalCount,
-						success: true,
-					};
-				}}
-				pagination={{ defaultPageSize: 10, showSizeChanger: true }}
-			/>
-
+						return {
+							data: query.items,
+							total: query.totalCount,
+							success: true,
+						};
+					}}
+					pagination={{ defaultPageSize: 10, showSizeChanger: true }}
+				/>
+			</Card>
 			<WebhookSendAttemptDrawer
 				visible={drawerVisible}
 				recordId={selectedRecordId}

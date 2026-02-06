@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { Button, Modal, Space } from "antd";
+import { Button, Card, Modal, Space } from "antd";
 import { EditOutlined, DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
@@ -104,49 +104,51 @@ const LocalizationResourceTable: React.FC = () => {
 	return (
 		<>
 			{contextHolder}
-			<ProTable<ResourceDto>
-				headerTitle={$t("AbpLocalization.Resources")}
-				actionRef={actionRef}
-				rowKey="name"
-				columns={columns}
-				search={{
-					labelWidth: "auto",
-				}}
-				toolBarRender={() => [
-					hasAccessByCodes([ResourcesPermissions.Create]) && (
-						<Button key="add" type="primary" icon={<PlusOutlined />} onClick={() => handleOpenModal()}>
-							{$t("LocalizationManagement.Resource:AddNew")}
-						</Button>
-					),
-				]}
-				request={async (params, sorter) => {
-					const { items } = await getListApi({ filter: params.filter });
+			<Card>
+				<ProTable<ResourceDto>
+					headerTitle={$t("AbpLocalization.Resources")}
+					actionRef={actionRef}
+					rowKey="name"
+					columns={columns}
+					search={{
+						labelWidth: "auto",
+					}}
+					toolBarRender={() => [
+						hasAccessByCodes([ResourcesPermissions.Create]) && (
+							<Button key="add" type="primary" icon={<PlusOutlined />} onClick={() => handleOpenModal()}>
+								{$t("LocalizationManagement.Resource:AddNew")}
+							</Button>
+						),
+					]}
+					request={async (params, sorter) => {
+						const { items } = await getListApi({ filter: params.filter });
 
-					let dataSource = [...items];
+						let dataSource = [...items];
 
-					if (sorter && Object.keys(sorter).length > 0) {
-						const sortField = Object.keys(sorter)[0];
-						const sortOrder = sorter[sortField] === "ascend" ? "asc" : "desc";
-						dataSource = orderBy(dataSource, [sortField], [sortOrder]);
-					}
+						if (sorter && Object.keys(sorter).length > 0) {
+							const sortField = Object.keys(sorter)[0];
+							const sortOrder = sorter[sortField] === "ascend" ? "asc" : "desc";
+							dataSource = orderBy(dataSource, [sortField], [sortOrder]);
+						}
 
-					const current = params.current || 1;
-					const pageSize = params.pageSize || 10;
-					const startIndex = (current - 1) * pageSize;
-					const endIndex = startIndex + pageSize;
-					const pageData = dataSource.slice(startIndex, endIndex);
+						const current = params.current || 1;
+						const pageSize = params.pageSize || 10;
+						const startIndex = (current - 1) * pageSize;
+						const endIndex = startIndex + pageSize;
+						const pageData = dataSource.slice(startIndex, endIndex);
 
-					return {
-						data: pageData,
-						success: true,
-						total: dataSource.length,
-					};
-				}}
-				pagination={{
-					defaultPageSize: 10,
-					showSizeChanger: true,
-				}}
-			/>
+						return {
+							data: pageData,
+							success: true,
+							total: dataSource.length,
+						};
+					}}
+					pagination={{
+						defaultPageSize: 10,
+						showSizeChanger: true,
+					}}
+				/>
+			</Card>
 			<LocalizationResourceModal
 				visible={modalVisible}
 				resourceName={currentResource}

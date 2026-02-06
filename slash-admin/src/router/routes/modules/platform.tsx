@@ -10,11 +10,9 @@ const PlatformDataDictionaries = lazy(() => import("@/pages/platform/data-dictio
 
 const PlatformLayouts = lazy(() => import("@/pages/platform/layouts/layout-table"));
 
-const Subscriptions = lazy(() => import("@/pages/webhooks/subscriptions/webhook-subscription-table"));
-
 const PlatformMenus = lazy(() => import("@/pages/platform/menus/menu-table"));
 const PlatformEmailMessages = lazy(() => import("@/pages/platform/messages/email/email-message-table"));
-const PlatformSMSMessages = lazy(() => import("@/pages/platform/messages/email/email-message-table"));
+const PlatformSMSMessages = lazy(() => import("@/pages/platform/messages/sms/sms-message-table"));
 const platform: AppRouteObject[] = [
 	{
 		order: 4,

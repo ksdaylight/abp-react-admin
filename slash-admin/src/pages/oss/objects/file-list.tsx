@@ -1,6 +1,6 @@
 import type React from "react";
 import { useRef, useState, useEffect } from "react";
-import { Button, Modal, Space } from "antd";
+import { Button, Card, Modal, Space } from "antd";
 import { DeleteOutlined, DownloadOutlined, UploadOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
@@ -139,54 +139,56 @@ const FileList: React.FC<Props> = ({ bucket, path }) => {
 	return (
 		<>
 			{contextHolder}
-			<ProTable<OssObjectDto>
-				headerTitle={$t("AbpOssManagement.FileList")}
-				actionRef={actionRef}
-				rowKey="name"
-				columns={columns}
-				search={false}
-				toolBarRender={() => [
-					path && (
-						<Button key="upload" type="primary" icon={<UploadOutlined />} onClick={handleUpload}>
-							{$t("AbpOssManagement.Objects:UploadFile")}
-						</Button>
-					),
-				]}
-				request={async (params, sorter) => {
-					if (!bucket) return { data: [], success: true };
+			<Card>
+				<ProTable<OssObjectDto>
+					headerTitle={$t("AbpOssManagement.FileList")}
+					actionRef={actionRef}
+					rowKey="name"
+					columns={columns}
+					search={false}
+					toolBarRender={() => [
+						path && (
+							<Button key="upload" type="primary" icon={<UploadOutlined />} onClick={handleUpload}>
+								{$t("AbpOssManagement.Objects:UploadFile")}
+							</Button>
+						),
+					]}
+					request={async (params, sorter) => {
+						if (!bucket) return { data: [], success: true };
 
-					const sorting =
-						sorter && Object.keys(sorter).length > 0
-							? Object.keys(sorter)
-									.map((key) => `${key} ${antdOrderToAbpOrder(sorter[key])}`)
-									.join(", ")
-							: undefined;
+						const sorting =
+							sorter && Object.keys(sorter).length > 0
+								? Object.keys(sorter)
+										.map((key) => `${key} ${antdOrderToAbpOrder(sorter[key])}`)
+										.join(", ")
+								: undefined;
 
-					// Note: Prefix logic handles path filtering
-					// Logic for path: if path is ./ or empty, prefix might be empty or root logic
-					const prefix = path === "./" ? "" : path;
+						// Note: Prefix logic handles path filtering
+						// Logic for path: if path is ./ or empty, prefix might be empty or root logic
+						const prefix = path === "./" ? "" : path;
 
-					const res = await getObjectsApi({
-						bucket,
-						maxResultCount: params.pageSize,
-						skipCount: ((params.current || 1) - 1) * (params.pageSize || 10),
-						prefix: prefix,
-						sorting,
-						// You might need delimiter here if listing "current folder only"
-						// delimiter: '/'
-					});
+						const res = await getObjectsApi({
+							bucket,
+							maxResultCount: params.pageSize,
+							skipCount: ((params.current || 1) - 1) * (params.pageSize || 10),
+							prefix: prefix,
+							sorting,
+							// You might need delimiter here if listing "current folder only"
+							// delimiter: '/'
+						});
 
-					return {
-						data: res.objects,
-						total: res.maxKeys,
-						success: true,
-					};
-				}}
-				pagination={{
-					defaultPageSize: 10,
-					showSizeChanger: true,
-				}}
-			/>
+						return {
+							data: res.objects,
+							total: res.maxKeys,
+							success: true,
+						};
+					}}
+					pagination={{
+						defaultPageSize: 10,
+						showSizeChanger: true,
+					}}
+				/>
+			</Card>
 			<FileUploadModal
 				visible={uploadModalVisible}
 				bucket={bucket}

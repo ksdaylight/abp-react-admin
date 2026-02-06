@@ -1,6 +1,6 @@
 import type React from "react";
 import { useRef, useState } from "react";
-import { Button, Tag, Space, Dropdown, Modal, Checkbox, type FormInstance } from "antd";
+import { Button, Tag, Space, Dropdown, Modal, Checkbox, type FormInstance, Card } from "antd";
 import {
 	EditOutlined,
 	DeleteOutlined,
@@ -330,93 +330,94 @@ const JobInfoTable: React.FC = () => {
 	return (
 		<>
 			{contextHolder}
-			<ProTable<BackgroundJobInfoDto>
-				headerTitle={$t("TaskManagement.BackgroundJobs")}
-				actionRef={actionRef}
-				formRef={formRef}
-				rowKey="id"
-				columns={columns}
-				rowSelection={{
-					selectedRowKeys: selectedKeys,
-					onChange: (keys) => setSelectedKeys(keys),
-				}}
-				search={{ labelWidth: "auto", defaultCollapsed: true }}
-				scroll={{ x: 2000 }} // Wide table due to many columns
-				toolBarRender={() => [
-					selectedKeys.length > 0 && hasAccessByCodes([BackgroundJobsPermissions.Start]) && (
-						<Button
-							key="start"
-							ghost
-							type="primary"
-							icon={<PlayCircleOutlined />}
-							onClick={() => handleBulkAction(bulkStartApi, $t("TaskManagement.SelectJobWillBeStartMessage"))}
-						>
-							{$t("TaskManagement.BackgroundJobs:Start")}
-						</Button>
-					),
-					selectedKeys.length > 0 && hasAccessByCodes([BackgroundJobsPermissions.Stop]) && (
-						<Button
-							key="stop"
-							ghost
-							danger
-							type="primary"
-							icon={<StopOutlined />}
-							onClick={() => handleBulkAction(bulkStopApi, $t("TaskManagement.SelectJobWillBeStopMessage"))}
-						>
-							{$t("TaskManagement.BackgroundJobs:Pause")}
-						</Button>
-					),
-					hasAccessByCodes([BackgroundJobsPermissions.Create]) && (
-						<Button key="create" type="primary" icon={<PlusOutlined />} onClick={handleCreate}>
-							{$t("TaskManagement.BackgroundJobs:AddNew")}
-						</Button>
-					),
-					selectedKeys.length > 0 && hasAccessByCodes([BackgroundJobsPermissions.Delete]) && (
-						<Button
-							key="delete"
-							danger
-							type="primary"
-							icon={<DeleteOutlined />}
-							onClick={() =>
-								handleBulkAction(bulkDeleteApi, $t("TaskManagement.MultipleSelectJobsWillBeDeletedMessage"))
-							}
-						>
-							{$t("AbpUi.Delete")}
-						</Button>
-					),
-				]}
-				request={async (params, sorter) => {
-					const { current, pageSize, time, lastRunTime, ...filters } = params;
-					const [beginTime, endTime] = time || [];
-					const [beginLastRunTime, endLastRunTime] = lastRunTime || [];
+			<Card>
+				<ProTable<BackgroundJobInfoDto>
+					headerTitle={$t("TaskManagement.BackgroundJobs")}
+					actionRef={actionRef}
+					formRef={formRef}
+					rowKey="id"
+					columns={columns}
+					rowSelection={{
+						selectedRowKeys: selectedKeys,
+						onChange: (keys) => setSelectedKeys(keys),
+					}}
+					search={{ labelWidth: "auto", defaultCollapsed: true }}
+					scroll={{ x: 2000 }} // Wide table due to many columns
+					toolBarRender={() => [
+						selectedKeys.length > 0 && hasAccessByCodes([BackgroundJobsPermissions.Start]) && (
+							<Button
+								key="start"
+								ghost
+								type="primary"
+								icon={<PlayCircleOutlined />}
+								onClick={() => handleBulkAction(bulkStartApi, $t("TaskManagement.SelectJobWillBeStartMessage"))}
+							>
+								{$t("TaskManagement.BackgroundJobs:Start")}
+							</Button>
+						),
+						selectedKeys.length > 0 && hasAccessByCodes([BackgroundJobsPermissions.Stop]) && (
+							<Button
+								key="stop"
+								ghost
+								danger
+								type="primary"
+								icon={<StopOutlined />}
+								onClick={() => handleBulkAction(bulkStopApi, $t("TaskManagement.SelectJobWillBeStopMessage"))}
+							>
+								{$t("TaskManagement.BackgroundJobs:Pause")}
+							</Button>
+						),
+						hasAccessByCodes([BackgroundJobsPermissions.Create]) && (
+							<Button key="create" type="primary" icon={<PlusOutlined />} onClick={handleCreate}>
+								{$t("TaskManagement.BackgroundJobs:AddNew")}
+							</Button>
+						),
+						selectedKeys.length > 0 && hasAccessByCodes([BackgroundJobsPermissions.Delete]) && (
+							<Button
+								key="delete"
+								danger
+								type="primary"
+								icon={<DeleteOutlined />}
+								onClick={() =>
+									handleBulkAction(bulkDeleteApi, $t("TaskManagement.MultipleSelectJobsWillBeDeletedMessage"))
+								}
+							>
+								{$t("AbpUi.Delete")}
+							</Button>
+						),
+					]}
+					request={async (params, sorter) => {
+						const { current, pageSize, time, lastRunTime, ...filters } = params;
+						const [beginTime, endTime] = time || [];
+						const [beginLastRunTime, endLastRunTime] = lastRunTime || [];
 
-					const query = await queryClient.fetchQuery({
-						queryKey: ["jobInfos", params, sorter],
-						queryFn: () =>
-							getPagedListApi({
-								maxResultCount: pageSize,
-								skipCount: ((current || 1) - 1) * (pageSize || 0),
-								sorting: sorter
-									? Object.keys(sorter)
-											.map((key) => `${key} ${antdOrderToAbpOrder(sorter[key])}`)
-											.join(", ")
-									: undefined,
-								beginTime,
-								endTime,
-								beginLastRunTime,
-								endLastRunTime,
-								...filters,
-							}),
-					});
-					return {
-						data: query.items,
-						total: query.totalCount,
-						success: true,
-					};
-				}}
-				pagination={{ defaultPageSize: 10, showSizeChanger: true }}
-			/>
-
+						const query = await queryClient.fetchQuery({
+							queryKey: ["jobInfos", params, sorter],
+							queryFn: () =>
+								getPagedListApi({
+									maxResultCount: pageSize,
+									skipCount: ((current || 1) - 1) * (pageSize || 0),
+									sorting: sorter
+										? Object.keys(sorter)
+												.map((key) => `${key} ${antdOrderToAbpOrder(sorter[key])}`)
+												.join(", ")
+										: undefined,
+									beginTime,
+									endTime,
+									beginLastRunTime,
+									endLastRunTime,
+									...filters,
+								}),
+						});
+						return {
+							data: query.items,
+							total: query.totalCount,
+							success: true,
+						};
+					}}
+					pagination={{ defaultPageSize: 10, showSizeChanger: true }}
+				/>
+			</Card>
 			<JobInfoDrawer
 				visible={createDrawerVisible}
 				onClose={() => setCreateDrawerVisible(false)}

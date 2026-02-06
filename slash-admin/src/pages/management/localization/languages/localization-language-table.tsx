@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { Button, Modal, Space } from "antd";
+import { Button, Card, Modal, Space } from "antd";
 import { EditOutlined, DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
@@ -113,53 +113,55 @@ const LocalizationLanguageTable: React.FC = () => {
 	return (
 		<>
 			{contextHolder}
-			<ProTable<LanguageDto>
-				headerTitle={$t("AbpLocalization.Languages")}
-				actionRef={actionRef}
-				rowKey="cultureName"
-				columns={columns}
-				search={{
-					labelWidth: "auto",
-				}}
-				toolBarRender={() => [
-					hasAccessByCodes([LanguagesPermissions.Create]) && (
-						<Button key="add" type="primary" icon={<PlusOutlined />} onClick={() => handleOpenModal()}>
-							{$t("LocalizationManagement.Language:AddNew")}
-						</Button>
-					),
-				]}
-				request={async (params, sorter) => {
-					// Client-side pagination and sorting logic mirroring the Vue component
-					// 1. Fetch all data
-					const { items } = await getListApi({ filter: params.filter });
+			<Card>
+				<ProTable<LanguageDto>
+					headerTitle={$t("AbpLocalization.Languages")}
+					actionRef={actionRef}
+					rowKey="cultureName"
+					columns={columns}
+					search={{
+						labelWidth: "auto",
+					}}
+					toolBarRender={() => [
+						hasAccessByCodes([LanguagesPermissions.Create]) && (
+							<Button key="add" type="primary" icon={<PlusOutlined />} onClick={() => handleOpenModal()}>
+								{$t("LocalizationManagement.Language:AddNew")}
+							</Button>
+						),
+					]}
+					request={async (params, sorter) => {
+						// Client-side pagination and sorting logic mirroring the Vue component
+						// 1. Fetch all data
+						const { items } = await getListApi({ filter: params.filter });
 
-					let dataSource = [...items];
+						let dataSource = [...items];
 
-					// 2. Sort
-					if (sorter && Object.keys(sorter).length > 0) {
-						const sortField = Object.keys(sorter)[0];
-						const sortOrder = sorter[sortField] === "ascend" ? "asc" : "desc";
-						dataSource = orderBy(dataSource, [sortField], [sortOrder]);
-					}
+						// 2. Sort
+						if (sorter && Object.keys(sorter).length > 0) {
+							const sortField = Object.keys(sorter)[0];
+							const sortOrder = sorter[sortField] === "ascend" ? "asc" : "desc";
+							dataSource = orderBy(dataSource, [sortField], [sortOrder]);
+						}
 
-					// 3. Paginate
-					const current = params.current || 1;
-					const pageSize = params.pageSize || 10;
-					const startIndex = (current - 1) * pageSize;
-					const endIndex = startIndex + pageSize;
-					const pageData = dataSource.slice(startIndex, endIndex);
+						// 3. Paginate
+						const current = params.current || 1;
+						const pageSize = params.pageSize || 10;
+						const startIndex = (current - 1) * pageSize;
+						const endIndex = startIndex + pageSize;
+						const pageData = dataSource.slice(startIndex, endIndex);
 
-					return {
-						data: pageData,
-						success: true,
-						total: dataSource.length,
-					};
-				}}
-				pagination={{
-					defaultPageSize: 10,
-					showSizeChanger: true,
-				}}
-			/>
+						return {
+							data: pageData,
+							success: true,
+							total: dataSource.length,
+						};
+					}}
+					pagination={{
+						defaultPageSize: 10,
+						showSizeChanger: true,
+					}}
+				/>
+			</Card>
 			<LocalizationLanguageModal
 				visible={modalVisible}
 				cultureName={currentCulture}

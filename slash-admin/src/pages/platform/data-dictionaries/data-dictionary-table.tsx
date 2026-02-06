@@ -1,6 +1,6 @@
 import type React from "react";
 import { useRef, useState } from "react";
-import { Button, Dropdown, Space, Modal } from "antd";
+import { Button, Dropdown, Space, Modal, Card } from "antd";
 import { PlusOutlined, EditOutlined, DeleteOutlined, EllipsisOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
@@ -87,7 +87,7 @@ const DataDictionaryTable: React.FC = () => {
 			title: $t("AbpUi.Actions"),
 			key: "actions",
 			fixed: "right",
-			width: 200,
+			width: 250,
 			render: (_, record) => (
 				<Space>
 					{withAccessChecker(
@@ -132,34 +132,35 @@ const DataDictionaryTable: React.FC = () => {
 	return (
 		<>
 			{contextHolder}
-			<ProTable<DataDto>
-				headerTitle={$t("AppPlatform.DisplayName:DataDictionary")}
-				actionRef={actionRef}
-				rowKey="id"
-				columns={columns}
-				search={false}
-				pagination={false}
-				toolBarRender={() => [
-					withAccessChecker(
-						<Button key="create" type="primary" icon={<PlusOutlined />} onClick={handleCreate}>
-							{$t("AppPlatform.Data:AddNew")}
-						</Button>,
-						[DataDictionaryPermissions.Create],
-					),
-				]}
-				request={async () => {
-					const { items } = await getAllApi();
-					const tree = listToTree(items, { id: "id", pid: "parentId" });
-					return {
-						data: tree,
-						success: true,
-					};
-				}}
-				expandable={{
-					defaultExpandAllRows: true,
-				}}
-			/>
-
+			<Card>
+				<ProTable<DataDto>
+					headerTitle={$t("AppPlatform.DisplayName:DataDictionary")}
+					actionRef={actionRef}
+					rowKey="id"
+					columns={columns}
+					search={false}
+					pagination={false}
+					toolBarRender={() => [
+						withAccessChecker(
+							<Button key="create" type="primary" icon={<PlusOutlined />} onClick={handleCreate}>
+								{$t("AppPlatform.Data:AddNew")}
+							</Button>,
+							[DataDictionaryPermissions.Create],
+						),
+					]}
+					request={async () => {
+						const { items } = await getAllApi();
+						const tree = listToTree(items, { id: "id", pid: "parentId" });
+						return {
+							data: tree,
+							success: true,
+						};
+					}}
+					expandable={{
+						defaultExpandAllRows: true,
+					}}
+				/>
+			</Card>
 			<DataDictionaryModal
 				visible={modalVisible}
 				onClose={() => setModalVisible(false)}

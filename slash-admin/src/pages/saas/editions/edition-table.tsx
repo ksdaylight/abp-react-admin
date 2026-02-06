@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { Button, Dropdown, Modal, Space } from "antd";
+import { Button, Card, Dropdown, Modal, Space } from "antd";
 import { EditOutlined, DeleteOutlined, PlusOutlined, EllipsisOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
@@ -141,54 +141,55 @@ const EditionTable: React.FC = () => {
 	return (
 		<>
 			{contextHolder}
-			<ProTable<EditionDto>
-				headerTitle={$t("AbpSaas.Editions")}
-				actionRef={actionRef}
-				rowKey="id"
-				columns={columns}
-				search={{
-					labelWidth: "auto",
-				}}
-				toolBarRender={() => [
-					withAccessChecker(
-						<Button key="create" type="primary" icon={<PlusOutlined />} onClick={handleCreate}>
-							{$t("AbpSaas.NewEdition")}
-						</Button>,
-						[EditionsPermissions.Create],
-					),
-				]}
-				request={async (params, sorter) => {
-					const { current, pageSize, ...filters } = params;
-					const sorting =
-						sorter && Object.keys(sorter).length > 0
-							? Object.keys(sorter)
-									.map((key) => `${key} ${antdOrderToAbpOrder(sorter[key])}`)
-									.join(", ")
-							: undefined;
+			<Card>
+				<ProTable<EditionDto>
+					headerTitle={$t("AbpSaas.Editions")}
+					actionRef={actionRef}
+					rowKey="id"
+					columns={columns}
+					search={{
+						labelWidth: "auto",
+					}}
+					toolBarRender={() => [
+						withAccessChecker(
+							<Button key="create" type="primary" icon={<PlusOutlined />} onClick={handleCreate}>
+								{$t("AbpSaas.NewEdition")}
+							</Button>,
+							[EditionsPermissions.Create],
+						),
+					]}
+					request={async (params, sorter) => {
+						const { current, pageSize, ...filters } = params;
+						const sorting =
+							sorter && Object.keys(sorter).length > 0
+								? Object.keys(sorter)
+										.map((key) => `${key} ${antdOrderToAbpOrder(sorter[key])}`)
+										.join(", ")
+								: undefined;
 
-					const query = await queryClient.fetchQuery({
-						queryKey: ["editions", params, sorter],
-						queryFn: () =>
-							getPagedListApi({
-								maxResultCount: pageSize,
-								skipCount: ((current || 1) - 1) * (pageSize || 0),
-								sorting: sorting,
-								filter: filters.filter,
-							}),
-					});
+						const query = await queryClient.fetchQuery({
+							queryKey: ["editions", params, sorter],
+							queryFn: () =>
+								getPagedListApi({
+									maxResultCount: pageSize,
+									skipCount: ((current || 1) - 1) * (pageSize || 0),
+									sorting: sorting,
+									filter: filters.filter,
+								}),
+						});
 
-					return {
-						data: query.items,
-						total: query.totalCount,
-						success: true,
-					};
-				}}
-				pagination={{
-					defaultPageSize: 10,
-					showSizeChanger: true,
-				}}
-			/>
-
+						return {
+							data: query.items,
+							total: query.totalCount,
+							success: true,
+						};
+					}}
+					pagination={{
+						defaultPageSize: 10,
+						showSizeChanger: true,
+					}}
+				/>
+			</Card>
 			<EditionModal
 				visible={editionModalVisible}
 				editionId={selectedEditionId}

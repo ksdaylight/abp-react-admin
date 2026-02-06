@@ -1,6 +1,6 @@
 import type React from "react";
 import { useRef, useState } from "react";
-import { Button, Tag, Space, Modal, Dropdown, Table } from "antd";
+import { Button, Tag, Space, Modal, Dropdown, Table, Card } from "antd";
 import {
 	EditOutlined,
 	DeleteOutlined,
@@ -209,70 +209,71 @@ const NotificationDefinitionTable: React.FC = () => {
 	return (
 		<>
 			{contextHolder}
-			<ProTable<ExtendedGroupDto>
-				headerTitle={$t("Notifications.NotificationDefinitions")}
-				actionRef={actionRef}
-				rowKey="name"
-				columns={columns}
-				search={{ labelWidth: "auto" }}
-				toolBarRender={() => [
-					withAccessChecker(
-						<Button key="create" type="primary" icon={<PlusOutlined />} onClick={handleCreate}>
-							{$t("Notifications.NotificationDefinitions:AddNew")}
-						</Button>,
-						[NotificationDefinitionsPermissions.Create],
-					),
-				]}
-				// Nested Table for Definitions
-				expandable={{
-					expandedRowRender: (record) => (
-						<Table
-							columns={definitionColumns}
-							dataSource={record.items}
-							pagination={false}
-							rowKey="name"
-							size="small"
-							// Support tree structure if definitions have children (Vue code implies listToTree)
-							expandable={{ defaultExpandAllRows: true, childrenColumnName: "children" }}
-						/>
-					),
-					defaultExpandAllRows: true,
-				}}
-				request={async (params) => {
-					const { filter } = params;
-					const [groupRes, defRes] = await Promise.all([getGroupsApi({ filter }), getDefinitionsApi({ filter })]);
+			<Card>
+				<ProTable<ExtendedGroupDto>
+					headerTitle={$t("Notifications.NotificationDefinitions")}
+					actionRef={actionRef}
+					rowKey="name"
+					columns={columns}
+					search={{ labelWidth: "auto" }}
+					toolBarRender={() => [
+						withAccessChecker(
+							<Button key="create" type="primary" icon={<PlusOutlined />} onClick={handleCreate}>
+								{$t("Notifications.NotificationDefinitions:AddNew")}
+							</Button>,
+							[NotificationDefinitionsPermissions.Create],
+						),
+					]}
+					// Nested Table for Definitions
+					expandable={{
+						expandedRowRender: (record) => (
+							<Table
+								columns={definitionColumns}
+								dataSource={record.items}
+								pagination={false}
+								rowKey="name"
+								size="small"
+								// Support tree structure if definitions have children (Vue code implies listToTree)
+								expandable={{ defaultExpandAllRows: true, childrenColumnName: "children" }}
+							/>
+						),
+						defaultExpandAllRows: true,
+					}}
+					request={async (params) => {
+						const { filter } = params;
+						const [groupRes, defRes] = await Promise.all([getGroupsApi({ filter }), getDefinitionsApi({ filter })]);
 
-					const data: ExtendedGroupDto[] = groupRes.items.map((group) => {
-						const groupLocal = deserialize(group.displayName);
+						const data: ExtendedGroupDto[] = groupRes.items.map((group) => {
+							const groupLocal = deserialize(group.displayName);
 
-						const groupDefinitions = defRes.items
-							.filter((d) => d.groupName === group.name)
-							.map((d) => {
-								const dName = deserialize(d.displayName);
-								const dDesc = deserialize(d.description);
-								return {
-									...d,
-									displayName: Lr(dName.resourceName, dName.name),
-									description: dDesc ? Lr(dDesc.resourceName, dDesc.name) : "",
-								};
-							});
+							const groupDefinitions = defRes.items
+								.filter((d) => d.groupName === group.name)
+								.map((d) => {
+									const dName = deserialize(d.displayName);
+									const dDesc = deserialize(d.description);
+									return {
+										...d,
+										displayName: Lr(dName.resourceName, dName.name),
+										description: dDesc ? Lr(dDesc.resourceName, dDesc.name) : "",
+									};
+								});
+
+							return {
+								...group,
+								displayName: Lr(groupLocal.resourceName, groupLocal.name),
+								items: listToTree(groupDefinitions, { id: "name", pid: "parentName" }),
+							};
+						});
 
 						return {
-							...group,
-							displayName: Lr(groupLocal.resourceName, groupLocal.name),
-							items: listToTree(groupDefinitions, { id: "name", pid: "parentName" }),
+							data: data,
+							success: true,
+							total: groupRes.items.length,
 						};
-					});
-
-					return {
-						data: data,
-						success: true,
-						total: groupRes.items.length,
-					};
-				}}
-				pagination={false}
-			/>
-
+					}}
+					pagination={false}
+				/>
+			</Card>
 			<NotificationDefinitionModal
 				visible={definitionModalVisible}
 				definitionName={selectedDefinitionName}

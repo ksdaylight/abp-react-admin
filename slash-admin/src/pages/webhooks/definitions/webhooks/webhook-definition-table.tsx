@@ -1,6 +1,6 @@
 import type React from "react";
 import { useRef, useState } from "react";
-import { Button, Tag, Space, Modal, Table } from "antd";
+import { Button, Tag, Space, Modal, Table, Card } from "antd";
 import { EditOutlined, DeleteOutlined, PlusOutlined, CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
@@ -147,82 +147,83 @@ const WebhookDefinitionTable: React.FC = () => {
 	return (
 		<>
 			{contextHolder}
-			<ProTable<ExtendedGroupDto>
-				headerTitle={$t("WebhooksManagement.WebhookDefinitions")}
-				actionRef={actionRef}
-				rowKey="name"
-				columns={columns}
-				search={{ labelWidth: "auto" }}
-				toolBarRender={() => [
-					withAccessChecker(
-						<Button key="create" type="primary" icon={<PlusOutlined />} onClick={handleCreate}>
-							{$t("WebhooksManagement.Webhooks:AddNew")}
-						</Button>,
-						[WebhookDefinitionsPermissions.Create],
-					),
-				]}
-				// Nested Table Renderer
-				expandable={{
-					expandedRowRender: (record) => (
-						<Table
-							columns={definitionColumns}
-							dataSource={record.items}
-							pagination={false}
-							rowKey="name"
-							size="small"
-							// Support tree structure within definitions (Vue logic used listToTree)
-							expandable={{
-								defaultExpandAllRows: true,
-								childrenColumnName: "children",
-							}}
-						/>
-					),
-					defaultExpandAllRows: true, // Expand groups by default to match Vue behavior often used for categorization
-				}}
-				request={async (params) => {
-					const { filter } = params;
+			<Card>
+				<ProTable<ExtendedGroupDto>
+					headerTitle={$t("WebhooksManagement.WebhookDefinitions")}
+					actionRef={actionRef}
+					rowKey="name"
+					columns={columns}
+					search={{ labelWidth: "auto" }}
+					toolBarRender={() => [
+						withAccessChecker(
+							<Button key="create" type="primary" icon={<PlusOutlined />} onClick={handleCreate}>
+								{$t("WebhooksManagement.Webhooks:AddNew")}
+							</Button>,
+							[WebhookDefinitionsPermissions.Create],
+						),
+					]}
+					// Nested Table Renderer
+					expandable={{
+						expandedRowRender: (record) => (
+							<Table
+								columns={definitionColumns}
+								dataSource={record.items}
+								pagination={false}
+								rowKey="name"
+								size="small"
+								// Support tree structure within definitions (Vue logic used listToTree)
+								expandable={{
+									defaultExpandAllRows: true,
+									childrenColumnName: "children",
+								}}
+							/>
+						),
+						defaultExpandAllRows: true, // Expand groups by default to match Vue behavior often used for categorization
+					}}
+					request={async (params) => {
+						const { filter } = params;
 
-					// 1. Fetch Groups and Definitions in parallel
-					const [groupRes, defRes] = await Promise.all([getGroupsApi({ filter }), getDefinitionsApi({ filter })]);
+						// 1. Fetch Groups and Definitions in parallel
+						const [groupRes, defRes] = await Promise.all([getGroupsApi({ filter }), getDefinitionsApi({ filter })]);
 
-					// 2. Process and merge data
-					const data: ExtendedGroupDto[] = groupRes.items.map((group) => {
-						// Localize Group Name
-						const groupLocal = deserialize(group.displayName);
+						// 2. Process and merge data
+						const data: ExtendedGroupDto[] = groupRes.items.map((group) => {
+							// Localize Group Name
+							const groupLocal = deserialize(group.displayName);
 
-						// Filter definitions belonging to this group
-						const groupDefinitions = defRes.items
-							.filter((d) => d.groupName === group.name)
-							.map((d) => {
-								// Localize Definition fields
-								const dName = deserialize(d.displayName);
-								const dDesc = deserialize(d.description);
-								return {
-									...d,
-									displayName: Lr(dName.resourceName, dName.name),
-									description: dDesc ? Lr(dDesc.resourceName, dDesc.name) : "",
-								};
-							});
+							// Filter definitions belonging to this group
+							const groupDefinitions = defRes.items
+								.filter((d) => d.groupName === group.name)
+								.map((d) => {
+									// Localize Definition fields
+									const dName = deserialize(d.displayName);
+									const dDesc = deserialize(d.description);
+									return {
+										...d,
+										displayName: Lr(dName.resourceName, dName.name),
+										description: dDesc ? Lr(dDesc.resourceName, dDesc.name) : "",
+									};
+								});
 
-						// Build Tree for definitions (handling parent/child relationships if any)
-						const definitionsTree = listToTree(groupDefinitions, { id: "name", pid: "parentName" });
+							// Build Tree for definitions (handling parent/child relationships if any)
+							const definitionsTree = listToTree(groupDefinitions, { id: "name", pid: "parentName" });
+
+							return {
+								...group,
+								displayName: Lr(groupLocal.resourceName, groupLocal.name),
+								items: definitionsTree,
+							};
+						});
 
 						return {
-							...group,
-							displayName: Lr(groupLocal.resourceName, groupLocal.name),
-							items: definitionsTree,
+							data: data,
+							success: true,
+							total: groupRes.items.length,
 						};
-					});
-
-					return {
-						data: data,
-						success: true,
-						total: groupRes.items.length,
-					};
-				}}
-				pagination={false}
-			/>
-
+					}}
+					pagination={false}
+				/>
+			</Card>
 			<WebhookDefinitionModal
 				visible={modalVisible}
 				definitionName={selectedDefinitionName}

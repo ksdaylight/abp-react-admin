@@ -1,6 +1,6 @@
 import type React from "react";
 import { useRef, useState } from "react";
-import { Button, Dropdown, Space, Checkbox, type FormInstance } from "antd";
+import { Button, Dropdown, Space, Checkbox, type FormInstance, Card } from "antd";
 import {
 	EditOutlined,
 	DeleteOutlined,
@@ -206,52 +206,53 @@ const TemplateDefinitionTable: React.FC = () => {
 
 	return (
 		<>
-			<ProTable<TextTemplateDefinitionDto>
-				headerTitle={$t("AbpTextTemplating.TextTemplates")}
-				actionRef={actionRef}
-				formRef={formRef} //search form
-				rowKey="name"
-				columns={columns}
-				search={{ labelWidth: "auto" }}
-				toolBarRender={() => [
-					hasAccessByCodes([TextTemplatePermissions.Create]) && (
-						<Button key="create" type="primary" icon={<PlusOutlined />} onClick={handleCreate}>
-							{$t("AbpTextTemplating.TextTemplates:AddNew")}
-						</Button>
-					),
-				]}
-				request={async (params, sorter) => {
-					// Client side paging/sorting logic mirroring Vue
-					const { items } = await getListApi({
-						filter: params.filter,
-						isLayout: params.isLayout === true ? true : undefined, // Only filter if checked, otherwise undefined
-					});
+			<Card>
+				<ProTable<TextTemplateDefinitionDto>
+					headerTitle={$t("AbpTextTemplating.TextTemplates")}
+					actionRef={actionRef}
+					formRef={formRef} //search form
+					rowKey="name"
+					columns={columns}
+					search={{ labelWidth: "auto" }}
+					toolBarRender={() => [
+						hasAccessByCodes([TextTemplatePermissions.Create]) && (
+							<Button key="create" type="primary" icon={<PlusOutlined />} onClick={handleCreate}>
+								{$t("AbpTextTemplating.TextTemplates:AddNew")}
+							</Button>
+						),
+					]}
+					request={async (params, sorter) => {
+						// Client side paging/sorting logic mirroring Vue
+						const { items } = await getListApi({
+							filter: params.filter,
+							isLayout: params.isLayout === true ? true : undefined, // Only filter if checked, otherwise undefined
+						});
 
-					let dataSource = [...items];
+						let dataSource = [...items];
 
-					if (sorter && Object.keys(sorter).length > 0) {
-						const sortField = Object.keys(sorter)[0];
-						const sortOrder = sorter[sortField] === "ascend" ? "asc" : "desc";
-						dataSource = orderBy(dataSource, [sortField], [sortOrder]);
-					}
+						if (sorter && Object.keys(sorter).length > 0) {
+							const sortField = Object.keys(sorter)[0];
+							const sortOrder = sorter[sortField] === "ascend" ? "asc" : "desc";
+							dataSource = orderBy(dataSource, [sortField], [sortOrder]);
+						}
 
-					const current = params.current || 1;
-					const pageSize = params.pageSize || 10;
-					const startIndex = (current - 1) * pageSize;
-					const endIndex = startIndex + pageSize;
+						const current = params.current || 1;
+						const pageSize = params.pageSize || 10;
+						const startIndex = (current - 1) * pageSize;
+						const endIndex = startIndex + pageSize;
 
-					return {
-						data: dataSource.slice(startIndex, endIndex),
-						total: dataSource.length,
-						success: true,
-					};
-				}}
-				pagination={{
-					defaultPageSize: 10,
-					showSizeChanger: true,
-				}}
-			/>
-
+						return {
+							data: dataSource.slice(startIndex, endIndex),
+							total: dataSource.length,
+							success: true,
+						};
+					}}
+					pagination={{
+						defaultPageSize: 10,
+						showSizeChanger: true,
+					}}
+				/>
+			</Card>
 			<TemplateDefinitionModal
 				visible={definitionModalVisible}
 				templateName={selectedTemplateName}
