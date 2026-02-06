@@ -22,6 +22,7 @@ const TemplateContentModal: React.FC<Props> = ({ visible, onClose, templateDefin
 	const application = useAbpStore((state) => state.application);
 	const [form] = Form.useForm();
 
+	const [modal, contextHolder] = Modal.useModal();
 	const [submitting, setSubmitting] = useState(false);
 	const [loading, setLoading] = useState(false);
 	const [curtuleModalVisible, setCurtuleModalVisible] = useState(false);
@@ -77,7 +78,7 @@ const TemplateContentModal: React.FC<Props> = ({ visible, onClose, templateDefin
 
 	const handleRestore = () => {
 		if (!templateDefinition) return;
-		Modal.confirm({
+		modal.confirm({
 			title: $t("AbpTextTemplating.RestoreToDefault"),
 			content: $t("AbpTextTemplating.RestoreToDefaultMessage"),
 			onOk: async () => {
@@ -94,6 +95,7 @@ const TemplateContentModal: React.FC<Props> = ({ visible, onClose, templateDefin
 
 	return (
 		<>
+			{contextHolder}
 			<Modal
 				title={$t("AbpTextTemplating.EditContents")}
 				open={visible}

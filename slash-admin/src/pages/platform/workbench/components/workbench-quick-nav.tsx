@@ -16,6 +16,7 @@ interface Props {
 const WorkbenchQuickNav: React.FC<Props> = ({ items = [], title, onClick, onDelete, onAdd }) => {
 	const { t: $t } = useTranslation();
 
+	const [modal, contextHolder] = Modal.useModal();
 	const getFavoriteMenus = useMemo(() => {
 		const addMenu: FavoriteMenu = {
 			id: "addMenu",
@@ -36,7 +37,7 @@ const WorkbenchQuickNav: React.FC<Props> = ({ items = [], title, onClick, onDele
 	};
 
 	const handleDelete = (menu: FavoriteMenu) => {
-		Modal.confirm({
+		modal.confirm({
 			centered: true,
 			title: $t("AbpUi.AreYouSure"),
 			content: $t("AbpUi.ItemWillBeDeletedMessage"),
@@ -45,54 +46,57 @@ const WorkbenchQuickNav: React.FC<Props> = ({ items = [], title, onClick, onDele
 	};
 
 	return (
-		<Card title={title} className="min-h-[300px] shadow-sm">
-			<div className="flex flex-wrap">
-				{getFavoriteMenus.map((item, index) => {
-					const isAddBtn = item.id === "addMenu";
-					// Calculate borders for grid layout (3 columns)
-					const borderClasses = `
+		<>
+			{contextHolder}
+			<Card title={title} className="min-h-[300px] shadow-sm">
+				<div className="flex flex-wrap">
+					{getFavoriteMenus.map((item, index) => {
+						const isAddBtn = item.id === "addMenu";
+						// Calculate borders for grid layout (3 columns)
+						const borderClasses = `
             flex flex-col items-center justify-center w-1/3 py-8 cursor-pointer
             border-t border-r border-gray-100 hover:shadow-lg transition-shadow duration-300 group
             ${index % 3 === 2 ? "border-r-0" : ""}
             ${index < 3 ? "border-t-0" : ""} 
           `;
 
-					const content = (
-						<div className={borderClasses} onClick={() => handleClick(item)}>
-							<Iconify
-								icon={item.icon || "mdi:circle"}
-								style={{ color: item.color, fontSize: "28px" }}
-								className="transition-transform duration-300 group-hover:scale-125"
-							/>
-							<span className="mt-2 text-sm text-gray-600 truncate px-2 w-full text-center">{item.displayName}</span>
-						</div>
-					);
-
-					if (!item.isDefault && !isAddBtn) {
-						return (
-							<Dropdown
-								key={item.id}
-								trigger={["contextMenu"]}
-								menu={{
-									items: [
-										{
-											key: "delete",
-											label: $t("workbench.content.favoriteMenu.delete"),
-											icon: <DeleteOutlined />,
-											onClick: () => handleDelete(item),
-										},
-									],
-								}}
-							>
-								{content}
-							</Dropdown>
+						const content = (
+							<div className={borderClasses} onClick={() => handleClick(item)}>
+								<Iconify
+									icon={item.icon || "mdi:circle"}
+									style={{ color: item.color, fontSize: "28px" }}
+									className="transition-transform duration-300 group-hover:scale-125"
+								/>
+								<span className="mt-2 text-sm text-gray-600 truncate px-2 w-full text-center">{item.displayName}</span>
+							</div>
 						);
-					}
 
-					return <React.Fragment key={item.id}>{content}</React.Fragment>;
-				})}
-			</div>
-		</Card>
+						if (!item.isDefault && !isAddBtn) {
+							return (
+								<Dropdown
+									key={item.id}
+									trigger={["contextMenu"]}
+									menu={{
+										items: [
+											{
+												key: "delete",
+												label: $t("workbench.content.favoriteMenu.delete"),
+												icon: <DeleteOutlined />,
+												onClick: () => handleDelete(item),
+											},
+										],
+									}}
+								>
+									{content}
+								</Dropdown>
+							);
+						}
+
+						return <React.Fragment key={item.id}>{content}</React.Fragment>;
+					})}
+				</div>
+			</Card>
+		</>
 	);
 };
 

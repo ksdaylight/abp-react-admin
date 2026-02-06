@@ -18,6 +18,7 @@ interface Props {
 
 const DataDictionaryItemDrawer: React.FC<Props> = ({ visible, onClose, dataDto }) => {
 	const { t: $t } = useTranslation();
+	const [modal, contextHolder] = Modal.useModal();
 	const actionRef = useRef<ActionType>();
 	const [modalVisible, setModalVisible] = useState(false);
 	const [selectedItem, setSelectedItem] = useState<DataItemDto | undefined>();
@@ -54,7 +55,7 @@ const DataDictionaryItemDrawer: React.FC<Props> = ({ visible, onClose, dataDto }
 
 	const handleDelete = (record: DataItemDto) => {
 		if (!dataDto) return;
-		Modal.confirm({
+		modal.confirm({
 			title: $t("AbpUi.AreYouSure"),
 			content: $t("AbpUi.ItemWillBeDeletedMessage"),
 			onOk: async () => {
@@ -127,6 +128,7 @@ const DataDictionaryItemDrawer: React.FC<Props> = ({ visible, onClose, dataDto }
 
 	return (
 		<>
+			{contextHolder}
 			<Drawer
 				title={dataDto ? `${$t("AppPlatform.DisplayName:DataDictionary")} - ${dataDto.displayName}` : ""}
 				width="60%"

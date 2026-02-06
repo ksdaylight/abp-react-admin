@@ -33,6 +33,7 @@ const TenantTable: React.FC = () => {
 	const queryClient = useQueryClient();
 	const featureChecker = useFeatures();
 
+	const [modal, contextHolder] = Modal.useModal();
 	// Modal/Drawer States
 	const [tenantModalVisible, setTenantModalVisible] = useState(false);
 	const [connStrModalVisible, setConnStrModalVisible] = useState(false);
@@ -70,7 +71,7 @@ const TenantTable: React.FC = () => {
 	};
 
 	const handleDelete = (row: TenantDto) => {
-		Modal.confirm({
+		modal.confirm({
 			title: $t("AbpUi.AreYouSure"),
 			content: $t("AbpSaas.TenantDeletionConfirmationMessage", { 0: row.name }),
 			onOk: async () => {
@@ -175,6 +176,7 @@ const TenantTable: React.FC = () => {
 
 	return (
 		<>
+			{contextHolder}
 			<ProTable<TenantDto>
 				headerTitle={$t("AbpSaas.Tenants")}
 				actionRef={actionRef}

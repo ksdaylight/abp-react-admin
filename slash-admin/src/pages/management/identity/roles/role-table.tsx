@@ -122,13 +122,7 @@ const RoleTable: React.FC = () => {
 					</div>
 					<div className="basis-1/3">
 						{hasAccessByCodes([IdentityRolePermissions.Delete]) && !record.isStatic && (
-							<Button
-								type="link"
-								danger
-								icon={<DeleteOutlined />}
-								block
-								onClick={() => handleDelete(record)}
-							>
+							<Button type="link" danger icon={<DeleteOutlined />} block onClick={() => handleDelete(record)}>
 								{$t("AbpUi.Delete")}
 							</Button>
 						)}
@@ -142,14 +136,14 @@ const RoleTable: React.FC = () => {
 												key: "permissions",
 												icon: <Iconify icon="icon-park-outline:permissions" />,
 												label: $t("AbpPermissionManagement.Permissions"),
-										  }
+											}
 										: null,
 									hasAccessByCodes([IdentityRolePermissions.ManageClaims])
 										? {
 												key: "claims",
 												icon: <Iconify icon="la:id-card-solid" />,
 												label: $t("AbpIdentity.ManageClaim"),
-										  }
+											}
 										: null,
 									// Added Menu Management Item
 									hasAccessByCodes(["Platform.Menu.ManageRoles"])
@@ -157,14 +151,14 @@ const RoleTable: React.FC = () => {
 												key: "menus",
 												icon: <Iconify icon="heroicons-outline:menu-alt-3" />,
 												label: $t("AppPlatform.Menu:Manage"),
-										  }
+											}
 										: null,
 									hasAccessByCodes([AuditLogPermissions.Default])
 										? {
 												key: "entity-changes",
 												icon: <Iconify icon="fluent-mdl2:compliance-audit" />,
 												label: $t("AbpAuditLogging.EntitiesChanged"),
-										  }
+											}
 										: null,
 								].filter(Boolean) as any, // filter(Boolean) needs 'as any' or strict type guard in some TS configs
 								onClick: ({ key }) => handleMenuClick(key as string, record),
