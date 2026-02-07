@@ -15,10 +15,10 @@ public class DataItemCreateOrUpdateDto : IValidatableObject
     public string DisplayName { get; set; }
 
     [DynamicStringLength(typeof(DataItemConsts), nameof(DataItemConsts.MaxValueLength))]
-    public string DefaultValue { get; set; }
+    public string? DefaultValue { get; set; }
 
     [DynamicStringLength(typeof(DataItemConsts), nameof(DataItemConsts.MaxDescriptionLength))]
-    public string Description { get; set; }
+    public string? Description { get; set; }
 
     public bool AllowBeNull { get; set; }
 

@@ -10,5 +10,5 @@ public class TextTemplateContentGetInput
     public string Name { get; set; }
 
     [DynamicStringLength(typeof(TextTemplateConsts), nameof(TextTemplateConsts.MaxCultureLength))]
-    public string Culture { get; set; }
+    public string? Culture { get; set; }
 }

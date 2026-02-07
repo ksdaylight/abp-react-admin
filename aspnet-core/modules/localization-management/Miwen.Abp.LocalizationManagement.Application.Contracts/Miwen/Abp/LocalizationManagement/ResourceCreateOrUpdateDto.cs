@@ -10,8 +10,8 @@ public abstract class ResourceCreateOrUpdateDto
     public string DisplayName { get; set; }
 
     [DynamicStringLength(typeof(ResourceConsts), nameof(ResourceConsts.MaxNameLength))]
-    public string Description { get; set; }
+    public string? Description { get; set; }
 
     [DynamicStringLength(typeof(ResourceConsts), nameof(ResourceConsts.MaxNameLength))]
-    public string DefaultCultureName { get; set; }
+    public string? DefaultCultureName { get; set; }
 }

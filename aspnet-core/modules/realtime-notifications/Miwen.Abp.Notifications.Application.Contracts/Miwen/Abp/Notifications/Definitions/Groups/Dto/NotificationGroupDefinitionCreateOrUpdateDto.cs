@@ -11,7 +11,7 @@ public abstract class NotificationGroupDefinitionCreateOrUpdateDto : IHasExtraPr
     public string DisplayName { get; set; }
 
     [DynamicStringLength(typeof(NotificationDefinitionGroupRecordConsts), nameof(NotificationDefinitionGroupRecordConsts.MaxDescriptionLength))]
-    public string Description { get; set; }
+    public string? Description { get; set; }
 
     public bool AllowSubscriptionToClients { get; set; }
 

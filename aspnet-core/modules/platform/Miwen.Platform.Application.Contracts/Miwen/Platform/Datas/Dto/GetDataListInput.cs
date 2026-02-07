@@ -4,5 +4,5 @@ namespace Miwen.Platform.Datas;
 
 public class GetDataListInput : PagedAndSortedResultRequestDto
 {
-    public string Filter { get; set; }
+    public string? Filter { get; set; }
 }

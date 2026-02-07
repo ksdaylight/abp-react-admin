@@ -11,5 +11,5 @@ public class NotificationDefinitionCreateDto : NotificationDefinitionCreateOrUpd
 
     [Required]
     [DynamicStringLength(typeof(NotificationDefinitionGroupRecordConsts), nameof(NotificationDefinitionGroupRecordConsts.MaxNameLength))]
-    public string GroupName { get; set; }
+    public string? GroupName { get; set; }
 }

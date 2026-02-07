@@ -65,11 +65,32 @@ public class OrganizationUnitPermissionManagementProvider : PermissionManagement
         {
             var role = await IdentityRoleRepository.FindByNormalizedNameAsync(UserManager.NormalizeName(providerKey));
             var organizationUnits = await IdentityRoleRepository.GetOrganizationUnitsAsync(role.Id);
-            var roleOrganizationUnits = organizationUnits.Select(x => x.Code.ToString());
+            //var roleOrganizationUnits = organizationUnits.Select(x => x.Code.ToString());
+            var roleOrganizationUnits = organizationUnits
+                .Select(x => x.Code?.ToString())
+                .Where(s => !string.IsNullOrEmpty(s))
+                .ToArray();
 
-            var quaryble = await PermissionGrantBasicRepository.GetQueryableAsync();
-            quaryble = quaryble.Where(x => x.ProviderName == Name && roleOrganizationUnits.Contains(x.ProviderKey) && names.Contains(x.Name));
-            var roleUnitGrants = await AsyncQueryableExecuter.ToListAsync(quaryble);
+            //var nameArr = names?.ToArray() ?? Array.Empty<string>();
+
+            var provider = Name;
+            var queryable = await PermissionGrantBasicRepository.GetQueryableAsync();
+
+            var list = await AsyncQueryableExecuter.ToListAsync(
+                queryable.Where(x => x.ProviderName == provider)
+            );
+
+            var roleUnitGrants = list
+                .Where(x => roleOrganizationUnits.Contains(x.ProviderKey))
+                .ToList();
+
+
+
+            //var roleUnitGrants = await AsyncQueryableExecuter.ToListAsync(queryable);
+
+            //var quaryble = await PermissionGrantBasicRepository.GetQueryableAsync();
+            //quaryble = quaryble.Where(x => x.ProviderName == Name && roleOrganizationUnits.Contains(x.ProviderKey) && names.Contains(x.Name));
+            //var roleUnitGrants = await AsyncQueryableExecuter.ToListAsync(quaryble);
 
             permissionGrants.AddRange(roleUnitGrants);
         }

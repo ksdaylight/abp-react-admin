@@ -13,13 +13,13 @@ public abstract class FeatureDefinitionCreateOrUpdateDto : IHasExtraProperties
     public string DisplayName { get; set; }
 
     [DynamicStringLength(typeof(FeatureDefinitionRecordConsts), nameof(FeatureDefinitionRecordConsts.MaxNameLength))]
-    public string ParentName { get; set; }
+    public string? ParentName { get; set; }
 
     [DynamicStringLength(typeof(FeatureDefinitionRecordConsts), nameof(FeatureDefinitionRecordConsts.MaxDescriptionLength))]
-    public string Description { get; set; }
+    public string? Description { get; set; }
 
     [DynamicStringLength(typeof(FeatureDefinitionRecordConsts), nameof(FeatureDefinitionRecordConsts.MaxDefaultValueLength))]
-    public string DefaultValue { get; set; }
+    public string? DefaultValue { get; set; }
 
     public bool IsVisibleToClients { get; set; }
 

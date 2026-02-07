@@ -19,14 +19,14 @@ public class MenuCreateOrUpdateDto
     public string DisplayName { get; set; }
 
     [DynamicStringLength(typeof(RouteConsts), nameof(RouteConsts.MaxDescriptionLength))]
-    public string Description { get; set; }
+    public string? Description { get; set; }
 
     [Required]
     [DynamicStringLength(typeof(RouteConsts), nameof(RouteConsts.MaxPathLength))]
     public string Path { get; set; }
 
     [DynamicStringLength(typeof(RouteConsts), nameof(RouteConsts.MaxRedirectLength))]
-    public string Redirect { get; set; }
+    public string? Redirect { get; set; }
 
     [Required]
     [DynamicStringLength(typeof(MenuConsts), nameof(MenuConsts.MaxComponentLength))]

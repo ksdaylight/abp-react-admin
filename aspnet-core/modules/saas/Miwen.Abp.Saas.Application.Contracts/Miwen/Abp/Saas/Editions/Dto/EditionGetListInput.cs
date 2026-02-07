@@ -4,5 +4,5 @@ namespace Miwen.Abp.Saas.Editions;
 
 public class EditionGetListInput : PagedAndSortedResultRequestDto
 {
-    public string Filter { get; set; }
+    public string? Filter { get; set; }
 }

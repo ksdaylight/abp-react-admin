@@ -56,7 +56,7 @@ public class OssContainerAppService : OssManagementApplicationServiceBase, IOssC
 
         var ossObjectResponse = await oss.GetObjectsAsync(
             input.Bucket, input.Prefix, input.Marker,
-            input.Delimiter, input.EncodingType, input.MD5,
+            input.Delimiter, input.EncodingType, input.MD5 ?? false,
             input.SkipCount, input.MaxResultCount);
 
         return ObjectMapper.Map<GetOssObjectsResponse, OssObjectsResultDto>(ossObjectResponse);

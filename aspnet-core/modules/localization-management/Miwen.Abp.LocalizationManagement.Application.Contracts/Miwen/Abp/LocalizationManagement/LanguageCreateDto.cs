@@ -10,5 +10,5 @@ public class LanguageCreateDto : LanguageCreateOrUpdateDto
     public string CultureName { get; set; }
 
     [DynamicStringLength(typeof(LanguageConsts), nameof(LanguageConsts.MaxUiCultureNameLength))]
-    public string UiCultureName { get; set; }
+    public string? UiCultureName { get; set; }
 }

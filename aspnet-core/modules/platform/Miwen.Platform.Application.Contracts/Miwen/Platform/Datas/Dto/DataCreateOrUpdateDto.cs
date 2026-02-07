@@ -14,5 +14,5 @@ public class DataCreateOrUpdateDto
     public string DisplayName { get; set; }
 
     [DynamicStringLength(typeof(DataConsts), nameof(DataConsts.MaxDescriptionLength))]
-    public string Description { get; set; }
+    public string? Description { get; set; }
 }

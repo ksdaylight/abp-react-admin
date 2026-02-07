@@ -12,7 +12,7 @@ public abstract class WebhookDefinitionCreateOrUpdateDto : IHasExtraProperties
     public string DisplayName { get; set; }
 
     [DynamicStringLength(typeof(WebhookDefinitionRecordConsts), nameof(WebhookDefinitionRecordConsts.MaxDescriptionLength))]
-    public string Description { get; set; }
+    public string? Description { get; set; }
 
     public bool IsEnabled { get; set; }
 
