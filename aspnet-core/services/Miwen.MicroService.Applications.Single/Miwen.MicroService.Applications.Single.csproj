@@ -235,4 +235,20 @@
 		<ProjectReference Include="..\..\modules\webhooks\Miwen.Abp.Webhooks\Miwen.Abp.Webhooks.csproj" />
 	</ItemGroup>
 
+
+
+	<Target Name="CopyVoloPdbToOutput" AfterTargets="Build" Condition="'$(Configuration)'=='Debug'">
+		<ItemGroup>
+			<!-- 从还原后的包引用里，抓取 Volo.* 的 PDB -->
+			<_VoloPdb Include="@(ReferenceCopyLocalPaths->'%(RootDir)%(Directory)%(Filename).pdb')"
+								Condition=" '%(ReferenceCopyLocalPaths.Filename)' != '' AND
+                          $([System.String]::Copy('%(ReferenceCopyLocalPaths.Filename)').StartsWith('Volo.')) " />
+		</ItemGroup>
+
+		<Copy SourceFiles="@(_VoloPdb)"
+					DestinationFolder="$(OutDir)"
+					SkipUnchangedFiles="true"
+					Condition="Exists('%(_VoloPdb.Identity)')" />
+	</Target>
+	
 </Project>
