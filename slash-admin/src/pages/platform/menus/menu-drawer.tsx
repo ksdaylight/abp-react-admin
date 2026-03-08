@@ -1,6 +1,6 @@
 import type React from "react";
 import { useEffect, useState } from "react";
-import { Drawer, Form, Input, Checkbox, Button, Steps, Card, TreeSelect, Select, InputNumber, DatePicker } from "antd";
+import { Drawer, Form, Input, Checkbox, Button, Steps, TreeSelect, Select, InputNumber, DatePicker } from "antd";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import dayjs from "dayjs";
@@ -28,7 +28,7 @@ const MenuDrawer: React.FC<Props> = ({ visible, onClose, onChange, editMenu, roo
 
 	const [currentStep, setCurrentStep] = useState(0);
 	const [submitting, setSubmitting] = useState(false);
-	const [loading, setLoading] = useState(false);
+	const [, setLoading] = useState(false);
 	const [menuMetas, setMenuMetas] = useState<any[]>([]); // Dynamic fields definition
 
 	// Watch Layout ID to load meta definitions
@@ -63,7 +63,8 @@ const MenuDrawer: React.FC<Props> = ({ visible, onClose, onChange, editMenu, roo
 				form.setFieldsValue(dto);
 				// Meta values will be set after meta definitions are loaded via layoutId effect
 				// We might need a ref or state to hold meta values temporarily
-				setTimeout(() => setMetaValues(dto.meta, dto.layoutId), 500);
+				setTimeout(() => setMetaValues(dto.meta), 500);
+				// setTimeout(() => setMetaValues(dto.meta, dto.layoutId), 500);
 			} finally {
 				setLoading(false);
 			}
@@ -75,7 +76,7 @@ const MenuDrawer: React.FC<Props> = ({ visible, onClose, onChange, editMenu, roo
 			});
 			// Handle path prefix based on parent
 			if (editMenu?.parentId) {
-				const parent = await getApi(editMenu.parentId);
+				// const parent = await getApi(editMenu.parentId); TODO
 				// Antd Input addonBefore logic handled in render
 			}
 		}
@@ -97,7 +98,7 @@ const MenuDrawer: React.FC<Props> = ({ visible, onClose, onChange, editMenu, roo
 		}
 	};
 
-	const setMetaValues = (meta: Record<string, any>, lId: string) => {
+	const setMetaValues = (meta: Record<string, any>) => {
 		// This runs after definitions are loaded
 		// We need to map raw values to component values (e.g. string 'true' to boolean true)
 		// Since setMenuMetas is async/state based, robust implementation would map inside the render or a useEffect depending on menuMetas
@@ -117,7 +118,7 @@ const MenuDrawer: React.FC<Props> = ({ visible, onClose, onChange, editMenu, roo
 
 	const handleParentChange = async (val: string) => {
 		if (val) {
-			const parent = await getApi(val);
+			// const parent = await getApi(val); TODO
 			// Store parent path for display/logic
 		}
 	};

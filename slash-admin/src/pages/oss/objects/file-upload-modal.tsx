@@ -1,7 +1,7 @@
 import type React from "react";
 import { useRef, useState } from "react";
 import { Modal, Button, Table, Tag, Tooltip, Progress } from "antd";
-import { DeleteOutlined, PauseOutlined, CaretRightOutlined } from "@ant-design/icons";
+import { DeleteOutlined, CaretRightOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
 import { createApi } from "@/api/oss/objects";
 

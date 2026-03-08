@@ -23,7 +23,7 @@ const SimpleStateCheckingModal: React.FC<SimpleStateCheckingModalProps> = ({
 }) => {
 	const { t: $t } = useTranslation();
 	const [form] = Form.useForm();
-	const [selectedType, setSelectedType] = useState<string | undefined>();
+	const [, setSelectedType] = useState<string | undefined>();
 
 	useEffect(() => {
 		if (visible) {
@@ -72,9 +72,9 @@ const SimpleStateCheckingModal: React.FC<SimpleStateCheckingModalProps> = ({
 			const values = await form.validateFields();
 
 			// Transform form values back to ABP simple state checker structure
-			const result: any = {
-				T: values.name, // T is usually the discriminator in some serializations, checking logic below
-			};
+			// const result: any = { TODO
+			// 	T: values.name, // T is usually the discriminator in some serializations, checking logic below
+			// };
 
 			// Mapping based on the Vue onSubmit logic:
 			// A = RequiresAll (boolean)
@@ -82,11 +82,11 @@ const SimpleStateCheckingModal: React.FC<SimpleStateCheckingModalProps> = ({
 			// N = Names array
 
 			const val = values.value || {};
-			const checkerObj: any = {
-				name: values.name,
-				// 'A' property seems to map to requiresAll for the checker itself
-				requiresAll: val.requiresAll,
-			};
+			// const checkerObj: any = { TODO
+			// 	name: values.name,
+			// 	// 'A' property seems to map to requiresAll for the checker itself
+			// 	requiresAll: val.requiresAll,
+			// };
 
 			// Specifically for serialization logic later
 			// The Vue code returns: { A: boolean, T: string, N: string[] }

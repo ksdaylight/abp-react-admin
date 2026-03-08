@@ -125,7 +125,7 @@ const FolderTree: React.FC<Props> = ({ onBucketChange, onFolderChange }) => {
 		}
 	};
 
-	const onSelect = (keys: React.Key[], info: any) => {
+	const onSelect = (keys: React.Key[]) => {
 		setSelectedKeys(keys);
 		if (keys.length === 1) {
 			const keyStr = keys[0].toString();

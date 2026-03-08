@@ -59,7 +59,7 @@ const useAbpStore = create<AbpStore>()(
 				// 设置 application 数据
 				setApplication: (val) => {
 					set({ application: val });
-					const match = document.cookie.match(new RegExp("(^| )XSRF-TOKEN=([^;]+)"));
+					const match = document.cookie.match(/(^| )XSRF-TOKEN=([^;]+)/);
 					const xsrfToken = match ? match[2] : undefined;
 					set({ xsrfToken });
 					// console.log("--------- xsrfToken set in store:", get().xsrfToken);

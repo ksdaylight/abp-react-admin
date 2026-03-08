@@ -87,7 +87,7 @@ const MySetting: React.FC = () => {
 		setPhoneModalVisible(true);
 	};
 
-	const onPhoneNumberChanged = async (phoneNumber: string) => {
+	const onPhoneNumberChanged = async () => {
 		// Optimistically update store or refetch user info
 		await fetchAndSetUser();
 	};

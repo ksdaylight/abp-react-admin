@@ -62,7 +62,7 @@ const NotificationSendModal: React.FC<Props> = ({ visible, onClose, notification
 	};
 
 	const isMarkdown = notification?.contentType === NotificationContentType.Markdown;
-	const isWeChat = notification?.providers?.some((p) => p.toLowerCase().includes("wechat"));
+	// const isWeChat = notification?.providers?.some((p) => p.toLowerCase().includes("wechat"));
 
 	return (
 		<Modal

@@ -5,13 +5,13 @@ import { EditOutlined, DeleteOutlined, PlusOutlined, CheckOutlined, CloseOutline
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { ProTable, type ProColumns, type ActionType } from "@ant-design/pro-table";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { deleteApi, getListApi as getDefinitionsApi } from "@/api/webhooks/webhook-definitions";
 import { getListApi as getGroupsApi } from "@/api/webhooks/webhook-group-definitions";
 import type { WebhookDefinitionDto } from "#/webhooks/definitions";
 import type { WebhookGroupDefinitionDto } from "#/webhooks/groups";
 import { WebhookDefinitionsPermissions } from "@/constants/webhooks/permissions";
-import { hasAccessByCodes, withAccessChecker } from "@/utils/abp/access-checker";
+import { withAccessChecker } from "@/utils/abp/access-checker";
 import { localizationSerializer } from "@/utils/abp/localization-serializer";
 import { useLocalizer } from "@/hooks/abp/use-localization";
 
@@ -26,7 +26,7 @@ interface ExtendedGroupDto extends WebhookGroupDefinitionDto {
 const WebhookDefinitionTable: React.FC = () => {
 	const { t: $t } = useTranslation();
 	const actionRef = useRef<ActionType>();
-	const queryClient = useQueryClient();
+	// const queryClient = useQueryClient();
 	const { deserialize } = localizationSerializer();
 	const { Lr } = useLocalizer();
 	const [modal, contextHolder] = Modal.useModal();

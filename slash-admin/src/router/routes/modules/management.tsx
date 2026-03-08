@@ -6,7 +6,6 @@ import { CircleLoading } from "@/components/loading";
 
 import type { AppRouteObject } from "#/router";
 
-
 // Identity
 const Users = lazy(() => import("@/pages/management/identity/users/user-table"));
 const Roles = lazy(() => import("@/pages/management/identity/roles/role-table"));

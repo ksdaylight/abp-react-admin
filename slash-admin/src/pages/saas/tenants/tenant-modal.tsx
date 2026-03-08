@@ -1,6 +1,6 @@
 import type React from "react";
 import { useEffect, useState } from "react";
-import { Modal, Form, Input, Select, Checkbox, DatePicker, Tabs, Row, Col } from "antd";
+import { Modal, Form, Input, Select, Checkbox, DatePicker, Row, Col } from "antd";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import dayjs from "dayjs";
@@ -22,7 +22,7 @@ const TenantModal: React.FC<Props> = ({ visible, onClose, onChange, tenantId, da
 	const { t: $t } = useTranslation();
 	const [form] = Form.useForm();
 
-	const [activeTab, setActiveTab] = useState("basic");
+	const [, setActiveTab] = useState("basic");
 	const [loading, setLoading] = useState(false);
 	const [submitting, setSubmitting] = useState(false);
 
