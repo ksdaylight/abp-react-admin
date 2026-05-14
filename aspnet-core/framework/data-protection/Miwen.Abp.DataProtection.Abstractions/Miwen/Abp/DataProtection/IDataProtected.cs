@@ -1,8 +1,8 @@
-﻿using Volo.Abp.Data;
+using System;
 
 namespace Miwen.Abp.DataProtection;
 
-public interface IDataProtected : IHasExtraProperties
+public interface IDataProtected
 {
-
+    Guid? CreatorId { get; }
 }

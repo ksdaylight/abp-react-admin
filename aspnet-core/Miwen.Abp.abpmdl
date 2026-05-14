@@ -2,19 +2,19 @@
   "template": "app",
   "imports": {
     "Volo.Abp.Account": {
-      "version": "8.3.0",
+      "version": "10.0.2",
       "isInstalled": true
     },
     "Volo.Abp.OpenIddict": {
-      "version": "8.3.0",
+      "version": "10.0.2",
       "isInstalled": true
     },
     "Volo.Abp.Identity": {
-      "version": "8.3.0",
+      "version": "10.0.2",
       "isInstalled": true
     },
     "Volo.Abp.TenantManagement": {
-      "version": "8.3.0",
+      "version": "10.0.2",
       "isInstalled": true
     }
   },

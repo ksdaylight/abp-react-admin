@@ -2,16 +2,16 @@
 using Miwen.Abp.Identity.Session;
 using Miwen.Abp.Identity.Session.AspNetCore;
 using Microsoft.Extensions.DependencyInjection;
+using OpenIddict.Validation;
 using Volo.Abp.Modularity;
-using Volo.Abp.OpenIddict;
 using static OpenIddict.Abstractions.OpenIddictConstants;
 
 namespace Miwen.Abp.OpenIddict.AspNetCore.Session;
 
 [DependsOn(
-    typeof(AbpIdentitySessionAspNetCoreModule),
     typeof(AbpIdentityDomainModule),
-    typeof(AbpOpenIddictAspNetCoreModule))]
+    typeof(AbpIdentitySessionAspNetCoreModule)
+    )]
 public class AbpOpenIddictAspNetCoreSessionModule : AbpModule
 {
     public override void PreConfigureServices(ServiceConfigurationContext context)
@@ -21,7 +21,8 @@ public class AbpOpenIddictAspNetCoreSessionModule : AbpModule
             builder.AddEventHandler(ProcessSignOutIdentitySession.Descriptor);
             builder.AddEventHandler(ProcessSignInIdentitySession.Descriptor);
             builder.AddEventHandler(RevocationIdentitySession.Descriptor);
-            builder.AddEventHandler(UserinfoIdentitySession.Descriptor);
+            builder.AddEventHandler(ServerValidationTokenCheckIdentitySession.Descriptor);
+            // builder.AddEventHandler(UserInfoIdentitySession.Descriptor);
         });
     }
 
@@ -37,6 +38,12 @@ public class AbpOpenIddictAspNetCoreSessionModule : AbpModule
         {
             options.PersistentSessionGrantTypes.Add(GrantTypes.Password);
         });
-    }
 
+        context.Services.Add(ValidationTokenCheckIdentitySession.Descriptor.ServiceDescriptor);
+
+        Configure<OpenIddictValidationOptions>(options =>
+        {
+            options.Handlers.Add(ValidationTokenCheckIdentitySession.Descriptor);
+        });
+    }
 }

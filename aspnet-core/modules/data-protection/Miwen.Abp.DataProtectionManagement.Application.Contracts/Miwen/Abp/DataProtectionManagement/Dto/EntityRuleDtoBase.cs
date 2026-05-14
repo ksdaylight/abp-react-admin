@@ -1,4 +1,4 @@
-﻿using Miwen.Abp.DataProtection;
+using Miwen.Abp.DataProtection;
 using System;
 using Volo.Abp.Application.Dtos;
 
@@ -11,5 +11,5 @@ public abstract class EntityRuleDtoBase : AuditedEntityDto<Guid>
     public DataAccessFilterGroup FilterGroup { get; set; }
     public Guid EntityTypeId { get; set; }
     public string EntityTypeFullName { get; set; }
-    public string[] AllowProperties { get; set; }
+    public string[] AccessedProperties { get; set; }
 }

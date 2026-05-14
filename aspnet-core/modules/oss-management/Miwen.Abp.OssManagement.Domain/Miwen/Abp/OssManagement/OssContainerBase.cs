@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using System;
 using System.Threading.Tasks;
@@ -65,4 +65,6 @@ public abstract class OssContainerBase : IOssContainer
     {
         return true;
     }
+
+    public abstract Task<bool> ObjectExistsAsync(GetOssObjectRequest request);
 }

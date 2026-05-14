@@ -1,4 +1,4 @@
-﻿using Miwen.Abp.DataProtection.Localization;
+using Miwen.Abp.DataProtection.Localization;
 using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.AspNetCore.Mvc;
 using Volo.Abp.AspNetCore.Mvc.Localization;

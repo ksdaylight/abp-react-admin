@@ -1,5 +1,4 @@
 ﻿using Autofac.Core;
-using DeviceDetectorNET.Parser.Device;
 using Miwen.Abp.AspNetCore.Mvc.Wrapper;
 using Miwen.Abp.Serilog.Enrichers.Application;
 using Miwen.Abp.Serilog.Enrichers.UniqueId;

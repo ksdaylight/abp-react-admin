@@ -1,4 +1,4 @@
-﻿using OpenIddict.Abstractions;
+using OpenIddict.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -26,6 +26,7 @@ internal static class OpenIddictApplicationExtensions
         entity.ClientUri = dto.ClientUri;
         entity.ClientType = dto.ClientType;
         entity.LogoUri = dto.LogoUri;
+        entity.FrontChannelLogoutUri = dto.FrontChannelLogoutUri;
 
         TrySetSettings(jsonSerializer, dto, entity);
         TrySetRequirements(jsonSerializer, dto, entity);
@@ -105,6 +106,7 @@ internal static class OpenIddictApplicationExtensions
             LogoUri = entity.LogoUri,
             JsonWebKeySet = entity.JsonWebKeySet,
             ConcurrencyStamp = entity.ConcurrencyStamp,
+            FrontChannelLogoutUri = entity.FrontChannelLogoutUri,
         };
 
         var settings = jsonSerializer.DeserializeToDictionary<string, string>(entity.Settings);
@@ -184,7 +186,7 @@ internal static class OpenIddictApplicationExtensions
     }
     private static void TrySetSettings(IJsonSerializer jsonSerializer, OpenIddictApplicationCreateOrUpdateDto dto, OpenIddictApplication entity)
     {
-        var settings = entity.Settings.IsNullOrWhiteSpace() ? new Dictionary<string, string>()
+        var settings = entity.Settings .IsNullOrWhiteSpace() ? new Dictionary<string, string>()
             : jsonSerializer.DeserializeToDictionary<string, string>(entity.Settings);
 
         if (dto.Settings != null)
@@ -238,5 +240,4 @@ internal static class OpenIddictApplicationExtensions
         dto.Settings.TokenLifetime.RefreshToken = GetTokenLifetime(OpenIddictConstants.Settings.TokenLifetimes.RefreshToken);
         dto.Settings.TokenLifetime.UserCode = GetTokenLifetime(OpenIddictConstants.Settings.TokenLifetimes.UserCode);
     }
-
 }

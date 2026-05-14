@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -17,15 +17,15 @@ public class DataAuthorizationService : IDataAuthorizationService, ITransientDep
         _entityTypeFilterBuilder = entityTypeFilterBuilder;
     }
     
-    public virtual Task<AuthorizationResult> AuthorizeAsync<TEntity>(DataAccessOperation operation, IEnumerable<TEntity> entities)
+    public async virtual Task<AuthorizationResult> AuthorizeAsync<TEntity>(DataAccessOperation operation, IEnumerable<TEntity> entities)
     {
         if (!entities.Any())
         {
-            return Task.FromResult(AuthorizationResult.Success());
+            return AuthorizationResult.Success();
         }
 
-        var exp = _entityTypeFilterBuilder.Build<TEntity>(operation);
+        var exp = await _entityTypeFilterBuilder.Build<TEntity>(operation);
 
-        return Task.FromResult(entities.All(exp.Compile()) ? AuthorizationResult.Success() : AuthorizationResult.Failed());
+        return entities.All(exp.Compile()) ? AuthorizationResult.Success() : AuthorizationResult.Failed();
     }
 }

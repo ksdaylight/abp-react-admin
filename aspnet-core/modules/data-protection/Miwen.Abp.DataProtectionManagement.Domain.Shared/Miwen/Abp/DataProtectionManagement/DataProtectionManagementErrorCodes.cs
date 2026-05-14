@@ -1,4 +1,4 @@
-﻿namespace Miwen.Abp.DataProtectionManagement;
+namespace Miwen.Abp.DataProtectionManagement;
 
 public static class DataProtectionManagementErrorCodes
 {
@@ -15,6 +15,10 @@ public static class DataProtectionManagementErrorCodes
         /// 实体类型已经存在名为 {Name} 的属性定义
         /// </summary>
         public const string DuplicateProperty = Prefix + "200";
+        /// <summary>
+        /// 实体属性已经存在名为 {Name} 的枚举定义
+        /// </summary>
+        public const string DuplicateEnum = Prefix + "300";
     }
 
     public static class RoleEntityRule
@@ -35,3 +39,4 @@ public static class DataProtectionManagementErrorCodes
         public const string DuplicateEntityRule = Prefix + "100";
     }
 }
+

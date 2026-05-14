@@ -1,4 +1,4 @@
-﻿using Volo.Abp.Reflection;
+using Volo.Abp.Reflection;
 
 namespace Miwen.Abp.DataProtectionManagement.Permissions;
 
@@ -28,6 +28,12 @@ public static class DataProtectionManagementPermissionNames
         public const string Create = Default + ".Create";
         public const string Update = Default + ".Update";
         public const string Delete = Default + ".Delete";
+    }
+
+    public static class SubjectStrategy
+    {
+        public const string Default = GroupName + ".SubjectStrategy";
+        public const string Change = Default + ".Change";
     }
 
     public static string[] GetAll()

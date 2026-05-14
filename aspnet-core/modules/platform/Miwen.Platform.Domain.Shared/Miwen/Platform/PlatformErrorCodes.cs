@@ -22,6 +22,10 @@ public static class PlatformErrorCodes
     /// </summary>
     public const string MenuAchieveMaxDepth = Namespace + ":02003";
     /// <summary>
+    /// 当前菜单不能与上级菜单相同
+    /// </summary>
+    public const string CannotSetSelfParentMenu = Namespace + ":02004";
+    /// <summary>
     /// 菜单元数据缺少必要的元素
     /// </summary>
     public const string MenuMissingMetadata = Namespace + ":02101";
@@ -53,4 +57,16 @@ public static class PlatformErrorCodes
     /// 附件 {Name} 已失效, 请重新上传!
     /// </summary>
     public const string FeedackAttachmentLoseEffectiveness = Namespace + ":05104";
+    /// <summary>
+    /// 不能添加重复的标头 {Key}!
+    /// </summary>
+    public const string DuplicateEmailMessageHeader = Namespace + ":06101";
+    /// <summary>
+    /// 不能添加重复的附件 {Name}!
+    /// </summary>
+    public const string DuplicateEmailMessageAttachment = Namespace + ":06102";
+    /// <summary>
+    /// 已经存在名为 {Name} 的企业信息!
+    /// </summary>
+    public const string DuplicateEnterpriseName = Namespace + ":07101";
 }

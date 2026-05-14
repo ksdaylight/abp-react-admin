@@ -1,9 +1,9 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk.Web">
 
 	<Import Project="..\..\common.secrets.props" />
 
 	<PropertyGroup>
-		<TargetFramework>net8.0</TargetFramework>
+		<TargetFramework>net10.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<RootNamespace>Miwen.MicroService.Applications.Single</RootNamespace>
 		<ImplicitUsings>enable</ImplicitUsings>
@@ -69,6 +69,7 @@
 		<ProjectReference Include="..\..\framework\common\Miwen.Abp.Features.LimitValidation\Miwen.Abp.Features.LimitValidation.csproj" />
 		<ProjectReference Include="..\..\framework\common\Miwen.Abp.Http.Client.Wrapper\Miwen.Abp.Http.Client.Wrapper.csproj" />
 		<ProjectReference Include="..\..\framework\common\Miwen.Abp.IdGenerator\Miwen.Abp.IdGenerator.csproj" />
+		<ProjectReference Include="..\..\framework\common\Miwen.Abp.IP2Region\Miwen.Abp.IP2Region.csproj" />
 		<ProjectReference Include="..\..\framework\common\Miwen.Abp.RealTime\Miwen.Abp.RealTime.csproj" />
 		<ProjectReference Include="..\..\framework\common\Miwen.Abp.Wrapper\Miwen.Abp.Wrapper.csproj" />
 		<ProjectReference Include="..\..\framework\dynamic-queryable\Miwen.Abp.Dynamic.Queryable.Application.Contracts\Miwen.Abp.Dynamic.Queryable.Application.Contracts.csproj" />

@@ -1,4 +1,4 @@
-﻿using Miwen.Abp.DataProtection.EntityFrameworkCore;
+using Miwen.Abp.DataProtection.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.Modularity;
 
@@ -18,6 +18,8 @@ public class AbpDataProtectionManagementEntityFrameworkCoreModule : AbpModule
 
             options.AddRepository<RoleEntityRule, EfCoreRoleEntityRuleRepository>();
             options.AddRepository<OrganizationUnitEntityRule, EfCoreOrganizationUnitEntityRuleRepository>();
+
+            options.AddRepository<SubjectStrategy, EfCoreSubjectStrategyRepository>();
 
             options.AddDefaultRepositories();
         });

@@ -1,4 +1,4 @@
-﻿using Volo.Abp;
+using Volo.Abp;
 using Volo.Abp.OpenIddict.Tokens;
 
 namespace Miwen.Abp.OpenIddict.Tokens;
@@ -44,10 +44,6 @@ internal static class OpenIddictTokenExtensions
             ApplicationId = entity.ApplicationId,
             AuthorizationId = entity.AuthorizationId,
             CreationDate = entity.CreationDate,
-            CreationTime = entity.CreationTime,
-            CreatorId = entity.CreatorId,
-            LastModificationTime = entity.LastModificationTime,
-            LastModifierId = entity.LastModifierId,
             ExpirationDate = entity.ExpirationDate,
             Payload = entity.Payload,
             Properties = entity.Properties,

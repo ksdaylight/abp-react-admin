@@ -1,4 +1,4 @@
-﻿using System.Threading.Tasks;
+using System.Threading.Tasks;
 using Volo.Abp.Auditing;
 
 namespace Miwen.Abp.AuditLogging;

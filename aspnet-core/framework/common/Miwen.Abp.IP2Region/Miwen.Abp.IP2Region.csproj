@@ -1,10 +1,10 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <Import Project="..\..\..\common.props" />
 	<Import Project="..\..\..\configureawait.props" />
 
 	<PropertyGroup>
-		<TargetFrameworks>netstandard2.0;netstandard2.1;net8.0</TargetFrameworks>
+		<TargetFrameworks>netstandard2.0;netstandard2.1;net8.0;net9.0;net10.0</TargetFrameworks>
 		<Nullable>enable</Nullable>
 		<AssemblyName>Miwen.Abp.IP2Region</AssemblyName>
 		<PackageId>Miwen.Abp.IP2Region</PackageId>
@@ -16,8 +16,8 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<None Remove="Miwen\Abp\IP2Region\Resources\ip2region.xdb" />
-		<EmbeddedResource Include="Miwen\Abp\IP2Region\Resources\ip2region.xdb" />
+		<None Remove="Miwen\Abp\IP2Region\Resources\ip2region_v4.xdb" />
+		<EmbeddedResource Include="Miwen\Abp\IP2Region\Resources\ip2region_v4.xdb" />
 	</ItemGroup>
 
 	<ItemGroup>

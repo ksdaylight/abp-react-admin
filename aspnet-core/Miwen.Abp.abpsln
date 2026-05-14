@@ -2,8 +2,8 @@
   "id": "7a38e94a-fe68-4984-bff6-f8e5a8602dda",
   "template": "app",
   "versions": {
-    "AbpFramework": "8.3.0",
-    "AbpStudio": "0.8.3"
+    "AbpFramework": "10.0.2",
+    "AbpStudio": "2.2.4"
   },
   "modules": {
     "Miwen.Abp": {
@@ -27,7 +27,7 @@
   },
   "creatingStudioConfiguration": {
     "template": "app",
-    "createdAbpStudioVersion": "0.8.3",
+    "createdAbpStudioVersion": "2.2.4",
     "tiered": "false",
     "uiFramework": "no-ui",
     "databaseProvider": "ef",

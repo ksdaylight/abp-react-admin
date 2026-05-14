@@ -1,37 +1,39 @@
-﻿using Miwen.Platform.Datas;
+using Miwen.Platform.Datas;
 using Miwen.Platform.Layouts;
 using Miwen.Platform.Menus;
+using Miwen.Platform.Messages;
 using Miwen.Platform.ObjectExtending;
 using Miwen.Platform.Packages;
 using Miwen.Platform.Routes;
 using Microsoft.Extensions.DependencyInjection;
-using Volo.Abp.AutoMapper;
 using Volo.Abp.BlobStoring;
 using Volo.Abp.Domain.Entities.Events.Distributed;
+using Volo.Abp.Emailing;
 using Volo.Abp.EventBus;
+using Volo.Abp.Mapperly;
 using Volo.Abp.Modularity;
 using Volo.Abp.ObjectExtending.Modularity;
+using Volo.Abp.Sms;
+using SmsMessage = Miwen.Platform.Messages.SmsMessage;
 
 namespace Miwen.Platform;
 
 [DependsOn(
-    typeof(PlatformDomainSharedModule),
-    typeof(AbpBlobStoringModule),
-    typeof(AbpEventBusModule))]
+    typeof(AbpSmsModule),
+    typeof(AbpEmailingModule),
+    typeof(AbpEventBusModule),
+    typeof(AbpEventBusModule),
+    typeof(AbpMapperlyModule),
+    typeof(PlatformDomainSharedModule))]
 public class PlatformDomainModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
-        context.Services.AddAutoMapperObjectMapper<PlatformDomainModule>();
+        context.Services.AddMapperlyObjectMapper<PlatformDomainModule>();
 
         Configure<DataItemMappingOptions>(options =>
         {
             options.SetDefaultMapping();
-        });
-
-        Configure<AbpAutoMapperOptions>(options =>
-        {
-            options.AddProfile<PlatformDomainMappingProfile>(validate: true);
         });
 
         Configure<AbpBlobStoringOptions>(options =>
@@ -51,6 +53,12 @@ public class PlatformDomainModule : AbpModule
             options.EtoMappings.Add<RoleMenu, RoleMenuEto>(typeof(PlatformDomainModule));
 
             options.EtoMappings.Add<Package, PackageEto>(typeof(PlatformDomainModule));
+
+            options.EtoMappings.Add<EmailMessage, EmailMessageEto>(typeof(PlatformDomainModule));
+            options.EtoMappings.Add<SmsMessage, SmsMessageEto>(typeof(PlatformDomainModule));
+
+            options.AutoEventSelectors.Add<EmailMessage>();
+            options.AutoEventSelectors.Add<SmsMessage>();
         });
     }
     public override void PostConfigureServices(ServiceConfigurationContext context)

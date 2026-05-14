@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Options;
 using System;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.MultiTenancy;

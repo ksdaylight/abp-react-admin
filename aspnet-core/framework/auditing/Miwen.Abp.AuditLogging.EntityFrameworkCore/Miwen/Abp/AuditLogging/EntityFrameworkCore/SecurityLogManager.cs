@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
@@ -17,15 +17,14 @@ namespace Miwen.Abp.AuditLogging.EntityFrameworkCore;
 public class SecurityLogManager : ISecurityLogManager, ITransientDependency
 {
     public ILogger<SecurityLogManager> Logger { get; set; }
-
-    protected IObjectMapper ObjectMapper { get; }
+    protected IObjectMapper<AbpAuditLoggingEntityFrameworkCoreModule> ObjectMapper { get; }
     protected AbpSecurityLogOptions SecurityLogOptions { get; }
     protected IIdentitySecurityLogRepository IdentitySecurityLogRepository { get; }
     protected IGuidGenerator GuidGenerator { get; }
     protected IUnitOfWorkManager UnitOfWorkManager { get; }
 
     public SecurityLogManager(
-        IObjectMapper objectMapper,
+        IObjectMapper<AbpAuditLoggingEntityFrameworkCoreModule> objectMapper,
         ILogger<SecurityLogManager> logger,
         IOptions<AbpSecurityLogOptions> securityLogOptions,
         IIdentitySecurityLogRepository identitySecurityLogRepository,
@@ -38,6 +37,16 @@ public class SecurityLogManager : ISecurityLogManager, ITransientDependency
         IdentitySecurityLogRepository = identitySecurityLogRepository;
         GuidGenerator = guidGenerator;
         UnitOfWorkManager = unitOfWorkManager;
+    }
+
+    public async virtual Task DeleteManyAsync(List<Guid> ids, CancellationToken cancellationToken = default)
+    {
+        using (var uow = UnitOfWorkManager.Begin(requiresNew: true))
+        {
+            await IdentitySecurityLogRepository.DeleteManyAsync(ids,
+                cancellationToken: cancellationToken);
+            await uow.CompleteAsync();
+        }
     }
 
     public async virtual Task SaveAsync(
@@ -108,6 +117,7 @@ public class SecurityLogManager : ISecurityLogManager, ITransientDependency
             userName,
             clientId,
             correlationId,
+            clientIpAddress,
             includeDetails,
             cancellationToken);
 
@@ -138,6 +148,7 @@ public class SecurityLogManager : ISecurityLogManager, ITransientDependency
             userName,
             clientId,
             correlationId,
+            clientIpAddress,
             cancellationToken);
     }
 }

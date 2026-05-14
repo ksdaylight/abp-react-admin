@@ -1,4 +1,4 @@
-﻿using Volo.Abp.Json;
+using Volo.Abp.Json;
 using Volo.Abp.OpenIddict.Authorizations;
 
 namespace Miwen.Abp.OpenIddict.Authorizations;
@@ -17,10 +17,6 @@ internal static class OpenIddictAuthorizationExtensions
             Id = entity.Id,
             ApplicationId = entity.ApplicationId,
             CreationDate = entity.CreationDate,
-            CreationTime = entity.CreationTime,
-            CreatorId = entity.CreatorId,
-            LastModificationTime = entity.LastModificationTime,
-            LastModifierId = entity.LastModifierId,
             Properties = jsonSerializer.DeserializeToDictionary<string, string>(entity.Properties),
             Scopes = jsonSerializer.DeserializeToList<string>(entity.Scopes),
             Status = entity.Status,

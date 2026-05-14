@@ -1,4 +1,4 @@
-﻿using Volo.Abp.Application.Dtos;
+using Volo.Abp.Application.Dtos;
 
 namespace Miwen.Abp.DataProtectionManagement;
 public class GetEntityTypeInfoListInput : PagedAndSortedResultRequestDto

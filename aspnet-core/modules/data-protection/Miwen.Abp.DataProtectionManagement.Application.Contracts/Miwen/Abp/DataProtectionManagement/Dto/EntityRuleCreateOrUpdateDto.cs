@@ -1,4 +1,4 @@
-﻿using Miwen.Abp.DataProtection;
+using Miwen.Abp.DataProtection;
 using System;
 using System.ComponentModel.DataAnnotations;
 
@@ -13,5 +13,5 @@ public abstract class EntityRuleCreateOrUpdateDto
     [Required]
     public DataAccessFilterGroup FilterGroup { get; set; }
 
-    public string[] AllowProperties { get; set; }
+    public string[] AccessedProperties { get; set; }
 }

@@ -1,4 +1,4 @@
-﻿using Miwen.Abp.Elasticsearch;
+using Miwen.Abp.Elasticsearch;
 using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.Json;
 using Volo.Abp.Modularity;

@@ -1,4 +1,4 @@
-﻿namespace Miwen.Abp.DataProtection;
+namespace Miwen.Abp.DataProtection;
 public interface IDataProtectedEnabled
 {
 }

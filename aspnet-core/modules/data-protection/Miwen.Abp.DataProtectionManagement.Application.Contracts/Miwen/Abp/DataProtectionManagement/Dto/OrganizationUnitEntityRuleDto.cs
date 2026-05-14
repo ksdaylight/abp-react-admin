@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace Miwen.Abp.DataProtectionManagement;
 public class OrganizationUnitEntityRuleDto : EntityRuleDtoBase

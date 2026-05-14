@@ -1,7 +1,6 @@
-﻿using Miwen.Abp.Dynamic.Queryable;
+using Miwen.Abp.Dynamic.Queryable;
 using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.Application;
-using Volo.Abp.AutoMapper;
 using Volo.Abp.Modularity;
 
 namespace Miwen.Abp.TaskManagement;
@@ -14,11 +13,6 @@ public class TaskManagementApplicationModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
-        context.Services.AddAutoMapperObjectMapper<TaskManagementApplicationModule>();
-
-        Configure<AbpAutoMapperOptions>(options =>
-        {
-            options.AddProfile<TaskManagementApplicationMapperProfile>(validate: true);
-        });
+        context.Services.AddMapperlyObjectMapper<TaskManagementApplicationModule>();
     }
 }

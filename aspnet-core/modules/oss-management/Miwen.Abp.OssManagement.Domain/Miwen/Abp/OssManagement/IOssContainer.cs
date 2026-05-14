@@ -1,4 +1,4 @@
-﻿using System.Threading.Tasks;
+using System.Threading.Tasks;
 
 namespace Miwen.Abp.OssManagement;
 
@@ -59,6 +59,12 @@ public interface IOssContainer
     /// <param name="name"></param>
     /// <returns></returns>
     Task<bool> ExistsAsync(string name);
+    /// <summary>
+    /// Oss对象是否存在
+    /// </summary>
+    /// <param name="request"></param>
+    /// <returns></returns>
+    Task<bool> ObjectExistsAsync(GetOssObjectRequest request);
     /// <summary>
     /// 获取容器列表
     /// </summary>

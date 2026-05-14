@@ -1,4 +1,4 @@
-﻿namespace Miwen.Abp.DataProtection;
+namespace Miwen.Abp.DataProtection;
 /// <summary>
 /// 系统保留关键字列表
 /// </summary>

@@ -1,4 +1,4 @@
-﻿namespace Miwen.Abp.DataProtectionManagement;
+namespace Miwen.Abp.DataProtectionManagement;
 public class OrganizationUnitEntityRuleUpdateDto : EntityRuleCreateOrUpdateDto
 {
 }

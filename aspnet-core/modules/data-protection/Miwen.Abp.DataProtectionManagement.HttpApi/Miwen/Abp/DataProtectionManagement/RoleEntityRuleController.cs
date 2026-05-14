@@ -1,4 +1,4 @@
-﻿using Miwen.Abp.DataProtectionManagement.Permissions;
+using Miwen.Abp.DataProtectionManagement.Permissions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;

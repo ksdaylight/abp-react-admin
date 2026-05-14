@@ -1,4 +1,4 @@
-﻿namespace Miwen.Abp.AuditLogging.Elasticsearch;
+namespace Miwen.Abp.AuditLogging.Elasticsearch;
 
 public interface IIndexNameNormalizer
 {

@@ -1,4 +1,4 @@
-﻿namespace Miwen.Abp.DataProtectionManagement;
+namespace Miwen.Abp.DataProtectionManagement;
 public static class DataProtectionManagementRemoteServiceConsts
 {
     public const string RemoteServiceName = "DataProtectionManagement";

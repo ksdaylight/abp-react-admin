@@ -1,10 +1,10 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
 	<Import Project="..\..\..\common.props" />
 	<Import Project="..\..\..\configureawait.props" />
 
 	<PropertyGroup>
-		<TargetFramework>net8.0</TargetFramework>
+		<TargetFramework>net10.0</TargetFramework>
 		<Nullable>enable</Nullable>
 		<AssemblyName>Miwen.Abp.TextTemplating.Application</AssemblyName>
 		<PackageId>Miwen.Abp.TextTemplating.Application</PackageId>
@@ -16,7 +16,6 @@
 
 	<ItemGroup>
 		<PackageReference Include="Volo.Abp.Ddd.Application" />
-		<PackageReference Include="Volo.Abp.AutoMapper" />
 	</ItemGroup>
 
 	<ItemGroup>

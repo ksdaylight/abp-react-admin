@@ -1,4 +1,4 @@
-﻿using Miwen.Abp.DataProtection.Keywords;
+using Miwen.Abp.DataProtection.Keywords;
 using Miwen.Abp.DataProtection.Localization;
 using Miwen.Abp.DataProtection.Operations;
 using Miwen.Abp.DataProtection.Subjects;
@@ -23,6 +23,7 @@ public class AbpDataProtectionModule : AbpModule
     {
         Configure<AbpDataProtectionOptions>(options =>
         {
+            // 当前用户数据过滤
             options.KeywordContributors.Add(DataAccessCurrentUserContributor.Name, new DataAccessCurrentUserContributor());
 
             options.OperateContributors.Add(DataAccessFilterOperate.Equal, new DataAccessEqualContributor());
@@ -36,10 +37,13 @@ public class AbpDataProtectionModule : AbpModule
             options.OperateContributors.Add(DataAccessFilterOperate.Contains, new DataAccessContainsContributor());
             options.OperateContributors.Add(DataAccessFilterOperate.NotContains, new DataAccessNotContainsContributor());
 
-            options.SubjectContributors.Add(new DataAccessUserIdContributor());
             options.SubjectContributors.Add(new DataAccessClientIdContributor());
+            options.SubjectContributors.Add(new DataAccessUserIdContributor());
             options.SubjectContributors.Add(new DataAccessRoleNameContributor());
             options.SubjectContributors.Add(new DataAccessOrganizationUnitContributor());
+
+            // 权限策略提供程序
+            options.StrategyContributors.Add(new DataAccessStrategyRoleNameContributor());
         });
 
         Configure<AbpExceptionLocalizationOptions>(options =>
@@ -48,3 +52,4 @@ public class AbpDataProtectionModule : AbpModule
         });
     }
 }
+

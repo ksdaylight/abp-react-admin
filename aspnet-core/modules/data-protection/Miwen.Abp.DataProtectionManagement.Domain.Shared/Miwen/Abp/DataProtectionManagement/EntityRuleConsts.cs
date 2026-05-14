@@ -1,6 +1,7 @@
-﻿namespace Miwen.Abp.DataProtectionManagement;
+namespace Miwen.Abp.DataProtectionManagement;
 public static class EntityRuleConsts
 {
     public static int MaxEntityTypeFullNameLength { get; set; } = EntityPropertyInfoConsts.MaxTypeFullNameLength;
-    public static int MaxAllowPropertiesLength { get; set; } = 512;
+    public static int MaxAccessedPropertiesLength { get; set; } = 512;
 }
+

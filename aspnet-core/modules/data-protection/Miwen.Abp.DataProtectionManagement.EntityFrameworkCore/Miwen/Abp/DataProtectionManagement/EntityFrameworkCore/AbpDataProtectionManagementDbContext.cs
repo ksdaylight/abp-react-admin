@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore;
 
 namespace Miwen.Abp.DataProtectionManagement.EntityFrameworkCore;
@@ -15,6 +15,6 @@ public class AbpDataProtectionManagementDbContext : AbpDbContext<AbpDataProtecti
     {
         base.OnModelCreating(modelBuilder);
 
-        modelBuilder.ConfigureDataProtectionManagement(); ;
+        modelBuilder.ConfigureDataProtectionManagement();
     }
 }

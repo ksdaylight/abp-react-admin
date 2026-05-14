@@ -4,7 +4,7 @@ using Volo.Abp.AspNetCore.Mvc;
 using Volo.Abp.Modularity;
 using Volo.Abp.SettingManagement;
 
-namespace LINGYUN.Abp.Tencent.SettingManagement;
+namespace Miwen.Abp.OAuth.SettingManagement;
 
 [DependsOn(
     typeof(AbpOAuthModule),

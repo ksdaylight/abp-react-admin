@@ -1,4 +1,4 @@
-﻿namespace System.Linq.Expressions;
+namespace System.Linq.Expressions;
 internal static class ExpressionFuncExtender
 {
     internal static Expression<T> Compose<T>(this Expression<T> first, Expression<T> second,

@@ -1,4 +1,4 @@
-﻿namespace Miwen.Abp.Logging.Serilog.Elasticsearch;
+namespace Miwen.Abp.Logging.Serilog.Elasticsearch;
 
 public class AbpLoggingSerilogElasticsearchOptions
 {

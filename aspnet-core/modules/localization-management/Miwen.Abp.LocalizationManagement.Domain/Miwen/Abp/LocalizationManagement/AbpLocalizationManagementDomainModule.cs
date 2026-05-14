@@ -1,38 +1,73 @@
-﻿using Miwen.Abp.Localization.Persistence;
-using Miwen.Abp.LocalizationManagement.Localization;
 using Microsoft.Extensions.DependencyInjection;
-using Volo.Abp.AutoMapper;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using Polly;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
+using Volo.Abp;
+using Volo.Abp.Data;
+using Volo.Abp.DependencyInjection;
 using Volo.Abp.Domain;
+using Volo.Abp.Domain.Entities.Events.Distributed;
+using Volo.Abp.Localization;
+using Volo.Abp.Mapperly;
 using Volo.Abp.Modularity;
+using Volo.Abp.Threading;
 
 namespace Miwen.Abp.LocalizationManagement;
 
 [DependsOn(
-    typeof(AbpAutoMapperModule),
+    typeof(AbpMapperlyModule),
     typeof(AbpDddDomainModule),
-    typeof(AbpLocalizationPersistenceModule),
     typeof(AbpLocalizationManagementDomainSharedModule))]
 public class AbpLocalizationManagementDomainModule : AbpModule
 {
+    private readonly CancellationTokenSource _cancellationTokenSource = new();
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
-        context.Services.AddAutoMapperObjectMapper<AbpLocalizationManagementDomainModule>();
+        context.Services.AddMapperlyObjectMapper<AbpLocalizationManagementDomainModule>();
 
-        Configure<AbpAutoMapperOptions>(options =>
+        if (context.Services.IsDataMigrationEnvironment())
         {
-            options.AddProfile<LocalizationManagementDomainMapperProfile>(validate: true);
+            Configure<AbpLocalizationManagementOptions>(options =>
+            {
+                options.SaveStaticLocalizationsToDatabase = false;
+            });
+        }
+
+        Configure<AbpLocalizationOptions>(options =>
+        {
+            options.GlobalContributors.Add<LocalizationResourceContributor>();
         });
 
-        Configure<AbpLocalizationPersistenceOptions>(options =>
+        Configure<AbpDistributedEntityEventOptions>(options =>
         {
-            options.AddPersistenceResource<LocalizationManagementResource>();
+            options.EtoMappings.Add<Text, TextEto>(typeof(AbpLocalizationManagementDomainModule));
+            options.EtoMappings.Add<Language, LanguageEto>(typeof(AbpLocalizationManagementDomainModule));
+            options.EtoMappings.Add<Resource, ResourceEto>(typeof(AbpLocalizationManagementDomainModule));
         });
 
-        // 分布式事件
-        //Configure<AbpDistributedEntityEventOptions>(options =>
-        //{
-        //    options.AutoEventSelectors.Add<Text>();
-        //    options.EtoMappings.Add<Text, TextEto>();
-        //});
+        // 定期更新本地化缓存缓解措施
+        context.Services.AddHostedService<LocalizationTextCacheRefreshWorker>();
+    }
+
+    public override void OnApplicationInitialization(ApplicationInitializationContext context)
+    {
+        AsyncHelper.RunSync(() => OnApplicationInitializationAsync(context));
+    }
+
+    public override async Task OnApplicationInitializationAsync(ApplicationInitializationContext context)
+    {
+        var rootServiceProvider = context.ServiceProvider.GetRequiredService<IRootServiceProvider>();
+        var initializer = rootServiceProvider.GetRequiredService<LocalizationDynamicInitializer>();
+        await initializer.InitializeAsync(true, _cancellationTokenSource.Token);
+    }
+
+    public override Task OnApplicationShutdownAsync(ApplicationShutdownContext context)
+    {
+        _cancellationTokenSource.CancelAsync();
+        return Task.CompletedTask;
     }
 }

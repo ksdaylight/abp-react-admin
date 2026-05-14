@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
@@ -46,7 +46,7 @@ public class LinkUserTokenExtensionGrant : ITokenExtensionGrant
 
         // 通过身份令牌得到用户信息
         var transaction = await GetRequiredService<IOpenIddictServerFactory>(context).CreateTransactionAsync();
-        transaction.EndpointType = OpenIddictServerEndpointType.Userinfo;
+        transaction.EndpointType = OpenIddictServerEndpointType.UserInfo;
         transaction.Request = new OpenIddictRequest
         {
             ClientId = context.Request.ClientId,

@@ -118,7 +118,7 @@ using Miwen.Abp.Authentication.Github;
 using Miwen.Abp.OpenIddict.ExternalLogin;
 using Volo.Abp.Localization;
 using Miwen.Abp.OAuth.Github;
-using LINGYUN.Abp.Tencent.SettingManagement;
+using Miwen.Abp.OAuth.SettingManagement;
 
 
 namespace Miwen.MicroService.Applications.Single;

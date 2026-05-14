@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using System;
 using System.Collections.Generic;
@@ -79,6 +79,12 @@ public class DefaultSecurityLogManager : ISecurityLogManager, ISingletonDependen
     }
 
     public virtual Task DeleteAsync(Guid id, CancellationToken cancellationToken = default)
+    {
+        Logger.LogDebug("No security log manager is available!");
+        return Task.CompletedTask;
+    }
+
+    public virtual Task DeleteManyAsync(List<Guid> ids, CancellationToken cancellationToken = default)
     {
         Logger.LogDebug("No security log manager is available!");
         return Task.CompletedTask;

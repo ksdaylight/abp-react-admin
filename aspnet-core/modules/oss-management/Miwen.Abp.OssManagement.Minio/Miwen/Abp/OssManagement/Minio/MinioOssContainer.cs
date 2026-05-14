@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Linq.Dynamic.Core;
+using System.Net.Http;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using Volo.Abp;
@@ -29,6 +30,7 @@ public class MinioOssContainer : OssContainerBase, IOssObjectExpireor
     protected IMinioBlobNameCalculator MinioBlobNameCalculator { get; }
     protected IBlobNormalizeNamingService BlobNormalizeNamingService { get; }
     protected IBlobContainerConfigurationProvider ConfigurationProvider { get; }
+    protected IHttpClientFactory HttpClientFactory { get; }
 
     protected IClock Clock { get; }
     protected ICurrentTenant CurrentTenant { get; }
@@ -38,16 +40,18 @@ public class MinioOssContainer : OssContainerBase, IOssObjectExpireor
         IClock clock,
         ICurrentTenant currentTenant,
         ILogger<MinioOssContainer> logger,
-        IMinioBlobNameCalculator minioBlobNameCalculator, 
-        IBlobNormalizeNamingService blobNormalizeNamingService, 
+        IMinioBlobNameCalculator minioBlobNameCalculator,
+        IBlobNormalizeNamingService blobNormalizeNamingService,
         IBlobContainerConfigurationProvider configurationProvider,
         IServiceScopeFactory serviceScopeFactory,
+        IHttpClientFactory httpClientFactory,
         IOptions<AbpOssManagementOptions> options)
         : base(options, serviceScopeFactory)
     {
         Clock = clock;
         Logger = logger;
         CurrentTenant = currentTenant;
+        HttpClientFactory = httpClientFactory;
         MinioBlobNameCalculator = minioBlobNameCalculator;
         BlobNormalizeNamingService = blobNormalizeNamingService;
         ConfigurationProvider = configurationProvider;
@@ -66,19 +70,12 @@ public class MinioOssContainer : OssContainerBase, IOssObjectExpireor
             .WithBucket(bucket)
             .WithObjects(request.Objects.Select((x) => path + x.RemovePreFix("/")).ToList());
 
-        var response = await client.RemoveObjectsAsync(args);
+        var errors = await client.RemoveObjectsAsync(args);
 
-        var tcs = new TaskCompletionSource<bool>();
-
-        using var _ = response.Subscribe(
-            onNext: (error) =>
-            {
-                Logger.LogWarning("Batch deletion of objects failed, error details {code}: {message}", error.Code, error.Message);
-            },
-            onError: tcs.SetException,
-            onCompleted: () => tcs.SetResult(true));
-
-        await tcs.Task;
+        foreach (var error in errors)
+        {
+            Logger.LogWarning("Batch deletion of objects failed, error details {code}: {message}", error.Code, error.Message);
+        }
     }
 
     public async override Task<OssContainer> CreateAsync(string name)
@@ -102,6 +99,20 @@ public class MinioOssContainer : OssContainerBase, IOssObjectExpireor
             new Dictionary<string, string>());
     }
 
+    public async override Task<bool> ObjectExistsAsync(GetOssObjectRequest request)
+    {
+        var client = GetMinioClient();
+
+        var bucket = GetBucket(request.Bucket);
+        var prefixPath = GetPrefixPath();
+        var objectPath = GetBlobPath(prefixPath, request.Path);
+        var objectName = objectPath.IsNullOrWhiteSpace()
+            ? request.Object
+            : objectPath + request.Object;
+
+        return await ObjectExists(client, bucket, objectName);
+    }
+
     public async override Task<OssObject> CreateObjectAsync(CreateOssObjectRequest request)
     {
         var client = GetMinioClient();
@@ -112,6 +123,7 @@ public class MinioOssContainer : OssContainerBase, IOssObjectExpireor
         var objectName = objectPath.IsNullOrWhiteSpace()
             ? request.Object
             : objectPath + request.Object;
+        var isDir = false;
 
         if (!request.Overwrite && await ObjectExists(client, bucket, objectName))
         {
@@ -130,25 +142,25 @@ public class MinioOssContainer : OssContainerBase, IOssObjectExpireor
         }
         if (request.Content.IsNullOrEmpty())
         {
+            isDir = true;
             var emptyContent = "This is an OSS object that simulates a directory.".GetBytes();
             request.SetContent(new MemoryStream(emptyContent));
         }
         var putResponse = await client.PutObjectAsync(new PutObjectArgs()
            .WithBucket(bucket)
-           .WithObject(objectName)
+           .WithObject(isDir ? $"{objectName}/_dir" : objectName)
            .WithStreamData(request.Content)
            .WithObjectSize(request.Content.Length));
-        
+
         if (request.ExpirationTime.HasValue)
         {
             var lifecycleRule = new LifecycleRule
             {
-                Status = "Enabled",
+                Status = LifecycleRule.LifecycleRuleStatusEnabled,
                 ID = putResponse.Etag,
                 Expiration = new Expiration(Clock.Now.Add(request.ExpirationTime.Value))
             };
-            var lifecycleConfiguration = new LifecycleConfiguration();
-            lifecycleConfiguration.Rules.Add(lifecycleRule);
+            var lifecycleConfiguration = new LifecycleConfiguration([lifecycleRule]);
 
             var lifecycleArgs = new SetBucketLifecycleArgs()
                 .WithBucket(bucket)
@@ -183,13 +195,6 @@ public class MinioOssContainer : OssContainerBase, IOssObjectExpireor
 
     public async override Task DeleteObjectAsync(GetOssObjectRequest request)
     {
-        if (request.Object.EndsWith('/'))
-        {
-            // Minio系统设计并不支持目录的形式
-            // 如果是目录的形式,那必定有文件存在,抛出目录不为空即可
-            throw new BusinessException(code: OssManagementErrorCodes.ObjectDeleteWithNotEmpty);
-        }
-
         var client = GetMinioClient();
 
         var bucket = GetBucket(request.Bucket);
@@ -200,8 +205,34 @@ public class MinioOssContainer : OssContainerBase, IOssObjectExpireor
             ? request.Object
             : objectPath + request.Object;
 
-        if (await BucketExists(client, bucket) &&
-            await ObjectExists(client, bucket, objectName))
+        if (objectName.EndsWith('/') && await BucketExists(client, bucket))
+        {
+            var objectNames = new List<string>();
+            var objects = client.ListObjectsEnumAsync(
+                new ListObjectsArgs()
+                    .WithBucket(bucket)
+                    .WithPrefix(objectName)
+                    .WithRecursive(true));
+
+            await foreach (var @object in objects)
+            {
+                objectNames.Add(@object.Key);
+            }
+
+            var errors = await client.RemoveObjectsAsync(
+                new RemoveObjectsArgs()
+                    .WithBucket(bucket)
+                    .WithObjects(objectNames));
+
+            foreach (var error in errors)
+            {
+                Logger.LogWarning("Batch deletion of objects failed, error details {code}: {message}", error.Code, error.Message);
+            }
+
+            return;
+        }
+
+        if (await ObjectExists(client, bucket, objectName))
         {
             var removeObjectArgs = new RemoveObjectArgs()
                 .WithBucket(bucket)
@@ -234,32 +265,26 @@ public class MinioOssContainer : OssContainerBase, IOssObjectExpireor
             var listObjectArgs = new ListObjectsArgs()
                 .WithBucket(expiredBucket.Name);
 
-            var expiredObjectItem = client.ListObjectsAsync(listObjectArgs);
+            var expiredObjects = client.ListObjectsEnumAsync(listObjectArgs);
 
-            var tcs = new TaskCompletionSource<bool>();
-            using var _ = expiredObjectItem.Subscribe(
-                onNext: (item) =>
+            await foreach (var item in expiredObjects)
+            {
+                var lifecycleConfiguration = new LifecycleConfiguration(new List<LifecycleRule>
                 {
-                    var lifecycleRule = new LifecycleRule
+                    new LifecycleRule
                     {
-                        Status = "Enabled",
                         ID = item.Key,
+                        Status = LifecycleRule.LifecycleRuleStatusEnabled,
                         Expiration = new Expiration(Clock.Normalize(request.ExpirationTime.DateTime))
-                    };
-                    var lifecycleConfiguration = new LifecycleConfiguration();
-                    lifecycleConfiguration.Rules.Add(lifecycleRule);
+                    }
+                });
 
-                    var lifecycleArgs = new SetBucketLifecycleArgs()
-                        .WithBucket(bucket)
-                        .WithLifecycleConfiguration(lifecycleConfiguration);
+                var lifecycleArgs = new SetBucketLifecycleArgs()
+                    .WithBucket(bucket)
+                    .WithLifecycleConfiguration(lifecycleConfiguration);
 
-                    var _ = client.SetBucketLifecycleAsync(lifecycleArgs);
-                },
-                onError: tcs.SetException,
-                onCompleted: () => tcs.SetResult(true)
-            );
-
-            await tcs.Task; 
+                await client.SetBucketLifecycleAsync(lifecycleArgs);
+            }
         }
     }
 
@@ -329,16 +354,18 @@ public class MinioOssContainer : OssContainerBase, IOssObjectExpireor
             .WithBucket(bucket)
             .WithPrefix(objectPath);
 
-        var tcs = new TaskCompletionSource<bool>();
-
-        var listObjectResult = client.ListObjectsAsync(listObjectArgs);
-
         var resultObjects = new List<OssObject>();
 
-        using var _ = listObjectResult.Subscribe(
-            onNext: (item) =>
+        var listObjectResult = client.ListObjectsEnumAsync(listObjectArgs);
+
+        await foreach (var item in listObjectResult)
+        {
+            // 作为目录占位,无需显示
+            if (item.Key.EndsWith("_dir"))
             {
-                resultObjects.Add(new OssObject(
+                continue;
+            }
+            resultObjects.Add(new OssObject(
                     !objectPath.IsNullOrWhiteSpace()
                         ? item.Key.Replace(objectPath, "")
                         : item.Key,
@@ -349,18 +376,7 @@ public class MinioOssContainer : OssContainerBase, IOssObjectExpireor
                     item.LastModifiedDateTime,
                     new Dictionary<string, string>(),
                     item.IsDir));
-            },
-            onError: (ex) =>
-            {
-                tcs.TrySetException(ex);
-            },
-            onCompleted: () =>
-            {
-                tcs.SetResult(true);
-            }
-        );
-
-        await tcs.Task;
+        }
 
         var totalCount = resultObjects.Count;
         resultObjects = resultObjects
@@ -390,22 +406,15 @@ public class MinioOssContainer : OssContainerBase, IOssObjectExpireor
         }
 
         // 非空目录无法删除
-        var tcs = new TaskCompletionSource<bool>();
-        var listObjectObs = client.ListObjectsAsync(
+        var listObjects = new List<string>();
+
+        var listObjectObs = client.ListObjectsEnumAsync(
             new ListObjectsArgs()
                 .WithBucket(bucket));
-
-        var listObjects = new List<string>();
-        using var _ = listObjectObs.Subscribe(
-            (item) =>
-            {
-                listObjects.Add(item.Key);
-                tcs.TrySetResult(true);
-            },
-            (ex) => tcs.TrySetException(ex),
-            () => tcs.TrySetResult(true));
-
-        await tcs.Task;
+        await foreach (var item in listObjectObs)
+        {
+            listObjects.Add(item.Key);
+        }
 
         if (listObjects.Count > 0)
         {
@@ -428,30 +437,17 @@ public class MinioOssContainer : OssContainerBase, IOssObjectExpireor
         var objectPath = GetBlobPath(prefixPath, request.Path);
         var objectName = objectPath.IsNullOrWhiteSpace()
             ? request.Object
-            : objectPath.EnsureEndsWith('/') + request.Object;
+            : objectPath + request.Object;
 
         if (!await ObjectExists(client, bucket, objectName))
         {
             throw new BusinessException(code: OssManagementErrorCodes.ObjectNotFound);
         }
 
-        var memoryStream = new MemoryStream();
-        var getObjectArgs = new GetObjectArgs()
+        var getObjectResult = await client.StatObjectAsync(
+            new StatObjectArgs()
                 .WithBucket(bucket)
-                .WithObject(objectName)
-                .WithCallbackStream((stream) =>
-                {
-                    if (stream != null)
-                    {
-                        stream.CopyTo(memoryStream);
-                        memoryStream.Seek(0, SeekOrigin.Begin);
-                    }
-                    else
-                    {
-                        memoryStream = null;
-                    }
-                });
-        var getObjectResult = await client.GetObjectAsync(getObjectArgs);
+                .WithObject(objectName));
 
         var ossObject = new OssObject(
             !objectPath.IsNullOrWhiteSpace()
@@ -460,7 +456,7 @@ public class MinioOssContainer : OssContainerBase, IOssObjectExpireor
             request.Path,
             getObjectResult.ETag,
             getObjectResult.LastModified,
-            memoryStream.Length,
+            getObjectResult.Size,
             getObjectResult.LastModified,
             getObjectResult.MetaData,
             getObjectResult.ObjectName.EndsWith("/"))
@@ -468,9 +464,16 @@ public class MinioOssContainer : OssContainerBase, IOssObjectExpireor
             FullName = getObjectResult.ObjectName.Replace(prefixPath, "")
         };
 
-        if (memoryStream.Length > 0)
+        if (getObjectResult.Size > 0)
         {
-            ossObject.SetContent(memoryStream);
+            var objectUrl = await client.PresignedGetObjectAsync(
+                new PresignedGetObjectArgs()
+                    .WithBucket(bucket)
+                    .WithObject(objectName)
+                    .WithExpiry(3600));
+            var httpClient = HttpClientFactory.CreateMinioHttpClient();
+
+            ossObject.SetContent(await httpClient.GetStreamAsync(objectUrl));
         }
 
         return ossObject;
@@ -534,10 +537,13 @@ public class MinioOssContainer : OssContainerBase, IOssObjectExpireor
     {
         var configuration = ConfigurationProvider.Get<AbpOssManagementContainer>();
         var minioConfiguration = configuration.GetMinioConfiguration();
+        var blobPath = minioConfiguration.BucketName;
+        if (string.Equals(bucket, blobPath, StringComparison.InvariantCultureIgnoreCase))
+        {
+            return bucket;
+        }
 
-        return bucket.IsNullOrWhiteSpace()
-            ? BlobNormalizeNamingService.NormalizeContainerName(configuration, minioConfiguration.BucketName!)
-            : BlobNormalizeNamingService.NormalizeContainerName(configuration, bucket);
+        return bucket;
     }
 
     protected virtual string GetPrefixPath()
@@ -553,6 +559,6 @@ public class MinioOssContainer : OssContainerBase, IOssObjectExpireor
             path.IsNullOrWhiteSpace() ? "" :
             path.Replace("./", "").RemovePreFix("/"))}";
 
-        return resultPath.Replace("//", "");
+        return resultPath.Replace("//", "").EnsureEndsWith('/');
     }
 }

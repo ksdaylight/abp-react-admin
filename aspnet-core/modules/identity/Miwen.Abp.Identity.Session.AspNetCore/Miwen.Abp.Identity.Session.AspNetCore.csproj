@@ -1,10 +1,10 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
 	<Import Project="..\..\..\common.props" />
 	<Import Project="..\..\..\configureawait.props" />
 
 	<PropertyGroup>
-		<TargetFramework>net8.0</TargetFramework>
+		<TargetFramework>net10.0</TargetFramework>
 		<Nullable>enable</Nullable>
 		<AssemblyName>Miwen.Abp.Identity.Session.AspNetCore</AssemblyName>
 		<PackageId>Miwen.Abp.Identity.Session.AspNetCore</PackageId>
@@ -19,8 +19,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<!--<ProjectReference Include="..\..\..\framework\common\Miwen.Abp.IP2Region\Miwen.Abp.IP2Region.csproj" />-->
-		<ProjectReference Include="..\..\..\framework\common\Miwen.Abp.IP2Region\Miwen.Abp.IP2Region.csproj" />
+		<ProjectReference Include="..\..\..\framework\common\Miwen.Abp.IP.Location\Miwen.Abp.IP.Location.csproj" />
 		<ProjectReference Include="..\Miwen.Abp.Identity.Session\Miwen.Abp.Identity.Session.csproj" />
 	</ItemGroup>
 

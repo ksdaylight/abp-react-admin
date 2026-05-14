@@ -1,11 +1,11 @@
-﻿using Miwen.Abp.MultiTenancy.Editions;
+using Miwen.Abp.MultiTenancy.Editions;
 using Miwen.Abp.Saas.Editions;
 using Miwen.Abp.Saas.ObjectExtending;
 using Miwen.Abp.Saas.Tenants;
 using Microsoft.Extensions.DependencyInjection;
-using Volo.Abp.AutoMapper;
 using Volo.Abp.Domain;
 using Volo.Abp.Domain.Entities.Events.Distributed;
+using Volo.Abp.Mapperly;
 using Volo.Abp.Modularity;
 using Volo.Abp.ObjectExtending.Modularity;
 using Volo.Abp.Threading;
@@ -13,7 +13,7 @@ using Volo.Abp.Threading;
 namespace Miwen.Abp.Saas;
 
 [DependsOn(typeof(AbpSaasDomainSharedModule))]
-[DependsOn(typeof(AbpAutoMapperModule))]
+[DependsOn(typeof(AbpMapperlyModule))]
 [DependsOn(typeof(AbpDddDomainModule))]
 [DependsOn(typeof(AbpMultiTenancyEditionsModule))]
 public class AbpSaasDomainModule : AbpModule
@@ -22,17 +22,12 @@ public class AbpSaasDomainModule : AbpModule
 
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
-        context.Services.AddAutoMapperObjectMapper<AbpSaasDomainModule>();
-
-        Configure<AbpAutoMapperOptions>(options =>
-        {
-            options.AddProfile<AbpSaasDomainMappingProfile>(validate: true);
-        });
+        context.Services.AddMapperlyObjectMapper<AbpSaasDomainModule>();
 
         Configure<AbpDistributedEntityEventOptions>(options =>
         {
-            options.EtoMappings.Add<Edition, EditionEto>();
-            options.EtoMappings.Add<Tenant, TenantEto>();
+            options.EtoMappings.Add<Edition, EditionEto>(typeof(AbpSaasDomainModule));
+            options.EtoMappings.Add<Tenant, TenantEto>(typeof(AbpSaasDomainModule));
 
             options.AutoEventSelectors.Add<Edition>();
             options.AutoEventSelectors.Add<Tenant>();

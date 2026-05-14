@@ -1,4 +1,4 @@
-﻿using Miwen.Abp.DataProtection;
+using Miwen.Abp.DataProtection;
 using System;
 using Volo.Abp;
 

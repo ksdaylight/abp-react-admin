@@ -1,4 +1,4 @@
-﻿//using Miwen.Platform.Portal;
+using Miwen.Platform.Portal;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -34,8 +34,7 @@ public class PortalTokenExtensionGrant : ITokenExtensionGrant
 
     protected IAbpLazyServiceProvider LazyServiceProvider { get; set; }
     protected ICurrentTenant CurrentTenant => LazyServiceProvider.LazyGetRequiredService<ICurrentTenant>();
-
-    //protected IEnterpriseRepository EnterpriseRepository => LazyServiceProvider.LazyGetRequiredService<IEnterpriseRepository>();
+    protected IEnterpriseRepository EnterpriseRepository => LazyServiceProvider.LazyGetRequiredService<IEnterpriseRepository>();
     protected SignInManager<IdentityUser> SignInManager => LazyServiceProvider.LazyGetRequiredService<SignInManager<IdentityUser>>();
     protected IdentityUserManager UserManager => LazyServiceProvider.LazyGetRequiredService<IdentityUserManager>();
     protected IOpenIddictScopeManager ScopeManager => LazyServiceProvider.LazyGetRequiredService<IOpenIddictScopeManager>();
@@ -56,30 +55,30 @@ public class PortalTokenExtensionGrant : ITokenExtensionGrant
         var enterprise = context.Request.GetParameter("enterpriseId")?.ToString() ?? context.Request.GetParameter("EnterpriseId")?.ToString();
 
         Guid? tenantId = null;
-        //using (CurrentTenant.Change(null))
-        //{
-        //    if (enterprise.IsNullOrWhiteSpace() || !Guid.TryParse(enterprise, out var enterpriseId))
-        //    {
-        //        // TODO: configurabled
-        //        var enterprises = await EnterpriseRepository.GetEnterprisesInTenantListAsync(25);
+        using (CurrentTenant.Change(null))
+        {
+            if (enterprise.IsNullOrWhiteSpace() || !Guid.TryParse(enterprise, out var enterpriseId))
+            {
+                // TODO: configurabled
+                var enterprises = await EnterpriseRepository.GetEnterprisesInTenantListAsync(25);
 
-        //        var properties = new AuthenticationProperties(
-        //            new Dictionary<string, string>
-        //            {
-        //                [OpenIddictServerAspNetCoreConstants.Properties.Error] = OpenIddictConstants.Errors.InvalidGrant,
-        //                [OpenIddictServerAspNetCoreConstants.Properties.ErrorDescription] = "invalid_enterprise"
-        //            },
-        //            new Dictionary<string, object>
-        //            {
-        //                // 是否可直接选择的模式
-        //                { "Enterprises", JsonConvert.SerializeObject(enterprises.Select(x => new { Id = x.Id, Name = x.Name, Logo = x.Logo })) },
-        //            }
-        //        );
-        //        return Forbid(properties, OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
-        //    }
+                var properties = new AuthenticationProperties(
+                    new Dictionary<string, string>
+                    {
+                        [OpenIddictServerAspNetCoreConstants.Properties.Error] = OpenIddictConstants.Errors.InvalidGrant,
+                        [OpenIddictServerAspNetCoreConstants.Properties.ErrorDescription] = "invalid_enterprise"
+                    },
+                    new Dictionary<string, object>
+                    {
+                        // 是否可直接选择的模式
+                        { "Enterprises", JsonConvert.SerializeObject(enterprises.Select(x => new { Id = x.Id, Name = x.Name, Logo = x.Logo })) },
+                    }
+                );
+                return Forbid(properties, OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
+            }
 
-        //    tenantId = await EnterpriseRepository.GetEnterpriseInTenantAsync(enterpriseId);
-        //} TODO
+            tenantId = await EnterpriseRepository.GetEnterpriseInTenantAsync(enterpriseId);
+        }
 
         using (CurrentTenant.Change(tenantId))
         {

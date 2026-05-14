@@ -24,8 +24,9 @@ namespace Miwen.MicroService.Applications.Single.Pages.Account
             IOptions<AbpAccountOptions> accountOptions,
             IOptions<IdentityOptions> identityOptions,
             IdentityDynamicClaimsPrincipalContributorCache identityDynamicClaimsPrincipalContributorCache,
-            AbpOpenIddictRequestHelper openIddictRequestHelper)
-            : base(schemeProvider, accountOptions, identityOptions, identityDynamicClaimsPrincipalContributorCache, openIddictRequestHelper)
+            AbpOpenIddictRequestHelper openIddictRequestHelper,
+            IWebHostEnvironment webHostEnvironment)
+            : base(schemeProvider, accountOptions, identityOptions, identityDynamicClaimsPrincipalContributorCache, openIddictRequestHelper, webHostEnvironment)
         {
 
         }
